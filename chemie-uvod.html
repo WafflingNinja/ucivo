@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#10141c">
+<meta name="color-scheme" content="dark">
+<title>CHEMIE · úvod — tahák, kartičky, kvíz</title>
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<style>
+:root{
+  --bg:#10141c;--card:#1a2130;--card2:#222b3d;--ink:#eef2f7;--mut:#93a0b5;
+  --line:#2a3548;--teal:#2dd4bf;--amber:#f5c14a;--rose:#fb7185;--sky:#7dd3fc;
+  --lime:#a3e635;--tabh:64px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+body{overflow-x:hidden;-webkit-text-size-adjust:100%;overflow-wrap:break-word}
+button,a,.pill{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+h1,h2,h3{line-height:1.25;margin:0 0 .5rem}
+p{margin:0 0 .5rem}
+ul{margin:.2rem 0 .6rem;padding-left:1.1rem}
+li{margin:.15rem 0}
+img,svg{max-width:100%;display:block}
+[hidden]{display:none!important}
+.tipbar [hidden]{display:none!important}
+.app{max-width:42rem;margin:0 auto;padding:0 12px 8px}
+.top{padding:12px 0 8px}
+.kicker{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);font-weight:700}
+h1{font-size:1.45rem}
+.sub{color:var(--mut);font-size:.92rem}
+.progress{height:6px;background:var(--line);border-radius:99px;overflow:hidden;margin:10px 0 6px}
+.progress>i{display:block;height:100%;width:0;background:var(--teal)}
+.where{font-size:.85rem;color:var(--mut)}
+.tabbar{position:fixed;left:0;right:0;z-index:40;background:#0c1017;border-top:1px solid var(--line);display:flex;gap:6px;padding:8px 8px calc(8px + env(safe-area-inset-bottom));justify-content:center}
+.tabbar button{flex:1;max-width:10rem;min-height:48px;border:0;border-radius:12px;background:var(--card2);color:var(--ink);font-weight:700;font-size:.95rem}
+.tabbar button.on{background:var(--teal);color:#06201b}
+@media(min-width:768px){
+  .tabbar{top:0;bottom:auto;border-top:0;border-bottom:1px solid var(--line);padding:8px}
+  .app{padding-top:76px}
+}
+@media(max-width:767px){
+  .tabbar{bottom:0;top:auto}
+  .app{padding-bottom:calc(var(--tabh) + 16px + env(safe-area-inset-bottom))}
+}
+.panel{display:none}
+.panel.on{display:block}
+.pills{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 12px}
+.pill{min-height:40px;padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:.82rem;font-weight:650}
+.pill.on{background:var(--teal);color:#06201b;border-color:transparent}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin:0 0 10px}
+.card h3{font-size:1.02rem}
+.col{flex:1;min-width:140px}
+.badge{display:inline-block;font-size:.72rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;padding:2px 7px;border-radius:6px;vertical-align:middle}
+.b-test{background:#3b2a12;color:var(--amber)}
+.b-ok{background:#12362e;color:var(--teal)}
+.key,.name,.num,.date{font-weight:800;padding:0 .28em;border-radius:5px;font-variant-numeric:tabular-nums}
+.key{background:#12362e;color:var(--teal)}
+.name{background:#1d2a44;color:var(--sky)}
+.num{background:#243014;color:var(--lime)}
+.date{background:#3b2a12;color:var(--amber)}
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:420px){.vs{grid-template-columns:1fr}}
+.chem{border-color:#5b2a22}
+.phys{border-color:#1d4a5c}
+.muted{color:var(--mut);font-size:.9rem}
+.small{font-size:.86rem;color:var(--mut)}
+.rule{display:flex;gap:10px;align-items:flex-start;margin:0 0 8px}
+.n{flex:0 0 36px;height:36px;border-radius:10px;background:var(--card2);display:grid;place-items:center;font-weight:800;color:var(--amber)}
+.ghs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+@media(max-width:420px){.ghs-grid{grid-template-columns:repeat(2,1fr)}}
+.ghs-item{background:var(--card2);border-radius:12px;padding:8px 6px;text-align:center;font-size:.78rem;font-weight:650}
+.ghs-item svg{margin:0 auto 6px}
+.sym{font-size:2.2rem;line-height:1;text-align:center}
+.tl{border-left:3px solid var(--amber);margin:8px 0 0;padding:0 0 0 12px}
+.tl .item{margin:0 0 12px}
+.navrow{display:flex;gap:8px;margin:8px 0 4px}
+.btn{min-height:48px;padding:0 14px;border:0;border-radius:12px;background:var(--card2);color:var(--ink);font-weight:700;font-size:1rem}
+.btn:disabled{opacity:.45}
+.btn-main{background:var(--teal);color:#06201b}
+.btn-good{background:#14532d;color:#bbf7d0}
+.btn-bad{background:#4a1520;color:#fecdd3}
+.full{width:100%}
+.flash{min-height:220px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:18px;background:var(--card);border:1px solid var(--line);border-radius:16px}
+.flash .q{font-size:1.15rem;font-weight:750}
+.flash .a{font-size:1.05rem}
+.answers{display:flex;flex-direction:column;gap:8px;margin:10px 0}
+.answers button{min-height:52px;text-align:left;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--card2);color:var(--ink);font-weight:650;font-size:.98rem;width:100%}
+.answers button.ok{background:#14532d;border-color:#16a34a;color:#d1fae5}
+.answers button.no{background:#4a1520;border-color:#e11d48;color:#ffe4e6}
+.answers button.lock{pointer-events:none}
+.fb{margin:8px 0;padding:10px 12px;border-radius:12px;background:var(--card2);font-size:.95rem}
+.fb.good{border:1px solid #16a34a}
+.fb.bad{border:1px solid #e11d48}
+.err{border-left:3px solid #fb7185;padding:8px 10px;margin:0 0 8px;background:var(--card)}
+.faq details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:4px 12px;margin:0 0 8px}
+.faq summary{min-height:48px;display:flex;align-items:center;font-weight:750;cursor:pointer}
+.pay{background:#fff;color:#111;border-radius:18px;padding:16px;text-align:center;margin:8px 0 20px;overflow-wrap:normal}
+.pay h3{color:#111;font-size:1.1rem}
+.pay .acc{font-weight:800;font-variant-numeric:tabular-nums}
+.pay .amt{font-size:1.6rem;font-weight:900;margin:6px 0}
+#qrbox{width:180px;height:180px;margin:10px auto;background:#fff}
+#qrbox svg{width:180px;height:180px}
+
+.author{margin:26px 0 0;padding:15px;border:1px solid var(--line);border-radius:14px;background:var(--card)}
+section.author{display:block}
+.author h2{margin:0 0 8px;font-size:17px;color:var(--teal)}
+.author p{margin:0 0 12px;font-size:14.5px;line-height:1.6;color:var(--mut)}
+.author .who{font-weight:800;color:var(--ink)}
+.author .links{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0}
+.author .links a{display:flex;align-items:center;gap:7px;min-height:48px;padding:0 14px;border:1px solid var(--line);border-radius:12px;background:var(--card2);color:var(--mut);text-decoration:none;font-size:14px}
+.author .links b{color:var(--ink);font-weight:800;word-break:break-all}
+.byline{margin:2px 0 12px;font-size:13px;color:var(--mut)}
+.byline b{color:var(--ink)}
+.byline a{color:inherit}
+.tipbar{position:fixed;left:8px;right:8px;z-index:50;background:#1a2130;border:1px solid var(--line);border-radius:14px;padding:12px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;box-shadow:0 8px 30px #0008}
+.tipbar p{margin:0;flex:1;min-width:180px;font-size:.92rem}
+.fade{opacity:0;transition:opacity 1.6s linear}
+@media(prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important}
+  .fade{opacity:0}
+}
+</style>
+</head>
+<body>
+<noscript><p style="padding:16px">Tenhle materiál potřebuje JavaScript (kartičky, kvíz, uložení postupu).</p></noscript>
+<div class="app">
+  <header class="top">
+    <div class="kicker">Chemie · 1. zápis</div>
+    <h1>CHEMIE — úvod</h1>
+    <p class="byline">Udělal <b>Rosťa Čermák</b> · <a href="#autor">sítě dole</a></p>
+    <p class="sub">Tahák → kartičky → kvíz. Krátké bloky, bez odpočtu.</p>
+    <div class="progress" aria-hidden="true"><i id="pbar"></i></div>
+    <div class="where" id="where">Tahák · 1 z 9</div>
+  </header>
+
+  <nav class="tabbar" id="tabbar" aria-label="Části materiálu">
+    <button type="button" data-tab="tahak" class="on">Tahák</button>
+    <button type="button" data-tab="karty">Kartičky</button>
+    <button type="button" data-tab="kviz">Kvíz</button>
+  </nav>
+
+  <section class="panel on" id="tahak">
+    <div class="pills" id="topicPills"></div>
+    <div class="navrow">
+      <button type="button" class="btn" id="prevTopic">← Předchozí</button>
+      <button type="button" class="btn btn-main" id="nextTopic">Další →</button>
+    </div>
+    <div id="topics"></div>
+  </section>
+
+  <section class="panel" id="karty">
+    <p class="where" id="cardMeta">Kartička 1 z 0</p>
+    <div class="pills">
+      <button type="button" class="pill on" id="fAll">všechny</button>
+      <button type="button" class="pill" id="fNeed">jen co neumím</button>
+    </div>
+    <div class="flash" id="flash">
+      <div class="q" id="flashQ"></div>
+      <div class="a" id="flashA" hidden></div>
+    </div>
+    <div class="navrow">
+      <button type="button" class="btn full" id="flipBtn">Ukázat odpověď</button>
+    </div>
+    <div class="navrow" id="knowRow" hidden>
+      <button type="button" class="btn btn-good full" id="knowBtn">Umím</button>
+      <button type="button" class="btn btn-bad full" id="needBtn">Ještě ne</button>
+    </div>
+    <div class="navrow">
+      <button type="button" class="btn" id="prevCard">←</button>
+      <button type="button" class="btn" id="nextCard">→</button>
+    </div>
+  </section>
+
+  <section class="panel" id="kviz">
+    <div id="quizView"></div>
+  </section>
+
+  <section class="author" id="autor">
+    <h2>Kdo to udělal</h2>
+    <p><span class="who">Rosťa Čermák</span> — tenhle materiál jsem napsal a naprogramoval já, sám. Není to práce nikoho jiného. Když ho posíláš dál, nech ho celý i s tímhle blokem.</p>
+    <ul class="links"><li><a href="https://github.com/rostikcermak-pixel" target="_blank" rel="noopener noreferrer"><span>GitHub</span> <b>rostikcermak-pixel</b></a></li><li><a href="https://www.tiktok.com/@waffleninja7" target="_blank" rel="noopener noreferrer"><span>TikTok</span> <b>@waffleninja7</b></a></li><li><a href="https://t.me/TheWaffleNinja" target="_blank" rel="noopener noreferrer"><span>Telegram</span> <b>@TheWaffleNinja</b></a></li><li><a href="https://www.instagram.com/waffleninja444/" target="_blank" rel="noopener noreferrer"><span>Instagram</span> <b>WaffleNinja444</b></a></li></ul>
+  </section>
+</div>
+
+<div class="tipbar" id="tipbar" hidden>
+  <p id="tipText">Kdyby chtěl někdo přihodit na kafe, tady je QR. Nemusí nikdo.</p>
+  <button type="button" class="btn btn-main" id="tipYes">Ukázat QR</button>
+  <button type="button" class="btn" id="tipNo">Teď ne</button>
+</div>
+
+<script>
+const STORE="chemie-uvod-v1";
+const S={
+  load(){try{return JSON.parse(localStorage.getItem(STORE)||"{}")}catch(e){return{}}},
+  save(d){localStorage.setItem(STORE,JSON.stringify(d))},
+  get(){return this.load()},
+  patch(p){const d=Object.assign(this.load(),p);this.save(d);return d}
+};
+
+function ico(s,inner){
+  return '<svg viewBox="0 0 100 100" width="'+s+'" height="'+s+'" aria-hidden="true"><polygon points="50,4 96,50 50,96 4,50" fill="#fff" stroke="#e30613" stroke-width="5" stroke-linejoin="round"/>'+inner+"</svg>";
+}
+const GHS={
+  bomb:function(s){s=s||72;return ico(s,'<path d="M50 28c-12 0-20 9-20 20 0 14 10 26 20 26s20-12 20-26c0-11-8-20-20-20z" fill="#111"/><path d="M58 24l8-8 4 3-6 7zM70 18l6-6M66 14h8" stroke="#111" stroke-width="3" fill="none" stroke-linecap="round"/>');},
+  flame:function(s){s=s||72;return ico(s,'<path d="M50 22c2 10-10 14-8 26 1 8 8 14 16 14 10 0 18-8 18-18 0-12-10-16-12-26-8 8-10 12-14 4z" fill="#111"/>');},
+  ox:function(s){s=s||72;return ico(s,'<circle cx="50" cy="62" r="16" fill="none" stroke="#111" stroke-width="4"/><path d="M50 18c1 8-8 12-6 22 8 2 12-6 18-4 0 8-6 14-14 14-9 0-16-8-16-16 0-10 8-12 18-16z" fill="#111"/>');},
+  gas:function(s){s=s||72;return ico(s,'<path d="M40 22h20v8h6v8H34v-8h6zM36 38h28v40H36z" fill="#111"/>');},
+  corr:function(s){s=s||72;return ico(s,'<path d="M28 22l10 22h-8l12 20 4-10 8 16-18 2c-8-2-16-18-8-50zM62 22l8 18h8L64 72c12-8 18-28 6-50zM22 78h56l-6 8H28z" fill="#111"/>');},
+  skull:function(s){s=s||72;return ico(s,'<path d="M50 20c-14 0-24 10-24 24 0 8 4 14 8 18v8h32v-8c4-4 8-10 8-18 0-14-10-24-24-24zM40 42c2 0 4 2 4 4s-2 4-4 4-4-2-4-4 2-4 4-4zm20 0c2 0 4 2 4 4s-2 4-4 4-4-2-4-4 2-4 4-4zM44 58h12l-2 6h-8zM38 78l12-8 12 8-4 6-8-4-8 4z" fill="#111"/>');},
+  bang:function(s){s=s||72;return ico(s,'<path d="M50 22c3 0 6 3 5 10l-4 28h-2l-4-28c-1-7 2-10 5-10zM50 68a6 6 0 110 12 6 6 0 010-12z" fill="#111"/>');},
+  health:function(s){s=s||72;return ico(s,'<path d="M50 20c10 12 22 14 22 30 0 14-10 28-22 36C38 78 28 64 28 50c0-16 12-18 22-30z" fill="none" stroke="#111" stroke-width="3"/><circle cx="50" cy="46" r="10" fill="#111"/><path d="M50 36v20M40 46h20" stroke="#fff" stroke-width="3"/>');},
+  env:function(s){s=s||72;return ico(s,'<path d="M28 70c8-22 12-28 8-42 14 8 16 20 18 32 8-16 20-20 22-10-8 8-10 20-18 28H28zM30 78c8 4 28 6 44-2 2 4-10 10-22 10s-24-4-22-8z" fill="#111"/>');}
+};
+
+const TOPICS=[
+  {id:"def",name:"Definice"},
+  {id:"deje",name:"Děje"},
+  {id:"obory",name:"Obory"},
+  {id:"lab",name:"Laboratoř"},
+  {id:"ghs",name:"Symboly"},
+  {id:"hist",name:"Historie"},
+  {id:"alch",name:"Alchymie"},
+  {id:"tab",name:"Tabulka"},
+  {id:"over",name:"Ověřeno"}
+];
+
+function TOPIC_HTML(){return {
+def:'<div class="card"><h3>Co je chemie</h3><ul><li>Přírodní věda zkoumající <span class="key">látky</span> a jejich <span class="key">přeměny</span>.</li><li><b>Látka</b> = to, z čeho je věc udělaná. Příklad: železo, voda, cukr, vzduch.</li><li><b>Přeměna</b> = změna látky nebo jejího skupenství.</li></ul></div><div class="card"><h3>Význam chemie</h3><ul><li><span class="key">medicína</span> — léky, dezinfekce, diagnostika</li><li><span class="key">ochrana přírody</span> — čistění vody, sledování škodlivin</li><li><span class="key">technologie</span> — plasty, paliva, kovy, baterie</li></ul></div>',
+deje:'<div class="vs"><div class="card chem"><h3>Chemický děj</h3><ul><li>Vznikají <span class="key">nové látky</span>.</li><li>Složení se mění. Zpět to často nejde.</li><li>Příklad ze sešitu: <span class="key">rezivění</span>.</li><li>Další: hoření, pečení masa, kvašení, trávení.</li></ul></div><div class="card phys"><h3>Fyzikální děj</h3><ul><li>Nová látka <span class="key">nevzniká</span>.</li><li>Mění se tvar, teplota nebo skupenství.</li><li>Příklad ze sešitu: <span class="key">skupenské přeměny</span>.</li><li>Další: drcení, tání ledu, var vody.</li></ul></div></div><div class="card"><h3>Skupenské přeměny</h3><p class="small">Tohle jsou fyzikální děje. Látka zůstává stejná.</p><ul><li><span class="key">tání</span> — pevná → kapalina (led → voda)</li><li><span class="key">tuhnutí</span> — kapalina → pevná</li><li><span class="key">vypařování / var</span> — kapalina → plyn</li><li><span class="key">kondenzace</span> — plyn → kapalina</li><li><span class="key">sublimace</span> — pevná → plyn (suchý led)</li><li><span class="key">desublimace</span> — plyn → pevná (jinovatka)</li></ul></div><div class="card"><h3>Rezivění — konkrétně</h3><ul><li>Železo + kyslík + vlhkost → <span class="key">rez</span>.</li><li>Rez je jiná látka než železo (hydratovaný oxid železitý).</li><li>Proto je to chemický děj, ne fyzikální.</li></ul></div>',
+obory:'<div class="card"><h3>Obory — verze ze sešitu <span class="badge b-test">do testu</span></h3><ul><li><span class="key">anorganická</span> — látky neživého původu</li><li><span class="key">organická</span> — děje v živých organismech</li><li><span class="key">biochemie</span> — látky živého původu</li><li><span class="key">petrochemie</span> — zpracování ropy</li></ul><p class="small">Sešit dává organickou, biochemii a petrochemii k sobě. Do testu piš tuhle verzi.</p></div><div class="card"><h3>Obory — jak to je doopravdy <span class="badge b-ok">ověřeno</span></h3><ul><li><b>Anorganická</b> — prvky a sloučeniny kromě většiny sloučenin uhlíku. Voda a sůl sem patří, i když jsou v těle.</li><li><b>Organická</b> — sloučeniny uhlíku (kromě CO, CO₂, uhličitanů, kyanidů, karbidů). Plasty sem patří taky.</li><li><b>Biochemie</b> — chemické pochody v živých organismech (cukry, tuky, bílkoviny, DNA).</li><li><b>Petrochemie</b> — chemie z ropy a zemního plynu (benzín, plasty, rozpouštědla).</li></ul></div>',
+lab:'<div class="card"><h3>6 pravidel učebny</h3><div class="rule"><div class="n">1</div><div>V učebně <span class="key">nepít a nejíst</span>.</div></div><div class="rule"><div class="n">2</div><div>Používám <span class="key">ochranné pomůcky</span> (brýle, plášť, rukavice).</div></div><div class="rule"><div class="n">3</div><div>Udržuji <span class="key">pořádek</span>.</div></div><div class="rule"><div class="n">4</div><div>Poškození, úraz a zdraví <span class="key">nahlásit učiteli</span>.</div></div><div class="rule"><div class="n">5</div><div>Chemikálie <span class="key">neochutnávám</span>.</div></div><div class="rule"><div class="n">6</div><div>Vždy liji <span class="key">kyselinu do vody</span>.</div></div></div><div class="card"><h3>Proč kyselinu do vody</h3><ul><li>Míchání koncentrované kyseliny s vodou pouští hodně tepla (exotermní).</li><li>Když liješ <b>vodu do kyseliny</b>, směs vře a <span class="key">vystříkne kyselina</span>.</li><li>Když liješ <b>kyselinu do vody</b>, teplo se rozptýlí ve větším objemu vody.</li><li>Platí hlavně u silných kyselin (sírová, chlorovodíková, dusičná).</li></ul></div><div class="card"><h3>Předmět — praktické</h3><ul><li>Sešit: nelinkovaný <span class="num">A4</span>, hodnocen <span class="num">2×</span> za rok.</li><li>Učebnici nosit, jen když to učitel napíše do plánu.</li><li>Na klasifikaci aspoň <span class="num">6</span> známek za pololetí.</li><li>Zameškaný test se dopisuje hned další hodinu chemie.</li><li>Referát: zákaz kopírování z internetu. Uvést zdroj.</li></ul></div>',
+ghs:'<div class="card"><h3>Výstražné symboly GHS</h3><p class="small">Červený kosočtverec, černý piktogram. V EU od roku <span class="date">2015</span>. Je jich <span class="num">9</span>.</p><div class="ghs-grid"><div class="ghs-item">'+GHS.bomb()+'výbušné<br><span class="muted">GHS01</span></div><div class="ghs-item">'+GHS.flame()+'hořlavé<br><span class="muted">GHS02 · oheň</span></div><div class="ghs-item">'+GHS.ox()+'oxidující<br><span class="muted">GHS03</span></div><div class="ghs-item">'+GHS.gas()+'plyny pod tlakem<br><span class="muted">GHS04 · propan/butan</span></div><div class="ghs-item">'+GHS.corr()+'žíravé<br><span class="muted">GHS05 · kyselina</span></div><div class="ghs-item">'+GHS.skull()+'toxické<br><span class="muted">GHS06</span></div><div class="ghs-item">'+GHS.bang()+'dráždivé<br><span class="muted">GHS07</span></div><div class="ghs-item">'+GHS.health()+'nebezp. pro zdraví<br><span class="muted">GHS08 · sešit: nikotin</span></div><div class="ghs-item">'+GHS.env()+'nebezp. pro ŽP<br><span class="muted">GHS09</span></div></div></div><div class="card"><h3>Příklady k zapamatování</h3><ul><li>Hořlavé: benzín, líh, deodorant ve spreji.</li><li>Žíravé: kyselina sírová, hydroxid sodný (čistič odpadu).</li><li>Plyny pod tlakem: propan-butan, CO₂ v bombě.</li><li>Toxické: kyanovodík. Nikotin taky nese lebku — viz Ověřeno.</li><li>Dráždivé: aceton, některé saponáty.</li><li>Oxidující: peroxid vodíku, chlornan sodný.</li></ul></div>',
+hist:'<div class="card"><h3>Historie — osa</h3><div class="tl"><div class="item"><span class="date">~450 př. n. l.</span> — <span class="name">Empedoklés</span>: hmota ze 4 živlů (oheň, voda, vzduch, země).</div><div class="item"><span class="name">Aristotelés</span> přidal 5. živel: <span class="key">éter / kvintesence</span>.</div><div class="item">Středověk až 16. stol. — <span class="key">alchymie</span> (předchůdce chemie).</div><div class="item"><span class="date">1576–1612</span> — <span class="name">Rudolf II.</span> v Praze patronoval alchymisty.</div><div class="item"><span class="date">17.–18. stol.</span> — vědecká chemie (<span class="name">Boyle</span>, <span class="name">Lavoisier</span>).</div><div class="item"><span class="date">1869</span> — <span class="name">Mendělejev</span> zveřejnil periodickou tabulku.</div><div class="item"><span class="date">2016</span> — v tabulce je <span class="num">118</span> prvků (oganesson).</div></div></div><div class="card"><h3>Otázky z videa — co psát</h3><ul><li>Z čeho se vyvinula chemie? <span class="badge b-test">sešit</span> ze 4 základních živlů. <span class="badge b-ok">doopravdy</span> z alchymie.</li><li>Teorie starověkých „chemiků“? <span class="badge b-test">sešit</span> pentagram. <span class="badge b-ok">doopravdy</span> nauka o 4 živlech; pentagram je symbol 5 živlů.</li><li>Pátý živel a symbol? <span class="key">kvintesence (éter)</span>, symbol <span class="key">pentagram</span>.</li><li>Cíl alchymistů? <span class="key">kámen mudrců</span>, elixír života, přeměna kovů ve zlato.</li><li>Tabulku sestavil? <span class="name">Dmitrij Ivanovič Mendělejev</span>.</li><li>Kolik prvků v tabulce? <span class="num">118</span>.</li></ul></div>',
+alch:'<div class="card"><h3>Alchymie</h3><ul><li>Předvědecký obor. Z něj se vyvinula chemie.</li><li>Cíle: <span class="key">kámen mudrců</span> (transmutace kovů ve zlato), <span class="key">elixír života</span>.</li><li>Vedle toho alchymisté objevili kyseliny, destilaci, sublimaci, nové látky.</li><li>V Čechách největší rozmach za <span class="name">Rudolfa II.</span> (Praha).</li><li>Sešit: „alchymisty patronoval Rudolf II.“ To sedí. Alchymii nevymyslel.</li></ul></div><div class="card"><h3>Původní značky prvků = piktogramy</h3><p class="small">Kovy se značily planetami. Sešit má tyto čtyři:</p><div class="vs"><div class="card"><div class="sym">☉</div><p><span class="key">zlato</span><br>Slunce</p></div><div class="card"><div class="sym">☽</div><p><span class="key">stříbro</span><br>Měsíc</p></div><div class="card"><div class="sym">♀</div><p><span class="key">měď</span><br>Venuše · žena</p></div><div class="card"><div class="sym">♂</div><p><span class="key">železo</span><br>Mars · muž</p></div></div><p class="small">Další, v sešitě nejsou: ☿ rtuť (Merkur), ♃ cín (Jupiter), ♄ olovo (Saturn).</p></div>',
+tab:'<div class="card"><h3>Periodická tabulka</h3><ul><li>Sestavil <span class="name">Dmitrij Ivanovič Mendělejev</span>.</li><li>Narozen <span class="date">8. 2. 1834</span> (Tobolsk), zemřel <span class="date">2. 2. 1907</span> (Petrohrad).</li><li>Tabulku zveřejnil <span class="date">6. 3. 1869</span>.</li><li>Tehdy do ní dal <span class="num">63</span> známých prvků. Nechal díry pro ještě neobjevené.</li><li>Dnes je v tabulce <span class="num">118</span> prvků.</li></ul></div><div class="card"><h3>Co tabulka dělá</h3><ul><li>Mendělejev řadil podle <span class="key">atomové hmotnosti</span>.</li><li>Dnes se řadí podle <span class="key">protonového čísla</span> (počet protonů v jádře).</li><li>Vlastnosti prvků se pravidelně opakují → periodický zákon.</li><li>Svislé sloupce = skupiny (podobné vlastnosti). Vodorovné řady = periody.</li></ul></div>',
+over:'<div class="card"><h3>Ověřeno — kde je sešit nepřesný</h3><p class="small">Do testu piš verzi ze sešitu, pokud učitel zkouší zápis. Vedle je, jak to je.</p></div><div class="card"><h3>1. Z čeho se vyvinula chemie</h3><ul><li><span class="badge b-test">do testu</span> ze 4 základních živlů</li><li><span class="badge b-ok">doopravdy</span> z <b>alchymie</b>. Čtyři živly byla starověká představa, z čeho je hmota. Chemie jako věda začíná v 17.–18. století.</li></ul></div><div class="card"><h3>2. Pentagram</h3><ul><li><span class="badge b-test">do testu</span> starověcí „chemikové“ pracovali s teorií pentagramu</li><li><span class="badge b-ok">doopravdy</span> pentagram je <b>symbol</b> pěti živlů (4 + kvintesence), ne název teorie. Teorie se jmenuje nauka o živlech.</li></ul></div><div class="card"><h3>3. Organická / anorganická / bio</h3><ul><li><span class="badge b-test">do testu</span> anorganická = neživý původ; organická = děje v živých org.; bio = látky živého původu</li><li><span class="badge b-ok">doopravdy</span> organická = sloučeniny uhlíku. Anorganická = zbytek (včetně vody). Biochemie = pochody v organismech. Ropa je organická surovina, petrochemie z ní vyrábí.</li></ul></div><div class="card"><h3>4. Nikotin u GHS08</h3><ul><li><span class="badge b-test">do testu</span> nikotin = látka nebezpečná pro zdraví (GHS08)</li><li><span class="badge b-ok">doopravdy</span> nikotin je hlavně <b>akutně toxický</b> → lebka GHS06. GHS08 je dlouhodobé poškození (rakovina, mutace, orgány) — příklad benzen, kadmium.</li></ul></div><div class="card"><h3>5. 118 prvků vs. Mendělejev</h3><ul><li><span class="badge b-test">do testu</span> Mendělejev, v tabulce 118 prvků</li><li><span class="badge b-ok">doopravdy</span> v roce <span class="date">1869</span> jich znal <span class="num">63</span>. Číslo 118 platí dnes, od roku <span class="date">2016</span>.</li></ul></div>'
+};}
+
+const CARDS=[
+  {q:"Co je chemie?",a:"Přírodní věda zkoumající látky a jejich přeměny."},
+  {q:"Co se děje při chemickém ději?",a:"Vznikají nové látky. Příklad: rezivění."},
+  {q:"Co se děje při fyzikálním ději?",a:"Nová látka nevzniká. Mění se tvar, teplota nebo skupenství."},
+  {q:"Rezivění — chemický, nebo fyzikální děj?",a:"Chemický. Rez je jiná látka než železo."},
+  {q:"Tání ledu — chemický, nebo fyzikální děj?",a:"Fyzikální. Pořád je to voda, jen kapalná."},
+  {q:"Vyjmenuj 6 skupenských přeměn.",a:"Tání, tuhnutí, vypařování/var, kondenzace, sublimace, desublimace."},
+  {q:"Anorganická chemie — verze ze sešitu?",a:"Látky neživého původu."},
+  {q:"Organická chemie — verze ze sešitu?",a:"Děje v živých organismech."},
+  {q:"Biochemie — verze ze sešitu?",a:"Látky živého původu."},
+  {q:"Čím se zabývá petrochemie?",a:"Zpracováním ropy."},
+  {q:"Tři významy chemie ze sešitu?",a:"Medicína, ochrana přírody, technologie."},
+  {q:"Pravidlo č. 1 v učebně?",a:"Nepít a nejíst."},
+  {q:"Kam liji kyselinu?",a:"Vždy do vody. Nikdy vodu do kyseliny."},
+  {q:"Proč ne vodu do kyseliny?",a:"Směs se zahřeje, vře a vystříkne kyselina."},
+  {q:"Chemikálie se smí ochutnávat?",a:"Ne. Chemikálie neochutnávám."},
+  {q:"Co udělám při úrazu v učebně?",a:"Hned nahlásím učiteli."},
+  {q:"GHS02 (plamen) znamená?",a:"Hořlavé látky."},
+  {q:"GHS05 (zkumavky na ruku) znamená?",a:"Žíravé / korozivní látky. Příklad: kyselina."},
+  {q:"GHS06 (lebka) znamená?",a:"Toxické (jedovaté) látky."},
+  {q:"GHS04 (lahev) — příklad ze sešitu?",a:"Plyny pod tlakem. Příklad: propan/butan."},
+  {q:"GHS07 (vykřičník) znamená?",a:"Dráždivé látky."},
+  {q:"Čtyři základní živly?",a:"Oheň, voda, vzduch, země."},
+  {q:"Pátý živel a jeho symbol?",a:"Kvintesence (éter). Symbol: pentagram."},
+  {q:"Cíl alchymistů?",a:"Kámen mudrců, elixír života, přeměna kovů ve zlato."},
+  {q:"Kdo v Praze patronoval alchymisty?",a:"Rudolf II. (císař 1576–1612)."},
+  {q:"☉ (kroužek s tečkou) je který kov?",a:"Zlato. Planeta: Slunce."},
+  {q:"☽ je který kov?",a:"Stříbro. Planeta: Měsíc."},
+  {q:"♀ Venuše / žena je který kov?",a:"Měď."},
+  {q:"♂ Mars / muž je který kov?",a:"Železo."},
+  {q:"Kdo sestavil periodickou tabulku?",a:"Dmitrij Ivanovič Mendělejev, rok 1869."},
+  {q:"Kolik prvků je dnes v tabulce?",a:"118."},
+  {q:"Z čeho se chemie vyvinula doopravdy?",a:"Z alchymie. Sešit píše „ze 4 živlů“ — to piš do testu, pokud jde o zápis."}
+];
+
+const QUIZ=[
+  {q:"Chemie je:",o:["společenská věda o lidech","přírodní věda zkoumající látky a jejich přeměny","nauka jen o lécích","nauka jen o kovových prvcích"],i:1},
+  {q:"Při chemickém ději:",o:["vznikají nové látky","se mění jen skupenství","se mění jen tvar","látka zůstává úplně stejná"],i:0,w:"Nová látka = chemický děj. Příklad: rezivění."},
+  {q:"Rezivění železa je:",o:["fyzikální děj","skupenská přeměna","chemický děj","jen změna barvy bez nové látky"],i:2,w:"Rez je jiná látka než železo."},
+  {q:"Tání ledu je:",o:["chemický děj","fyzikální děj","důkaz, že voda zaniká","alchymie"],i:1,w:"Pořád H₂O, jen kapalná."},
+  {q:"Skupenské přeměny (tání, var, sublimace) jsou:",o:["chemické děje","fyzikální děje","obory chemie","výstražné symboly"],i:1},
+  {q:"Který děj je chemický?",o:["drcení cukru","var vody","hoření svíčky","mrznutí rybníka"],i:2,w:"Hořením vznikají nové látky (CO₂, voda, saze)."},
+  {q:"Anorganická chemie — verze ze sešitu:",o:["látky neživého původu","jen plyny","jen uhlík","zpracování ropy"],i:0},
+  {q:"Petrochemie se zabývá:",o:["jen léky","zpracováním ropy","jen kovy","jen vodou"],i:1},
+  {q:"V učebně chemie:",o:["se smí pít voda","se smí svačit u katedry","se nepije a nejí","platí jen školní řád, nic navíc"],i:2,w:"Platí i řád odborné učebny. Nejíst, nepít."},
+  {q:"Kyselinu liji:",o:["do vody","vodu do kyseliny","do oleje","do vzduchu"],i:0},
+  {q:"Proč ne vodu do koncentrované kyseliny?",o:["nic se nestane","směs se ochladí","směs vře a vystříkne kyselina","kyselina zmizí"],i:2},
+  {q:"Chemikálie v laboratoři:",o:["ochutnám, když voní","neochutnávám","ochutnám po zředění","ochutnám jen kyseliny"],i:1},
+  {q:"Úraz nebo poškození:",o:["zametu a mlčím","nahlásím až rodičům večer","hned nahlásím učiteli","napíšu do sešitu za týden"],i:2},
+  {q:"Symbol plamene (GHS02) znamená:",o:["žíravé látky","hořlavé látky","toxické látky","plyny pod tlakem"],i:1},
+  {q:"Symbol lebky (GHS06) znamená:",o:["dráždivé látky","hořlavé látky","toxické látky","oxidující látky"],i:2},
+  {q:"Propan/butan je v sešitě u symbolu:",o:["žíravé","plyny pod tlakem","dráždivé","výbušné"],i:1},
+  {q:"Žíravé látky — příklad ze sešitu:",o:["kyselina","cukr","vzduch","zlato"],i:0},
+  {q:"Vykřičník v červeném kosočtverci:",o:["výbušné","dráždivé","zlato","éter"],i:1},
+  {q:"Čtyři základní živly jsou:",o:["zlato, stříbro, měď, železo","oheň, voda, vzduch, země","pevná, kapalina, plyn, plazma","H, C, O, N"],i:1},
+  {q:"Pátý živel je:",o:["ropa","kvintesence (éter)","rez","plast"],i:1},
+  {q:"Symbol pátého živlu (verze ze sešitu):",o:["lebka","pentagram","plamen","slunce"],i:1},
+  {q:"Cíl alchymistů byl:",o:["sestavit 118 prvků","kámen mudrců, elixír, zlato z kovů","zákaz experimentů","objev internetu"],i:1},
+  {q:"Alchymisty v Praze patronoval:",o:["Mendělejev","Rudolf II.","Lavoisier","Empedoklés"],i:1,w:"Rudolf II., císař 1576–1612. Sídlo v Praze."},
+  {q:"☉ (kroužek s tečkou) značí:",o:["stříbro","měď","zlato","železo"],i:2},
+  {q:"☽ značí:",o:["stříbro","zlato","železo","rtuť"],i:0},
+  {q:"♀ Venuše / žena značí kov:",o:["železo","měď","zlato","olovo"],i:1},
+  {q:"♂ Mars / muž značí kov:",o:["měď","stříbro","železo","zlato"],i:2},
+  {q:"Periodickou tabulku sestavil:",o:["Rudolf II.","Dmitrij Ivanovič Mendělejev","Aristotelés","Newton"],i:1},
+  {q:"V kterém roce Mendělejev tabulku zveřejnil?",o:["1576","1828","1869","2016"],i:2,w:"6. 3. 1869. Tehdy 63 prvků, ne 118."},
+  {q:"Kolik prvků je dnes v tabulce?",o:["63","92","108","118"],i:3},
+  {q:"Chemie se doopravdy vyvinula z:",o:["matematiky","alchymie","zeměpisu","jen z pentagramu"],i:1,w:"Sešit píše 4 živly. Do testu ze zápisu to může chtít. Fakticky: z alchymie."}
+];
+
+function renderQR(el,text){
+  try{
+    const m=makeQR(text);
+    const n=m.length,s=4,pix=n+s*2;
+    let p="";
+    for(let y=0;y<n;y++) for(let x=0;x<n;x++) if(m[y][x]) p+='<rect x="'+(x+s)+'" y="'+(y+s)+'" width="1" height="1"/>';
+    el.innerHTML='<svg viewBox="0 0 '+pix+' '+pix+'" width="180" height="180" aria-label="QR platba 20 Kč"><rect width="'+pix+'" height="'+pix+'" fill="#fff"/>'+p+"</svg>";
+  }catch(err){el.textContent="QR se nepovedlo. Účet 300369512 / 0300, 20 Kč, zpráva CHEMIE.";}
+}
+function makeQR(text){
+  const bytes=[];
+  for(let i=0;i<text.length;i++){
+    const c=text.charCodeAt(i);
+    if(c>127) throw new Error("ascii");
+    bytes.push(c);
+  }
+  const RS={
+    1:{M:[[1,26,16]]},2:{M:[[1,44,28]]},3:{M:[[1,70,44]]},4:{M:[[2,50,32]]},
+    5:{M:[[2,67,43]]},6:{M:[[4,43,27]]},7:{M:[[4,49,31]]},
+    8:{M:[[2,60,38],[2,61,39]]},9:{M:[[3,58,36],[2,59,37]]},10:{M:[[4,69,43],[1,70,44]]}
+  };
+  const ALIGN={1:[],2:[6,18],3:[6,22],4:[6,26],5:[6,30],6:[6,34],7:[6,22,38],8:[6,24,42],9:[6,26,46],10:[6,28,50]};
+  const need=bytes.length+3;
+  let ver=1,groups=null;
+  for(;ver<=10;ver++){
+    groups=RS[ver].M;
+    let cap=0; groups.forEach(function(g){cap+=g[0]*g[2];});
+    if(cap>=need) break;
+  }
+  const size=21+(ver-1)*4;
+  const EXP=new Uint8Array(512),LOG=new Uint8Array(256);
+  (function(){let x=1;for(let i=0;i<255;i++){EXP[i]=x;LOG[x]=i;x<<=1;if(x&256)x^=0x11d;}for(let i=255;i<512;i++)EXP[i]=EXP[i-255];})();
+  const mul=function(a,b){return a&&b?EXP[LOG[a]+LOG[b]]:0;};
+  function rsGen(n){let g=[1];for(let i=0;i<n;i++){const nx=new Array(g.length+1).fill(0);for(let j=0;j<g.length;j++){nx[j]^=g[j];nx[j+1]^=mul(g[j],EXP[i]);}g=nx;}return g;}
+  function rsECC(data,n){const g=rsGen(n);const r=data.concat(Array(n).fill(0));for(let i=0;i<data.length;i++){const c=r[i];if(!c)continue;for(let j=0;j<g.length;j++) r[i+j]^=mul(g[j],c);}return r.slice(data.length);}
+  function bitsPut(arr,v,n){for(let i=n-1;i>=0;i--) arr.push((v>>i)&1);}
+  const bits=[];
+  bitsPut(bits,0b0100,4);
+  bitsPut(bits,bytes.length,ver<10?8:16);
+  bytes.forEach(function(b){bitsPut(bits,b,8);});
+  bitsPut(bits,0,4);
+  while(bits.length%8) bits.push(0);
+  let dataCap=0; groups.forEach(function(g){dataCap+=g[0]*g[2];});
+  const pad=[0xEC,0x11]; let pi=0;
+  while(bits.length/8<dataCap){bitsPut(bits,pad[pi%2],8);pi++;}
+  const dataBytes=[];
+  for(let i=0;i<bits.length;i+=8){let v=0;for(let j=0;j<8;j++) v=(v<<1)|bits[i+j];dataBytes.push(v);}
+  const blocks=[]; let off=0;
+  groups.forEach(function(g){
+    const cnt=g[0],total=g[1],dc=g[2],ec=total-dc;
+    for(let i=0;i<cnt;i++){
+      const d=dataBytes.slice(off,off+dc); off+=dc;
+      blocks.push({d:d,e:rsECC(d,ec)});
+    }
+  });
+  const final=[];
+  const maxD=Math.max.apply(null,blocks.map(function(b){return b.d.length;}));
+  const maxE=Math.max.apply(null,blocks.map(function(b){return b.e.length;}));
+  for(let i=0;i<maxD;i++) blocks.forEach(function(b){if(i<b.d.length) final.push(b.d[i]);});
+  for(let i=0;i<maxE;i++) blocks.forEach(function(b){if(i<b.e.length) final.push(b.e[i]);});
+  function empty(){const m=[];for(let y=0;y<size;y++){m[y]=Array(size).fill(null);}return m;}
+  function finder(m,x,y){
+    for(let dy=-1;dy<=7;dy++) for(let dx=-1;dx<=7;dx++){
+      const xx=x+dx,yy=y+dy;
+      if(xx<0||yy<0||xx>=size||yy>=size) continue;
+      const in7=dx>=0&&dx<=6&&dy>=0&&dy<=6;
+      const ring=in7&&(dx===0||dx===6||dy===0||dy===6);
+      const core=dx>=2&&dx<=4&&dy>=2&&dy<=4;
+      if(!in7) m[yy][xx]=false;
+      else m[yy][xx]=ring||core;
+    }
+  }
+  function align(m,x,y){
+    for(let dy=-2;dy<=2;dy++) for(let dx=-2;dx<=2;dx++){
+      const xx=x+dx,yy=y+dy;
+      if(xx<0||yy<0||xx>=size||yy>=size) continue;
+      if(m[yy][xx]!==null) continue;
+      const r=Math.max(Math.abs(dx),Math.abs(dy));
+      m[yy][xx]=(r===0||r===2);
+    }
+  }
+  function placeFuncs(m){
+    finder(m,0,0); finder(m,size-7,0); finder(m,0,size-7);
+    for(let i=8;i<size-8;i++){if(m[6][i]===null)m[6][i]=i%2===0; if(m[i][6]===null)m[i][6]=i%2===0;}
+    const ap=ALIGN[ver];
+    for(let yi=0;yi<ap.length;yi++) for(let xi=0;xi<ap.length;xi++){
+      const x=ap[xi],y=ap[yi];
+      if((x<9&&y<9)||(x>size-10&&y<9)||(x<9&&y>size-10)) continue;
+      align(m,x,y);
+    }
+    function reserve(x,y){if(y>=0&&x>=0&&y<size&&x<size&&m[y][x]===null) m[y][x]=false;}
+    for(let i=0;i<9;i++){reserve(8,i);reserve(i,8);}
+    for(let i=0;i<8;i++){reserve(8,size-1-i);reserve(size-1-i,8);}
+    reserve(8,size-8);
+  }
+  function maskFn(k,r,c){
+    switch(k){
+      case 0:return (r+c)%2===0;
+      case 1:return r%2===0;
+      case 2:return c%3===0;
+      case 3:return (r+c)%3===0;
+      case 4:return (Math.floor(r/2)+Math.floor(c/3))%2===0;
+      case 5:return (r*c)%2+(r*c)%3===0;
+      case 6:return ((r*c)%2+(r*c)%3)%2===0;
+      case 7:return ((r*c)%3+(r+c)%2)%2===0;
+    }
+  }
+  function fillData(base,mask){
+    const m=base.map(function(row){return row.slice();});
+    let bi=0, dir=-1, col=size-1;
+    function bitAt(i){const b=final[i>>3]; if(b===undefined) return 0; return (b>>(7-(i&7)))&1;}
+    while(col>0){
+      if(col===6) col--;
+      for(let i=0;i<size;i++){
+        const y=dir<0?size-1-i:i;
+        for(let k=0;k<2;k++){
+          const x=col-k;
+          if(m[y][x]!==null) continue;
+          let v=bitAt(bi); bi++;
+          if(maskFn(mask,y,x)) v^=1;
+          m[y][x]=!!v;
+        }
+      }
+      dir=-dir; col-=2;
+    }
+    for(let y=0;y<size;y++) for(let x=0;x<size;x++) if(m[y][x]===null) m[y][x]=false;
+    return m;
+  }
+  function formatBits(mask){
+    const data=(0<<3)|mask;
+    let d=data<<10;
+    const G=0x537;
+    function bl(x){let n=0;while(x){n++;x>>=1;}return n;}
+    while(bl(d)>=11) d^=G<<(bl(d)-11);
+    return ((data<<10)|d)^0x5412;
+  }
+  function applyFormat(m,mask){
+    const f=formatBits(mask);
+    for(let i=0;i<15;i++){
+      const bit=!!((f>>i)&1);
+      if(i<6) m[i][8]=bit;
+      else if(i<8) m[i+1][8]=bit;
+      else m[size-15+i][8]=bit;
+    }
+    for(let i=0;i<15;i++){
+      const bit=!!((f>>i)&1);
+      if(i<8) m[8][size-1-i]=bit;
+      else if(i<9) m[8][7]=bit;
+      else m[8][14-i]=bit;
+    }
+    m[size-8][8]=true;
+    return m;
+  }
+  function score(m){
+    let s=0;
+    for(let y=0;y<size;y++){
+      let run=1;
+      for(let x=1;x<size;x++){
+        if(m[y][x]===m[y][x-1]){run++; if(run===5)s+=3; else if(run>5)s++;}
+        else run=1;
+      }
+    }
+    for(let x=0;x<size;x++){
+      let run=1;
+      for(let y=1;y<size;y++){
+        if(m[y][x]===m[y-1][x]){run++; if(run===5)s+=3; else if(run>5)s++;}
+        else run=1;
+      }
+    }
+    for(let y=0;y<size-1;y++) for(let x=0;x<size-1;x++){
+      const v=m[y][x];
+      if(v===m[y][x+1]&&v===m[y+1][x]&&v===m[y+1][x+1]) s+=3;
+    }
+    let dark=0;
+    for(let y=0;y<size;y++) for(let x=0;x<size;x++) if(m[y][x]) dark++;
+    s+=Math.abs(dark*100/(size*size)-50)/5*10;
+    return s;
+  }
+  const base=empty(); placeFuncs(base);
+  let best=null,bestS=1e9;
+  for(let k=0;k<8;k++){
+    let m=fillData(base,k);
+    m=applyFormat(m,k);
+    const sc=score(m);
+    if(sc<bestS){bestS=sc;best=m;}
+  }
+  return best.map(function(row){return row.map(function(v){return !!v;});});
+}
+
+const TH=TOPIC_HTML();
+const st={
+  tab:S.get().tab||"tahak",
+  topic:S.get().topic||0,
+  card:S.get().card||0,
+  filter:S.get().filter||"all",
+  know:S.get().know||{},
+  quiz:S.get().quiz||null,
+  flipped:false
+};
+function persist(){S.patch({tab:st.tab,topic:st.topic,card:st.card,filter:st.filter,know:st.know,quiz:st.quiz});}
+
+function setTab(id){
+  st.tab=id; persist();
+  document.querySelectorAll(".panel").forEach(function(p){p.classList.toggle("on",p.id===id);});
+  document.querySelectorAll(".tabbar button").forEach(function(b){b.classList.toggle("on",b.dataset.tab===id);});
+  updateWhere();
+  if(id==="karty") renderCard();
+  if(id==="kviz") renderQuiz();
+  positionTip();
+}
+function updateWhere(){
+  const bar=document.getElementById("pbar");
+  const w=document.getElementById("where");
+  if(st.tab==="tahak"){
+    w.textContent="Tahák · "+(st.topic+1)+" z "+TOPICS.length+" · "+TOPICS[st.topic].name;
+    bar.style.width=((st.topic+1)/TOPICS.length*100)+"%";
+  }else if(st.tab==="karty"){
+    const list=cardList();
+    w.textContent="Kartičky · "+(list.length?st.card+1:0)+" z "+list.length+(st.filter==="need"?" · jen co neumím":"");
+    bar.style.width=(list.length?(st.card+1)/list.length*100:0)+"%";
+  }else{
+    const q=st.quiz;
+    if(!q){w.textContent="Kvíz"; bar.style.width="0%"; return;}
+    if(q.done){w.textContent="Kvíz · hotovo · "+q.ok+"/"+q.order.length; bar.style.width="100%"; return;}
+    if(q.pause){w.textContent="Kvíz · pauza po kole "+q.round; bar.style.width=(q.idx/q.order.length*100)+"%"; return;}
+    w.textContent="Kvíz · "+(q.idx+1)+" z "+q.order.length+" · kolo "+q.round;
+    bar.style.width=(q.idx/q.order.length*100)+"%";
+  }
+}
+function renderTopics(){
+  const pills=document.getElementById("topicPills");
+  pills.innerHTML=TOPICS.map(function(t,i){return '<button type="button" class="pill'+(i===st.topic?" on":"")+'" data-i="'+i+'">'+t.name+"</button>";}).join("");
+  pills.querySelectorAll("button").forEach(function(b){b.onclick=function(){st.topic=+b.dataset.i; persist(); showTopic();};});
+  showTopic();
+}
+function showTopic(){
+  document.getElementById("topics").innerHTML=TH[TOPICS[st.topic].id];
+  document.querySelectorAll("#topicPills button").forEach(function(b,i){b.classList.toggle("on",i===st.topic);});
+  document.getElementById("prevTopic").disabled=st.topic===0;
+  document.getElementById("nextTopic").disabled=st.topic===TOPICS.length-1;
+  const ex=document.getElementById("extras");
+  if(ex) ex.hidden=st.topic!==TOPICS.length-1;
+  updateWhere();
+  window.scrollTo(0,0);
+}
+function cardList(){
+  const idx=CARDS.map(function(_,i){return i;});
+  if(st.filter==="need") return idx.filter(function(i){return st.know[i]!=="yes";});
+  return idx;
+}
+function renderCard(){
+  const list=cardList();
+  if(st.card>=list.length) st.card=Math.max(0,list.length-1);
+  const meta=document.getElementById("cardMeta");
+  const knowN=Object.keys(st.know).filter(function(k){return st.know[k]==="yes";}).length;
+  if(!list.length){
+    document.getElementById("flashQ").textContent="Všechny kartičky v tomhle filtru umíš.";
+    document.getElementById("flashA").hidden=true;
+    document.getElementById("flipBtn").hidden=true;
+    document.getElementById("knowRow").hidden=true;
+    meta.textContent="Umíš "+knowN+" z "+CARDS.length;
+    updateWhere(); return;
+  }
+  document.getElementById("flipBtn").hidden=false;
+  const id=list[st.card];
+  const c=CARDS[id];
+  st.flipped=false;
+  document.getElementById("flashQ").textContent=c.q;
+  const a=document.getElementById("flashA");
+  a.hidden=true; a.textContent=c.a;
+  document.getElementById("knowRow").hidden=true;
+  document.getElementById("flipBtn").textContent="Ukázat odpověď";
+  meta.textContent="Kartička "+(st.card+1)+" z "+list.length+" · umíš "+knowN+" z "+CARDS.length;
+  updateWhere();
+}
+function shuffle(a,seed){
+  let s=seed|0; const r=function(){s=(s*1664525+1013904223)>>>0;return s/4294967296;};
+  const b=a.slice();
+  for(let i=b.length-1;i>0;i--){const j=Math.floor(r()*(i+1)); const t=b[i];b[i]=b[j];b[j]=t;}
+  return b;
+}
+function startQuiz(onlyWrong){
+  const src=onlyWrong && st.quiz && st.quiz.wrong && st.quiz.wrong.length ? st.quiz.wrong.slice() : QUIZ.map(function(_,i){return i;});
+  const seed=(Date.now()^Math.floor(Math.random()*1e9))>>>0;
+  st.quiz={order:shuffle(src,seed),idx:0,ok:0,wrong:[],round:1,pause:false,done:false,answered:false,pick:null,seed:seed};
+  persist(); renderQuiz();
+}
+function qCurrent(){const q=st.quiz; if(!q||q.done||q.pause) return null; return QUIZ[q.order[q.idx]];}
+function renderQuiz(){
+  const root=document.getElementById("quizView");
+  const q=st.quiz;
+  if(!q){
+    root.innerHTML='<div class="card"><h3>Kvíz</h3><ul><li>Otázky jsou zamíchané.</li><li>Po každé odpovědi hned uvidíš, jestli to sedí.</li><li>Kola po <span class="num">6</span>. Mezi koly je pauza. Bez odpočtu.</li><li>Stav se ukládá — můžeš zavřít a vrátit se.</li></ul><button type="button" class="btn btn-main full" id="qStart">Spustit kvíz</button></div>';
+    document.getElementById("qStart").onclick=function(){startQuiz(false);};
+    updateWhere(); return;
+  }
+  if(q.done){
+    const total=q.order.length;
+    const errs=q.wrong.map(function(i){const item=QUIZ[i]; return '<div class="err"><b>'+esc(item.q)+"</b><br>Správně: "+esc(item.o[item.i])+"</div>";}).join("")||'<p class="muted">Žádné chyby.</p>';
+    root.innerHTML='<div class="card"><h3>Hotovo</h3><p>Správně <span class="num">'+q.ok+'</span> z <span class="num">'+total+'</span>.</p><p class="small">To není známka a nic to negarantuje. Je to jen nácvik.</p><h3>Chyby</h3>'+errs+'<div class="navrow">'+(q.wrong.length?'<button type="button" class="btn btn-main full" id="qWrong">Jen chyby</button>':'')+'<button type="button" class="btn full" id="qAgain">Celý kvíz znovu</button></div></div>';
+    const w=document.getElementById("qWrong"); if(w) w.onclick=function(){startQuiz(true);};
+    document.getElementById("qAgain").onclick=function(){startQuiz(false);};
+    updateWhere();
+    return;
+  }
+  if(q.pause){
+    root.innerHTML='<div class="card"><h3>Kolo '+(q.round-1)+' hotovo</h3><p>Pauza. Až budeš chtít, jdi dál. Bez odpočtu.</p><p class="small">Zatím správně '+q.ok+" z "+q.idx+'.</p><button type="button" class="btn btn-main full" id="qCont">Pokračovat</button></div>';
+    document.getElementById("qCont").onclick=function(){q.pause=false; persist(); renderQuiz();};
+    updateWhere(); return;
+  }
+  const item=qCurrent();
+  if(!q.opts) q.opts={};
+  if(!q.opts[q.idx]){ q.opts[q.idx]=shuffle([0,1,2,3], (q.seed||1)+q.idx*17+3); persist(); }
+  const order=q.opts[q.idx];
+  const opts=order.map(function(i){
+    let cls="";
+    if(q.answered){
+      if(i===item.i) cls="ok";
+      else if(i===q.pick) cls="no";
+      cls+=" lock";
+    }
+    return '<button type="button" data-i="'+i+'" class="'+cls+'">'+esc(item.o[i])+"</button>";
+  }).join("");
+  let fb="";
+  if(q.answered){
+    const good=q.pick===item.i;
+    fb='<div class="fb '+(good?"good":"bad")+'">'+(good?"Sedí.":"Nesedí.")+" "+esc(item.w||("Správně: "+item.o[item.i]))+'</div><button type="button" class="btn btn-main full" id="qNext">Další</button>';
+  }
+  root.innerHTML='<div class="card"><p class="small">Otázka '+(q.idx+1)+" z "+q.order.length+" · kolo "+q.round+"</p><h3>"+esc(item.q)+'</h3><div class="answers" id="ans">'+opts+"</div>"+fb+"</div>";
+  root.querySelectorAll("#ans button").forEach(function(b){b.onclick=function(){answerQuiz(+b.dataset.i);};});
+  const n=document.getElementById("qNext"); if(n) n.onclick=nextQuiz;
+  updateWhere();
+}
+function answerQuiz(i){
+  const q=st.quiz; if(!q||q.answered) return;
+  const item=qCurrent();
+  q.answered=true; q.pick=i;
+  if(i===item.i) q.ok++; else q.wrong.push(q.order[q.idx]);
+  persist(); renderQuiz();
+}
+function nextQuiz(){
+  const q=st.quiz;
+  q.answered=false; q.pick=null; q.idx++;
+  if(q.idx>=q.order.length){ q.done=true; persist(); renderQuiz(); window.__tipbar.afterQuiz(); return; }
+  if(q.idx%6===0){ q.round++; q.pause=true; }
+  persist(); renderQuiz(); window.scrollTo(0,0);
+}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];});}
+
+function mountExtras(){
+  const wrap=document.createElement("div");
+  wrap.id="extras";
+  wrap.innerHTML='<section class="faq" id="faq" style="margin-top:18px"><h2>FAQ</h2>'+
+    "<details><summary>Musím platit?</summary><p>Ne. Materiál funguje celý zdarma. QR je dobrovolný příspěvek.</p></details>"+
+    "<details><summary>Proč bych ti posílal peníze?</summary><p>Nemusíš. Dělal jsem to hlavně pro sebe. Když to někomu šetří čas, může přihodit na kafe. Nemusí nikdo.</p></details>"+
+    "<details><summary>Zaručuje mi to známku?</summary><p><b>Ne.</b> Není to oficiální materiál od školy. Učitel zkouší, co chce. Může chtít formulaci ze sešitu i jinou. Žádnou známku neslibuju.</p></details>"+
+    "<details><summary>Jak víš, že tam nejsou chyby?</summary><p>Fakta jsem kontroloval (Wikipedie, GHS, historie tabulky). Kde se sešit rozchází se skutečností, je karta Ověřeno: co psát do testu a jak to bylo. I tak v tom chyba může být — když ji najdeš, napiš.</p></details>"+
+    "<details><summary>Můžu to poslat dál?</summary><p>Ano. Klidně do skupiny. Soubor je jeden HTML, funguje i offline po stažení.</p></details>"+
+    '<details><summary>Kam ty peníze jdou?</summary><p>Na účet ČSOB <span class="num">300369512 / 0300</span>. Zpráva pro příjemce: CHEMIE. Částka 20 Kč. Jde to mně na kafe / provoz, není to sbírka školy.</p></details>'+
+    '</section><section id="qr"><p class="muted">Dělal jsem to hlavně pro sebe, tak si to klidně vezmi. Kdyby chtěl někdo přihodit na kafe, tady je QR. Nemusí nikdo, funguje to všem stejně.</p><div class="pay"><h3>příspěvek</h3><div id="qrbox"></div><div class="acc">300369512 / 0300</div><div class="amt">20,00 CZK</div><p style="color:#333;font-size:.9rem;margin:0">Částka 20 Kč se vyplní sama. Zpráva: CHEMIE.</p></div></section>';
+  document.getElementById("tahak").appendChild(wrap);
+  renderQR(document.getElementById("qrbox"),"SPD*1.0*ACC:CZ9703000000000300369512*CC:CZK*AM:20.00*MSG:CHEMIE");
+}
+
+const tip={
+  shown:false, elapsed:0, last:Date.now(),
+  afterQuiz:function(){ if(S.get().tipSeen||S.get().tipQR) return; this.show(); },
+  show:function(){
+    if(S.get().tipSeen) return;
+    if(st.tab==="kviz" && st.quiz && !st.quiz.done) return;
+    document.getElementById("tipbar").hidden=false; this.shown=true; positionTip();
+  },
+  hide:function(forever){
+    document.getElementById("tipbar").hidden=true; this.shown=false;
+    if(forever) S.patch({tipSeen:true});
+  }
+};
+window.__tipbar=tip;
+function positionTip(){
+  const el=document.getElementById("tipbar");
+  const tb=document.getElementById("tabbar");
+  const h=tb.getBoundingClientRect().height||64;
+  document.documentElement.style.setProperty("--tabh",h+"px");
+  const mobile=window.matchMedia("(max-width:767px)").matches;
+  if(mobile) el.style.bottom=(h+8)+"px";
+  else {el.style.bottom="12px"; el.style.top="auto";}
+}
+function tickTip(){
+  const now=Date.now(); const dt=now-tip.last; tip.last=now;
+  const inQuiz=st.tab==="kviz" && st.quiz && !st.quiz.done && !st.quiz.pause;
+  if(!inQuiz) tip.elapsed+=dt;
+  if(!tip.shown && !S.get().tipSeen && tip.elapsed>=45000) tip.show();
+}
+
+document.getElementById("tabbar").addEventListener("click",function(e){
+  const b=e.target.closest("button"); if(!b) return; setTab(b.dataset.tab);
+});
+document.getElementById("prevTopic").onclick=function(){if(st.topic>0){st.topic--; persist(); showTopic();}};
+document.getElementById("nextTopic").onclick=function(){if(st.topic<TOPICS.length-1){st.topic++; persist(); showTopic();}};
+document.getElementById("flipBtn").onclick=function(){
+  st.flipped=!st.flipped;
+  document.getElementById("flashA").hidden=!st.flipped;
+  document.getElementById("knowRow").hidden=!st.flipped;
+  document.getElementById("flipBtn").textContent=st.flipped?"Skrýt odpověď":"Ukázat odpověď";
+};
+document.getElementById("knowBtn").onclick=function(){
+  const list=cardList(); const id=list[st.card]; st.know[id]="yes"; persist();
+  const l2=cardList(); if(st.filter==="need"){ if(st.card>=l2.length) st.card=Math.max(0,l2.length-1); }
+  else st.card=Math.min(st.card+1, Math.max(0,cardList().length-1));
+  persist(); renderCard();
+};
+document.getElementById("needBtn").onclick=function(){
+  const list=cardList(); const id=list[st.card]; st.know[id]="no"; persist();
+  st.card=Math.min(st.card+1, Math.max(0,cardList().length-1)); persist(); renderCard();
+};
+document.getElementById("prevCard").onclick=function(){st.card=Math.max(0,st.card-1); persist(); renderCard();};
+document.getElementById("nextCard").onclick=function(){st.card=Math.min(cardList().length-1,st.card+1); persist(); renderCard();};
+document.getElementById("fAll").onclick=function(){st.filter="all"; st.card=0; persist(); document.getElementById("fAll").classList.add("on"); document.getElementById("fNeed").classList.remove("on"); renderCard();};
+document.getElementById("fNeed").onclick=function(){st.filter="need"; st.card=0; persist(); document.getElementById("fNeed").classList.add("on"); document.getElementById("fAll").classList.remove("on"); renderCard();};
+document.getElementById("tipYes").onclick=function(){
+  S.patch({tipSeen:true,tipQR:true});
+  tip.hide(true);
+  st.topic=TOPICS.length-1; persist();
+  setTab("tahak");
+  showTopic();
+  document.getElementById("qr").scrollIntoView({block:"center"});
+};
+document.getElementById("tipNo").onclick=function(){
+  S.patch({tipSeen:true});
+  const p=document.getElementById("tipText");
+  p.textContent="oka.... 😓";
+  document.getElementById("tipYes").hidden=true;
+  document.getElementById("tipNo").hidden=true;
+  const reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const el=document.getElementById("tipbar");
+  if(reduce){ tip.hide(true); }
+  else{
+    el.classList.add("fade");
+    setTimeout(function(){el.classList.remove("fade"); tip.hide(true); p.textContent="Kdyby chtěl někdo přihodit na kafe, tady je QR. Nemusí nikdo."; document.getElementById("tipYes").hidden=false; document.getElementById("tipNo").hidden=false;},1600);
+  }
+};
+window.addEventListener("resize",positionTip);
+setInterval(tickTip,500);
+mountExtras();
+renderTopics();
+if(st.filter==="need"){document.getElementById("fNeed").classList.add("on"); document.getElementById("fAll").classList.remove("on");}
+setTab(st.tab);
+positionTip();
+</script>
+</body>
+</html>

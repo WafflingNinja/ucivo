@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Třicetiletá válka — učení a kvíz</title>
+<style>
+  :root{
+    --bg:#11131a; --panel:#181b24; --panel2:#1f2330; --line:#2b3040;
+    --text:#e8eaf0; --dim:#9aa2b5; --accent:#e0a33e; --accent2:#c0552f;
+    --ok:#3fb27f; --bad:#e05252;
+    --radius:14px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font:16px/1.6 -apple-system,"Segoe UI",Roboto,Arial,sans-serif;overflow-wrap:break-word;
+    padding:22px 16px calc(40px + env(safe-area-inset-bottom));}
+  @media(max-width:520px){
+    body{padding-left:14px;padding-right:14px}
+    .card{padding:16px 15px}
+    .row .btn{flex:1 1 44%}
+  }
+  .wrap{max-width:820px;margin:0 auto}
+  h1{font-size:26px;margin:0 0 4px;letter-spacing:-.3px}
+  h1 span{color:var(--accent)}
+  .sub{color:var(--dim);margin:0 0 18px;font-size:14px}
+  nav{display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap}
+  nav button{background:var(--panel);color:var(--dim);border:1px solid var(--line);
+    min-height:46px;padding:9px 18px;border-radius:999px;cursor:pointer;font:inherit;font-size:14.5px}
+  nav button.on{background:var(--accent);color:#1a1405;border-color:var(--accent);font-weight:600}
+  nav button em{font-style:normal;opacity:.75;font-size:12px}
+  section{display:none} section.on{display:block}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    padding:18px 20px;margin-bottom:14px}
+  .card h2{margin:0 0 12px;font-size:18px;color:var(--accent)}
+  .card h3{margin:16px 0 6px;font-size:15px;color:#fff}
+  .card.top{border-color:var(--accent);background:#1d1a12}
+  ul{margin:6px 0;padding-left:20px} li{margin:5px 0}
+  .key{color:var(--accent);font-weight:600}
+  .quote{border-left:3px solid var(--accent2);padding-left:12px;color:#fff;font-style:italic;margin:10px 0}
+  .note{font-size:13px;color:var(--dim);border-top:1px dashed var(--line);margin-top:12px;padding-top:10px}
+  .tl{list-style:none;padding:0;margin:0}
+  .tl li{display:flex;gap:14px;padding:8px 0;border-bottom:1px solid var(--line)}
+  .tl li:last-child{border:0}
+  .tl b{color:var(--accent);min-width:60px;font-variant-numeric:tabular-nums}
+  .fcbar{display:flex;gap:14px;margin-bottom:10px;color:var(--dim);font-size:14px;flex-wrap:wrap}
+  .fc{background:var(--panel2);border:1px solid var(--line);border-radius:var(--radius);
+    min-height:190px;display:flex;align-items:center;justify-content:center;text-align:center;
+    padding:26px;cursor:pointer;font-size:20px;user-select:none}
+  .fc small{display:block;color:var(--dim);font-size:12px;margin-top:14px}
+  .fc.back{background:#1a2b23;border-color:#2c4a3c}
+  .row{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+  button.btn{background:var(--accent);color:#1a1405;border:0;min-height:48px;padding:10px 20px;
+    border-radius:10px;font:inherit;font-size:15px;font-weight:600;cursor:pointer}
+  button.btn.small{min-height:40px;padding:6px 13px;font-size:13.5px}
+  button.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+  button.small{font-size:13px;padding:7px 12px}
+  .bar{height:6px;background:var(--panel2);border-radius:999px;overflow:hidden;margin-bottom:8px}
+  .bar i{display:block;height:100%;background:var(--accent);width:0}
+  .dots{display:flex;gap:5px;margin-bottom:16px}
+  .dots span{width:10px;height:10px;border-radius:50%;background:var(--panel2);border:1px solid var(--line)}
+  .dots span.d-ok{background:var(--ok);border-color:var(--ok)}
+  .dots span.d-bad{background:var(--bad);border-color:var(--bad)}
+  .dots span.d-now{background:var(--accent);border-color:var(--accent)}
+  .qn{color:var(--dim);font-size:13px;margin-bottom:6px}
+  .qt{font-size:19px;margin-bottom:16px}
+  .opt{display:block;width:100%;text-align:left;background:var(--panel2);border:1px solid var(--line);
+    color:var(--text);min-height:48px;padding:12px 14px;border-radius:10px;margin-bottom:8px;
+    cursor:pointer;font:inherit;font-size:16px}
+  .opt:hover{border-color:var(--accent)}
+  .opt.sel{border-color:var(--accent);background:#2a2415}
+  .opt.ok{border-color:var(--ok);background:#14301f}
+  .opt.bad{border-color:var(--bad);background:#31161a}
+  input[type=text]{width:100%;background:var(--panel2);border:1px solid var(--line);color:var(--text);
+    min-height:50px;padding:12px 14px;border-radius:10px;font:inherit;font-size:16px}
+  .fb{margin-top:14px;padding:12px 14px;border-radius:10px;font-size:15px}
+  .fb.ok{background:#14301f;border:1px solid var(--ok)}
+  .fb.bad{background:#31161a;border:1px solid var(--bad)}
+  .fb b{display:block;margin-bottom:4px}
+  .score{font-size:40px;font-weight:700;color:var(--accent);margin:8px 0}
+  .wrongs li{margin:10px 0}
+  .tag{font-size:12px;color:var(--dim)}
+  .saved{font-size:12px;color:var(--dim);margin-top:14px}
+
+  .tipbar{position:fixed;left:0;right:0;z-index:70;background:var(--panel);
+    border-top:1px solid var(--accent);padding:11px 16px;
+    bottom:0;padding-bottom:calc(11px + env(safe-area-inset-bottom, 0px))}
+  .tipbar-in{max-width:820px;margin:0 auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .tipbar-txt{flex:1;min-width:170px;font-size:13.5px;color:var(--dim);line-height:1.45}
+  .tipbar-txt b{color:var(--text)}
+  .tipbar-btns{display:flex;gap:8px;flex:none}
+.tipbar{transition:opacity 3s linear}
+.tipbar.bye{opacity:0;pointer-events:none}
+.tipbar-bye{flex:1;text-align:center;font-size:16px;padding:6px 0}
+.tipbar [hidden]{display:none!important}
+@media (prefers-reduced-motion: reduce){ .tipbar{transition:none} }
+
+  @media(min-width:760px){.tipbar{bottom:0}}
+
+
+  section.faq{display:block;margin-top:26px}
+  .faq h2{font-size:17px;margin:0 0 10px;color:var(--accent)}
+  .faq details{background:var(--panel);border:1px solid var(--line);border-radius:12px;margin-bottom:8px;overflow:hidden}
+  .faq summary{list-style:none;cursor:pointer;min-height:52px;display:flex;align-items:center;gap:10px;
+    padding:11px 15px;font-size:15px;font-weight:600;color:var(--text)}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:"+";margin-left:auto;color:var(--accent);font-size:19px;line-height:1}
+  .faq details[open] summary::after{content:"\2212"}
+  .faq .fa{padding:0 15px 15px;font-size:14.5px;color:var(--dim);line-height:1.6}
+  .faq .fa b{color:var(--text)}
+
+  @media (prefers-reduced-motion: no-preference){
+    .bar i{transition:width .2s linear}
+  }
+  .tip{display:flex;align-items:center;gap:15px;margin-top:26px;padding:15px;
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--radius)}
+  .tip img{flex:none;width:108px;height:108px;background:#fff;border-radius:8px;padding:4px}
+  .tip b{display:block;font-size:15px;margin-bottom:4px}
+  .tip p{font-size:13.5px;color:var(--dim);margin:0 0 6px}
+  .tip .acc{font-size:13px;color:var(--text);font-variant-numeric:tabular-nums;
+    -webkit-user-select:all;user-select:all}
+  @media(max-width:439px){.tip{gap:12px;padding:13px}.tip img{width:94px;height:94px}}
+
+.author{margin:26px 0 0;padding:15px;border:1px solid var(--line);border-radius:14px;background:var(--panel)}
+section.author{display:block}
+.author h2{margin:0 0 8px;font-size:17px;color:var(--accent)}
+.author p{margin:0 0 12px;font-size:14.5px;line-height:1.6;color:var(--dim)}
+.author .who{font-weight:800;color:var(--text)}
+.author .links{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0}
+.author .links a{display:flex;align-items:center;gap:7px;min-height:48px;padding:0 14px;border:1px solid var(--line);border-radius:12px;background:var(--panel2);color:var(--dim);text-decoration:none;font-size:14px}
+.author .links b{color:var(--text);font-weight:800;word-break:break-all}
+.byline{margin:2px 0 10px;font-size:13px;color:var(--dim)}
+.byline b{color:var(--text)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Třicetiletá válka <span>1618–1648</span></h1>
+  <p class="byline">Udělal <b>Rosťa Čermák</b> · <a href="#autor">sítě dole</a></p>
+  <p class="sub">Tahák · kartičky · kvíz — podle tvého sešitu. Postup se ukládá, můžeš kdykoli zavřít.</p>
+
+  <nav>
+    <button data-t="uc">📖 Tahák</button>
+    <button data-t="fc">🃏 Kartičky <em id="tabfc"></em></button>
+    <button data-t="qz">✅ Kvíz <em id="tabqz"></em></button>
+  </nav>
+
+  <!-- ================= TAHÁK ================= -->
+  <section id="uc">
+    <div class="card top">
+      <h2>Minimum na test — 5 vět</h2>
+      <ul>
+        <li><span class="key">1618</span> — začala českým stavovským povstáním.</li>
+        <li><span class="key">1620</span> — Bílá hora, čeští protestanti prohráli.</li>
+        <li><span class="key">1621</span> — poprava 27 vůdců na Staroměstském náměstí.</li>
+        <li><span class="key">1634</span> — Valdštejn zavražděn v Chebu.</li>
+        <li><span class="key">1648</span> — vestfálský mír, nikdo nevyhrál.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Časová osa</h2>
+      <ul class="tl">
+        <li><b>1618</b><span><b>23. 5.</b> — začátek války, <span class="key">české stavovské povstání</span> (pražská defenestrace).</span></li>
+        <li><b>1620</b><span><b>8. 11.</b> — bitva <span class="key">na Bílé hoře</span>, porážka českých protestantů (stavů).</span></li>
+        <li><b>1621</b><span><b>21. 6.</b> — <span class="key">poprava 27 vůdců povstání</span> na Staroměstském náměstí.</span></li>
+        <li><b>1634</b><span><b>25. 2.</b> — Albrecht z Valdštejna <span class="key">zavražděn v Chebu</span>.</span></li>
+        <li><b>1648</b><span><b>24. 10.</b> — uzavřen <span class="key">vestfálský mír</span> — konec války, <span class="key">nikdo nevyhrál</span>.</span></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Kdo proti komu</h2>
+      <ul>
+        <li>Válčící strany: <span class="key">katolická × protestantská</span>.</li>
+        <li>Protestantské země (podle sešitu): <span class="key">Polsko, Anglie, Maďarsko, Švédsko, Nizozemí</span>.</li>
+        <li>Válka trvala <span class="key">30 let</span> a <span class="key">nikdo ji nevyhrál</span>.</li>
+      </ul>
+      <div class="note">V sešitu je mezi protestanty <b>Polsko</b>. Ve skutečnosti bylo katolické. Do testu piš verzi ze sešitu.</div>
+    </div>
+
+    <div class="card">
+      <h2>Jak to začalo</h2>
+      <ul>
+        <li>Začalo <span class="key">českým stavovským povstáním</span>.</li>
+        <li><span class="key">Stavy</span> = šlechta a měšťané.</li>
+        <li>Důvod: <span class="key">Habsburkové nerespektovali protestanty</span> a jejich náboženská práva.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Jak to skončilo</h2>
+      <ul>
+        <li><span class="key">1648</span> uzavřen <span class="key">vestfálský mír</span>.</li>
+        <li><span class="key">Nikdo nevyhrál.</span></li>
+      </ul>
+      <div class="quote">„Čí země, toho náboženství.“</div>
+      <ul>
+        <li>Znamená to: <span class="key">panovník určuje víru svých poddaných</span>.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Albrecht z Valdštejna</h2>
+      <ul>
+        <li><span class="key">Vojevůdce a podnikatel</span> — velel vojsku, vydělával na dodávkách pro armádu.</li>
+        <li>Pracoval <span class="key">pro císaře</span>, tedy za katolickou stranu.</li>
+        <li><span class="key">Zbohatl</span> a vybudoval <span class="key">Jičín</span>.</li>
+        <li><span class="key">1634 zavražděn v Chebu</span>.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Jan Amos Komenský</h2>
+      <ul>
+        <li><span class="key">Filozof, reformátor, pedagog</span>.</li>
+        <li>Přezdívka <span class="key">„učitel národů“</span>.</li>
+        <li>Díla: <span class="key">Škola hrou</span> a <span class="key">Orbis pictus</span>.</li>
+        <li>Orbis pictus = <span class="key">Svět v obrazech</span>, první obrázková učebnice.</li>
+        <li>Po Bílé hoře musel jako protestant <span class="key">odejít do emigrace</span>.</li>
+      </ul>
+    </div>
+
+
+    <div class="card">
+      <h2>Ověřeno — kde je sešit nepřesný</h2>
+      <p class="tag" style="margin-bottom:10px">Do testu piš verzi ze sešitu. Tohle je pro tebe, ať víš, jak to bylo doopravdy.</p>
+      <ul>
+        <li><b>„Čí země, toho náboženství"</b> — v sešitě u vestfálského míru. Ve skutečnosti ta zásada
+          (latinsky <i>cuius regio, eius religio</i>) pochází už z <span class="key">augsburského míru 1555</span>.
+          Vestfálský mír ji roku 1648 potvrdil a navíc povolil <span class="key">kalvinisty</span> jako třetí uznané náboženství.</li>
+        <li><b>„Nikdo nevyhrál"</b> — zjednodušení. Válka nikoho nezničila ani nepovýšila úplně, ale
+          <span class="key">Francie a Švédsko z ní vyšly posílené</span> (získaly území) a
+          <span class="key">Habsburkové se Španělskem oslabily</span>.</li>
+        <li><b>Polsko mezi protestanty</b> — v sešitě je, ve skutečnosti bylo katolické.</li>
+        <li><b>Těch 27 popravených</b> nebyli jen šlechtici: <span class="key">3 páni, 7 rytířů, 17 měšťanů</span>.</li>
+        <li><b>Valdštejna</b> zavraždili císařovi důstojníci v Chebu; byl obviněn z jednání s nepřítelem.</li>
+      </ul>
+      <div class="note">Data ověřena proti Wikipedii (staroměstská exekuce, vestfálský mír, Albrecht z Valdštejna).</div>
+    </div>
+    <div class="card">
+      <h2>Co bude dál v učivu</h2>
+      <p class="tag">Baroko · Osvícenství · Francouzská revoluce · Průmyslová revoluce · Národní obrození · 2. pol. 19. st. · Kolonialismus · Přelom 19./20. stol. · 1. sv. válka</p>
+    </div>
+  </section>
+
+  <!-- ================= KARTIČKY ================= -->
+  <section id="fc">
+    <div class="fcbar"><span id="fcpos"></span><span id="fcknown"></span></div>
+    <div class="fc" id="fccard"></div>
+    <div class="row">
+      <button class="btn" id="fcyes">✓ Umím</button>
+      <button class="btn ghost" id="fcno">✗ Ještě ne</button>
+    </div>
+    <div class="row">
+      <button class="btn ghost small" id="fcprev">◂ Zpět</button>
+      <button class="btn ghost small" id="fcnext">Přeskočit ▸</button>
+      <button class="btn ghost small" id="fconly">Jen co neumím</button>
+      <button class="btn ghost small" id="fcreset">Vynulovat značky</button>
+    </div>
+    <p class="saved">Značky se ukládají. Zavři to kdykoli, vrátíš se na stejnou kartičku.</p>
+  </section>
+
+  <!-- ================= KVÍZ ================= -->
+  <section id="qz">
+    <div class="bar"><i id="pbar"></i></div>
+    <div class="dots" id="dots"></div>
+    <div class="card" id="qbox"></div>
+    <div class="row"><button class="btn ghost small" id="qreset">↺ Začít kvíz od začátku</button></div>
+    <p class="saved">Kvíz je po kolech po 6 otázkách. Po každém kole je pauza a postup je uložený.</p>
+  </section>
+
+
+  <section class="author" id="autor">
+    <h2>Kdo to udělal</h2>
+    <p><span class="who">Rosťa Čermák</span> — tenhle materiál jsem napsal a naprogramoval já, sám. Není to práce nikoho jiného. Když ho posíláš dál, nech ho celý i s tímhle blokem.</p>
+    <ul class="links"><li><a href="https://github.com/rostikcermak-pixel" target="_blank" rel="noopener noreferrer"><span>GitHub</span> <b>rostikcermak-pixel</b></a></li><li><a href="https://www.tiktok.com/@waffleninja7" target="_blank" rel="noopener noreferrer"><span>TikTok</span> <b>@waffleninja7</b></a></li><li><a href="https://t.me/TheWaffleNinja" target="_blank" rel="noopener noreferrer"><span>Telegram</span> <b>@TheWaffleNinja</b></a></li><li><a href="https://www.instagram.com/waffleninja444/" target="_blank" rel="noopener noreferrer"><span>Instagram</span> <b>WaffleNinja444</b></a></li></ul>
+  </section>
+
+  <section class="faq">
+    <h2>Časté otázky</h2>
+    <details>
+      <summary>Musím zaplatit, abych to mohl použít?</summary>
+      <div class="fa">Ne. Všechno je odemčené, nic se neschovává za platbu. QR kód dole je dobrovolný.</div>
+    </details>
+    <details>
+      <summary>Proč bych ti posílal peníze?</summary>
+      <div class="fa">Protože to zabralo čas, který jsi nemusel obětovat ty. Je tady celý tahák, <b>17 kartiček</b> a <b>22 otázek</b> s vysvětlením u každé odpovědi. Navíc jsem data ověřil proti zdrojům, takže se neučíš nesmysly z něčího špatně opsaného sešitu.</div>
+    </details>
+    <details>
+      <summary>Zaručuje mi to dobrou známku?</summary>
+      <div class="fa"><b>Ne.</b> Tohle nikdy tvrdit nebudu. Materiál je sestavený podle mého zápisu z hodiny. Když se učitel zeptá na něco, co v zápisu nebylo, tady to nenajdeš. Není to oficiální materiál od školy ani od učitele. Ber to jako pomůcku navíc, ne jako náhradu učení.</div>
+    </details>
+    <details>
+      <summary>Jak víš, že tam nejsou chyby?</summary>
+      <div class="fa">Všechna data jsem ověřil proti Wikipedii — datum defenestrace, Bílé hory, staroměstské exekuce, Valdštejnovy smrti i vestfálského míru. Kde se sešit rozchází se skutečností, je to výš napsané v kartě <b>„Ověřeno"</b>. Když přesto nějakou chybu najdeš, napiš mi a opravím ji.</div>
+    </details>
+    <details>
+      <summary>Můžu to poslat dál?</summary>
+      <div class="fa">Jo. Komukoliv, i lidem z jiné třídy nebo školy. Je to jeden soubor, funguje i bez internetu.</div>
+    </details>
+    <details>
+      <summary>Kam ty peníze jdou?</summary>
+      <div class="fa">Na nástroje, kterými to dělám, a na čas, který v tom strávím. Za každý předmět je v QR kódu jiná zpráva, takže vím, co lidem reálně pomáhá, a podle toho dělám další.</div>
+    </details>
+  </section>
+
+  <section class="tip">
+    <img src="data:image/png;base64,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" alt="QR kód pro platbu 20 Kč na účet 300369512/0300" width="108" height="108">
+    <div>
+      <b>Kdyby chtěl někdo přihodit na kafe</b>
+      <p>Naskenuj QR bankovní aplikací — částka <b>20 Kč</b> se vyplní sama. Nemusí nikdo, materiál funguje všem stejně.</p>
+      <span class="acc">300369512 / 0300 · 20 Kč</span>
+    </div>
+  </section>
+</div>
+
+
+  <div class="tipbar" id="tipbar" hidden role="region" aria-label="Dobrovolný příspěvek">
+    <div class="tipbar-in">
+      <span class="tipbar-txt"><b>Pomohlo ti to?</b> Dobrovolný příspěvek 20 Kč. Nemusíš, funguje to všem stejně.</span>
+      <span class="tipbar-btns">
+        <button type="button" class="btn small" id="tipbar-yes">Ukázat QR</button>
+        <button type="button" class="btn ghost small" id="tipbar-no">Teď ne</button>
+      </span>
+        <span class="tipbar-bye" hidden>oka.... 😓</span>
+    </div>
+  </div>
+
+<script>
+/* ===== data ===== */
+var FLASH = [
+  ["Čím a kdy začala třicetiletá válka?","1618 — českým stavovským povstáním (pražská defenestrace)"],
+  ["Kdo byli „stavy“?","Šlechta a měšťané"],
+  ["Proč stavy povstaly?","Habsburkové nerespektovali protestanty"],
+  ["Co se stalo roku 1620?","Bitva na Bílé hoře — porážka českých protestantů"],
+  ["Co se stalo roku 1621?","Poprava 27 vůdců povstání na Staroměstském náměstí"],
+  ["Čím válka skončila?","1648 — vestfálský mír"],
+  ["Kdo válku vyhrál?","Nikdo nevyhrál"],
+  ["Hlavní zásada vestfálského míru?","„Čí země, toho náboženství“"],
+  ["Které strany spolu válčily?","Katolická × protestantská"],
+  ["Protestantské země (podle sešitu)","Polsko, Anglie, Maďarsko, Švédsko, Nizozemí"],
+  ["Kdo byl Albrecht z Valdštejna?","Vojevůdce a podnikatel, pracoval pro císaře"],
+  ["Které město Valdštejn vybudoval?","Jičín"],
+  ["Kdy a kde byl Valdštejn zavražděn?","1634 v Chebu"],
+  ["Kdo byl Jan Amos Komenský?","Filozof, reformátor, pedagog"],
+  ["Přezdívka Komenského?","„Učitel národů“"],
+  ["Dvě díla Komenského?","Škola hrou, Orbis pictus"],
+  ["Jak dlouho válka trvala?","30 let (1618–1648)"]
+];
+
+var Q = [
+  {t:"c",q:"Čím třicetiletá válka začala?",o:["Českým stavovským povstáním","Bitvou na Bílé hoře","Vestfálským mírem","Vraždou Valdštejna"],a:0,w:"1618 — české stavovské povstání (pražská defenestrace)."},
+  {t:"c",q:"Kdo byli „stavy“?",o:["Šlechta a měšťané","Jen katoličtí kněží","Sedláci a nevolníci","Habsburkové"],a:0,w:"Stavy = šlechta a měšťané."},
+  {t:"c",q:"Proč stavy povstaly proti Habsburkům?",o:["Nerespektovali protestanty","Zrušili poddanství","Prohráli válku s Tureckem","Zvýšili cenu soli"],a:0,w:"Habsburkové nerespektovali práva protestantů."},
+  {t:"t",q:"V kterém roce byla bitva na Bílé hoře?",acc:["1620"],w:"1620 — porážka českých protestantů (stavů)."},
+  {t:"c",q:"Jak dopadla bitva na Bílé hoře pro české protestanty?",o:["Porážka","Vítězství","Nerozhodně","Bitva se nekonala"],a:0,w:"Prohráli — byla to porážka českých protestantů."},
+  {t:"t",q:"V kterém roce byla poprava 27 vůdců povstání?",acc:["1621"],w:"1621, na Staroměstském náměstí."},
+  {t:"c",q:"Kolik vůdců povstání bylo popraveno a kde?",o:["27 na Staroměstském náměstí","12 na Hradčanech","27 v Chebu","30 na Karlově mostě"],a:0,w:"27 vůdců povstání na Staroměstském náměstí (1621)."},
+  {t:"t",q:"V kterém roce byl uzavřen vestfálský mír?",acc:["1648"],w:"1648 — konec třicetileté války."},
+  {t:"c",q:"Čím válka skončila?",o:["Vestfálským mírem 1648","Pražským mírem 1634","Kapitulací Švédska","Bitvou u Chebu"],a:0,w:"1648 byl uzavřen vestfálský mír."},
+  {t:"c",q:"Kdo třicetiletou válku vyhrál?",o:["Nikdo nevyhrál","Katolická strana","Protestantská strana","Švédsko"],a:0,w:"Nikdo nevyhrál."},
+  {t:"c",q:"Která zásada platila po vestfálském míru?",o:["„Čí země, toho náboženství“","„Volnost, rovnost, bratrství“","„Škola hrou“","„Po nás potopa“"],a:0,w:"„Čí země, toho náboženství“ — víru poddaných určuje panovník."},
+  {t:"c",q:"Které strany proti sobě válčily?",o:["Katolická × protestantská","Česká × uherská","Šlechta × měšťané","Sever × jih"],a:0,w:"Katolická strana proti protestantské."},
+  {t:"m",q:"Označ všechny protestantské země podle sešitu:",o:["Polsko","Anglie","Maďarsko","Švédsko","Nizozemí","Španělsko","Itálie"],a:[0,1,2,3,4],w:"Polsko, Anglie, Maďarsko, Švédsko, Nizozemí."},
+  {t:"c",q:"Kdo byl Albrecht z Valdštejna?",o:["Vojevůdce a podnikatel","Pedagog a filozof","Český král","Papežský legát"],a:0,w:"Vojevůdce a podnikatel."},
+  {t:"c",q:"Pro koho Valdštejn pracoval?",o:["Pro císaře","Pro Švédy","Pro české stavy","Pro papeže"],a:0,w:"Pracoval pro císaře, tedy za katolickou stranu."},
+  {t:"t",q:"Které město Valdštejn vybudoval?",acc:["jicin"],w:"Jičín."},
+  {t:"c",q:"Kdy a kde byl Valdštejn zavražděn?",o:["1634 v Chebu","1620 v Praze","1648 v Jičíně","1621 v Plzni"],a:0,w:"1634 v Chebu."},
+  {t:"c",q:"Kdo byl Jan Amos Komenský?",o:["Filozof, reformátor, pedagog","Vojevůdce","Císař","Malíř"],a:0,w:"Filozof, reformátor a pedagog."},
+  {t:"t",q:"Jaká je přezdívka Jana Amose Komenského? (dvě slova)",acc:["ucitel narodu"],w:"„Učitel národů“."},
+  {t:"m",q:"Která díla napsal Komenský?",o:["Škola hrou","Orbis pictus","Labyrint světa a ráj srdce","Kladivo na čarodějnice"],a:[0,1,2],w:"Škola hrou, Orbis pictus, Labyrint světa a ráj srdce."},
+  {t:"t",q:"Kolik let válka trvala? (číslo)",acc:["30","třicet","tricet"],w:"30 let — 1618 až 1648."},
+  {t:"c",q:"Co znamená „Orbis pictus“?",o:["Svět v obrazech — obrázková učebnice","Mírová smlouva","Vojenský řád","Seznam popravených"],a:0,w:"Svět v obrazech — první obrázková učebnice."}
+];
+
+var ROUND = 6;
+
+/* ===== ukládání ===== */
+var KEY='tv30';
+function load(){try{return JSON.parse(localStorage.getItem(KEY))||{};}catch(e){return {};}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+var S=load();
+if(!S.known){S.known={};}
+if(typeof S.fcId!=='number'){S.fcId=0;}
+if(!S.tab){S.tab='uc';}
+if(!S.quiz){S.quiz=null;}
+
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.random()*(i+1)|0;var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function norm(s){return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'')
+  .replace(/[^a-z0-9 ]/g,'').replace(/\s+/g,' ').trim();}
+
+/* ===== taby ===== */
+function showTab(t){
+  document.querySelectorAll('nav button').forEach(function(x){x.classList.toggle('on',x.dataset.t===t);});
+  document.querySelectorAll('section').forEach(function(x){x.classList.toggle('on',x.id===t);});
+  S.tab=t; save();
+}
+document.querySelectorAll('nav button').forEach(function(b){
+  b.onclick=function(){showTab(b.dataset.t);};
+});
+
+function countKnown(){var n=0;for(var k in S.known){if(S.known[k]){n++;}}return n;}
+function updateTabs(){
+  document.getElementById('tabfc').textContent=countKnown()+'/'+FLASH.length;
+  var z=S.quiz;
+  document.getElementById('tabqz').textContent = z ? (Math.min(z.i,z.order.length)+'/'+z.order.length) : '';
+}
+
+/* ===== kartičky ===== */
+var deck=[], flip=false, onlyUnknown=false;
+
+function buildDeck(keepId){
+  deck=[];
+  for(var i=0;i<FLASH.length;i++){
+    if(!onlyUnknown || !S.known[i]){deck.push(i);}
+  }
+  if(!deck.length){deck=[];}
+  if(keepId===undefined || deck.indexOf(keepId)<0){S.fcId = deck.length?deck[0]:0;}
+  save();
+}
+
+function fcPos(){var p=deck.indexOf(S.fcId);return p<0?0:p;}
+
+function drawFC(){
+  var el=document.getElementById('fccard');
+  document.getElementById('fcknown').textContent='Umím '+countKnown()+' z '+FLASH.length;
+  if(!deck.length){
+    el.className='fc back';
+    el.innerHTML='Všechno označené jako „umím“. 🎉<small>Dej „Jen co neumím“ zpátky, nebo jdi na kvíz.</small>';
+    document.getElementById('fcpos').textContent='';
+    updateTabs(); return;
+  }
+  var pair=FLASH[S.fcId];
+  el.className='fc'+(flip?' back':'');
+  el.innerHTML=(flip?pair[1]:pair[0])+'<small>'+(flip?'klikni pro otázku':'klikni pro odpověď')+'</small>';
+  document.getElementById('fcpos').textContent='Kartička '+(fcPos()+1)+' z '+deck.length+(S.known[S.fcId]?' · ✓ umím':'');
+  updateTabs();
+}
+
+function fcMove(step){
+  if(!deck.length){return drawFC();}
+  var p=fcPos()+step;
+  if(p<0){p=deck.length-1;}
+  if(p>=deck.length){p=0;}
+  S.fcId=deck[p]; flip=false; save(); drawFC();
+}
+
+document.getElementById('fccard').onclick=function(){flip=!flip;drawFC();};
+document.getElementById('fcnext').onclick=function(){fcMove(1);};
+document.getElementById('fcprev').onclick=function(){fcMove(-1);};
+document.getElementById('fcyes').onclick=function(){
+  if(!deck.length){return;}
+  S.known[S.fcId]=true; save();
+  if(onlyUnknown){buildDeck(undefined); flip=false; drawFC();}
+  else{fcMove(1);}
+};
+document.getElementById('fcno').onclick=function(){
+  if(!deck.length){return;}
+  S.known[S.fcId]=false; save(); fcMove(1);
+};
+document.getElementById('fconly').onclick=function(){
+  onlyUnknown=!onlyUnknown;
+  this.textContent = onlyUnknown?'Zobrazit všechny':'Jen co neumím';
+  buildDeck(S.fcId); flip=false; drawFC();
+};
+document.getElementById('fcreset').onclick=function(){
+  S.known={}; save(); buildDeck(S.fcId); drawFC();
+};
+
+/* ===== kvíz ===== */
+var box=document.getElementById('qbox'), pbar=document.getElementById('pbar'), dots=document.getElementById('dots');
+var answered=false, choice=[];
+
+function newQuiz(ids){
+  S.quiz={order:shuffle(ids?ids.slice():Q.map(function(_,i){return i;})),i:0,score:0,wrong:[],res:[]};
+  save(); render();
+}
+
+function drawDots(){
+  var z=S.quiz;
+  if(!z){dots.innerHTML='';return;}
+  var h='';
+  for(var k=0;k<z.order.length;k++){
+    var c = z.res[k]===1?'d-ok' : z.res[k]===0?'d-bad' : (k===z.i?'d-now':'');
+    h+='<span class="'+c+'"></span>';
+  }
+  dots.innerHTML=h;
+}
+
+function render(){
+  var z=S.quiz;
+  if(!z){return newQuiz();}
+  pbar.style.width=(z.i/z.order.length*100)+'%';
+  drawDots(); updateTabs();
+  if(z.i>=z.order.length){return finish();}
+
+  var q=Q[z.order[z.i]];
+  var kolo=Math.floor(z.i/ROUND)+1, kol=Math.ceil(z.order.length/ROUND);
+  var h='<div class="qn">Otázka '+(z.i+1)+' z '+z.order.length+' · kolo '+kolo+' z '+kol+' · správně '+z.score+'</div>';
+  h+='<div class="qt">'+q.q+'</div>';
+  if(q.t==='t'){
+    h+='<input type="text" id="ans" placeholder="napiš odpověď…" autocomplete="off">';
+    h+='<div class="tag">Háčky a čárky psát nemusíš.</div>';
+  }else{
+    if(!q._idx){q._idx=shuffle(q.o.map(function(_,i){return i;}));}
+    q._idx.forEach(function(i){h+='<button class="opt" data-i="'+i+'">'+q.o[i]+'</button>';});
+    if(q.t==='m'){h+='<div class="tag">Správných odpovědí je víc. Označ všechny, pak dej Zkontrolovat.</div>';}
+  }
+  h+='<div id="fb"></div><div class="row"><button class="btn" id="go">Zkontrolovat</button></div>';
+  box.innerHTML=h;
+  answered=false; choice=[];
+
+  if(q.t==='t'){
+    var inp=document.getElementById('ans');
+    inp.onkeydown=function(e){if(e.key==='Enter'){answered?next():check();}};
+    inp.focus();
+  }else{
+    box.querySelectorAll('.opt').forEach(function(b){
+      b.onclick=function(){
+        if(answered){return;}
+        if(q.t==='c'){box.querySelectorAll('.opt').forEach(function(x){x.classList.remove('sel');});}
+        b.classList.toggle('sel');
+        if(q.t==='c'){check();}
+      };
+    });
+  }
+  document.getElementById('go').onclick=function(){answered?next():check();};
+}
+
+function check(){
+  if(answered){return;}
+  var z=S.quiz, q=Q[z.order[z.i]], ok=false;
+  if(q.t==='t'){
+    var v=norm(document.getElementById('ans').value);
+    ok = v!=='' && q.acc.some(function(a){var n=norm(a);return n===v||v.indexOf(n)>-1;});
+  }else{
+    var sel=[].slice.call(box.querySelectorAll('.opt.sel')).map(function(b){return +b.dataset.i;});
+    if(!sel.length){return;}
+    var corr = q.t==='c'?[q.a]:q.a;
+    ok = sel.length===corr.length && sel.every(function(i){return corr.indexOf(i)>-1;});
+    box.querySelectorAll('.opt').forEach(function(b){
+      var i=+b.dataset.i;
+      if(corr.indexOf(i)>-1){b.classList.add('ok');}
+      else if(b.classList.contains('sel')){b.classList.add('bad');}
+      b.classList.remove('sel');
+    });
+  }
+  answered=true;
+  z.res[z.i]= ok?1:0;
+  if(ok){z.score++;}else{z.wrong.push(z.order[z.i]);}
+  save(); drawDots(); updateTabs();
+
+  var fb=document.getElementById('fb');
+  fb.className='fb '+(ok?'ok':'bad');
+  fb.innerHTML='<b>'+(ok?'✅ Správně':'❌ Špatně')+'</b>'+q.w;
+  var go=document.getElementById('go');
+  go.textContent='Další ▸';
+  go.onclick=next;
+}
+
+function next(){
+  var z=S.quiz;
+  z.i++; save();
+  if(z.i<z.order.length && z.i%ROUND===0){return roundBreak();}
+  render();
+}
+
+function roundBreak(){
+  var z=S.quiz;
+  var kolo=z.i/ROUND, kol=Math.ceil(z.order.length/ROUND);
+  var okv=0;
+  for(var k=z.i-ROUND;k<z.i;k++){if(z.res[k]===1){okv++;}}
+  pbar.style.width=(z.i/z.order.length*100)+'%';
+  drawDots();
+  var h='<h2>Kolo '+kolo+' z '+kol+' hotové</h2>';
+  h+='<div class="score">'+okv+' / '+ROUND+'</div>';
+  h+='<p>Zbývá '+(z.order.length-z.i)+' otázek. Můžeš pokračovat, nebo skončit — je to uložené.</p>';
+  h+='<div class="row"><button class="btn" id="cont">Další kolo ▸</button>';
+  h+='<button class="btn ghost" id="stop">Dost pro teď</button></div>';
+  box.innerHTML=h;
+  document.getElementById('cont').onclick=render;
+  document.getElementById('stop').onclick=function(){
+    box.innerHTML='<h2>Uloženo</h2><p>Až to otevřeš příště, naskočíš na otázku '+(z.i+1)+'.</p>'+
+      '<div class="row"><button class="btn" id="back">Pokračovat teď</button></div>';
+    document.getElementById('back').onclick=render;
+  };
+}
+
+function finish(){
+  var z=S.quiz;
+  pbar.style.width='100%';
+  var pct=Math.round(z.score/z.order.length*100);
+  var msg = pct===100?'Všechno správně. Jsi připravený.' :
+            pct>=80?'Dobré. Projeď si chyby dole.' :
+            pct>=50?'Půlka sedí. Vrať se na tahák a dej kvíz znovu.' :
+            'Projeď tahák a kartičky, pak kvíz znovu.';
+  var h='<h2>Kvíz hotový</h2><div class="score">'+z.score+' / '+z.order.length+' ('+pct+' %)</div><p>'+msg+'</p>';
+  if(z.wrong.length){
+    h+='<h3>Co ti nešlo:</h3><ul class="wrongs">';
+    z.wrong.forEach(function(id){h+='<li><b>'+Q[id].q+'</b><br><span class="tag">'+Q[id].w+'</span></li>';});
+    h+='</ul>';
+  }
+  h+='<div class="row"><button class="btn" id="again">🔁 Celý kvíz znovu</button>';
+  if(z.wrong.length){h+='<button class="btn ghost" id="onlybad">Jen chyby ('+z.wrong.length+')</button>';}
+  h+='</div>';
+  box.innerHTML=h;
+  var bad=z.wrong.slice();
+  document.getElementById('again').onclick=function(){newQuiz();};
+  var ob=document.getElementById('onlybad');
+  if(ob){ob.onclick=function(){newQuiz(bad);};}
+  if(window.__tipbar){window.__tipbar.afterQuiz();}
+}
+
+document.getElementById('qreset').onclick=function(){newQuiz();};
+
+/* ===== start ===== */
+buildDeck(S.fcId);
+drawFC();
+render();
+showTab(S.tab);
+updateTabs();
+
+/* ===== lišta s dobrovolným příspěvkem =====
+   Ukáže se JEDNOU po 45 s a pak už nikdy — volba se ukládá.
+   Jediná výjimka: po dokončení kvízu.
+   Během kvízu nevyskočí vůbec, aby nerušila při počítání. */
+(function(){
+  var bar=document.getElementById('tipbar');
+  if(!bar){return;}
+  var FIRST=45000, t=null, opened=false;
+
+  function quizOpen(){
+    var s=document.getElementById("qz");
+    return !!(s && s.classList.contains("on"));
+  }
+
+  function seen(){ try{ return !!S.tipSeen; }catch(e){ return false; } }
+  function markSeen(){ try{ S.tipSeen=true; save(); }catch(e){} }
+
+  function place(){
+    var nav=document.querySelector("nav"), o=0;
+    if(nav && getComputedStyle(nav).position==="fixed"){ o=Math.round(nav.getBoundingClientRect().height); }
+    bar.style.bottom = o ? o+"px" : "";
+  }
+  function show(){ if(opened){return;} resetLook(); place(); bar.hidden=false; }
+  function hide(){ bar.hidden=true; if(t){clearTimeout(t); t=null;} }
+
+  document.getElementById('tipbar-yes').onclick=function(){
+    opened=true; markSeen(); hide();
+    var tip=document.querySelector('.tip');
+    if(tip){ tip.scrollIntoView({block:'center'}); }
+  };
+  var txtEl=bar.querySelector('.tipbar-txt');
+  var btnEl=bar.querySelector('.tipbar-btns');
+  var byeEl=bar.querySelector('.tipbar-bye');
+  var byeT=null;
+
+  function resetLook(){
+    if(byeT){ clearTimeout(byeT); byeT=null; }
+    bar.classList.remove('bye');
+    if(byeEl){ byeEl.hidden=true; }
+    if(txtEl){ txtEl.hidden=false; }
+    if(btnEl){ btnEl.hidden=false; }
+  }
+
+  document.getElementById('tipbar-no').onclick=function(){
+    markSeen();
+    if(!byeEl){ hide(); return; }
+    txtEl.hidden=true; btnEl.hidden=true; byeEl.hidden=false;
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduce){ hide(); resetLook(); return; }
+    bar.classList.add('bye');
+    byeT=setTimeout(function(){ hide(); resetLook(); }, 3100);
+  };
+
+  function firstTry(){
+    if(seen() || opened){ return; }
+    if(quizOpen()){ t=setTimeout(firstTry, 20000); return; }
+    show();
+  }
+  if(!seen()){ t=setTimeout(firstTry, FIRST); }
+
+  window.addEventListener("resize", function(){ if(!bar.hidden){ place(); } });
+
+  window.__tipbar={
+    show:show, hide:hide, first:FIRST, seen:seen, isOff:function(){return opened;},
+    afterQuiz:function(){ if(opened){return;} setTimeout(show, 600); }
+  };
+})();
+</script>
+</body>
+</html>

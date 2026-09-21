@@ -1,0 +1,2075 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Čeština — příprava na prověrku</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root{color-scheme:light dark}
+  body{margin:0}
+  img{max-width:100%}
+  [hidden]{display:none!important}
+</style>
+<style>
+
+:root{
+  --paper:#EDF0F6;
+  --card:#FFFFFF;
+  --card2:#F4F7FC;
+  --line:#D2DAEA;
+  --line2:#E5EAF4;
+  --ink:#141E38;
+  --ink2:#4B5A7B;
+  --ink3:#7C89A6;
+  --accent:#2B49C9;
+  --accent2:#5A73DE;
+  --accentSoft:#E3E9FD;
+  --ok:#15694E;
+  --okSoft:#DCF0E7;
+  --bad:#B93529;
+  --badSoft:#FAE3E0;
+  --warn:#8A5A00;
+  --warnSoft:#F7EBD4;
+  --shadow:0 1px 2px rgba(20,30,56,.06),0 8px 24px -12px rgba(20,30,56,.18);
+  --r:14px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0D1423;
+    --card:#161F32;
+    --card2:#1C263D;
+    --line:#2B3653;
+    --line2:#222C46;
+    --ink:#E6ECFA;
+    --ink2:#A6B3CE;
+    --ink3:#78859F;
+    --accent:#8CA6FF;
+    --accent2:#A2B6FF;
+    --accentSoft:#212C52;
+    --ok:#5FCB9E;
+    --okSoft:#123527;
+    --bad:#F1877E;
+    --badSoft:#3A1D1B;
+    --warn:#E0B061;
+    --warnSoft:#33280F;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 26px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0D1423;
+  --card:#161F32;
+  --card2:#1C263D;
+  --line:#2B3653;
+  --line2:#222C46;
+  --ink:#E6ECFA;
+  --ink2:#A6B3CE;
+  --ink3:#78859F;
+  --accent:#8CA6FF;
+  --accent2:#A2B6FF;
+  --accentSoft:#212C52;
+  --ok:#5FCB9E;
+  --okSoft:#123527;
+  --bad:#F1877E;
+  --badSoft:#3A1D1B;
+  --warn:#E0B061;
+  --warnSoft:#33280F;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 26px -14px rgba(0,0,0,.7);
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  font-size:16px;
+  line-height:1.6;
+  -webkit-text-size-adjust:100%;
+}
+h1,h2,h3,h4{font-family:Newsreader,Georgia,"Times New Roman",serif;font-weight:600;text-wrap:balance;margin:0;line-height:1.15}
+p{margin:0}
+a{color:var(--accent)}
+
+/* ---------- sections ---------- */
+main{padding-top:34px;display:flex;flex-direction:column;gap:54px}
+section{scroll-margin-top:76px}
+.sechead{display:flex;flex-direction:column;gap:6px;margin-bottom:20px;padding-bottom:14px;border-bottom:2px solid var(--ink)}
+.sechead h2{font-size:clamp(25px,4.4vw,34px);letter-spacing:-.015em}
+.sechead .lede{color:var(--ink2);font-size:15.5px;max-width:66ch}
+.tag{
+  align-self:flex-start;font-family:"IBM Plex Mono",monospace;font-size:11px;
+  letter-spacing:.13em;text-transform:uppercase;color:var(--ink3);
+}
+
+h3{font-size:20px;margin:0 0 10px}
+h4{font-size:16.5px;margin:0 0 6px}
+
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  padding:20px 22px;box-shadow:var(--shadow);
+}
+.stack{display:flex;flex-direction:column;gap:16px}
+.cols{display:grid;gap:16px;grid-template-columns:1fr}
+@media(min-width:760px){.cols.two{grid-template-columns:1fr 1fr}}
+@media(min-width:760px){.cols.three{grid-template-columns:repeat(3,1fr)}}
+
+.note{
+  border-left:3px solid var(--accent);background:var(--accentSoft);
+  padding:12px 16px;border-radius:0 10px 10px 0;font-size:15px;color:var(--ink);
+}
+.note.warn{border-left-color:var(--warn);background:var(--warnSoft)}
+.note b{font-weight:600}
+
+ul.clean,ol.clean{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:5px}
+ul.clean li,ol.clean li{padding-left:2px}
+
+.kbd{
+  font-family:"IBM Plex Mono",monospace;font-size:13px;
+  background:var(--card2);border:1px solid var(--line);border-radius:6px;padding:1px 6px;
+}
+.good{color:var(--ok);font-weight:600}
+.err{color:var(--bad);font-weight:600}
+.err s{text-decoration-thickness:2px}
+
+/* ---------- tables ---------- */
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--card)}
+table{border-collapse:collapse;width:100%;font-size:14.5px;min-width:440px}
+th,td{padding:9px 13px;text-align:left;border-bottom:1px solid var(--line2);vertical-align:top}
+thead th{
+  background:var(--card2);font-family:"IBM Plex Mono",monospace;font-size:11.5px;
+  letter-spacing:.09em;text-transform:uppercase;color:var(--ink3);font-weight:500;
+  position:sticky;top:0;
+}
+tbody tr:last-child td{border-bottom:none}
+td.pad{font-family:"IBM Plex Mono",monospace;color:var(--ink3);white-space:nowrap;font-variant-numeric:tabular-nums}
+td em{font-style:italic;color:var(--accent);font-weight:500}
+
+/* ---------- word list ---------- */
+.letters{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:18px}
+.letters button{
+  font-family:Newsreader,serif;font-size:19px;font-weight:600;
+  width:42px;height:42px;border-radius:10px;cursor:pointer;
+  background:var(--card);color:var(--ink2);border:1px solid var(--line);
+}
+.letters button:hover{border-color:var(--accent);color:var(--accent)}
+.letters button.on{background:var(--accent);color:var(--card);border-color:var(--accent)}
+:root[data-theme="dark"] .letters button.on,
+:root:not([data-theme="light"]) .letters button.on{color:#0D1423}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]) .letters button.on{color:#fff}}
+
+.words{display:grid;gap:10px;grid-template-columns:1fr}
+@media(min-width:640px){.words{grid-template-columns:1fr 1fr}}
+@media(min-width:1000px){.words{grid-template-columns:1fr 1fr}}
+.word{
+  background:var(--card);border:1px solid var(--line);border-radius:11px;
+  padding:11px 14px;display:flex;flex-direction:column;gap:3px;
+}
+.word.rare{border-style:dashed;border-color:var(--accent2)}
+.word .w{font-family:Newsreader,serif;font-size:20px;font-weight:600;letter-spacing:-.01em}
+.word .w .hl{color:var(--accent)}
+.word .m{font-size:14px;color:var(--ink2)}
+.word .ex{font-size:13.5px;color:var(--ink3);font-style:italic}
+.word .flag{
+  font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--accent2);
+}
+
+/* ---------- quiz ---------- */
+.quiz{display:flex;flex-direction:column;gap:14px}
+.q{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  padding:16px 18px;display:flex;flex-direction:column;gap:11px;
+}
+.q .qn{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--ink3);
+}
+.q .qt{font-size:16.5px;line-height:1.45}
+.q .qt b{font-weight:600;color:var(--accent)}
+.opts{display:flex;flex-direction:column;gap:7px}
+.opts.inline{flex-direction:row;flex-wrap:wrap}
+.opt{
+  text-align:left;font:inherit;font-size:15px;cursor:pointer;
+  background:var(--card2);color:var(--ink);border:1px solid var(--line);
+  border-radius:9px;padding:9px 13px;transition:border-color .12s,background .12s;
+}
+.opts.inline .opt{min-width:64px;text-align:center;font-family:"IBM Plex Mono",monospace;font-size:16px}
+.opt:hover:not(:disabled){border-color:var(--accent);background:var(--accentSoft)}
+.opt:disabled{cursor:default}
+.opt.correct{background:var(--okSoft);border-color:var(--ok);color:var(--ok);font-weight:600}
+.opt.wrong{background:var(--badSoft);border-color:var(--bad);color:var(--bad)}
+.why{
+  font-size:14.5px;padding:10px 13px;border-radius:9px;
+  background:var(--card2);border-left:3px solid var(--accent);color:var(--ink2);
+}
+.why b{color:var(--ink);font-weight:600}
+
+.score{
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:13px 18px;
+}
+.score .num{font-family:Newsreader,serif;font-size:26px;font-weight:600;font-variant-numeric:tabular-nums}
+.score .lbl{font-size:14px;color:var(--ink2)}
+.bar{flex:1;min-width:120px;height:7px;background:var(--card2);border-radius:99px;overflow:hidden;border:1px solid var(--line2)}
+.bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .35s ease}
+.btn{
+  font:inherit;font-size:14px;cursor:pointer;background:transparent;color:var(--accent);
+  border:1px solid var(--accent);border-radius:9px;padding:7px 14px;
+}
+.btn:hover{background:var(--accentSoft)}
+.btn.solid{background:var(--accent);color:var(--card);border-color:var(--accent)}
+
+.miss{
+  border-left:3px solid var(--bad);background:var(--badSoft);
+  padding:10px 14px;border-radius:0 9px 9px 0;font-size:14.5px;
+  display:flex;flex-direction:column;gap:3px;
+}
+.miss + .miss{margin-top:8px}
+.miss .mq{color:var(--ink)}
+.miss .ma{font-size:13.5px;color:var(--ink2)}
+.miss .ma b{color:var(--ok)}
+.plan{counter-reset:p;display:flex;flex-direction:column;gap:9px}
+.plan li{
+  list-style:none;position:relative;padding-left:32px;font-size:15px;color:var(--ink);
+}
+.plan li::before{
+  counter-increment:p;content:counter(p);
+  position:absolute;left:0;top:1px;width:21px;height:21px;border-radius:50%;
+  background:var(--accent);color:var(--card);
+  font-family:"IBM Plex Mono",monospace;font-size:11.5px;font-weight:500;
+  display:flex;align-items:center;justify-content:center;
+}
+:root[data-theme="dark"] .plan li::before{color:#0D1423}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .plan li::before{color:#0D1423}}
+.plan{margin:0;padding:0}
+/* ---------- flashcards ---------- */
+.fc{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  padding:18px;min-height:132px;cursor:pointer;display:flex;flex-direction:column;
+  justify-content:center;gap:7px;text-align:center;box-shadow:var(--shadow);
+}
+.fc:hover{border-color:var(--accent)}
+.fc .front{font-family:Newsreader,serif;font-size:26px;font-weight:600}
+.fc .back{font-size:14.5px;color:var(--ink2)}
+.fc .hint{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3)}
+
+/* ---------- misc ---------- */
+.pair{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;font-size:15px;padding:7px 0;border-bottom:1px solid var(--line2)}
+.pair:last-child{border-bottom:none}
+.pair .a{font-weight:600;min-width:118px}
+.pair .arrow{color:var(--ink3);font-family:"IBM Plex Mono",monospace}
+.pair .b{color:var(--ink2)}
+
+.example{
+  font-family:Newsreader,serif;font-size:19px;line-height:1.5;
+  padding:11px 15px;background:var(--card2);border-radius:10px;border:1px solid var(--line2);
+}
+.example .vh{color:var(--accent);font-weight:600}
+.example .vv{color:var(--bad);font-style:italic}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--ink3);margin-top:8px}
+.legend .vh{color:var(--accent);font-weight:600}
+.legend .vv{color:var(--bad);font-style:italic}
+
+footer{
+  margin-top:60px;padding-top:22px;border-top:1px solid var(--line);
+  color:var(--ink3);font-size:13.5px;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;
+}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+</style>
+<style>
+/* ===================== NOVÝ SHELL — mobil první ===================== */
+:root{--tap:48px;--navh:62px}
+html{-webkit-text-size-adjust:100%}
+body{overflow-wrap:break-word}
+.wrap{max-width:860px;margin:0 auto;padding:0 16px}
+main{padding:16px 0 calc(var(--navh) + 26px + env(safe-area-inset-bottom))}
+@media(min-width:760px){main{padding-bottom:64px}}
+
+header.top{padding:14px 0 2px}
+.ttl{display:flex;align-items:center;gap:12px}
+.ttl h1{flex:1;font-size:clamp(20px,5.2vw,30px);letter-spacing:-.02em;line-height:1.12}
+.ttl h1 span{color:var(--accent)}
+.sub{color:var(--ink3);font-size:13.5px;margin-top:6px}
+@media(max-width:639px){
+  header.top{padding:12px 0 0}
+  .sub{font-size:12.5px;margin-top:4px}
+  .iconbtn{width:44px;height:44px}
+}
+.iconbtn{flex:none;width:var(--tap);height:var(--tap);border-radius:12px;border:1px solid var(--line);
+  background:var(--card);color:var(--ink2);font-size:17px;cursor:pointer}
+
+/* taby: dole na mobilu (palec), nahoře na desktopu */
+.tabs{position:fixed;left:0;right:0;bottom:0;z-index:60;display:grid;grid-template-columns:repeat(4,1fr);
+  background:var(--card);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
+.tabs button{min-height:var(--navh);border:0;background:transparent;color:var(--ink3);font:inherit;
+  font-size:11.5px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:2px;cursor:pointer;padding:6px 2px}
+.tabs .ic{font-size:19px;line-height:1}
+.tabs button.on{color:var(--accent)}
+.tabs .bd{font-family:"IBM Plex Mono",monospace;font-size:10px;min-height:11px;color:var(--ink3)}
+.tabs button.on .bd{color:var(--accent)}
+@media(min-width:760px){
+  .tabs{position:sticky;top:0;bottom:auto;display:flex;gap:8px;background:var(--paper);
+    border-top:0;border-bottom:1px solid var(--line);padding:10px 0}
+  .tabs button{min-height:44px;flex-direction:row;gap:8px;font-size:15px;padding:0 16px;
+    border-radius:999px;border:1px solid var(--line);background:var(--card)}
+  .tabs button.on{background:var(--accentSoft);border-color:var(--accent)}
+  .tabs .bd{font-size:12px}
+}
+
+/* seznamy okruhů */
+.rows{display:flex;flex-direction:column;gap:9px}
+.rowbtn{display:flex;align-items:center;gap:12px;width:100%;min-height:64px;text-align:left;
+  background:var(--card);border:1px solid var(--line);border-radius:13px;padding:12px 14px;
+  font:inherit;color:var(--ink);cursor:pointer;box-shadow:var(--shadow)}
+.rowbtn:hover{border-color:var(--accent)}
+.rowbtn .rn{flex:none;width:20px;font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink3)}
+.rowbtn .rt{flex:1;min-width:0}
+.rowbtn .rt b{display:block;font-size:16px;font-weight:600;line-height:1.25}
+.rowbtn .rt i{display:block;font-style:normal;font-size:13px;color:var(--ink3);margin-top:2px}
+.rowbtn .rs{flex:none;font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink3);text-align:right}
+.rowbtn .rs.ok{color:var(--ok);font-weight:500}
+.rowbtn .rs.mid{color:var(--warn)}
+
+.backbtn{min-height:var(--tap);padding:0 15px;border-radius:11px;border:1px solid var(--line);
+  background:var(--card);color:var(--ink2);font:inherit;font-size:14px;cursor:pointer;margin-bottom:14px}
+.backbtn:hover{border-color:var(--accent);color:var(--accent)}
+.runtop{display:flex;align-items:center;gap:12px}
+.runtop .backbtn{flex:none}
+.runtitle{flex:1;min-width:0;font-family:Newsreader,Georgia,serif;font-size:17px;font-weight:600;
+  margin-bottom:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* karta „minimum“ — sbalená, ať jsou okruhy hned vidět */
+.mini{border-color:var(--accent);background:var(--accentSoft);margin-bottom:14px;padding:0}
+.mini>summary{list-style:none;cursor:pointer;min-height:56px;display:flex;align-items:center;gap:8px;
+  padding:12px 18px;font-family:Newsreader,Georgia,serif;font-size:18px;font-weight:600;color:var(--ink)}
+.mini>summary::-webkit-details-marker{display:none}
+.mini>summary::after{content:"rozbalit";margin-left:auto;font-family:"IBM Plex Mono",monospace;
+  font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+.mini[open]>summary::after{content:"sbalit"}
+.mini ol{margin:0;padding:0 18px 18px 38px;display:flex;flex-direction:column;gap:7px;font-size:15px}
+.mini b{color:var(--accent)}
+
+/* tlačítka a řádky */
+.btn{min-height:var(--tap);padding:10px 16px;font-size:15px;border-radius:11px}
+.btn.sm{min-height:40px;padding:6px 12px;font-size:13.5px}
+.btn.big{flex:1 1 44%;font-size:16px;font-weight:600}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+
+/* odpovědi — větší plochy na dotyk */
+.opts{gap:8px}
+.opt{min-height:var(--tap);font-size:16px;padding:12px 14px;border-radius:11px}
+.opts.inline{gap:10px}
+.opts.inline .opt{flex:1 1 40%;min-width:0;min-height:56px;font-size:21px}
+
+/* běh kvízu */
+.qcard{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  padding:16px 16px 18px;box-shadow:var(--shadow)}
+.qmeta{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--ink3);margin-bottom:9px}
+.qtext{font-size:17.5px;line-height:1.45;margin-bottom:14px}
+.qtext b{color:var(--accent);font-weight:600}
+.dots{display:flex;flex-wrap:wrap;gap:5px;margin:10px 0 14px}
+.dots span{width:9px;height:9px;border-radius:50%;background:var(--card2);border:1px solid var(--line)}
+.dots span.dok{background:var(--ok);border-color:var(--ok)}
+.dots span.dbad{background:var(--bad);border-color:var(--bad)}
+.dots span.dnow{background:var(--accent);border-color:var(--accent)}
+.bar{height:7px;background:var(--card2);border:1px solid var(--line2);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--accent)}
+.bigscore{font-family:Newsreader,serif;font-size:40px;font-weight:600;color:var(--accent);
+  line-height:1.1;margin:6px 0 8px;font-variant-numeric:tabular-nums}
+.qcard h3{font-size:19px;margin:0 0 4px}
+.qcard h4{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink3);font-weight:500;margin:18px 0 9px}
+.qcard p{font-size:15px;color:var(--ink2)}
+
+/* kartičky */
+.segs{display:flex;gap:8px;margin-bottom:14px}
+.segs button{flex:1;min-height:var(--tap);border-radius:11px;border:1px solid var(--line);
+  background:var(--card);color:var(--ink2);font:inherit;font-size:14.5px;cursor:pointer}
+.segs button.on{background:var(--accentSoft);border-color:var(--accent);color:var(--accent);font-weight:600}
+.fcbar{display:flex;justify-content:space-between;gap:10px;font-size:13px;color:var(--ink3);margin-bottom:10px}
+.fc{min-height:200px}
+.fc .front{font-size:clamp(23px,6.4vw,31px)}
+.fc .mean{font-size:16px;color:var(--ink2);line-height:1.55}
+.fc.flipped{background:var(--card2);border-color:var(--accent2)}
+
+/* mobilní doladění obsahu z okruhů */
+@media(max-width:639px){
+  .words{grid-template-columns:1fr}
+  .card{padding:16px 15px}
+  .sechead{margin-bottom:16px}
+  .sechead h2{font-size:24px}
+  table{min-width:340px;font-size:13.5px}
+  th,td{padding:8px 10px}
+  .example{font-size:17px;padding:10px 12px}
+  .cols{gap:12px}
+}
+.letters{gap:8px}
+.letters button{width:var(--tap);height:var(--tap);font-size:20px}
+.tablewrap{-webkit-overflow-scrolling:touch}
+.scrollhint{font-size:12px;color:var(--ink3);margin-top:-8px}
+.topic .stack{gap:14px}
+
+.tipbar{position:fixed;left:0;right:0;z-index:70;background:var(--card);
+  border-top:1px solid var(--accent);padding:11px 16px;box-shadow:var(--shadow);
+  bottom:0;padding-bottom:calc(11px + env(safe-area-inset-bottom, 0px))}
+.tipbar-in{max-width:860px;margin:0 auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.tipbar-txt{flex:1;min-width:170px;font-size:13.5px;color:var(--ink2);line-height:1.45}
+.tipbar-txt b{color:var(--ink)}
+.tipbar-btns{display:flex;gap:8px;flex:none}
+.tipbar{transition:opacity 3s linear}
+.tipbar.bye{opacity:0;pointer-events:none}
+.tipbar-bye{flex:1;text-align:center;font-size:16px;padding:6px 0}
+.tipbar [hidden]{display:none!important}
+@media (prefers-reduced-motion: reduce){ .tipbar{transition:none} }
+
+.tipbar .btn.small{min-height:40px;padding:7px 13px;font-size:13.5px}
+.tipbar .btn.solid{background:var(--accent);color:var(--card)}
+@media(min-width:760px){.tipbar{bottom:0}}
+
+
+
+.author{margin:26px 0 0;padding:15px;border:1px solid var(--line);border-radius:14px;background:var(--card)}
+section.author{display:block}
+.author h2{margin:0 0 8px;font-size:17px;color:var(--accent)}
+.author p{margin:0 0 12px;font-size:14.5px;line-height:1.6;color:var(--ink2)}
+.author .who{font-weight:800;color:var(--ink)}
+.author .links{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0}
+.author .links a{display:flex;align-items:center;gap:7px;min-height:48px;padding:0 14px;border:1px solid var(--line);border-radius:12px;background:var(--card2);color:var(--ink2);text-decoration:none;font-size:14px}
+.author .links b{color:var(--ink);font-weight:800;word-break:break-all}
+.byline{margin:2px 0 12px;font-size:13px;color:var(--ink2)}
+.byline b{color:var(--ink)}
+.byline a{color:inherit}
+.faq{margin-top:28px}
+.faq h2{font-size:17px;margin:0 0 10px}
+.faq details{background:var(--card);border:1px solid var(--line);border-radius:12px;margin-bottom:8px;overflow:hidden}
+.faq summary{list-style:none;cursor:pointer;min-height:52px;display:flex;align-items:center;gap:10px;
+  padding:11px 15px;font-size:15px;font-weight:600}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";margin-left:auto;color:var(--accent);font-size:19px;line-height:1}
+.faq details[open] summary::after{content:"\2212"}
+.faq .fa{padding:0 15px 15px;font-size:14.5px;color:var(--ink2);line-height:1.6}
+.faq .fa b{color:var(--ink)}
+
+
+/* dobrovolný příspěvek — nenápadný blok dole */
+.tip{display:flex;align-items:center;gap:16px;margin-top:30px;padding:16px;
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r)}
+.tip img{flex:none;width:112px;height:112px;background:#fff;border-radius:8px;padding:4px}
+.tip .tiptext{min-width:0}
+.tip b{display:block;font-size:15px;margin-bottom:4px}
+.tip p{font-size:13.5px;color:var(--ink3);margin:0 0 6px}
+.tip .acc{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--ink2);
+  -webkit-user-select:all;user-select:all}
+@media(max-width:439px){
+  .tip{gap:13px;padding:14px}
+  .tip img{width:96px;height:96px}
+  .tip p{font-size:13px}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="top">
+    <div class="ttl">
+      <h1>Čeština <span>před prověrkou</span></h1>
+      <button class="iconbtn" id="themeBtn" type="button" title="Světlý / tmavý režim" aria-label="Světlý nebo tmavý režim">◐</button>
+    </div>
+    <p class="byline">Udělal <b>Rosťa Čermák</b> · <a href="#autor">sítě dole</a></p>
+    <p class="sub">Ukládá si, kde jsi. Zavři to kdykoli, vrátíš se na stejné místo.</p>
+  </header>
+
+  <nav class="tabs" id="tabs">
+    <button type="button" data-t="uc"><span class="ic">📖</span><span>Učení</span><span class="bd" id="bd-uc"></span></button>
+    <button type="button" data-t="fc"><span class="ic">🃏</span><span>Kartičky</span><span class="bd" id="bd-fc"></span></button>
+    <button type="button" data-t="cv"><span class="ic">✏️</span><span>Cvičení</span><span class="bd" id="bd-cv"></span></button>
+    <button type="button" data-t="ts"><span class="ic">🎯</span><span>Test</span><span class="bd" id="bd-ts"></span></button>
+  </nav>
+
+  <main>
+
+    <!-- ============ UČENÍ ============ -->
+    <section id="uc">
+      <div id="uc-list">
+        <details class="card mini" id="mini">
+          <summary>Minimum na test — 8 vět</summary>
+          <ol>
+            <li>Rozhoduje <b>význam</b>, ne zvuk: <b>být</b> (existovat) × <b>bít</b> (tlouct), <b>mýt</b> × <b>mít</b>, <b>výr</b> (sova) × <b>vír</b> (voda).</li>
+            <li>Vzor podstatného jména hledej přes <b>2. pád</b>: „bez ___“.</li>
+            <li>Přídavné jméno má <b>stejný pád, číslo i rod</b> jako podstatné jméno u něj.</li>
+            <li><b>jenž = který.</b> Pád si bere podle toho, co dělá ve své vedlejší větě.</li>
+            <li>Číslovky: se <b>dvěma</b>, s <b>oběma</b>, se <b>třemi</b>, se <b>čtyřmi</b>. Tvary <i>dvěmi</i> a <i>-ma</i> jsou špatně.</li>
+            <li>Trpný rod: ptej se, jestli <b>podmět ten děj koná</b>. Nekoná → trpný.</li>
+            <li>Druh vedlejší věty urči <b>otázkou od slovesa věty hlavní</b>, ne podle spojky.</li>
+            <li>U <b>podmiňovacího způsobu</b> se čas neurčuje. U rozkazovacího taky ne.</li>
+          </ol>
+        </details>
+        <div class="rows" id="uc-rows"></div>
+      </div>
+
+      <div id="uc-detail" hidden>
+        <button class="backbtn" type="button" data-back="uc">← Zpět na okruhy</button>
+        <article class="topic" data-topic="vs" hidden>
+<div class="sechead">
+      <span class="tag">Okruh 1</span>
+      <h2>Vyjmenovaná slova</h2>
+      <p class="lede">Po <b>b, l, m, p, s, v, z</b> se uvnitř slova píše tvrdé <b>y</b>. Platí to i pro slova příbuzná (bydlet → <i>bydliště, obydlí</i>). Přerušovaně orámovaná slova jsou ta vzácná, na kterých se to nejčastěji láme.</p>
+    </div>
+
+    <div class="stack">
+      <div class="letters" id="letters"></div>
+      <div class="words" id="words"></div>
+
+      <div class="note warn">
+        <b>Pozor na slova, která vyjmenovaná nejsou, i když tak vypadají.</b><br>
+        <span class="err">liška, lišej, lín, lípa, milý, místo, pila, sirup, vidět, viset, vinný, zima</span> — tady se píše měkké <b>i</b>. Vyjmenované slovo poznáš jen tak, že ho máš v seznamu (nebo je s ním příbuzné).
+      </div>
+    </div>
+        </article>
+        <article class="topic" data-topic="ps" hidden>
+<div class="sechead">
+      <span class="tag">Okruh 2</span>
+      <h2>Podstatná jména</h2>
+      <p class="lede">U každého podstatného jména se určuje <b>pád, číslo, rod a vzor</b> — v tomhle pořadí. Vzor najdeš tak, že slovo dáš do 1. pádu jednotného čísla a podíváš se na koncovku ve 2. pádu.</p>
+    </div>
+
+    <div class="stack">
+      <div class="cols two">
+        <div class="card">
+          <h3>Pády a otázky</h3>
+          <div class="tablewrap" style="border:none;box-shadow:none">
+            <table style="min-width:0">
+              <tbody>
+                <tr><td class="pad">1.</td><td>kdo? co?</td></tr>
+                <tr><td class="pad">2.</td><td>koho? čeho?</td></tr>
+                <tr><td class="pad">3.</td><td>komu? čemu?</td></tr>
+                <tr><td class="pad">4.</td><td>koho? co?</td></tr>
+                <tr><td class="pad">5.</td><td>oslovujeme, voláme</td></tr>
+                <tr><td class="pad">6.</td><td>o kom? o čem?</td></tr>
+                <tr><td class="pad">7.</td><td>s kým? s čím?</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Vzory</h3>
+          <ul class="clean">
+            <li><b>rod mužský životný:</b> pán, muž, předseda, soudce</li>
+            <li><b>rod mužský neživotný:</b> hrad, stroj</li>
+            <li><b>rod ženský:</b> žena, růže, píseň, kost</li>
+            <li><b>rod střední:</b> město, moře, kuře, stavení</li>
+          </ul>
+          <div class="note" style="margin-top:12px">
+            <b>Jak rychle poznat vzor:</b> vezmi 2. pád j. č. — <i>bez hradu</i> → hrad, <i>bez stroje</i> → stroj, <i>bez ženy</i> → žena, <i>bez růže</i> → růže, <i>bez písně</i> → píseň, <i>bez kosti</i> → kost.
+          </div>
+        </div>
+      </div>
+
+      
+    </div>
+        </article>
+        <article class="topic" data-topic="pj" hidden>
+<div class="sechead">
+      <span class="tag">Okruh 3</span>
+      <h2>Přídavná jména</h2>
+      <p class="lede">Určuje se <b>pád, číslo, rod, druh</b> a u tvrdých a měkkých i <b>stupeň</b>. Druh je to, na co se ptají nejčastěji.</p>
+    </div>
+
+    <div class="stack">
+      <div class="cols three">
+        <div class="card">
+          <h4>Tvrdá — vzor <em>mladý</em></h4>
+          <p style="font-size:14.5px;color:var(--ink2)">Končí na <span class="kbd">-ý / -á / -é</span>.<br><i>nový, veselý, hloupý, dřevěný</i></p>
+        </div>
+        <div class="card">
+          <h4>Měkká — vzor <em>jarní</em></h4>
+          <p style="font-size:14.5px;color:var(--ink2)">Ve všech rodech a pádech mají <span class="kbd">-í</span>.<br><i>jarní, cizí, letní, psací</i></p>
+        </div>
+        <div class="card">
+          <h4>Přivlastňovací — <em>otcův, matčin</em></h4>
+          <p style="font-size:14.5px;color:var(--ink2)">Přivlastňují jedné osobě.<br><i>bratrův, Petrův, sestřin, mámin</i></p>
+        </div>
+      </div>
+
+      <div class="cols two">
+        <div class="card">
+          <h3>Stupňování</h3>
+          <ul class="clean">
+            <li><b>1. stupeň:</b> mladý, dobrý, zlý</li>
+            <li><b>2. stupeň:</b> mladší, lepší, horší</li>
+            <li><b>3. stupeň:</b> nejmladší, nejlepší, nejhorší</li>
+          </ul>
+          <div class="note warn" style="margin-top:12px">
+            <span class="err"><s>více mladší</s></span> → <span class="good">mladší</span>. Nestupňuj dvakrát.
+          </div>
+        </div>
+        <div class="card">
+          <h3>Jmenné tvary</h3>
+          <p style="font-size:15px;color:var(--ink2)">Krátký tvar bez koncovky <span class="kbd">-ý</span>, dnes hlavně v přísudku:</p>
+          <ul class="clean" style="margin-top:8px">
+            <li><i>Jsem <b>zdráv</b>.</i> (× zdravý)</li>
+            <li><i>Byl <b>spokojen</b>.</i> (× spokojený)</li>
+            <li><i>Otec je <b>mlád</b>.</i> (× mladý)</li>
+          </ul>
+          <p style="font-size:14px;color:var(--ink3);margin-top:8px">Jmenný tvar se ve shodě chová jako příčestí: <i>chlapci byli spokojen<b>i</b></i>.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Odkud se bere pád, číslo a rod</h3>
+        <p style="color:var(--ink2);font-size:15px">Přídavné jméno <b>nemá vlastní pád</b>. Přebírá pád, číslo i rod od podstatného jména, ke kterému patří. Tomu se říká <b>shoda</b> — lišit se nemůžou nikdy.</p>
+        <div class="note warn" style="margin-top:12px">
+          Otázka <b>jaký? který? čí?</b> ti přídavné jméno jen <b>najde</b> ve větě. Pád ti neurčí. Kdyby ses zeptal „jaký?“, vyjde ti vždycky 1. pád — a to bude skoro pokaždé špatně.
+        </div>
+        <p style="color:var(--ink2);font-size:15px;margin-top:12px"><b>Postup:</b> polož otázku na celé spojení, ne na samotné přídavné jméno.</p>
+        <div class="example" style="margin-top:10px">Viděl jsem <b>nového učitele</b>.</div>
+        <div class="legend"><span>Viděl jsem <b>koho? co?</b> → <i>nového učitele</i> → <b>4. pád</b>, j. č., rod mužský životný — a to platí pro obě slova.</span></div>
+        <div class="tablewrap" style="margin-top:12px">
+          <table style="min-width:0">
+            <thead><tr><th>spojení</th><th>otázka</th><th>pád</th></tr></thead>
+            <tbody>
+              <tr><td>bez <b>starého</b> auta</td><td>bez <b>čeho?</b></td><td class="pad">2.</td></tr>
+              <tr><td>k <b>novému</b> domu</td><td>k <b>čemu?</b></td><td class="pad">3.</td></tr>
+              <tr><td>o <b>malých</b> dětech</td><td>o <b>kom? čem?</b></td><td class="pad">6.</td></tr>
+              <tr><td>s <b>novou</b> učitelkou</td><td>s <b>kým? čím?</b></td><td class="pad">7.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      
+    </div>
+        </article>
+        <article class="topic" data-topic="jenz" hidden>
+<div class="sechead">
+      <span class="tag">Okruh 4</span>
+      <h2>Zájmeno <em>jenž</em> / <em>jež</em></h2>
+      <p class="lede">Vztažné zájmeno. Znamená přesně totéž co <b>který</b> — jen se používá ve psaném, knižnějším textu. Uvozuje vedlejší větu přívlastkovou.</p>
+    </div>
+
+    <div class="stack">
+      <div class="note">
+        <b>Trik, který funguje vždycky:</b> nahraď <i>jenž</i> slovem <i>který</i> ve stejném pádě a rodě.<br>
+        <i>Muž, <b>jenž</b> přišel…</i> = <i>Muž, <b>který</b> přišel…</i> &nbsp;·&nbsp; <i>Kniha, <b>již</b> jsem četl…</i> = <i>Kniha, <b>kterou</b> jsem četl…</i>
+      </div>
+
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>pád</th><th>mužský</th><th>ženský</th><th>střední</th><th>množné číslo</th></tr></thead>
+          <tbody>
+            <tr><td class="pad">1.</td><td><em>jenž</em></td><td><em>jež</em></td><td><em>jež</em></td><td><em>již</em> (m. živ.) / <em>jež</em></td></tr>
+            <tr><td class="pad">2.</td><td>jehož</td><td>jíž</td><td>jehož</td><td>jichž</td></tr>
+            <tr><td class="pad">3.</td><td>jemuž</td><td>jíž</td><td>jemuž</td><td>jimž</td></tr>
+            <tr><td class="pad">4.</td><td>jejž / jehož</td><td>již</td><td>jež</td><td>jež</td></tr>
+            <tr><td class="pad">6.</td><td>o němž</td><td>o níž</td><td>o němž</td><td>o nichž</td></tr>
+            <tr><td class="pad">7.</td><td>jímž</td><td>jíž</td><td>jímž</td><td>jimiž</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="note warn">
+        <b>Po předložce se přidává <i>n-</i>.</b> <i>jehož</i> → <i>bez <b>n</b>ěhož</i>, <i>jimž</i> → <i>k <b>n</b>imž</i>, <i>jíž</i> → <i>s <b>n</b>íž</i>. Bez předložky <i>n-</i> nikdy nepiš. 5. pád neexistuje.
+      </div>
+
+      <div class="card">
+        <h3>Odkud se bere pád — tady je to jinak než u přídavných jmen</h3>
+        <p style="color:var(--ink2);font-size:15px">Přídavné jméno přebírá od podstatného jména <b>všechno</b>. <i>Jenž</i> přebírá jen <b>rod a číslo</b>. <b>Pád</b> si bere podle toho, co dělá <b>ve své vlastní vedlejší větě</b>.</p>
+        <div class="note" style="margin-top:12px">
+          Proto se neptáš ve větě hlavní, ale <b>uvnitř té vedlejší, od jejího slovesa</b>.
+        </div>
+        <div class="example" style="margin-top:12px">Kamarád, <b>jehož</b> jsem potkal, bydlí vedle.</div>
+        <div class="legend"><span><i>kamarád</i> je v hlavní větě v 1. pádě — ale ptáš se uvnitř: potkal jsem <b>koho?</b> → <i>jehož</i> → <b>4. pád</b>.</span></div>
+        <p style="color:var(--ink2);font-size:15px;margin-top:12px">Pořád tentýž kamarád, čtyři různé pády. Rod a číslo se nemění, mění se jen pád:</p>
+        <div class="tablewrap" style="margin-top:10px">
+          <table style="min-width:0">
+            <thead><tr><th>věta</th><th>otázka uvnitř vedlejší věty</th><th>pád</th></tr></thead>
+            <tbody>
+              <tr><td>Kamarád, <b>jenž</b> mi volal…</td><td>volal <b>kdo?</b></td><td class="pad">1.</td></tr>
+              <tr><td>Kamarád, <b>jehož</b> jsem potkal…</td><td>potkal jsem <b>koho?</b></td><td class="pad">4.</td></tr>
+              <tr><td>Kamarád, <b>jemuž</b> jsem to dal…</td><td>dal jsem <b>komu?</b></td><td class="pad">3.</td></tr>
+              <tr><td>Kamarád, s <b>nímž</b> jsem mluvil…</td><td>mluvil jsem <b>s kým?</b></td><td class="pad">7.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="note warn" style="margin-top:12px">
+          Náhrada za <b>který</b> ti tohle vyřeší za tebe: <i>Kamarád, <b>kterého</b> jsem potkal</i> → <i>kterého</i> je 4. pád → tedy <b>jehož</b>.
+        </div>
+      </div>
+
+      
+    </div>
+        </article>
+        <article class="topic" data-topic="cis" hidden>
+<div class="sechead">
+      <span class="tag">Okruh 5</span>
+      <h2>Skloňování číslovek</h2>
+      <p class="lede">Chyby se dělají skoro výhradně u <b>dva, oba, tři, čtyři</b>. Zbytek je jednoduchý: od pěti výš má číslovka jen dva tvary.</p>
+    </div>
+
+    <div class="stack">
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>pád</th><th>dva / dvě</th><th>oba / obě</th><th>tři</th><th>čtyři</th><th>pět</th></tr></thead>
+          <tbody>
+            <tr><td class="pad">1.</td><td>dva, dvě</td><td>oba, obě</td><td>tři</td><td>čtyři</td><td>pět</td></tr>
+            <tr><td class="pad">2.</td><td><em>dvou</em></td><td><em>obou</em></td><td>tří / třech</td><td>čtyř / čtyřech</td><td>pěti</td></tr>
+            <tr><td class="pad">3.</td><td><em>dvěma</em></td><td><em>oběma</em></td><td>třem</td><td>čtyřem</td><td>pěti</td></tr>
+            <tr><td class="pad">4.</td><td>dva, dvě</td><td>oba, obě</td><td>tři</td><td>čtyři</td><td>pět</td></tr>
+            <tr><td class="pad">6.</td><td>dvou</td><td>obou</td><td>třech</td><td>čtyřech</td><td>pěti</td></tr>
+            <tr><td class="pad">7.</td><td><em>dvěma</em></td><td><em>oběma</em></td><td>třemi</td><td>čtyřmi</td><td>pěti</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="cols two">
+        <div class="note warn">
+          <b>Tři nejčastější chyby:</b><br>
+          <span class="err"><s>se dvěmi</s></span> → <span class="good">se dvěma</span><br>
+          <span class="err"><s>s oběmi</s></span> → <span class="good">s oběma</span><br>
+          <span class="err"><s>se čtyřma</s></span> → <span class="good">se čtyřmi</span>
+        </div>
+        <div class="card">
+          <h4>Od pěti výš — jen dva tvary</h4>
+          <p style="font-size:15px;color:var(--ink2)"><b>pět</b> (1. a 4. pád) · <b>pěti</b> (všechny ostatní pády). Stejně <i>šesti, deseti, dvaceti, sta…</i></p>
+          <p style="font-size:15px;color:var(--ink2);margin-top:8px"><b>sto, tisíc, milion, miliarda</b> se skloňují jako podstatná jména (město, stroj, hrad, žena).</p>
+        </div>
+      </div>
+
+      
+    </div>
+        </article>
+        <article class="topic" data-topic="slov" hidden>
+<div class="sechead">
+      <span class="tag">Okruh 6</span>
+      <h2>Slovesa</h2>
+      <p class="lede">U určitého slovesného tvaru se určuje šest věcí: <b>osoba, číslo, způsob, čas, rod, vid</b>. Čas se určuje jen ve způsobu oznamovacím.</p>
+    </div>
+
+    <div class="stack">
+      <div class="cols two">
+        <div class="card">
+          <h3>Způsob</h3>
+          <ul class="clean">
+            <li><b>oznamovací</b> — <i>píšu, psal jsem, budu psát</i></li>
+            <li><b>rozkazovací</b> — <i>piš, pišme, pište</i></li>
+            <li><b>podmiňovací</b> — <i>psal bych</i> (přítomný), <i>byl bych psal</i> (minulý)</li>
+          </ul>
+          <p style="font-size:14px;color:var(--ink3);margin-top:8px">V rozkazovacím a podmiňovacím způsobu se <b>čas neurčuje</b>.</p>
+        </div>
+        <div class="card">
+          <h3>Vid</h3>
+          <ul class="clean">
+            <li><b>dokonavý</b> — děj je ukončený, nemá přítomný čas: <i>napsat, přijít, koupit</i></li>
+            <li><b>nedokonavý</b> — děj probíhá: <i>psát, chodit, kupovat</i></li>
+          </ul>
+          <div class="note" style="margin-top:12px">
+            <b>Test vidu:</b> zkus tvar pro přítomnost. <i>napíšu</i> = budoucnost, ne přítomnost → <b>dokonavé</b>. <i>píšu</i> = teď → <b>nedokonavé</b>.
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Ukázka celého rozboru</h3>
+        <div class="example" style="margin-bottom:10px">„Zítra bychom to <b>dokončili</b>.“</div>
+        <ul class="clean">
+          <li><b>osoba:</b> 1. &nbsp;·&nbsp; <b>číslo:</b> množné</li>
+          <li><b>způsob:</b> podmiňovací (přítomný) → <b>čas se neurčuje</b></li>
+          <li><b>rod:</b> činný &nbsp;·&nbsp; <b>vid:</b> dokonavý</li>
+        </ul>
+      </div>
+
+      
+    </div>
+        </article>
+        <article class="topic" data-topic="trp" hidden>
+<div class="sechead">
+      <span class="tag">Okruh 7</span>
+      <h2>Trpný rod</h2>
+      <p class="lede">Rod slovesa říká, jestli podmět děj <b>koná</b>, nebo ho <b>odnáší</b>.</p>
+    </div>
+
+    <div class="stack">
+      <div class="cols two">
+        <div class="card">
+          <h4>Rod činný</h4>
+          <p style="color:var(--ink2);font-size:15px">Podmět je původce děje — dělá to.</p>
+          <div class="example" style="margin-top:10px"><b>Dělníci</b> postavili dům.</div>
+        </div>
+        <div class="card">
+          <h4>Rod trpný</h4>
+          <p style="color:var(--ink2);font-size:15px">Podmět děj netvoří, děj se s ním děje.</p>
+          <div class="example" style="margin-top:10px"><b>Dům</b> byl postaven.</div>
+        </div>
+      </div>
+
+      <div class="cols two">
+        <div class="card">
+          <h4>Trpný rod opisný</h4>
+          <p style="color:var(--ink2);font-size:15px">tvar slovesa <b>být</b> + <b>příčestí trpné</b> (<i>-n, -na, -no, -t, -ta, -to</i>)</p>
+          <ul class="clean" style="margin-top:9px">
+            <li><i>Dopis <b>byl napsán</b>.</i></li>
+            <li><i>Okna <b>jsou umyta</b>.</i></li>
+            <li><i>Úkol <b>bude splněn</b>.</i></li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>Trpný rod zvratný</h4>
+          <p style="color:var(--ink2);font-size:15px">sloveso + <b>se</b></p>
+          <ul class="clean" style="margin-top:9px">
+            <li><i>Dům <b>se staví</b>.</i></li>
+            <li><i>Kniha <b>se čte</b> dobře.</i></li>
+            <li><i>Chleba <b>se peče</b> ráno.</i></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="note warn">
+        <b>Nepleť si to.</b> <i>Byl unavený</i> = <b>není</b> trpný rod (unavený je přídavné jméno, ne příčestí trpné). <i>Byl unaven</i> už trpný rod je. A <i>smál se</i> taky není trpný rod — <i>se</i> tam patří k slovesu (zvratné sloveso), děj koná podmět.
+      </div>
+
+      <div class="card">
+        <h3>Jak větu převést</h3>
+        <ol class="clean">
+          <li>Předmět činné věty se stane <b>podmětem</b> trpné. <i>(dům)</i></li>
+          <li>Sloveso převedeš na <b>být + příčestí trpné</b>. <i>(postavili → byl postaven)</i></li>
+          <li>Původní podmět buď vypadne, nebo je v 7. pádu. <i>(dělníky)</i></li>
+        </ol>
+        <div class="example" style="margin-top:12px">Dělníci postavili dům. &nbsp;→&nbsp; Dům byl postaven (dělníky).</div>
+      </div>
+
+      
+    </div>
+        </article>
+        <article class="topic" data-topic="skl" hidden>
+<div class="sechead">
+      <span class="tag">Okruh 8</span>
+      <h2>Skladba — co je věta</h2>
+      <p class="lede">Přesně ta čtveřice příkladů, kterou máš v sešitě. Rozhoduje jediná otázka: <b>je tam určité sloveso?</b></p>
+    </div>
+
+    <div class="stack">
+      <div class="card">
+        <h3>Rozhodovací postup</h3>
+        <ol class="clean">
+          <li><b>Je tam určité sloveso?</b> Není → <b>větný ekvivalent</b>. Konec.</li>
+          <li>Je. <b>Dá se doplnit podmět?</b> Ano (i nevyjádřený) → <b>věta dvojčlenná</b>.</li>
+          <li>Podmět doplnit nejde ani teoreticky → <b>věta jednočlenná</b>.</li>
+        </ol>
+      </div>
+
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>příklad ze sešitu</th><th>co to je</th><th>proč</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><b>Karle?</b></td>
+              <td><em>větný ekvivalent</em></td>
+              <td>Není tam žádné sloveso. Není to věta.</td>
+            </tr>
+            <tr>
+              <td><b>Ten první.</b></td>
+              <td><em>větný ekvivalent — eliptický</em></td>
+              <td>Sloveso chybí, ale dá se doplnit z kontextu: <i>(Vezmu si) ten první.</i> Elipsa = výpustka.</td>
+            </tr>
+            <tr>
+              <td><b>Padala.</b></td>
+              <td><em>věta dvojčlenná</em></td>
+              <td>Sloveso je, podmět je nevyjádřený, ale existuje: <i>(ona) padala</i>.</td>
+            </tr>
+            <tr>
+              <td><b>Prší.</b></td>
+              <td><em>věta jednočlenná</em></td>
+              <td>Jen přísudek. Podmět nelze vyjádřit — nikdo neprší.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="cols two">
+        <div class="card">
+          <h4>Další věty jednočlenné</h4>
+          <ul class="clean">
+            <li><i>Stmívá se. Mrzne. Bolí mě hlava.</i></li>
+            <li><i>Je mi zima. Zdálo se mi o tobě.</i></li>
+            <li><i>Sněžilo celou noc.</i></li>
+          </ul>
+          <p style="font-size:14px;color:var(--ink3);margin-top:8px">Typicky přírodní děje a tělesné stavy.</p>
+        </div>
+        <div class="card">
+          <h4>Další větné ekvivalenty</h4>
+          <ul class="clean">
+            <li><i>Pozor! Ticho! Zákaz vstupu.</i></li>
+            <li><i>Dobrý den. Ahoj.</i></li>
+            <li><i>Nádraží. Konec filmu.</i></li>
+          </ul>
+          <p style="font-size:14px;color:var(--ink3);margin-top:8px">Nápisy, oslovení, pozdravy, citoslovce, nadpisy.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Základní skladební dvojice</h3>
+        <p style="color:var(--ink2);font-size:15px">Podmět + přísudek. Podmět nemusí být vyjádřený — <i>Přišel pozdě.</i> má podmět <i>(on)</i>. To z ní pořád dělá větu dvojčlennou.</p>
+        <div class="legend" style="margin-top:6px">Větné členy: podmět · přísudek · předmět · příslovečné určení · přívlastek (shodný / neshodný) · doplněk</div>
+      </div>
+
+      
+    </div>
+        </article>
+        <article class="topic" data-topic="vv" hidden>
+<div class="sechead">
+      <span class="tag">Okruh 9</span>
+      <h2>Věta hlavní a vedlejší</h2>
+      <p class="lede">Věta hlavní stojí sama a nezávisí na ničem. Věta vedlejší závisí na jiné větě a je uvozena <b>podřadicí spojkou</b> nebo <b>vztažným zájmenem</b>.</p>
+    </div>
+
+    <div class="stack">
+      <div class="card">
+        <h3>Jak vedlejší větu poznáš</h3>
+        <p style="color:var(--ink2);font-size:15px">Podle slova na jejím začátku:</p>
+        <p style="margin-top:8px"><span class="kbd">že</span> <span class="kbd">aby</span> <span class="kbd">když</span> <span class="kbd">protože</span> <span class="kbd">jestliže</span> <span class="kbd">ačkoli</span> <span class="kbd">jakmile</span> <span class="kbd">který</span> <span class="kbd">jenž</span> <span class="kbd">kdo</span> <span class="kbd">co</span> <span class="kbd">kde</span> <span class="kbd">kam</span> <span class="kbd">kdy</span> <span class="kbd">jak</span></p>
+        <div class="note warn" style="margin-top:12px">
+          Spojky <span class="kbd">a</span> <span class="kbd">i</span> <span class="kbd">ale</span> <span class="kbd">nebo</span> <span class="kbd">avšak</span> <span class="kbd">tedy</span> jsou <b>souřadicí</b> — spojují dvě věty hlavní, vedlejší větu neuvozují.
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Postup určení druhu</h3>
+        <ol class="clean">
+          <li>Najdi <b>sloveso věty hlavní</b>.</li>
+          <li>Polož od něj <b>otázku</b> na vedlejší větu.</li>
+          <li>Podle toho, jaká otázka sedla, je druh vedlejší věty.</li>
+        </ol>
+        <div class="example" style="margin-top:12px">
+          <span class="vh">Nepřišel,</span> <span class="vv">protože byl nemocný.</span>
+        </div>
+        <div class="legend"><span>Nepřišel <b>proč?</b> → vedlejší věta <b>příslovečná příčinná</b></span></div>
+      </div>
+
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>druh vedlejší věty</th><th>otázka</th><th>příklad</th></tr></thead>
+          <tbody>
+            <tr><td><em>podmětná</em></td><td>kdo? co?</td><td>„<b>Kdo šetří,</b> má za tři.“</td></tr>
+            <tr><td><em>přísudková</em></td><td>jaký je podmět?</td><td>„Nebyl takový, <b>jak jsem si ho představoval.</b>“</td></tr>
+            <tr><td><em>předmětná</em></td><td>koho? co? (2.–7. pád)</td><td>„Řekl, <b>že přijde.</b>“</td></tr>
+            <tr><td><em>přívlastková</em></td><td>jaký? který? čí?</td><td>„Kniha, <b>kterou jsem četl,</b> byla dobrá.“</td></tr>
+            <tr><td><em>přísl. místní</em></td><td>kde? kam? odkud?</td><td>„Šel tam, <b>kde ho čekali.</b>“</td></tr>
+            <tr><td><em>přísl. časová</em></td><td>kdy? jak dlouho?</td><td>„Přišel, <b>když jsme dojedli.</b>“</td></tr>
+            <tr><td><em>přísl. způsobová</em></td><td>jak? jakým způsobem?</td><td>„Udělal to, <b>jak nejlépe uměl.</b>“</td></tr>
+            <tr><td><em>přísl. příčinná</em></td><td>proč? z jaké příčiny?</td><td>„Nepřišel, <b>protože byl nemocný.</b>“</td></tr>
+            <tr><td><em>přísl. účelová</em></td><td>za jakým účelem?</td><td>„Přišel, <b>aby pomohl.</b>“</td></tr>
+            <tr><td><em>přísl. podmínková</em></td><td>za jaké podmínky?</td><td>„Přijdu, <b>jestliže budu mít čas.</b>“</td></tr>
+            <tr><td><em>přísl. přípustková</em></td><td>i přes co?</td><td>„Přišel, <b>ačkoli byl nemocný.</b>“</td></tr>
+            <tr><td><em>doplňková</em></td><td>váže se k předmětu i slovesu</td><td>„Viděl jsem ho, <b>jak běží.</b>“</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="note">
+        <b>Pozor na dvojici příčinná × účelová.</b> Obě odpovídají skoro na „proč“. Rozliš je takhle: <i>protože</i> = <b>příčina</b> (stalo se to už dřív), <i>aby</i> = <b>účel</b> (to se má stát teprve potom).
+      </div>
+
+      
+    </div>
+        </article>
+        <article class="topic" data-topic="syn" hidden>
+<div class="sechead">
+      <span class="tag">Okruh 10</span>
+      <h2>Synonyma a antonyma</h2>
+      <p class="lede">Synonymum = jiné slovo, stejný význam. Antonymum = opak. Tady jsou slova, která se v prověrkách objevují a která nejsou úplně běžná v mluvě — proto u nich máš i vysvětlení.</p>
+    </div>
+
+    <div class="stack">
+      <div class="cols three">
+        <div class="card">
+          <h4>Synonyma</h4>
+          <p style="font-size:14.5px;color:var(--ink2)">Stejný nebo blízký význam.<br><i>dům – stavení · běžet – utíkat · pěkný – hezký</i></p>
+        </div>
+        <div class="card">
+          <h4>Antonyma</h4>
+          <p style="font-size:14.5px;color:var(--ink2)">Opačný význam.<br><i>velký – malý · den – noc · začátek – konec</i></p>
+        </div>
+        <div class="card">
+          <h4>Homonyma</h4>
+          <p style="font-size:14.5px;color:var(--ink2)">Stejné znění, jiný význam.<br><i>kolej · list · oko · zámek · stopka</i></p>
+        </div>
+      </div>
+
+      
+
+      
+    </div>
+        </article>
+        <div class="row"><button class="btn solid" type="button" id="uc-go">Vyzkoušet se z tohohle ▸</button></div>
+      </div>
+    </section>
+
+    <!-- ============ KARTIČKY ============ -->
+    <section id="fc" hidden>
+      <div class="segs" id="fc-decks">
+        <button type="button" data-d="slovnik">Slovíčka</button>
+        <button type="button" data-d="anton">Antonyma</button>
+      </div>
+      <div class="fcbar"><span id="fc-pos"></span><span id="fc-known"></span></div>
+      <div class="fc" id="fc-card" tabindex="0" role="button"></div>
+      <div class="row">
+        <button class="btn solid big" type="button" id="fc-yes">✓ Umím</button>
+        <button class="btn big" type="button" id="fc-no">✗ Ještě ne</button>
+      </div>
+      <div class="row">
+        <button class="btn sm" type="button" id="fc-prev">◂ Zpět</button>
+        <button class="btn sm" type="button" id="fc-next">Přeskočit ▸</button>
+        <button class="btn sm" type="button" id="fc-only">Jen co neumím</button>
+        <button class="btn sm" type="button" id="fc-reset">Vynulovat značky</button>
+      </div>
+      <p class="sub">Značky se ukládají. Kartička, kterou označíš „umím“, ti v režimu „jen co neumím“ zmizí.</p>
+    </section>
+
+    <!-- ============ CVIČENÍ ============ -->
+    <section id="cv" hidden>
+      <div id="cv-list">
+        <p class="sub" style="margin-bottom:12px">Každý okruh jede po <b>6 otázkách</b>. Po každém kole je pauza a postup se ukládá.</p>
+        <div class="rows" id="cv-rows"></div>
+      </div>
+      <div id="cv-run" hidden></div>
+    </section>
+
+    <!-- ============ TEST ============ -->
+    <section id="ts" hidden>
+      <div id="ts-intro">
+        <div class="card">
+          <h3 style="margin:0 0 8px">Závěrečný test</h3>
+          <p style="font-size:15px;color:var(--ink2)">20 otázek ze všech okruhů, po dvou z každého. Jede taky po kolech po 6 — dá se přerušit. Dej si to den předem a pak ještě ráno.</p>
+          <div class="row"><button class="btn solid" type="button" id="ts-start">Spustit test</button></div>
+          <p class="sub" id="ts-last"></p>
+        </div>
+      </div>
+      <div id="ts-run" hidden></div>
+    </section>
+
+  </main>
+
+
+  <section class="author" id="autor">
+    <h2>Kdo to udělal</h2>
+    <p><span class="who">Rosťa Čermák</span> — tenhle materiál jsem napsal a naprogramoval já, sám. Není to práce nikoho jiného. Když ho posíláš dál, nech ho celý i s tímhle blokem.</p>
+    <ul class="links"><li><a href="https://github.com/rostikcermak-pixel" target="_blank" rel="noopener noreferrer"><span>GitHub</span> <b>rostikcermak-pixel</b></a></li><li><a href="https://www.tiktok.com/@waffleninja7" target="_blank" rel="noopener noreferrer"><span>TikTok</span> <b>@waffleninja7</b></a></li><li><a href="https://t.me/TheWaffleNinja" target="_blank" rel="noopener noreferrer"><span>Telegram</span> <b>@TheWaffleNinja</b></a></li><li><a href="https://www.instagram.com/waffleninja444/" target="_blank" rel="noopener noreferrer"><span>Instagram</span> <b>WaffleNinja444</b></a></li></ul>
+  </section>
+
+  <section class="faq">
+    <h2>Časté otázky</h2>
+    <details>
+      <summary>Musím zaplatit, abych to mohl použít?</summary>
+      <div class="fa">Ne. Všechno je odemčené, nic se neschovává za platbu. QR kód dole je dobrovolný.</div>
+    </details>
+    <details>
+      <summary>Proč bych ti posílal peníze?</summary>
+      <div class="fa">Protože to zabralo čas, který jsi nemusel obětovat ty. Je tady <b>10 okruhů</b>, <b>123 otázek</b> a u každé vysvětlení, proč je odpověď správně, <b>30 kartiček</b> a <b>95 vyjmenovaných slov s významem</b> — včetně těch, co nikdo nezná. Když ti to ušetří dvě hodiny přepisování sešitu, dvacka je slušný kurz.</div>
+    </details>
+    <details>
+      <summary>Zaručuje mi to dobrou známku?</summary>
+      <div class="fa"><b>Ne.</b> Tohle nikdy tvrdit nebudu. Materiál je sestavený podle mého zápisu z hodiny. Když se učitel zeptá na něco, co v zápisu nebylo, tady to nenajdeš. Není to oficiální materiál od školy ani od učitele. Ber to jako pomůcku navíc, ne jako náhradu učení.</div>
+    </details>
+    <details>
+      <summary>Jak víš, že tam nejsou chyby?</summary>
+      <div class="fa">Sporná místa jsem ověřoval proti <b>Internetové jazykové příručce Ústavu pro jazyk český</b>. Dvě věci jsem díky tomu opravil. Ale materiál dělá student, ne učitel — chyba se stát může. Když nějakou najdeš, napiš mi a opravím ji.</div>
+    </details>
+    <details>
+      <summary>Můžu to poslat dál?</summary>
+      <div class="fa">Jo. Komukoliv, i lidem z jiné třídy nebo školy. Je to jeden soubor, funguje i bez internetu.</div>
+    </details>
+    <details>
+      <summary>Kam ty peníze jdou?</summary>
+      <div class="fa">Na nástroje, kterými to dělám, a na čas, který v tom strávím. Za každý předmět je v QR kódu jiná zpráva, takže vím, co lidem reálně pomáhá, a podle toho dělám další.</div>
+    </details>
+  </section>
+
+  <section class="tip">
+    <img src="data:image/png;base64,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" alt="QR kód pro platbu 20 Kč na účet 300369512/0300" width="112" height="112">
+    <div class="tiptext">
+      <b>Kdyby chtěl někdo přihodit na kafe</b>
+      <p>Naskenuj QR bankovní aplikací — částka <b>20 Kč</b> se vyplní sama. Nemusí nikdo, materiál funguje všem stejně.</p>
+      <span class="acc">300369512 / 0300 · 20 Kč</span>
+    </div>
+  </section>
+
+  <footer style="margin-top:22px;padding-top:18px;border-top:1px solid var(--line);color:var(--ink3);font-size:13px">
+    Sestaveno podle zápisu z hodiny a seznamu vyjmenovaných slov na Wikipedii.
+  </footer>
+
+</div>
+
+
+  <div class="tipbar" id="tipbar" hidden role="region" aria-label="Dobrovolný příspěvek">
+    <div class="tipbar-in">
+      <span class="tipbar-txt"><b>Pomohlo ti to?</b> Dobrovolný příspěvek 20 Kč. Nemusíš, funguje to všem stejně.</span>
+      <span class="tipbar-btns">
+        <button type="button" class="btn solid small" id="tipbar-yes">Ukázat QR</button>
+        <button type="button" class="btn ghost small" id="tipbar-no">Teď ne</button>
+      </span>
+        <span class="tipbar-bye" hidden>oka.... 😓</span>
+    </div>
+  </div>
+
+<script>
+const VS = {
+  B: [
+    ["by","podmiňovací částice — <i>šel <b>by</b>, chtěl <b>by</b>ch</i>"],
+    ["být","existovat, nacházet se","Pozor: <b>bít</b> = tlouct."],
+    ["bydlit / bydlet","mít někde domov"],
+    ["obyvatel","kdo někde bydlí"],
+    ["byt",""],
+    ["příbytek","obydlí, místo k bydlení"],
+    ["nábytek",""],
+    ["dobytek","hospodářská zvířata (krávy, prasata)"],
+    ["zbytek","co zbylo",null,"vzácnější"],
+    ["obyčej","zvyk, tradice — <i>vánoční <b>obyčeje</b></i>"],
+    ["bystrý","chytrý a rychlý; taky rychle tekoucí (<i>bystřina</i>)"],
+    ["bylina","léčivá rostlina"],
+    ["kobyla","samice koně"],
+    ["býk",""],
+    ["Přibyslav","město na Vysočině"],
+    ["babyka","druh javoru (javor babyka)",null,"vzácnější"]
+  ],
+  L: [
+    ["slyšet",""],
+    ["mlýn",""],
+    ["blýskat se",""],
+    ["polykat",""],
+    ["plynout","téct, ubíhat — <i>čas <b>plyne</b></i>"],
+    ["plýtvat","zbytečně utrácet, mrhat — <i><b>plýtvat</b> vodou</i>"],
+    ["vzlykat","plakat s trhavým nádechem"],
+    ["lysý","holý, bez vlasů nebo srsti — <i><b>lysá</b> hlava</i>"],
+    ["lýtko","zadní svalnatá část nohy pod kolenem"],
+    ["lýko","vrstva pod kůrou stromu; vede v ní míza"],
+    ["lyže",""],
+    ["pelyněk","hořká léčivá bylina, dává se do absintu"],
+    ["plyš","měkká chlupatá látka — <i><b>plyšák</b></i>"],
+    ["slynout","být proslulý, mít pověst — <i><b>slynul</b> odvahou</i>","Ale: <b>sli</b>na, <b>sli</b>nit — s měkkým i!","vzácnější"],
+    ["plytký","mělký; taky povrchní, prázdný — <i><b>plytký</b> rozhovor</i>",null,"vzácnější"],
+    ["vlys","ozdobný vodorovný pás na budově nebo nábytku",null,"vzácnější"]
+  ],
+  M: [
+    ["my","zájmeno","Pozor: <b>mi</b> = mně (<i>dej <b>mi</b> to</i>)."],
+    ["mýt","umývat","Pozor: <b>mít</b> = vlastnit."],
+    ["myslet / myslit",""],
+    ["mýlit se","dělat chybu"],
+    ["hmyz",""],
+    ["myš",""],
+    ["hlemýžď","šnek s ulitou"],
+    ["mýtit","kácet les — odtud <i><b>mýtina</b></i>, holé místo v lese"],
+    ["zamykat",""],
+    ["smýkat","vléct něco po zemi — odtud <i>smyk</i>"],
+    ["dmýchat","foukat, rozdmýchávat oheň — <i><b>dmýchat</b> do uhlíků</i>"],
+    ["chmýří","jemné měkké chloupky — <i><b>chmýří</b> pampelišky</i>"],
+    ["nachomýtnout se","náhodou se někde objevit"],
+    ["mýto","poplatek za průjezd — dnes <i>mýtné</i> na dálnici",null,"vzácnější"],
+    ["mykat","česat vlnu; taky trhnout, škubnout",null,"vzácnější"],
+    ["mys","výběžek pevniny do moře — <i><b>mys</b> Dobré naděje</i>",null,"vzácnější"],
+    ["sumýš","mořský živočich, „mořská okurka“",null,"vzácnější"]
+  ],
+  P: [
+    ["pýcha","přehnaná hrdost"],
+    ["pytel",""],
+    ["pysk","ret zvířete — <i>koňské <b>pysky</b></i>"],
+    ["netopýr",""],
+    ["slepýš","beznohá ještěrka, vypadá jako had"],
+    ["pyl","prášek z květů, roznáší ho včely a vítr","Pozor: <b>pil</b> = pití."],
+    ["kopyto",""],
+    ["klopýtat","zakopávat"],
+    ["třpytit se","lesknout se"],
+    ["zpytovat","zkoumat — <i><b>zpytovat</b> svědomí</i>"],
+    ["pykat","nést trest — <i><b>pykat</b> za chybu</i>"],
+    ["pýr","plevelná tráva s dlouhými oddenky (pýr plazivý)"],
+    ["pýřit se","červenat se studem"],
+    ["čepýřit se","načepýřit peří; taky naparovat se, dělat důležitého"],
+    ["pýří","jemné chmýří, pýřité chloupky",null,"vzácnější"],
+    ["pyj","mužský pohlavní orgán (odborný výraz)",null,"vzácnější"]
+  ],
+  S: [
+    ["syn",""],
+    ["sytý","najedený, nasycený"],
+    ["sýr",""],
+    ["syrový","tepelně neupravený, syrové maso"],
+    ["sychravý","chladný a vlhký — <i><b>sychravé</b> počasí</i>"],
+    ["usychat / usýchat","vysychat, vadnout"],
+    ["sýkora","malý zpěvný pták"],
+    ["sýček","malá sova; přeneseně kdo pořád věští neštěstí"],
+    ["sysel","hlodavec žijící v norách na loukách"],
+    ["syčet",""],
+    ["sypat",""]
+  ],
+  V: [
+    ["vy / vykat","zájmeno a vykání"],
+    ["vysoký",""],
+    ["výt","vydávat táhlý zvuk — <i>vlk <b>vyje</b></i>","Pozor: <b>vít</b> = plést (věnec)."],
+    ["výskat","radostně křičet"],
+    ["zvykat","zvykat si"],
+    ["žvýkat",""],
+    ["vydra","šelma žijící u vody"],
+    ["výr","velká sova (výr velký)","Pozor: <b>vír</b> = točící se voda."],
+    ["vyžle","hubené dítě nebo hubený pes"],
+    ["povyk","křik, rozruch, poprask"],
+    ["výheň","kovářská pec; taky velké horko — <i>venku je <b>výheň</b></i>"],
+    ["předpony vy- / vý-","<i>vyjít, vyskočit, výběr, výstava</i> — všechny slova s touhle předponou"],
+    ["cavyky","zbytečné okolky — <i>nedělej <b>cavyky</b></i>"],
+    ["vyza","velká ryba z čeledi jeseterovitých",null,"vzácnější"],
+    ["kavyl","stepní tráva s dlouhými stříbřitými chlupy",null,"vzácnější"]
+  ],
+  Z: [
+    ["brzy",""],
+    ["jazyk",""],
+    ["nazývat (se)","dávat jméno, jmenovat se"],
+    ["Ruzyně","část Prahy, letiště",null,"vzácnější"]
+  ]
+};
+
+const SLOVNIK = [
+  ["lhostejný","je mu to jedno, nezajímá ho to · synonyma: netečný, apatický"],
+  ["domýšlivý","má o sobě moc vysoké mínění · synonyma: namyšlený, nafoukaný"],
+  ["svízelný","obtížný, těžko zvládnutelný · <i>svízelná situace</i>"],
+  ["úporný","který nepovoluje, vytrvalý · <i>úporný kašel, úporná snaha</i>"],
+  ["vlídný","milý a laskavý k lidem · synonyma: přívětivý, vstřícný"],
+  ["příkrý","strmý (svah); v řeči ostrý, nekompromisní · <i>příkrá odpověď</i>"],
+  ["neduživý","slabý, často nemocný · synonyma: churavý, chatrný"],
+  ["stísněný","těsný, málo místa; taky sklíčený, smutný"],
+  ["zdatný","schopný a výkonný · synonyma: schopný, výkonný, zdravý"],
+  ["prostořeký","mluví bez zábran, drze · synonyma: drzý, nevymáchaný"],
+  ["skoupý","nerad dává, lakomý · <i>skoupý na slovo</i> = mlčenlivý"],
+  ["nevlídný","nepříjemný, odměřený; o počasí studený a ošklivý"],
+  ["všední","obyčejný, každodenní · <i>všední den</i> = pracovní den · opak: sváteční"],
+  ["hojný","kterého je hodně · <i>hojná úroda</i> · opak: vzácný"],
+  ["zdráhat se","váhat, nechtít něco udělat · <i>zdráhal se odpovědět</i>"],
+  ["obezřetný","opatrný, dávající si pozor · synonyma: ostražitý, opatrný"],
+  ["lhostejnost","stav, kdy je člověku všechno jedno · od slova lhostejný"],
+  ["vytrvalý","který nepřestane, i když je to těžké · synonyma: houževnatý, úporný"]
+];
+
+const ANTONYMA = [
+  ["lakomý","štědrý"],["odvážný","zbabělý"],["pilný","líný"],
+  ["moudrý","hloupý"],["skromný","domýšlivý"],["vlídný","příkrý"],
+  ["zdatný","neduživý"],["prostorný","stísněný"],["mělký","hluboký"],
+  ["hojný","vzácný"],["všední","sváteční"],["ochotný","neochotný"]
+];
+
+const DRILL = [
+  ["b_t kladivem do hřebíku",["í","ý"],0,"<b>bít</b> = tlouct. Vyjmenované <i>být</i> znamená existovat."],
+  ["b_t doma po škole",["í","ý"],1,"<b>být</b> = existovat, nacházet se. Vyjmenované slovo."],
+  ["nab_t nové vědomosti",["í","ý"],1,"<b>nabýt</b> = získat. Příbuzné s <i>být</i>."],
+  ["nab_t baterku v mobilu",["í","ý"],0,"<b>nabít</b> = naplnit energií, od <i>bít</i>."],
+  ["m_t nádobí",["í","ý"],1,"<b>mýt</b> = umývat. Vyjmenované slovo."],
+  ["m_t hlad",["í","ý"],0,"<b>mít</b> = vlastnit, pociťovat."],
+  ["vodní v_r v řece",["í","ý"],0,"<b>vír</b> = točící se voda. Není vyjmenované."],
+  ["v_r velký je sova",["í","ý"],1,"<b>výr</b> = velká sova. Vyjmenované slovo."],
+  ["v_t věnec z pampelišek",["í","ý"],0,"<b>vít</b> = plést, splétat."],
+  ["vlk v_je na měsíc",["i","y"],1,"<b>vyje</b>, od <i>výt</i> = vydávat táhlý zvuk."],
+  ["l_ška v lese",["i","y"],0,"<b>liška</b> je zvíře — mezi vyjmenovanými slovy není."],
+  ["l_žařský svah",["i","y"],1,"od <b>lyže</b>."],
+  ["l_ko pod kůrou stromu",["í","ý"],1,"<b>lýko</b> = vrstva pod kůrou. Vyjmenované slovo."],
+  ["pel_něk je hořký",["i","y"],1,"<b>pelyněk</b> = léčivá bylina. Vyjmenované slovo."],
+  ["hlem_žď leze pomalu",["í","ý"],1,"<b>hlemýžď</b> = šnek. Vyjmenované slovo."],
+  ["nachom_tnout se",["í","ý"],1,"<b>nachomýtnout se</b> = náhodou se objevit."],
+  ["chm_ří pampelišky",["í","ý"],1,"<b>chmýří</b> = jemné chloupky."],
+  ["zp_tovat svědomí",["i","y"],1,"<b>zpytovat</b> = zkoumat."],
+  ["s_chravé počasí",["i","y"],1,"<b>sychravý</b> = chladný a vlhký."],
+  ["s_lný vítr",["i","y"],0,"<b>silný</b> není vyjmenované slovo ani s žádným příbuzné."],
+  ["s_ček houkal v noci",["í","ý"],1,"<b>sýček</b> = malá sova."],
+  ["nedělej cav_ky",["i","y"],1,"<b>cavyky</b> = zbytečné okolky. Vyjmenované slovo."],
+  ["ml_n u řeky",["í","ý"],1,"<b>mlýn</b>. Vyjmenované slovo."],
+  ["pl_tvat jídlem",["í","ý"],1,"<b>plýtvat</b> = zbytečně mrhat."],
+  ["čas pl_ne rychle",["i","y"],1,"<b>plynout</b> = ubíhat, téct."],
+  ["brz_ přijdu",["i","y"],1,"<b>brzy</b>. Vyjmenované slovo po Z."],
+  ["v_soká hora",["i","y"],1,"<b>vysoký</b>. Vyjmenované slovo."],
+  ["ob_čej z Vánoc",["i","y"],1,"<b>obyčej</b> = zvyk, tradice."]
+];
+
+const Q = {
+  ps: [
+    ["Urči pád: „Bál se <b>tmy</b>.“",["1. pád","2. pád","4. pád","7. pád"],1,"Bál se <b>čeho?</b> tmy → 2. pád."],
+    ["Urči pád: „Šel s <b>kamarádem</b>.“",["3. pád","4. pád","6. pád","7. pád"],3,"S <b>kým?</b> s kamarádem → 7. pád. Předložka <i>s</i> pojí 7. pád."],
+    ["Jaký vzor má slovo <b>stavení</b>?",["moře","město","stavení","kuře"],2,"Střední rod, 2. pád <i>bez stavení</i> → vzor stavení."],
+    ["Jaký vzor má slovo <b>kost</b>?",["žena","růže","píseň","kost"],3,"2. pád <i>bez kosti</i> (ne <i>bez kostě</i>) → vzor kost."],
+    ["Jaký vzor má slovo <b>učitel</b>?",["pán","muž","soudce","předseda"],1,"Mužský životný, 2. pád <i>bez učitele</i> → vzor muž."],
+    ["Jaký rod má slovo <b>rukojmí</b>?",["mužský","ženský","střední","může být mužský i střední"],3,"Příručka ÚJČ uvádí u slova <i>rukojmí</i> oba rody: <b>mužský životný i střední</b>."],
+    ["Které slovo má vzor <b>předseda</b>?",["hrdina","hrdinný","hrdinství","hrdinka"],0,"<i>hrdina</i> — mužský životný končící na -a, 2. pád <i>bez hrdiny</i>."]
+  ],
+  pj: [
+    ["Jakého druhu je přídavné jméno v <i>„<b>otcův</b> klobouk“</i>?",["tvrdé","měkké","přivlastňovací","žádné z toho"],2,"Přivlastňuje jedné osobě (otci) → přivlastňovací, vzor otcův."],
+    ["Jakého druhu je <i>„<b>psací</b> stůl“</i>?",["tvrdé","měkké","přivlastňovací","jmenný tvar"],1,"Končí na -í a ve všech rodech je stejné → měkké, vzor jarní."],
+    ["Jakého druhu je <i>„<b>dřevěná</b> lavice“</i>?",["tvrdé","měkké","přivlastňovací","jmenný tvar"],0,"Vzor mladý (mladá lavice) → tvrdé přídavné jméno."],
+    ["Který tvar je správný?",["nejvíce nejlepší","více lepší","nejlepší","nejvíc lepší"],2,"Stupňuje se jen jednou. <i>dobrý – lepší – nejlepší</i>."],
+    ["Co je <b>„zdráv“</b> ve větě <i>Jsem zdráv</i>?",["2. stupeň","jmenný tvar","přivlastňovací příd. jm.","podstatné jméno"],1,"Krátký jmenný tvar přídavného jména <i>zdravý</i>."],
+    ["Jaký je 2. stupeň od <b>zlý</b>?",["zlejší","horší","nejhorší","zlší"],1,"Nepravidelné stupňování: zlý – horší – nejhorší."],
+    ["Urči pád: „Viděl jsem <b>nového</b> učitele.“",["1. pád","2. pád","4. pád","6. pád"],2,"Ptej se na celé spojení: viděl jsem <b>koho?</b> → <i>nového učitele</i> → 4. pád. Přídavné jméno má stejný pád jako podstatné."],
+    ["Urči pád: „Mluvili o <b>malých</b> dětech.“",["3. pád","4. pád","6. pád","7. pád"],2,"o <b>kom? čem?</b> → 6. pád. Přídavné jméno přebírá pád od podstatného jména."],
+    ["Odkud má přídavné jméno svůj <b>pád</b>?",["z otázky jaký?","od podstatného jména, ke kterému patří","od slovesa ve větě","vždy je v 1. pádě"],1,"Shoda: přídavné jméno má vždy stejný pád, číslo i rod jako jeho podstatné jméno."],
+    ["K čemu slouží otázka <b>jaký? který? čí?</b>",["určí pád","určí druh","najde přídavné jméno ve větě","určí stupeň"],2,"Najde ti ho ve větě. Pád jí neurčíš — na ten se ptej otázkou na celé spojení."]
+  ],
+  jenz: [
+    ["Doplň: „Muž, ___ stál u dveří, se usmál.“",["jenž","jež","jehož","jímž"],0,"Mužský rod, 1. pád → <b>jenž</b>. Zkouška: <i>který stál</i>."],
+    ["Doplň: „Kniha, ___ jsem četl, byla dobrá.“",["jenž","již","jež","jíž"],1,"Ženský rod, 4. pád (četl jsem <b>kterou?</b>) → <b>již</b>."],
+    ["Doplň: „Kamarád, s ___ jsem mluvil…“",["jímž","nímž","jehož","němž"],1,"Po předložce se přidává <b>n-</b>: s <b>n</b>ímž."],
+    ["Doplň: „Lidé, ___ jsme potkali, byli milí.“",["již","jež","jichž","jimž"],1,"Množné číslo, 4. pád (potkali jsme <b>koho?</b>) → <b>jež</b>."],
+    ["Který pád zájmeno <b>jenž</b> nemá?",["2. pád","4. pád","5. pád","7. pád"],2,"Vztažné zájmeno nemá 5. pád — neoslovuje se jím."],
+    ["Jakou vedlejší větu uvozuje <b>jenž</b> nejčastěji?",["podmětnou","předmětnou","přívlastkovou","účelovou"],2,"Váže se k podstatnému jménu a určuje ho → vedlejší věta přívlastková."],
+    ["Odkud si <b>jenž</b> bere svůj <b>pád</b>?",["od podstatného jména ve větě hlavní","podle své funkce ve vedlejší větě","vždy 1. pád","od spojky"],1,"Rod a číslo přebírá od podstatného jména, ale <b>pád</b> podle toho, co dělá ve své vlastní vedlejší větě."],
+    ["Urči pád: „Kamarád, <b>jemuž</b> jsem to dal, odešel.“",["1. pád","3. pád","4. pád","7. pád"],1,"Ptej se uvnitř vedlejší věty: dal jsem <b>komu?</b> → 3. pád."],
+    ["Doplň: „Dívka, o ___ jsme mluvili, přišla.“",["jíž","níž","již","jež"],1,"Ženský rod, 6. pád + předložka <i>o</i> → přidává se <b>n-</b>: o <b>n</b>íž."],
+    ["Doplň: „Auto, ___ jsme koupili, je nové.“",["jenž","jehož","jež","jímž"],2,"Rod střední, 4. pád (koupili jsme <b>co?</b>) → <b>jež</b>."],
+    ["Které slovo <b>jenž</b> vždycky nahradí?",["jaký","který","kdo","jak"],1,"<i>jenž</i> = <i>který</i>. Nahraď a hned uvidíš, jaký pád potřebuješ."]
+  ],
+  cis: [
+    ["Který tvar je správný?",["se dvěmi kamarády","se dvěma kamarády","s dvouma kamarády","se dvěmy kamarády"],1,"3. a 7. pád = <b>dvěma</b>. Tvar <i>dvěmi</i> neexistuje."],
+    ["Doplň 7. pád: „přišel s ___ bratry“ (oba)",["oběmi","obouma","oběma","obojíma"],2,"Stejně jako <i>dvěma</i> → <b>oběma</b>."],
+    ["Který tvar je správný?",["se čtyřma lidmi","se čtyřmi lidmi","se čtyřemi lidmi","se čtyřech lidmi"],1,"7. pád číslovky čtyři = <b>čtyřmi</b>. <i>-ma</i> je nespisovné."],
+    ["Kolik různých tvarů má číslovka <b>pět</b>?",["jeden","dva","tři","šest"],1,"<b>pět</b> (1. a 4. pád) a <b>pěti</b> (všechny ostatní)."],
+    ["Doplň 2. pád: „bez ___ knih“ (tři)",["tří","třech","třem","třemi"],0,"2. pád = <b>tří</b>. Tvar <i>třech</i> příručka označuje jako hovorový — do písemky piš <b>tří</b>."],
+    ["Jak se skloňuje <b>tisíc</b>?",["nesklonné","jako číslovka pět","jako podstatné jméno","jen v množném čísle"],2,"<b>sto, tisíc, milion</b> se skloňují jako podstatná jména."],
+    ["Doplň 3. pád: „ke ___ stromům“ (deset)",["deseti","desíti","desetim","deset"],0,"Od pěti výš jen dva tvary: <i>deset</i> (1. a 4. pád), <b>deseti</b> (všechny ostatní)."],
+    ["Doplň 7. pád: „mezi ___ domy“ (dva)",["dvěmi","dvěma","dvouma","dvěmy"],1,"7. pád = <b>dvěma</b>. Tvar <i>dvěmi</i> neexistuje — tohle je nejčastější chyba."],
+    ["Doplň 6. pád: „o ___ dětech“ (obě)",["oběma","obouch","obou","oběmi"],2,"2. a 6. pád = <b>obou</b>. Jen 3. a 7. pád má <i>oběma</i>."],
+    ["Doplň 7. pád: „se ___ kamarády“ (tři)",["třema","třemi","třech","třím"],1,"7. pád = <b>třemi</b>. Koncovka <i>-ma</i> je nespisovná."],
+    ["Jak se skloňuje <b>sto</b>?",["jako pět","jako podstatné jméno vzoru město","nesklonné","jako dva"],1,"<b>sto</b> se skloňuje jako <i>město</i>: bez sta, ke stu, se stem."]
+  ],
+  slov: [
+    ["Urči způsob: „<b>Pojď</b> sem!“",["oznamovací","rozkazovací","podmiňovací","trpný"],1,"Rozkaz → způsob rozkazovací. Čas se u něj neurčuje."],
+    ["Urči čas: „<b>Napsal bych</b> to.“",["minulý","přítomný","budoucí","čas se neurčuje"],3,"Je to způsob podmiňovací — v něm se <b>čas neurčuje</b>."],
+    ["Jaký vid má sloveso <b>napsat</b>?",["dokonavý","nedokonavý","obouvidové","nelze určit"],0,"<i>napíšu</i> je budoucnost, ne přítomnost → dokonavý."],
+    ["Jaký vid má sloveso <b>chodit</b>?",["dokonavý","nedokonavý","obouvidové","nelze určit"],1,"<i>chodím</i> = teď probíhá → nedokonavý."],
+    ["Urči osobu a číslo: „<b>běželi jste</b>“",["2. os. j. č.","2. os. mn. č.","3. os. mn. č.","1. os. mn. č."],1,"<i>vy jste běželi</i> → 2. osoba, číslo množné."],
+    ["Který tvar je určitý slovesný tvar?",["psát","psaní","píšeme","psaný"],2,"Určitý tvar má osobu a číslo. <i>psát</i> je infinitiv, <i>psaný</i> příd. jméno."]
+  ],
+  trp: [
+    ["Jaký rod má „<b>Dům byl postaven.</b>“?",["činný","trpný opisný","trpný zvratný","nelze určit"],1,"<i>být</i> + příčestí trpné <i>postaven</i> → trpný rod opisný."],
+    ["Jaký rod má „<b>Dům se staví.</b>“?",["činný","trpný opisný","trpný zvratný","rozkazovací"],2,"Sloveso + <b>se</b> a podmět děj nekoná → trpný rod zvratný."],
+    ["Jaký rod má „<b>Petr se směje.</b>“?",["činný","trpný opisný","trpný zvratný","nelze určit"],0,"<i>se</i> tu patří k slovesu (smát se). Petr děj koná → rod činný."],
+    ["Převeď do trpného rodu: <b>Žáci uklidili třídu.</b>",["Třída uklidila žáky.","Třída byla uklizena.","Třída se uklidí.","Žáci byli uklizeni."],1,"Předmět <i>třídu</i> → podmět <i>třída</i>; <i>uklidili</i> → <i>byla uklizena</i>."],
+    ["Která věta <b>není</b> v trpném rodě?",["Kniha byla přečtena.","Byl unavený.","Okna jsou umyta.","Úkol bude splněn."],1,"<i>unavený</i> je přídavné jméno, ne příčestí trpné. (<i>Byl unaven</i> už trpný rod je.)"],
+    ["Kde je původce děje v trpné větě?",["v 1. pádě","ve 4. pádě","v 7. pádě, nebo tam vůbec není","vždy chybí"],2,"<i>Dům byl postaven <b>dělníky</b></i> — 7. pád; často se vynechá."],
+    ["Jaký rod má „<b>Dopis byl napsán.</b>“?",["činný","trpný opisný","trpný zvratný","nelze určit"],1,"Dopis se sám nenapsal — děj nekoná. <i>být</i> + <i>napsán</i> → trpný rod opisný."],
+    ["Jaký rod má „<b>Chleba se peče ráno.</b>“?",["činný","trpný opisný","trpný zvratný","rozkazovací"],2,"Chleba se sám nepeče → podmět děj nekoná. Sloveso + <b>se</b> → trpný zvratný."],
+    ["Jaký rod má „<b>Maminka vaří oběd.</b>“?",["činný","trpný opisný","trpný zvratný","nelze určit"],0,"Maminka děj koná → rod činný."],
+    ["Podle čeho poznáš rod slovesa?",["podle času","jestli podmět děj koná, nebo ho odnáší","podle koncovky","podle spojky"],1,"Jediná otázka: <b>koná ten děj podmět?</b> Ano → činný. Ne → trpný."],
+    ["Převeď do trpného rodu: <b>Kuchař uvařil polévku.</b>",["Polévka uvařila kuchaře.","Polévka byla uvařena.","Kuchař byl uvařen.","Polévka vaří."],1,"Předmět <i>polévku</i> → podmět <i>polévka</i>; <i>uvařil</i> → <i>byla uvařena</i>."]
+  ],
+  skl: [
+    ["Co je <b>„Karle?“</b>",["věta dvojčlenná","věta jednočlenná","větný ekvivalent","souvětí"],2,"Není tam žádné sloveso → není to věta, je to větný ekvivalent."],
+    ["Co je <b>„Prší.“</b>",["věta dvojčlenná","věta jednočlenná","větný ekvivalent","eliptická věta"],1,"Sloveso tam je, ale podmět nelze vyjádřit → věta jednočlenná."],
+    ["Co je <b>„Padala.“</b>",["věta dvojčlenná","věta jednočlenná","větný ekvivalent","není to věta"],0,"Podmět je nevyjádřený, ale existuje: <i>(ona) padala</i> → dvojčlenná."],
+    ["Co je <b>„Ten první.“</b> (odpověď na otázku)",["věta dvojčlenná","věta jednočlenná","větný ekvivalent — eliptický","přísudek jmenný"],2,"Sloveso je vypuštěno (elipsa), dá se doplnit z kontextu."],
+    ["Co je <b>„Zákaz vstupu.“</b>",["věta jednočlenná","věta dvojčlenná","větný ekvivalent","souvětí"],2,"Nápis bez slovesa → větný ekvivalent."],
+    ["Co je <b>„Je mi zima.“</b>",["věta dvojčlenná","věta jednočlenná","větný ekvivalent","trpný rod"],1,"Podmět nelze doplnit — nikdo „nezimuje“. Věta jednočlenná."],
+    ["Co tvoří <b>základní skladební dvojici</b>?",["přívlastek a podstatné jméno","podmět a přísudek","předmět a sloveso","spojka a věta"],1,"Podmět + přísudek. Jádro každé dvojčlenné věty."]
+  ],
+  vv: [
+    ["Urči druh VV: „Řekl, <b>že přijde</b>.“",["podmětná","předmětná","přívlastková","příslovečná časová"],1,"Řekl <b>co?</b> → 4. pád → věta předmětná."],
+    ["Urči druh VV: „<b>Kdo šetří</b>, má za tři.“",["podmětná","předmětná","přívlastková","přísudková"],0,"Ptáme se <b>kdo?</b> na podmět věty hlavní → věta podmětná."],
+    ["Urči druh VV: „Přišel, <b>aby pomohl</b>.“",["příčinná","účelová","podmínková","časová"],1,"Spojka <i>aby</i> a otázka <b>za jakým účelem?</b> → účelová."],
+    ["Urči druh VV: „Nepřišel, <b>protože byl nemocný</b>.“",["účelová","příčinná","přípustková","způsobová"],1,"Otázka <b>proč? z jaké příčiny?</b> → příslovečná příčinná."],
+    ["Urči druh VV: „Kniha, <b>kterou jsem četl</b>, byla dobrá.“",["předmětná","přívlastková","podmětná","doplňková"],1,"Ptáme se <b>která kniha?</b> na podstatné jméno → přívlastková."],
+    ["Urči druh VV: „Přišel, <b>ačkoli byl nemocný</b>.“",["příčinná","přípustková","podmínková","účelová"],1,"<i>ačkoli, přestože, i když</i> → přípustková: děj nastal navzdory překážce."],
+    ["Urči druh VV: „Přijdu, <b>jestliže budu mít čas</b>.“",["časová","podmínková","účelová","příčinná"],1,"<i>jestliže, když (za podmínky), pokud</i> → podmínková."],
+    ["Která spojka <b>neuvozuje</b> vedlejší větu?",["protože","aby","ale","když"],2,"<i>ale</i> je souřadicí spojka — spojuje dvě věty hlavní."],
+    ["Kolik je vět v souvětí „Když zazvonilo, vyšli jsme ven a šli domů.“?",["dvě","tři","čtyři","jedna"],1,"<i>Když zazvonilo</i> (VV) + <i>vyšli jsme ven</i> (VH) + <i>šli domů</i> (VH) = 3."],
+    ["Urči druh VV: „Šel tam, <b>kde ho čekali</b>.“",["časová","místní","způsobová","přívlastková"],1,"Otázka <b>kam? kde?</b> → příslovečná místní."],
+    ["Urči druh VV: „Přišel, <b>když jsme dojedli</b>.“",["místní","časová","příčinná","podmínková"],1,"Otázka <b>kdy?</b> → příslovečná časová. Spojka <i>když</i> tu znamená čas, ne podmínku."],
+    ["Urči druh VV: „Udělal to, <b>jak nejlépe uměl</b>.“",["způsobová","časová","účelová","přívlastková"],0,"Otázka <b>jak? jakým způsobem?</b> → příslovečná způsobová."],
+    ["Urči druh VV: „Viděl jsem ho, <b>jak běží</b>.“",["způsobová","předmětná","doplňková","časová"],2,"Váže se zároveň k předmětu (<i>ho</i>) i ke slovesu → věta doplňková."],
+    ["Urči druh VV: „Bál se, <b>že to nestihne</b>.“",["podmětná","předmětná","příčinná","přívlastková"],1,"Bál se <b>čeho?</b> → 2. pád → věta předmětná. Spojka <i>že</i> uvozuje předmětnou, ne příčinnou."],
+    ["Co rozlišuje větu <b>příčinnou</b> a <b>účelovou</b>?",["délka věty","příčina se už stala, účel se má teprve stát","příčinná je vždy první","nic, jsou stejné"],1,"<i>protože</i> = příčina (děj už proběhl). <i>aby</i> = účel (děj se má stát teprve potom)."],
+    ["Kolik vět má souvětí „Věděl, že přijdeš, ale neřekl to.“?",["dvě","tři","čtyři","jedna"],1,"<i>Věděl</i> (VH) + <i>že přijdeš</i> (VV) + <i>ale neřekl to</i> (VH) = 3. Počítej slovesa v určitém tvaru."],
+    ["Jak najdeš druh vedlejší věty?",["podle délky věty","podle spojky, vždycky","otázkou od slovesa věty hlavní","podle pořadí ve větě"],2,"Najdi sloveso věty hlavní a od něj polož otázku. Spojka pomůže, ale sama nestačí — <i>když</i> může být časová i podmínková."]
+  ],
+  syn: [
+    ["Vyber <b>synonymum</b> ke slovu <i>lhostejný</i>.",["netečný","starostlivý","zvědavý","pilný"],0,"<i>lhostejný</i> = je mu to jedno = <b>netečný</b>."],
+    ["Vyber <b>antonymum</b> ke slovu <i>skromný</i>.",["tichý","domýšlivý","chudý","laskavý"],1,"Opak skromnosti je <b>domýšlivost</b> — vysoké mínění o sobě."],
+    ["Co znamená <i>svízelný</i>?",["příjemný","obtížný, těžko zvládnutelný","rychlý","levný"],1,"<i>svízelná situace</i> = situace, ze které se těžko ven."],
+    ["Vyber <b>antonymum</b> ke slovu <i>zdatný</i>.",["schopný","silný","neduživý","vytrvalý"],2,"<i>neduživý</i> = slabý, často nemocný."],
+    ["Co znamená <i>příkrý svah</i>?",["mírný","strmý","dlouhý","zarostlý"],1,"<b>Příkrý</b> = strmý. V řeči pak ostrý, nekompromisní."],
+    ["Které dvojici říkáme <b>homonyma</b>?",["velký – malý","dům – stavení","kolej (na koleji × kolej vlaku)","běžet – utíkat"],2,"Stejné znění, úplně jiný význam → homonyma."],
+    ["Vyber <b>synonymum</b> ke slovu <i>úporný</i>.",["vytrvalý","krátký","slabý","občasný"],0,"<i>úporný</i> = který nepovoluje → vytrvalý, houževnatý."],
+    ["Co znamená <i>prostořeký</i>?",["mlčenlivý","mluví bez zábran, drze","pomalý","zdvořilý"],1,"<i>prostořeký</i> = kdo řekne všechno, co ho napadne. Synonymum: drzý."],
+    ["Vyber <b>antonymum</b> ke slovu <i>všední</i>.",["obyčejný","nudný","sváteční","denní"],2,"<i>všední</i> = obyčejný, každodenní → opak je <b>sváteční</b>."],
+    ["Co znamená <i>stísněný</i>?",["prostorný","těsný; taky sklíčený","hlučný","světlý"],1,"Dva významy: málo místa (<i>stísněný pokoj</i>) i smutná nálada (<i>stísněná nálada</i>)."],
+    ["Vyber <b>synonymum</b> ke slovu <i>vlídný</i>.",["přísný","laskavý","hlasitý","lhostejný"],1,"<i>vlídný</i> = milý k lidem. Synonyma: laskavý, přívětivý, vstřícný."],
+    ["Vyber <b>antonymum</b> ke slovu <i>hojný</i>.",["častý","bohatý","vzácný","velký"],2,"<i>hojný</i> = kterého je hodně → opak je <b>vzácný</b>."],
+    ["Co znamená <i>skoupý na slovo</i>?",["mluví hodně","mluví málo","mluví sprostě","mluví potichu"],1,"<i>skoupý</i> = nerad dává. Kdo je skoupý na slovo, málo mluví."],
+    ["Vyber <b>synonymum</b> ke slovu <i>domýšlivý</i>.",["skromný","nafoukaný","chytrý","zamyšlený"],1,"<i>domýšlivý</i> = má o sobě příliš vysoké mínění. Synonyma: namyšlený, nafoukaný."],
+    ["Vyber <b>antonymum</b> ke slovu <i>neduživý</i>.",["nemocný","slabý","zdatný","hubený"],2,"<i>neduživý</i> = slabý a často nemocný → opak je <b>zdatný</b>."]
+  ]
+};
+
+const TITLE = {
+  drill:"Doplňovačka i/y", ps:"Podstatná jména", pj:"Přídavná jména",
+  jenz:"Zájmeno jenž/jež", cis:"Skloňování číslovek", slov:"Slovesa",
+  trp:"Trpný rod", skl:"Skladba — co je věta", vv:"Věta hlavní a vedlejší",
+  syn:"Synonyma a antonyma", final:"Závěrečný test"
+};
+
+const RECIPE = {
+  drill: {
+    diag: "Píšeš i/y podle toho, jak to zní. Rozhoduje ale význam slova.",
+    steps: [
+      "Nauč se šest dvojic jako celek, ne po jednom: <b>být/bít · nabýt/nabít · mýt/mít · výt/vít · výr/vír · vysel/visel</b>. Ke každé si nahlas řekni obě věty.",
+      "Než napíšeš i nebo y, nahraď si slovo významem. „b__t doma“ → „nacházet se doma“ → <b>být</b> → y.",
+      "Když slovo není v seznamu ani není s ničím z něj příbuzné, píšeš <b>i</b>. Žádné pravidlo „zní to tvrdě“ neexistuje — <i>liška, silný, místo</i> mají i.",
+      "Napiš deset vět s těmi dvojicemi <b>rukou na papír</b>. Ruka si to pamatuje líp než oči."
+    ]
+  },
+  ps: {
+    diag: "Buď ti utíkají pády, nebo vzory. Obojí má jeden fungující postup.",
+    steps: [
+      "Pády se učí <b>otázkami</b>, ne čísly. Odříkej „kdo co / koho čeho / komu čemu / koho co / oslovujeme / o kom o čem / s kým s čím“ desetkrát nahlas, dokud to nejde bez přemýšlení.",
+      "Vzor hledej <b>vždy přes 2. pád</b> jednotného čísla: „bez ___“. Nikdy neháď podle 1. pádu.",
+      "Nauč se ženské vzory jako jednu řadu: <i>bez ženy / bez růže / bez písně / bez kosti</i>. Ty čtyři se pletou nejčastěji.",
+      "Vezmi deset podstatných jmen z libovolného textu (klidně z herního chatu) a urči pád a vzor. Cizí text, ne cvičebnice."
+    ]
+  },
+  pj: {
+    diag: "Druh přídavného jména se dá poznat mechanicky — nemusíš hádat.",
+    steps: [
+      "Koncovka v 1. pádě rozhodne: <b>-ý/-á/-é</b> = tvrdé · <b>-í</b> ve všech rodech = měkké · <b>-ův/-in</b> = přivlastňovací.",
+      "Test měkkého: dej slovo do ženského rodu. <i>jarní</i> zůstane <i>jarní</i> → měkké. <i>mladý</i> → <i>mladá</i> → tvrdé.",
+      "Jmenný tvar poznáš tak, že mu chybí koncovka a stojí za slovesem <i>být</i>: <b>zdráv, mlád, spokojen</b>.",
+      "Stupňuj jen jednou. „více lepší“ je vždycky chyba — správně <b>lepší</b>."
+    ]
+  },
+  jenz: {
+    diag: "Tabulku se učit nemusíš. Stačí jedna náhrada.",
+    steps: [
+      "Nahraď <i>jenž</i> slovem <b>který</b>. Jaký pád a rod sedne u <i>který</i>, takový použij i u <i>jenž</i>. Funguje to na 100 % případů.",
+      "Zpaměti se nauč jen 1. pád: <b>jenž</b> (mužský), <b>jež</b> (ženský a střední), <b>již</b> (muži v množném), <b>jež</b> (zbytek množného).",
+      "Předložka = přidej <b>n-</b>: <i>s nímž, o němž, k nimž, bez nichž</i>. Bez předložky <b>n-</b> nikdy.",
+      "Napiš pět vět se slovem <i>který</i> a přepiš je na <i>jenž</i>. Když ti věta zní divně, máš špatný pád."
+    ]
+  },
+  cis: {
+    diag: "Chyby jsou skoro vždy jen u dvou slov. Ta dvě si zapamatuj a máš to.",
+    steps: [
+      "<b>dvěma</b> a <b>oběma</b>. Tvary „dvěmi“ a „oběmi“ <b>neexistují</b>. Řekni si to pětkrát nahlas: <i>se dvěma kamarády, s oběma rukama</i>.",
+      "Od pěti výš má číslovka jen dva tvary: <b>pět</b> (1. a 4. pád) a <b>pěti</b> (všechny ostatní). Tím máš vyřešené všechno nad pět.",
+      "Spisovné je <b>-mi</b>, ne -ma: <i>třemi, čtyřmi, pěti</i>. Jediná výjimka je právě <i>dvěma / oběma</i>.",
+      "<b>Sto, tisíc, milion</b> skloňuj jako obyčejné podstatné jméno."
+    ]
+  },
+  slov: {
+    diag: "Určuješ kategorie na přeskáčku. Pevné pořadí tě chyb zbaví.",
+    steps: [
+      "Jeď vždycky ve stejném pořadí: <b>osoba → číslo → způsob → čas → rod → vid</b>. Nikdy nezačínej časem.",
+      "Jakmile řekneš „rozkazovací“ nebo „podmiňovací“, <b>čas se neurčuje</b>. Tečka. Tohle je nejčastější chyba v prověrce.",
+      "Vid testuj přítomností: <i>napíšu</i> je budoucnost → <b>dokonavé</b>. <i>píšu</i> je teď → <b>nedokonavé</b>.",
+      "Vem pět sloves z náhodné věty a projeď u nich celé pořadí nahlas. Pětkrát a máš to zautomatizované."
+    ]
+  },
+  trp: {
+    diag: "Rod slovesa je jediná otázka: dělá to podmět, nebo se to s ním děje?",
+    steps: [
+      "Ptej se jen na tohle: <b>koná ten děj podmět?</b> Ano → činný. Ne → trpný. Nic víc řešit nemusíš.",
+      "Opisný = <b>být + tvar na -n/-t</b> (<i>postaven, umyta, splněn</i>). Zvratný = <b>sloveso + se</b>, ale podmět nic nedělá (<i>dům se staví</i>).",
+      "Past číslo jedna: <i>byl unaven<b>ý</b></i> = přídavné jméno, <b>není</b> trpný rod. <i>byl unaven</i> = trpný rod. Rozdíl je jen koncovka.",
+      "Past číslo dvě: <i>Petr se směje</i> není trpný rod — Petr se směje sám, děj koná on.",
+      "Cvič převod: vezmi pět činných vět a přehoď je. Předmět jde dopředu jako podmět."
+    ]
+  },
+  skl: {
+    diag: "Chybí ti pevné schéma. Jsou to dvě otázky za sebou, nic víc.",
+    steps: [
+      "Nauč se schéma jako blokové: <b>Je tam určité sloveso?</b> Ne → větný ekvivalent, konec. Ano → <b>dá se doplnit podmět?</b> Ano → dvojčlenná. Ne → jednočlenná.",
+      "Nauč se zpaměti ty čtyři věty ze sešitu jako vzorové: <i>Karle?</i> · <i>Ten první.</i> · <i>Padala.</i> · <i>Prší.</i> Každou novou větu přiřadíš k jedné z nich.",
+      "Jednočlenné jsou skoro vždycky <b>počasí a tělo</b>: <i>prší, stmívá se, mrzne, bolí mě hlava, je mi zima</i>.",
+      "<b>Nevyjádřený podmět je pořád podmět.</b> <i>Přišel pozdě.</i> = dvojčlenná, protože tam je <i>(on)</i>."
+    ]
+  },
+  vv: {
+    diag: "Otázku pokládáš od špatného místa. Musí vycházet ze slovesa věty hlavní.",
+    steps: [
+      "Nejdřív <b>najdi sloveso věty hlavní</b>. Bez toho otázku správně nepoložíš.",
+      "Otázku pokládej <b>od toho slovesa</b>, ne od začátku souvětí. „Nepřišel <b>proč?</b>“ → příčinná.",
+      "Nauč se čtyři dvojice, které se pletou: <b>protože</b> = příčina (už se stalo) · <b>aby</b> = účel (má se stát) · <b>ačkoli</b> = přípustka · <b>jestliže</b> = podmínka.",
+      "Napiš si spojky do sloupečku a k nim druh věty. Osm spojek ti pokryje devadesát procent prověrky.",
+      "Pozor na <b>ale, a, nebo, avšak</b> — to jsou souřadicí spojky, vedlejší větu neuvozují."
+    ]
+  },
+  syn: {
+    diag: "Tohle není o pravidlech, ale o tom, kolikrát jsi to slovo viděl.",
+    steps: [
+      "Kartičky se slovní zásobou nahoře projeď <b>třikrát denně po dvou minutách</b>. Krátce a často poráží jedno dlouhé sezení.",
+      "Ke každému novému slovu si vymysli <b>vlastní větu</b> o sobě. Slovo bez věty se nezapamatuje.",
+      "Antonymum hledej větou „opak je…“. Synonymum větou „jinak řečeno…“. Vyslov to nahlas.",
+      "Homonymum poznáš tak, že jedno slovo vyvolá <b>dvě úplně jiné představy</b> (<i>kolej</i> = ubytovna i koleje vlaku)."
+    ]
+  }
+};
+
+/* ============================================================
+   QUIZ ENGINE
+   ============================================================ */
+
+/* ============================================================
+   META
+   ============================================================ */
+var TOPICS = [
+  {id:"vs",  bank:"drill", t:"Vyjmenovaná slova",     s:"95 slov s významem + doplňovačka i/y"},
+  {id:"ps",  bank:"ps",    t:"Podstatná jména",       s:"pád, číslo, rod, vzor"},
+  {id:"pj",  bank:"pj",    t:"Přídavná jména",        s:"druhy, stupňování, shoda"},
+  {id:"jenz",bank:"jenz",  t:"Zájmeno jenž / jež",    s:"který, ale skloňované"},
+  {id:"cis", bank:"cis",   t:"Skloňování číslovek",   s:"dvěma, oběma, třemi"},
+  {id:"slov",bank:"slov",  t:"Slovesa",               s:"způsob, čas, vid"},
+  {id:"trp", bank:"trp",   t:"Trpný rod",             s:"činný × trpný"},
+  {id:"skl", bank:"skl",   t:"Skladba — co je věta",  s:"dvojčlenná, jednočlenná, ekvivalent"},
+  {id:"vv",  bank:"vv",    t:"Věta hlavní a vedlejší",s:"druhy vedlejších vět"},
+  {id:"syn", bank:"syn",   t:"Synonyma a antonyma",   s:"význam slov"}
+];
+var KEYS = TOPICS.map(function(t){return t.bank;});
+var ROUND = 6;
+
+/* doplňovačka jako otázky */
+Q.drill = DRILL.map(function(d){return [d[0].replace("_","<b>__</b>"), d[1], d[2], d[3], true];});
+
+var BANK = {};
+KEYS.forEach(function(k){
+  BANK[k] = Q[k].map(function(a,i){
+    return {q:a[0], opts:a[1], c:a[2], why:a[3]||"", inline:!!a[4], src:k, id:k+"#"+i};
+  });
+});
+function byId(id){var p=id.split("#");return BANK[p[0]][+p[1]];}
+function idsOf(k){return BANK[k].map(function(x){return x.id;});}
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.random()*(i+1)|0;var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function pickFinal(){
+  var pool=[];
+  KEYS.forEach(function(k){pool=pool.concat(shuffle(idsOf(k)).slice(0,2));});
+  return shuffle(pool).slice(0,20);
+}
+function topicOf(bank){for(var i=0;i<TOPICS.length;i++){if(TOPICS[i].bank===bank){return TOPICS[i];}}return null;}
+var strip = function(h){return h.replace(/<[^>]+>/g,"").replace(/\s+/g," ").trim();};
+var chyby = function(n){return n===1?"chybu":(n<5?"chyby":"chyb");};
+
+/* ============================================================
+   ULOŽENÝ STAV
+   ============================================================ */
+var SKEY = "cj8v2";
+function load(){try{return JSON.parse(localStorage.getItem(SKEY))||{};}catch(e){return {};}}
+function save(){try{localStorage.setItem(SKEY,JSON.stringify(S));}catch(e){}}
+var S = load();
+if(!S.tab){S.tab="uc";}
+if(S.uc===undefined){S.uc=null;}
+if(S.cv===undefined){S.cv=null;}
+if(!S.quiz){S.quiz={};}
+if(!S.done){S.done={};}
+if(!S.fcDeck){S.fcDeck="slovnik";}
+if(!S.fcKnown){S.fcKnown={slovnik:{},anton:{}};}
+if(!S.fcKnown.slovnik){S.fcKnown.slovnik={};}
+if(!S.fcKnown.anton){S.fcKnown.anton={};}
+if(!S.fcId){S.fcId={slovnik:0,anton:0};}
+if(S.fcOnly===undefined){S.fcOnly=false;}
+
+/* ============================================================
+   TABY
+   ============================================================ */
+var TABIDS=["uc","fc","cv","ts"];
+function showTab(t){
+  if(TABIDS.indexOf(t)<0){t="uc";}
+  TABIDS.forEach(function(x){document.getElementById(x).hidden = (x!==t);});
+  [].forEach.call(document.querySelectorAll("#tabs button"),function(b){
+    b.classList.toggle("on", b.dataset.t===t);
+  });
+  S.tab=t; save();
+  window.scrollTo(0,0);
+}
+[].forEach.call(document.querySelectorAll("#tabs button"),function(b){
+  b.onclick=function(){showTab(b.dataset.t);};
+});
+
+function badges(){
+  var doneN=0;
+  KEYS.forEach(function(k){if(S.done[k]){doneN++;}});
+  document.getElementById("bd-cv").textContent = doneN?doneN+"/"+KEYS.length:"";
+  var kn=Object.keys(S.fcKnown.slovnik).filter(function(k){return S.fcKnown.slovnik[k];}).length
+       + Object.keys(S.fcKnown.anton).filter(function(k){return S.fcKnown.anton[k];}).length;
+  document.getElementById("bd-fc").textContent = kn?kn+"/"+(SLOVNIK.length+ANTONYMA.length):"";
+  var f=S.done["final"];
+  document.getElementById("bd-ts").textContent = f?f.score+"/"+f.total:"";
+  document.getElementById("bd-uc").textContent = "";
+}
+
+/* ============================================================
+   UČENÍ — seznam okruhů a detail
+   ============================================================ */
+function renderUcRows(){
+  document.getElementById("uc-rows").innerHTML = TOPICS.map(function(t,i){
+    return '<button type="button" class="rowbtn" data-uc="'+t.id+'">'
+      + '<span class="rn">'+(i+1)+'</span>'
+      + '<span class="rt"><b>'+t.t+'</b><i>'+t.s+'</i></span>'
+      + '<span class="rs">›</span></button>';
+  }).join("");
+  [].forEach.call(document.querySelectorAll("[data-uc]"),function(b){
+    b.onclick=function(){openTopic(b.dataset.uc);};
+  });
+}
+function openTopic(id){
+  S.uc=id; save();
+  document.getElementById("uc-list").hidden=true;
+  document.getElementById("uc-detail").hidden=false;
+  [].forEach.call(document.querySelectorAll(".topic"),function(a){
+    a.hidden = (a.dataset.topic!==id);
+  });
+  window.scrollTo(0,0);
+}
+function closeTopic(){
+  S.uc=null; save();
+  document.getElementById("uc-detail").hidden=true;
+  document.getElementById("uc-list").hidden=false;
+  window.scrollTo(0,0);
+}
+document.querySelector('[data-back="uc"]').onclick=closeTopic;
+document.getElementById("uc-go").onclick=function(){
+  var t=null;
+  TOPICS.forEach(function(x){if(x.id===S.uc){t=x;}});
+  if(!t){return;}
+  showTab("cv");
+  openQuiz(t.bank);
+};
+
+/* vyjmenovaná slova — prohlížeč po písmenech */
+var lettersEl=document.getElementById("letters");
+var wordsEl=document.getElementById("words");
+var activeLetter="B";
+function hlWord(w){return w.replace(/[ýy]/gi,function(m){return '<span class="hl">'+m+'</span>';});}
+function renderWords(){
+  wordsEl.innerHTML = VS[activeLetter].map(function(row){
+    var w=row[0],meaning=row[1],warn=row[2],flag=row[3];
+    return '<div class="word'+(flag?' rare':'')+'">'
+      + (flag?'<span class="flag">'+flag+'</span>':'')
+      + '<span class="w">'+hlWord(w)+'</span>'
+      + (meaning?'<span class="m">'+meaning+'</span>':'')
+      + (warn?'<span class="ex">'+warn+'</span>':'')
+      + '</div>';
+  }).join("");
+}
+lettersEl.innerHTML = Object.keys(VS).map(function(L){
+  return '<button type="button" data-l="'+L+'"'+(L===activeLetter?' class="on"':'')+'>'+L+'</button>';
+}).join("");
+lettersEl.addEventListener("click",function(e){
+  var b=e.target.closest("button[data-l]"); if(!b){return;}
+  activeLetter=b.dataset.l;
+  [].forEach.call(lettersEl.children,function(x){x.classList.toggle("on",x===b);});
+  renderWords();
+});
+renderWords();
+
+/* ============================================================
+   KARTIČKY
+   ============================================================ */
+var DECKS = {
+  slovnik: {t:"Slovíčka", data:SLOVNIK.map(function(s){return [s[0],s[1]];})},
+  anton:   {t:"Antonyma", data:ANTONYMA.map(function(p){return [p[0],"opak: <b>"+p[1]+"</b>"];})}
+};
+var fcFlip=false, fcDeckIds=[];
+
+function fcBuild(keep){
+  var d=DECKS[S.fcDeck].data, known=S.fcKnown[S.fcDeck];
+  fcDeckIds=[];
+  for(var i=0;i<d.length;i++){ if(!S.fcOnly || !known[i]){ fcDeckIds.push(i); } }
+  if(keep===undefined || fcDeckIds.indexOf(keep)<0){
+    S.fcId[S.fcDeck] = fcDeckIds.length?fcDeckIds[0]:0;
+  }
+  save();
+}
+function fcPos(){var p=fcDeckIds.indexOf(S.fcId[S.fcDeck]);return p<0?0:p;}
+function fcDraw(){
+  var el=document.getElementById("fc-card");
+  var d=DECKS[S.fcDeck].data, known=S.fcKnown[S.fcDeck];
+  var kn=Object.keys(known).filter(function(k){return known[k];}).length;
+  document.getElementById("fc-known").textContent = "Umím "+kn+" z "+d.length;
+  [].forEach.call(document.querySelectorAll("#fc-decks button"),function(b){
+    b.classList.toggle("on", b.dataset.d===S.fcDeck);
+  });
+  if(!fcDeckIds.length){
+    el.className="fc flipped";
+    el.innerHTML='<span class="mean">Všechno v téhle sadě máš označené jako „umím“.<br>Přepni na „Zobrazit všechny“, nebo jdi na cvičení.</span>';
+    document.getElementById("fc-pos").textContent="";
+    badges(); return;
+  }
+  var card=d[S.fcId[S.fcDeck]];
+  el.className="fc"+(fcFlip?" flipped":"");
+  el.innerHTML = fcFlip
+    ? '<span class="mean">'+card[1]+'</span><span class="hint">klikni zpátky na slovo</span>'
+    : '<span class="front">'+card[0]+'</span><span class="hint">klikni pro význam</span>';
+  document.getElementById("fc-pos").textContent =
+    "Kartička "+(fcPos()+1)+" z "+fcDeckIds.length+(known[S.fcId[S.fcDeck]]?" · ✓ umím":"");
+  badges();
+}
+function fcMove(step){
+  if(!fcDeckIds.length){return fcDraw();}
+  var p=fcPos()+step;
+  if(p<0){p=fcDeckIds.length-1;}
+  if(p>=fcDeckIds.length){p=0;}
+  S.fcId[S.fcDeck]=fcDeckIds[p]; fcFlip=false; save(); fcDraw();
+}
+document.getElementById("fc-card").onclick=function(){fcFlip=!fcFlip;fcDraw();};
+document.getElementById("fc-card").onkeydown=function(e){
+  if(e.key===" "||e.key==="Enter"){e.preventDefault();fcFlip=!fcFlip;fcDraw();}
+};
+document.getElementById("fc-next").onclick=function(){fcMove(1);};
+document.getElementById("fc-prev").onclick=function(){fcMove(-1);};
+document.getElementById("fc-yes").onclick=function(){
+  if(!fcDeckIds.length){return;}
+  S.fcKnown[S.fcDeck][S.fcId[S.fcDeck]]=true; save();
+  if(S.fcOnly){fcBuild(undefined);fcFlip=false;fcDraw();} else {fcMove(1);}
+};
+document.getElementById("fc-no").onclick=function(){
+  if(!fcDeckIds.length){return;}
+  S.fcKnown[S.fcDeck][S.fcId[S.fcDeck]]=false; save(); fcMove(1);
+};
+document.getElementById("fc-only").onclick=function(){
+  S.fcOnly=!S.fcOnly;
+  this.textContent = S.fcOnly?"Zobrazit všechny":"Jen co neumím";
+  fcBuild(S.fcId[S.fcDeck]); fcFlip=false; fcDraw();
+};
+document.getElementById("fc-reset").onclick=function(){
+  S.fcKnown[S.fcDeck]={}; save(); fcBuild(S.fcId[S.fcDeck]); fcDraw();
+};
+[].forEach.call(document.querySelectorAll("#fc-decks button"),function(b){
+  b.onclick=function(){
+    S.fcDeck=b.dataset.d; fcFlip=false; fcBuild(S.fcId[S.fcDeck]); fcDraw();
+  };
+});
+
+/* ============================================================
+   CVIČENÍ — seznam okruhů
+   ============================================================ */
+function statusOf(k){
+  var d=S.done[k], z=S.quiz[k];
+  if(d){return {cls:"ok", txt:d.score+"/"+d.total+" ✓"};}
+  if(z){return {cls:"mid", txt:"rozdělané "+z.i+"/"+z.order.length};}
+  return {cls:"", txt:BANK[k].length+" otázek"};
+}
+function renderCvRows(){
+  document.getElementById("cv-rows").innerHTML = TOPICS.map(function(t,i){
+    var st=statusOf(t.bank);
+    return '<button type="button" class="rowbtn" data-cv="'+t.bank+'">'
+      + '<span class="rn">'+(i+1)+'</span>'
+      + '<span class="rt"><b>'+t.t+'</b><i>'+t.s+'</i></span>'
+      + '<span class="rs '+st.cls+'">'+st.txt+'</span></button>';
+  }).join("");
+  [].forEach.call(document.querySelectorAll("[data-cv]"),function(b){
+    b.onclick=function(){openQuiz(b.dataset.cv);};
+  });
+}
+function openQuiz(k){
+  S.cv=k; save();
+  document.getElementById("cv-list").hidden=true;
+  document.getElementById("cv-run").hidden=false;
+  if(!S.quiz[k]){startRun(k, shuffle(idsOf(k)));} else {paint(k);}
+  window.scrollTo(0,0);
+}
+function closeQuiz(){
+  S.cv=null; save();
+  document.getElementById("cv-run").hidden=true;
+  document.getElementById("cv-list").hidden=false;
+  renderCvRows(); badges();
+  window.scrollTo(0,0);
+}
+
+/* ============================================================
+   BĚH KVÍZU (sdílený pro okruhy i závěrečný test)
+   ============================================================ */
+function hostFor(k){return document.getElementById(k==="final"?"ts-run":"cv-run");}
+
+function startRun(k, ids){
+  S.quiz[k]={order:ids, i:0, score:0, wrong:[], res:[], chose:{}};
+  delete S.done[k];
+  save(); paint(k);
+}
+function mountRun(k){
+  var host=hostFor(k);
+  if(host.dataset.k!==k || !host.firstChild){
+    host.dataset.k=k;
+    host.innerHTML='<div class="runtop">'
+      + '<button type="button" class="backbtn">← '+(k==="final"?"Zpět":"Okruhy")+'</button>'
+      + '<b class="runtitle">'+(k==="final"?"Závěrečný test":TITLE[k])+'</b></div>'
+      + '<div class="bar"><i></i></div><div class="dots"></div><div class="qcard"></div>';
+    host.querySelector(".backbtn").onclick=function(){
+      if(k==="final"){
+        document.getElementById("ts-run").hidden=true;
+        document.getElementById("ts-intro").hidden=false;
+        tsLast(); badges();
+        window.scrollTo(0,0);
+      } else {closeQuiz();}
+    };
+  }
+  return host;
+}
+function drawDots(k, host){
+  var z=S.quiz[k], h="";
+  for(var i=0;i<z.order.length;i++){
+    var c = z.res[i]===1?"dok" : z.res[i]===0?"dbad" : (i===z.i?"dnow":"");
+    h+='<span class="'+c+'"></span>';
+  }
+  host.querySelector(".dots").innerHTML=h;
+  host.querySelector(".bar i").style.width=(z.i/z.order.length*100)+"%";
+}
+
+function paint(k){
+  var host=mountRun(k), z=S.quiz[k], box=host.querySelector(".qcard");
+  drawDots(k, host);
+  if(z.i>=z.order.length){return finishRun(k, host, box);}
+
+  var it=byId(z.order[z.i]);
+  var kolo=Math.floor(z.i/ROUND)+1, kol=Math.ceil(z.order.length/ROUND);
+  box.innerHTML =
+      '<div class="qmeta">Otázka '+(z.i+1)+'/'+z.order.length
+        +' · kolo '+kolo+'/'+kol+' · správně '+z.score+'</div>'
+    + '<div class="qtext">'+it.q+'</div>'
+    + '<div class="opts'+(it.inline?" inline":"")+'">'
+      + it.opts.map(function(o,j){return '<button type="button" class="opt" data-j="'+j+'">'+o+'</button>';}).join("")
+    + '</div>'
+    + '<div class="why" hidden></div>'
+    + '<div class="row" hidden><button type="button" class="btn solid" data-next="1">Další ▸</button></div>';
+
+  [].forEach.call(box.querySelectorAll(".opt"),function(b){
+    b.onclick=function(){answer(k, host, box, +b.dataset.j);};
+  });
+}
+
+function answer(k, host, box, j){
+  var z=S.quiz[k], it=byId(z.order[z.i]);
+  if(z.res[z.i]!==undefined){return;}
+  var ok = (j===it.c);
+  z.res[z.i]= ok?1:0;
+  z.chose[z.order[z.i]]=j;
+  if(ok){z.score++;} else {z.wrong.push(z.order[z.i]);}
+  save();
+
+  [].forEach.call(box.querySelectorAll(".opt"),function(b,bi){
+    b.disabled=true;
+    if(bi===it.c){b.classList.add("correct");}
+    else if(bi===j){b.classList.add("wrong");}
+  });
+  var why=box.querySelector(".why");
+  why.hidden=false;
+  why.innerHTML = (ok?"<b>Správně.</b> ":"<b>Správně je: "+strip(it.opts[it.c])+".</b> ")+it.why;
+  var row=box.querySelector(".row");
+  row.hidden=false;
+  row.querySelector("[data-next]").onclick=function(){nextQ(k);};
+  drawDots(k, host);
+  badges();
+}
+
+function nextQ(k){
+  var z=S.quiz[k];
+  z.i++; save();
+  if(z.i<z.order.length && z.i%ROUND===0){return breakScreen(k);}
+  paint(k);
+}
+
+function breakScreen(k){
+  var host=mountRun(k), z=S.quiz[k], box=host.querySelector(".qcard");
+  drawDots(k, host);
+  var kolo=z.i/ROUND, kol=Math.ceil(z.order.length/ROUND), okv=0;
+  for(var i=z.i-ROUND;i<z.i;i++){if(z.res[i]===1){okv++;}}
+  box.innerHTML =
+      '<div class="qmeta">Pauza</div>'
+    + '<h3>Kolo '+kolo+' z '+kol+' hotové</h3>'
+    + '<div class="bigscore">'+okv+' / '+ROUND+'</div>'
+    + '<p>Zbývá '+(z.order.length-z.i)+' otázek. Můžeš pokračovat, nebo skončit — je to uložené.</p>'
+    + '<div class="row"><button type="button" class="btn solid" data-go="1">Další kolo ▸</button>'
+    + '<button type="button" class="btn" data-stop="1">Dost pro teď</button></div>';
+  box.querySelector("[data-go]").onclick=function(){paint(k);};
+  box.querySelector("[data-stop]").onclick=function(){
+    box.innerHTML='<div class="qmeta">Uloženo</div><h3>Máš to uložené</h3>'
+      +'<p>Až se vrátíš, naskočíš na otázku '+(z.i+1)+'.</p>'
+      +'<div class="row"><button type="button" class="btn solid" data-go="1">Pokračovat teď</button></div>';
+    box.querySelector("[data-go]").onclick=function(){paint(k);};
+  };
+}
+
+function finishRun(k, host, box){
+  var z=S.quiz[k], total=z.order.length, wrong=z.wrong.length;
+  var pct=Math.round(z.score/total*100);
+  S.done[k]={score:z.score,total:total}; save(); badges();
+  host.querySelector(".bar i").style.width="100%";
+
+  var bySrc={};
+  z.wrong.forEach(function(id){var s=byId(id).src; bySrc[s]=(bySrc[s]||0)+1;});
+  var srcs=Object.keys(bySrc).sort(function(a,b){return bySrc[b]-bySrc[a];});
+
+  var head, diag;
+  if(wrong===0){
+    head="Čisté. Tohle už umíš.";
+    diag="Všech "+total+" správně. Vrať se sem den před prověrkou a dej to znovu — tehdy se pozná, jestli to drží.";
+  } else if(pct>=80){
+    head="Skoro celé. "+wrong+" "+chyby(wrong)+" k dodělání.";
+    diag = srcs.length===1 ? RECIPE[srcs[0]].diag : "Chyby ti utíkají ve víc okruzích — každý má vlastní postup níž.";
+  } else if(pct>=50){
+    head="Půlka sedí, půlka ne.";
+    diag = srcs.length===1 ? RECIPE[srcs[0]].diag : "Nejvíc ti to padá v okruhu „"+TITLE[srcs[0]]+"“. Začni tam.";
+  } else {
+    head="Tohle zatím nedrží — a to je v pořádku, právě proto to trénuješ.";
+    diag="Nejde o to zkoušet to pořád dokola. Projeď plán níž, pak se vrať a dej to ještě jednou.";
+  }
+
+  var missHtml = z.wrong.map(function(id){
+    var it=byId(id), chose=z.chose[id];
+    return '<div class="miss">'
+      + '<span class="mq">'+it.q+'</span>'
+      + '<span class="ma">Klikl jsi <i>'+(chose!==undefined?strip(it.opts[chose]):"—")+'</i> · správně je <b>'+strip(it.opts[it.c])+'</b></span>'
+      + (it.why?'<span class="ma">'+it.why+'</span>':'')
+      + '</div>';
+  }).join("");
+
+  var planHtml = srcs.map(function(s){
+    return (srcs.length>1?'<h4>'+TITLE[s]+' — '+bySrc[s]+'×</h4>':'')
+      + '<ol class="plan">'+RECIPE[s].steps.map(function(t){return '<li>'+t+'</li>';}).join("")+'</ol>';
+  }).join("");
+
+  box.innerHTML =
+      '<div class="qmeta">'+(k==="final"?"Závěrečný test":TITLE[k])+' · hotovo</div>'
+    + '<h3>'+head+'</h3>'
+    + '<div class="bigscore">'+z.score+' / '+total+'</div>'
+    + '<p>'+diag+'</p>'
+    + (wrong?'<h4>Co ti uteklo</h4>'+missHtml:'')
+    + (wrong?'<h4>Jak to zvládnout, aby to příště sedlo</h4>'+planHtml:'')
+    + '<div class="row"><button type="button" class="btn solid" data-again="1">Znovu, zamíchat</button>'
+    + (wrong?'<button type="button" class="btn" data-bad="1">Jen chyby ('+wrong+')</button>':'')
+    + '</div>';
+
+  box.querySelector("[data-again]").onclick=function(){
+    startRun(k, k==="final"?pickFinal():shuffle(idsOf(k)));
+  };
+  var bb=box.querySelector("[data-bad]");
+  if(bb){
+    var bad=z.wrong.slice();
+    bb.onclick=function(){startRun(k, shuffle(bad));};
+  if(window.__tipbar){window.__tipbar.afterQuiz();}
+  }
+}
+
+/* ============================================================
+   TEST
+   ============================================================ */
+function tsLast(){
+  var f=S.done["final"];
+  document.getElementById("ts-last").textContent = f ? ("Naposledy: "+f.score+" z "+f.total+".") : "";
+}
+document.getElementById("ts-start").onclick=function(){
+  document.getElementById("ts-intro").hidden=true;
+  document.getElementById("ts-run").hidden=false;
+  if(!S.quiz["final"] || S.done["final"]){startRun("final", pickFinal());} else {paint("final");}
+  window.scrollTo(0,0);
+};
+
+/* ============================================================
+   TÉMA (světlé / tmavé)
+   ============================================================ */
+document.getElementById("themeBtn").onclick=function(){
+  var root=document.documentElement, cur=root.getAttribute("data-theme");
+  var dark = cur ? cur==="dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+  root.setAttribute("data-theme", dark?"light":"dark");
+  try{localStorage.setItem("cj8-theme", dark?"light":"dark");}catch(e){}
+};
+try{
+  var th=localStorage.getItem("cj8-theme");
+  if(th){document.documentElement.setAttribute("data-theme",th);}
+}catch(e){}
+
+/* rozbalené „minimum“ si pamatujeme */
+var mini=document.getElementById("mini");
+if(S.mini){mini.open=true;}
+mini.addEventListener("toggle",function(){S.mini=mini.open;save();});
+
+/* ============================================================
+   START
+   ============================================================ */
+renderUcRows();
+renderCvRows();
+fcBuild(S.fcId[S.fcDeck]);
+if(S.fcOnly){document.getElementById("fc-only").textContent="Zobrazit všechny";}
+fcDraw();
+tsLast();
+badges();
+if(S.uc){openTopic(S.uc);}
+if(S.cv){
+  document.getElementById("cv-list").hidden=true;
+  document.getElementById("cv-run").hidden=false;
+  if(S.quiz[S.cv]){paint(S.cv);} else {startRun(S.cv, shuffle(idsOf(S.cv)));}
+}
+showTab(S.tab);
+
+/* ===== lišta s dobrovolným příspěvkem =====
+   Ukáže se JEDNOU po 45 s a pak už nikdy — volba se ukládá.
+   Jediná výjimka: po dokončení kvízu.
+   Během kvízu nevyskočí vůbec, aby nerušila při počítání. */
+(function(){
+  var bar=document.getElementById('tipbar');
+  if(!bar){return;}
+  var FIRST=45000, t=null, opened=false;
+
+  function quizOpen(){
+    var a=document.getElementById("cv"), b=document.getElementById("ts");
+    return !!((a && !a.hidden) || (b && !b.hidden));
+  }
+
+  function seen(){ try{ return !!S.tipSeen; }catch(e){ return false; } }
+  function markSeen(){ try{ S.tipSeen=true; save(); }catch(e){} }
+
+  function place(){
+    var nav=document.querySelector("nav"), o=0;
+    if(nav && getComputedStyle(nav).position==="fixed"){ o=Math.round(nav.getBoundingClientRect().height); }
+    bar.style.bottom = o ? o+"px" : "";
+  }
+  function show(){ if(opened){return;} resetLook(); place(); bar.hidden=false; }
+  function hide(){ bar.hidden=true; if(t){clearTimeout(t); t=null;} }
+
+  document.getElementById('tipbar-yes').onclick=function(){
+    opened=true; markSeen(); hide();
+    var tip=document.querySelector('.tip');
+    if(tip){ tip.scrollIntoView({block:'center'}); }
+  };
+  var txtEl=bar.querySelector('.tipbar-txt');
+  var btnEl=bar.querySelector('.tipbar-btns');
+  var byeEl=bar.querySelector('.tipbar-bye');
+  var byeT=null;
+
+  function resetLook(){
+    if(byeT){ clearTimeout(byeT); byeT=null; }
+    bar.classList.remove('bye');
+    if(byeEl){ byeEl.hidden=true; }
+    if(txtEl){ txtEl.hidden=false; }
+    if(btnEl){ btnEl.hidden=false; }
+  }
+
+  document.getElementById('tipbar-no').onclick=function(){
+    markSeen();
+    if(!byeEl){ hide(); return; }
+    txtEl.hidden=true; btnEl.hidden=true; byeEl.hidden=false;
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduce){ hide(); resetLook(); return; }
+    bar.classList.add('bye');
+    byeT=setTimeout(function(){ hide(); resetLook(); }, 3100);
+  };
+
+  function firstTry(){
+    if(seen() || opened){ return; }
+    if(quizOpen()){ t=setTimeout(firstTry, 20000); return; }
+    show();
+  }
+  if(!seen()){ t=setTimeout(firstTry, FIRST); }
+
+  window.addEventListener("resize", function(){ if(!bar.hidden){ place(); } });
+
+  window.__tipbar={
+    show:show, hide:hide, first:FIRST, seen:seen, isOff:function(){return opened;},
+    afterQuiz:function(){ if(opened){return;} setTimeout(show, 600); }
+  };
+})();
+</script>
+</body>
+</html>
