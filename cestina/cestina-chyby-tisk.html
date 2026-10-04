@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Čeština — nejčastější chyby (tisk)</title>
+<style>
+  @page{size:A4;margin:11mm 12mm}
+  :root{--ink:#111;--ink2:#555;--line:#bbb;--accent:#1f4fb3;--soft:#eef2fb}
+  *{box-sizing:border-box}
+  html,body{margin:0;background:#fff;color:var(--ink)}
+  body{font:10.3pt/1.38 "Segoe UI",Roboto,Arial,sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .sheet{width:186mm;height:274mm;margin:0 auto;display:flex;flex-direction:column;gap:3mm;overflow:hidden}
+  .sheet+.sheet{break-before:page}
+  @media screen{
+    body{background:#ddd;padding:16px 0}
+    .sheet{background:#fff;padding:11mm 12mm;width:210mm;height:297mm;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,.25)}
+    .hint{max-width:210mm;margin:0 auto 12px;font-size:14px}
+  }
+  @media screen and (max-width:820px){.sheet{zoom:.45}}
+  @media print{.hint{display:none}}
+
+  header{display:flex;align-items:baseline;justify-content:space-between;border-bottom:2px solid var(--ink);padding-bottom:1.5mm}
+  h1{margin:0;font-size:18pt;letter-spacing:-.3px}
+  h1 span{color:var(--accent)}
+  .meta{font-size:8.5pt;color:var(--ink2);text-align:right}
+  h2{margin:0 0 1.4mm;font-size:11pt;color:var(--accent);text-transform:uppercase;letter-spacing:.06em}
+  .box{border:1px solid var(--line);border-radius:3mm;padding:2.5mm 3.3mm}
+  .box.hi{border:1.6px solid var(--accent);background:var(--soft)}
+  ul,ol{margin:0;padding-left:5mm} li{margin:.6mm 0}
+  .k{color:var(--accent);font-weight:700}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:3mm}
+  table{width:100%;border-collapse:collapse;font-size:9.8pt}
+  th,td{text-align:left;padding:1mm 1.6mm;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:7.8pt;color:var(--ink2);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+  tr:last-child td{border-bottom:0}
+  td.n{font-weight:700;white-space:nowrap}
+  .end{color:var(--accent);font-weight:800}
+  .note{font-size:9pt;color:var(--ink2);margin-top:1.2mm}
+  .try li{margin:1.5mm 0}
+  .blank{display:inline-block;min-width:34mm;border-bottom:1px solid var(--ink);height:4mm;vertical-align:bottom}
+  .blank.s{min-width:7mm}
+  .ans{font-size:8.5pt;color:var(--ink2);border-top:1px dashed var(--line);padding-top:1.2mm;margin-top:1.6mm}
+  .grow{flex:1}
+  .cols2{columns:2;column-gap:8mm}
+  .cols2 li{break-inside:avoid}
+  .cols2 .blank{min-width:22mm}
+  table.vv{font-size:9.4pt}
+  footer{margin-top:auto;font-size:8pt;color:var(--ink2);border-top:1px solid var(--line);padding-top:1.3mm;display:flex;justify-content:space-between;gap:4mm}
+  footer b{color:var(--ink)}
+  .try h3{margin:2.2mm 0 .6mm;font-size:9.8pt}
+  .try h3:first-of-type{margin-top:0}
+  .blank.wide{min-width:50mm}
+  .try{display:flex;flex-direction:column}
+  .try li{margin:2.4mm 0}
+  .cols2{columns:auto;display:grid;grid-template-columns:1fr 1fr;column-gap:8mm}
+  .cols2 .blank{min-width:30mm}
+  .try .ans{margin-top:auto}
+</style>
+</head>
+<body>
+
+<p class="hint">Verze na tisk: <b>Ctrl + P</b> → A4, okraje „výchozí", měřítko 100 %. Vyjdou přesně 3 strany. Když je sešit menší než A4, dej měřítko 85–90 %.</p>
+
+<!-- ============ LIST 1 ============ -->
+<div class="sheet">
+  <header>
+    <h1>Čeština — <span>nejčastější chyby</span></h1>
+    <div class="meta">list 1 ze 3<br>Udělal <b>Rosťa Čermák</b></div>
+  </header>
+
+  <div class="box hi">
+    <h2>Než odevzdáš test — 6 kroků</h2>
+    <ol>
+      <li>Přečti zadání a <b>zakroužkuj</b> slova, která říkají co a kolik: <i>2. os., minulý, tři, zvratná, přídavná jména</i>.</li>
+      <li>Úlohy <b>nad</b> úlohou 1 (a, b, c…) jsou taky úlohy. Jsou za ně body.</li>
+      <li>Určuješ slovo? Nejdřív nad něj napiš <b>základní tvar</b>.</li>
+      <li><b>Nic nenechávej prázdné.</b> Body jsou za části. Víš jen pád? Napiš pád.</li>
+      <li>Na konci porovnej každou odpověď se zakroužkovanými slovy.</li>
+      <li>První odpověď <b>neměň</b>, když nevíš přesně proč.</li>
+    </ol>
+  </div>
+
+  <div class="box">
+    <h2>Základní tvar — nejčastější chyba</h2>
+    <p style="margin:0 0 1.2mm">Slovo v textu je v nějakém pádě. <b>Nejdřív ho převeď na základní tvar</b>, pak urči.</p>
+    <table>
+      <thead><tr><th>V textu</th><th>Základní tvar</th><th>Výsledek</th></tr></thead>
+      <tbody>
+        <tr><td>z <b>ní</b>, u <b>nás</b>, povím <b>vám</b></td><td>ona, my, vy</td><td><b>osobní</b> zájmeno</td></tr>
+        <tr><td><b>srncům</b></td><td>jeden srnec</td><td>vzor <b>muž</b></td></tr>
+        <tr><td><b>poupaty</b></td><td>jedno poupě</td><td>vzor <b>kuře</b></td></tr>
+        <tr><td><b>smělí</b> hoši</td><td>ten smělý</td><td><b>tvrdé</b> přídavné jméno</td></tr>
+        <tr><td>ze <b>čtyř</b></td><td>čtyři</td><td><b>základní</b> číslovka</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="box">
+    <h2>Osobní zájmena ve všech tvarech</h2>
+    <table>
+      <thead><tr><th>Základ</th><th>Tvary</th></tr></thead>
+      <tbody>
+        <tr><td class="n">já</td><td>mě, mne, mně, mi, mnou</td></tr>
+        <tr><td class="n">ty</td><td>tebe, tě, tobě, <b>ti</b>, tebou</td></tr>
+        <tr><td class="n">on</td><td>jeho, ho, <b>něho, něj</b>, jemu, mu, němu, něm, jím, ním</td></tr>
+        <tr><td class="n">ona</td><td>jí, <b>ní</b>, ji, ni</td></tr>
+        <tr><td class="n">my</td><td><b>nás</b>, nám, námi</td></tr>
+        <tr><td class="n">vy</td><td>vás, <b>vám</b>, vámi</td></tr>
+        <tr><td class="n">oni</td><td>jich, <b>nich</b>, jim, nim, je, ně, jimi, nimi</td></tr>
+      </tbody>
+    </table>
+    <p class="note">Tvar na <b>n-</b> po předložce (<i>z ní, do něj, bez nich, s nimi</i>) je <b>vždy osobní</b> zájmeno.</p>
+  </div>
+
+  <div class="box grow">
+    <h2>Pasti u zájmen</h2>
+    <ul>
+      <li><b>nás × náš</b>: <i>u nás</i> = my → <span class="k">osobní</span>. <i>náš pes</i> = čí? → <span class="k">přivlastňovací</span>.</li>
+      <li><b>jí × její</b>: <i>dala jí</i> = ona → <span class="k">osobní</span>. <i>její bratr</i> = čí? → <span class="k">přivlastňovací</span>.</li>
+      <li><b>ti × ti</b>: <i>já ti povím</i> = tobě → <span class="k">osobní</span>. <i>ti kluci</i> = ten → <span class="k">ukazovací</span>.</li>
+      <li><b>kdo</b>: <i>Kdo přišel?</i> = ptá se → <span class="k">tázací</span>. <i>Ten, kdo přišel…</i> = neptá se → <span class="k">vztažné</span>.</li>
+      <li><b>který</b> uprostřed věty (<i>dívka, které jsem psal</i>) → <span class="k">vztažné</span>.</li>
+    </ul>
+  </div>
+
+  <footer>
+    <span>Udělal <b>Rosťa Čermák</b> · GitHub WafflingNinja · TikTok @waffleninja7 · IG angel_dust.mp4</span>
+    <span>1 / 3</span>
+  </footer>
+</div>
+
+<!-- ============ LIST 2 ============ -->
+<div class="sheet">
+  <header>
+    <h1>Čeština — <span>vzory, číslovky, slovesa</span></h1>
+    <div class="meta">list 2 ze 3</div>
+  </header>
+
+  <div class="grid">
+    <div class="box">
+      <h2>Vzory podstatných jmen</h2>
+      <p style="margin:0 0 1mm"><b>1.</b> jeden / jedna / jedno ___ → <b>2.</b> rod → <b>3.</b> vzor podle konce.</p>
+      <table>
+        <tbody>
+          <tr><td class="n">muž. živ.</td><td>pán, muž, předseda, soudce</td></tr>
+          <tr><td class="n">muž. neživ.</td><td>hrad, stroj</td></tr>
+          <tr><td class="n">ženský</td><td>žena, růže, píseň, kost</td></tr>
+          <tr><td class="n">střední</td><td>město, moře, kuře, stavení</td></tr>
+        </tbody>
+      </table>
+      <p class="note"><i>předseda</i> končí na -a, ale je to muž → vzor <b>předseda</b>.</p>
+    </div>
+    <div class="box">
+      <h2>Přídavná jména</h2>
+      <p style="margin:0 0 1mm">Převeď na <b>ten ___</b> a podívej se na konec:</p>
+      <ul>
+        <li><b>-ý</b> → <span class="k">tvrdé</span> (mladý): <i>smělí → ten smělý</i></li>
+        <li><b>-í</b> → <span class="k">měkké</span> (jarní): <i>tulení → ten tulení</i></li>
+        <li><b>-ův / -in</b> → <span class="k">přivlastňovací</span>: <i>otcův, Karlovy</i></li>
+      </ul>
+      <p class="note"><i>pěkně, pomalu</i> odpovídají na <b>jak?</b> → příslovce, ne přídavná jména.</p>
+    </div>
+  </div>
+
+  <div class="box">
+    <h2>Číslovky — podle otázky</h2>
+    <table>
+      <thead><tr><th>Otázka</th><th>Druh</th><th>Příklad</th></tr></thead>
+      <tbody>
+        <tr><td>kolik?</td><td class="n">základní</td><td>čtyři, ze čtyř, s padesáti</td></tr>
+        <tr><td>kolikátý?</td><td class="n">řadová</td><td>sedmý, sedmdesátý</td></tr>
+        <tr><td>kolikery?</td><td class="n">druhová</td><td>troje, jedny brýle</td></tr>
+        <tr><td>kolikrát? kolikanásobný?</td><td class="n">násobná</td><td>jednou, dvacetkrát</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="box">
+    <h2>Slovesa — osoba a víc slov</h2>
+    <p style="margin:0 0 1.2mm"><b>Osoba:</b> dej před sloveso <b>já / ty / on / my / vy / oni</b>: <i>(ty) čti · (on) by nakreslil</i>.</p>
+    <div class="grid">
+      <table>
+        <thead><tr><th>Osoba</th><th>jednotné</th><th>množné</th></tr></thead>
+        <tbody>
+          <tr><td>1.</td><td>psal <b>bych</b></td><td>psali <b>bychom</b></td></tr>
+          <tr><td>2.</td><td>psal <b>bys</b></td><td>psali <b>byste</b></td></tr>
+          <tr><td>3.</td><td>psal <b>by</b></td><td>psali <b>by</b></td></tr>
+        </tbody>
+      </table>
+      <ul>
+        <li><b>budu psát</b> — budoucí čas</li>
+        <li><b>psal jsem, učil ses</b> — minulý (<i>ses = jsi se</i>)</li>
+        <li><b>psal bych</b> — podmiňovací přítomný</li>
+        <li><b>byl bych psal</b> — podmiňovací <b>minulý</b></li>
+        <li><b>byl psán</b> — trpný rod (být + příčestí trpné)</li>
+      </ul>
+    </div>
+    <p class="note">K tvaru patří <b>všechna slova</b> (by, jsem, budu, byl). Příčestí minulé <b>-l</b> (<i>dopadl</i>) × trpné <b>-n / -t</b> (<i>dopaden, řečen</i>).
+      Rozkazovací způsob <b>nemá čas</b> a má i 1. osobu mn. č.: <i>čti, čtěme, čtěte · připojme</i>.</p>
+  </div>
+
+  <div class="box grow">
+    <h2>Části těla × věci — 7. pád množného čísla</h2>
+    <table>
+      <thead><tr><th>Slovo</th><th>Tělo</th><th>Věc</th></tr></thead>
+      <tbody>
+        <tr><td class="n">noha</td><td>rovnýma <b>nohama</b></td><td>stůl s <b>nohami</b></td></tr>
+        <tr><td class="n">oko</td><td>krásnýma <b>očima</b></td><td>mastná oka → s <b>oky</b></td></tr>
+        <tr><td class="n">ucho</td><td>s dlouhýma <b>ušima</b></td><td>hrnec se dvěma <b>uchy</b></td></tr>
+        <tr><td class="n">ruka</td><td>vlastníma <b>rukama</b></td><td>hodinky s <b>ručičkami</b></td></tr>
+      </tbody>
+    </table>
+    <p class="note">Tvar na <b>-ma</b> dostane i přídavné jméno: <i>krásnýma očima</i>. U věcí ne: <i>křivými nohami</i>.</p>
+  </div>
+
+  <footer>
+    <span>Udělal <b>Rosťa Čermák</b> · Telegram @TheWaffleNinja · tvary ověřeny v Internetové jazykové příručce ÚJČ</span>
+    <span>2 / 3</span>
+  </footer>
+</div>
+
+<!-- ============ LIST 3 ============ -->
+<div class="sheet">
+  <header>
+    <h1>Čeština — <span>zkus sám</span></h1>
+    <div class="meta">list 3 ze 3</div>
+  </header>
+
+  <div class="box try grow">
+    <h3>A) Urči druh zájmena</h3>
+    <ol class="cols2">
+      <li>Šel jsem s <b>ním</b> do kina. <span class="blank"></span></li>
+      <li>U <b>nás</b> doma. <span class="blank"></span></li>
+      <li><b>Náš</b> učitel. <span class="blank"></span></li>
+      <li>Já <b>ti</b> to vrátím. <span class="blank"></span></li>
+      <li><b>Ti</b> psi štěkají. <span class="blank"></span></li>
+      <li>Ten, <b>kdo</b> lže, … <span class="blank"></span></li>
+      <li>Bez <b>ní</b> to nejde. <span class="blank"></span></li>
+      <li><b>Nikdo</b> nevěděl. <span class="blank"></span></li>
+    </ol>
+    <h3>B) Napiš základní tvar a vzor</h3>
+    <ol class="cols2" start="9">
+      <li><b>srncům</b> <span class="blank"></span></li>
+      <li><b>poupaty</b> <span class="blank"></span></li>
+      <li><b>předsedovi</b> <span class="blank"></span></li>
+      <li><b>dlaním</b> <span class="blank"></span></li>
+    </ol>
+    <h3>C) Tvrdé, měkké, nebo příslovce?</h3>
+    <ol class="cols2" start="13">
+      <li><b>smělí</b> hoši <span class="blank"></span></li>
+      <li><b>hovězí</b> polévka <span class="blank"></span></li>
+      <li>šel <b>pomalu</b> <span class="blank"></span></li>
+      <li><b>zlí</b> psi <span class="blank"></span></li>
+    </ol>
+    <h3>D) Druh číslovky</h3>
+    <ol class="cols2" start="17">
+      <li>jednu ze <b>čtyř</b> <span class="blank"></span></li>
+      <li>byl tam <b>jednou</b> <span class="blank"></span></li>
+      <li><b>troje</b> ponožky <span class="blank"></span></li>
+      <li><b>sedmdesátý</b> <span class="blank"></span></li>
+    </ol>
+    <h3>E) Která osoba?</h3>
+    <ol class="cols2" start="21">
+      <li><b>čti</b> <span class="blank"></span></li>
+      <li><b>nakreslil by</b> <span class="blank"></span></li>
+      <li><b>učil ses</b> <span class="blank"></span></li>
+      <li><b>pískali bychom si</b> <span class="blank"></span></li>
+    </ol>
+    <h3>F) Doplň správný tvar</h3>
+    <ol start="25">
+      <li>Stůl s (křivé nohy) <span class="blank wide"></span></li>
+      <li>Skočil tam (rovné nohy) <span class="blank wide"></span></li>
+      <li>Hrnec se (dvě ucha) <span class="blank wide"></span></li>
+      <li>Na polévce plavou (mastné oko) <span class="blank wide"></span></li>
+    </ol>
+    <p class="ans"><b>Výsledky:</b> 1) osobní (on) · 2) osobní (my) · 3) přivlastňovací · 4) osobní (tobě) · 5) ukazovací (ten) · 6) vztažné · 7) osobní (ona) · 8) záporné ·
+      9) srnec – muž · 10) poupě – kuře · 11) předseda – předseda · 12) dlaň – píseň ·
+      13) tvrdé (ten smělý) · 14) měkké · 15) příslovce · 16) tvrdé ·
+      17) základní (čtyři) · 18) násobná · 19) druhová · 20) řadová ·
+      21) 2. osoba · 22) 3. osoba · 23) 2. osoba · 24) 1. osoba ·
+      25) křivými nohami · 26) rovnýma nohama · 27) dvěma uchy · 28) mastná oka</p>
+  </div>
+
+  <div class="box">
+    <h2>Ověřeno</h2>
+    <ul>
+      <li>Tvary <i>nohama / nohami, oči / oka, uši / uchy</i> a <i>učil ses</i> ověřeny v Internetové jazykové příručce ÚJČ.</li>
+      <li>Zařazení některých zájmen (<i>všechen, každý, sám</i>) se v učebnicích liší. <span class="k">Do testu piš podle sešitu.</span></li>
+    </ul>
+  </div>
+
+  <footer>
+    <span>Udělal <b>Rosťa Čermák</b> · celý materiál s kartičkami a kvízem: cestina-chyby.html</span>
+    <span>3 / 3</span>
+  </footer>
+</div>
+
+</body>
+</html>

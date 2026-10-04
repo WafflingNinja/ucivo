@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Čeština — přísudek, shoda, vedlejší věty (tisk)</title>
+<style>
+  @page{size:A4;margin:11mm 12mm}
+  :root{--ink:#111;--ink2:#555;--line:#bbb;--accent:#1f4fb3;--soft:#eef2fb}
+  *{box-sizing:border-box}
+  html,body{margin:0;background:#fff;color:var(--ink)}
+  body{font:10.3pt/1.38 "Segoe UI",Roboto,Arial,sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .sheet{width:186mm;height:274mm;margin:0 auto;display:flex;flex-direction:column;gap:3mm;overflow:hidden}
+  .sheet+.sheet{break-before:page}
+  @media screen{
+    body{background:#ddd;padding:16px 0}
+    .sheet{background:#fff;padding:11mm 12mm;width:210mm;height:297mm;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,.25)}
+    .hint{max-width:210mm;margin:0 auto 12px;font-size:14px}
+  }
+  @media screen and (max-width:820px){.sheet{zoom:.45}}
+  @media print{.hint{display:none}}
+
+  header{display:flex;align-items:baseline;justify-content:space-between;border-bottom:2px solid var(--ink);padding-bottom:1.5mm}
+  h1{margin:0;font-size:18pt;letter-spacing:-.3px}
+  h1 span{color:var(--accent)}
+  .meta{font-size:8.5pt;color:var(--ink2);text-align:right}
+  h2{margin:0 0 1.4mm;font-size:11pt;color:var(--accent);text-transform:uppercase;letter-spacing:.06em}
+  .box{border:1px solid var(--line);border-radius:3mm;padding:2.5mm 3.3mm}
+  .box.hi{border:1.6px solid var(--accent);background:var(--soft)}
+  ul,ol{margin:0;padding-left:5mm} li{margin:.6mm 0}
+  .k{color:var(--accent);font-weight:700}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:3mm}
+  table{width:100%;border-collapse:collapse;font-size:9.8pt}
+  th,td{text-align:left;padding:1mm 1.6mm;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:7.8pt;color:var(--ink2);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+  tr:last-child td{border-bottom:0}
+  td.n{font-weight:700;white-space:nowrap}
+  .end{color:var(--accent);font-weight:800}
+  .note{font-size:9pt;color:var(--ink2);margin-top:1.2mm}
+  .try li{margin:1.5mm 0}
+  .blank{display:inline-block;min-width:34mm;border-bottom:1px solid var(--ink);height:4mm;vertical-align:bottom}
+  .blank.s{min-width:7mm}
+  .ans{font-size:8.5pt;color:var(--ink2);border-top:1px dashed var(--line);padding-top:1.2mm;margin-top:1.6mm}
+  .grow{flex:1}
+  .cols2{columns:2;column-gap:8mm}
+  .cols2 li{break-inside:avoid}
+  .cols2 .blank{min-width:22mm}
+  table.vv{font-size:9.4pt}
+  footer{margin-top:auto;font-size:8pt;color:var(--ink2);border-top:1px solid var(--line);padding-top:1.3mm;display:flex;justify-content:space-between;gap:4mm}
+  footer b{color:var(--ink)}
+</style>
+</head>
+<body>
+
+<p class="hint">Verze na tisk: <b>Ctrl + P</b> → A4, okraje „výchozí", měřítko 100 %. Vyjdou přesně 3 strany. Když je sešit menší než A4, dej měřítko 85–90 %.</p>
+
+<!-- ============ LIST 1 — PŘÍSUDEK ============ -->
+<div class="sheet">
+  <header>
+    <h1>Čeština — <span>přísudek</span></h1>
+    <div class="meta">skladba · list 1 ze 3<br>Udělal <b>Rosťa Čermák</b></div>
+  </header>
+
+  <div class="box hi">
+    <h2>Minimum na test</h2>
+    <ol>
+      <li>Přísudek je <span class="k">základní větný člen</span>. Spolu s podmětem tvoří základ věty.</li>
+      <li>Říká, co podmět dělá nebo jaký je. Ptáš se: <b>co dělá?</b> · <b>co se s ním děje?</b> · <b>jaký je?</b></li>
+      <li>Druhy: <span class="k">slovesný jednoduchý</span> · <span class="k">slovesný složený</span> · <span class="k">jmenný se sponou</span> · <span class="k">jmenný beze spony</span>.</li>
+    </ol>
+  </div>
+
+  <div class="box">
+    <h2>Druhy přísudku</h2>
+    <table>
+      <thead><tr><th>Druh</th><th>Jak ho poznáš</th><th>Příklad</th></tr></thead>
+      <tbody>
+        <tr><td class="n">slovesný jednoduchý</td><td>jedno plnovýznamové sloveso (i ve složeném tvaru času)</td><td><i>Petr <b>čte</b>. Petr <b>četl</b>. Petr <b>bude číst</b>.</i></td></tr>
+        <tr><td class="n">slovesný složený</td><td><b>modální</b> sloveso (muset, moci, chtít, smět, mít) nebo <b>fázové</b> (začít, přestat) + <b>infinitiv</b></td><td><i>Petr <b>musí číst</b>. Petr <b>začal číst</b>.</i></td></tr>
+        <tr><td class="n">jmenný se sponou</td><td><b>spona</b> (být, bývat, stát se) + <b>jméno</b>: podstatné, přídavné, zájmeno, číslovka</td><td><i>Petr <b>je lékař</b>. <b>Stal se lékařem</b>. Moře <b>bylo klidné</b>.</i></td></tr>
+        <tr><td class="n">jmenný beze spony</td><td>sloveso ve větě chybí, zůstalo jen jméno</td><td><i>Konec <b>dobrý</b>, všechno <b>dobré</b>.</i></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="box">
+    <h2>Pasti u přísudku</h2>
+    <ul>
+      <li><i>Petr <b>bude číst</b></i> = <span class="k">slovesný jednoduchý</span>. „Bude“ tu jen tvoří budoucí čas, není modální.</li>
+      <li><i>Petr <b>je doma</b></i> = <span class="k">slovesný</span>. „Je“ tu znamená „nachází se“, <i>doma</i> je příslovečné určení místa.</li>
+      <li><i>Dům <b>byl postaven</b></i> = <span class="k">slovesný</span> (trpný rod). <i>Dům <b>byl vysoký</b></i> = <span class="k">jmenný se sponou</span> (přídavné jméno).</li>
+      <li>K přísudku patří <b>i slůvka jsem/jsi/se/si</b>, když jsou součástí slovesa: <i>Včera <b>jsem se učil</b>.</i></li>
+    </ul>
+  </div>
+
+  <div class="box">
+    <h2>Ověřeno — kde se učebnice liší</h2>
+    <ul>
+      <li>Některé učebnice říkají přísudku se sponou <b>slovesně-jmenný</b>. Je to totéž.</li>
+      <li>Některé mají navíc přísudek <b>citoslovečný</b>: <i>Myš <b>šup</b> do díry.</i></li>
+      <li><span class="k">Do testu piš názvy ze svého sešitu.</span></li>
+    </ul>
+  </div>
+
+  <div class="box try grow">
+    <h2>Zkus sám — urči druh přísudku</h2>
+    <ol>
+      <li><i>Sestra se stala učitelkou.</i> <span class="blank"></span></li>
+      <li><i>Zítra budeme psát test.</i> <span class="blank"></span></li>
+      <li><i>Nechtěl jít domů.</i> <span class="blank"></span></li>
+      <li><i>Babička je na zahradě.</i> <span class="blank"></span></li>
+      <li><i>Ten film byl nudný.</i> <span class="blank"></span></li>
+      <li><i>Most byl opraven.</i> <span class="blank"></span></li>
+      <li><i>Přestal se smát.</i> <span class="blank"></span></li>
+      <li><i>Mladost – radost.</i> <span class="blank"></span></li>
+    </ol>
+    <p class="ans"><b>Výsledky:</b> 1) jmenný se sponou · 2) slovesný jednoduchý (budoucí čas) · 3) slovesný složený (modální „chtít“) · 4) slovesný jednoduchý („je“ = nachází se) · 5) jmenný se sponou · 6) slovesný jednoduchý (trpný rod) · 7) slovesný složený (fázové „přestat“) · 8) jmenný beze spony</p>
+  </div>
+
+  <footer>
+    <span>Udělal <b>Rosťa Čermák</b> · GitHub WafflingNinja · TikTok @waffleninja7 · IG angel_dust.mp4</span>
+    <span>1 / 3</span>
+  </footer>
+</div>
+
+<!-- ============ LIST 2 — SHODA ============ -->
+<div class="sheet">
+  <header>
+    <h1>Čeština — <span>shoda přísudku s podmětem</span></h1>
+    <div class="meta">skladba · list 2 ze 3</div>
+  </header>
+
+  <div class="box hi">
+    <h2>Minimum na test</h2>
+    <ol>
+      <li>Shoda = přísudek má <b>stejný rod a číslo</b> jako podmět. V minulém čase to vidíš na koncovce <span class="k">-i / -y / -a</span>.</li>
+      <li>Několikanásobný podmět: je v něm <b>aspoň jeden</b> mužský životný → <span class="k">-i</span>.</li>
+      <li>Podmět s číslovkou <b>pět a víc</b> (i několik, mnoho) → přísudek končí na <span class="k">-o</span>: <i>Pět žáků přišl<b>o</b>.</i></li>
+    </ol>
+  </div>
+
+  <div class="box">
+    <h2>Koncovky podle rodu podmětu</h2>
+    <table>
+      <thead><tr><th>Podmět</th><th>Jednotné č.</th><th>Množné č.</th><th>Příklad v množném čísle</th></tr></thead>
+      <tbody>
+        <tr><td class="n">mužský životný</td><td>přišel</td><td class="end">-i</td><td><i>Chlapci běhal<b>i</b>. Psi štěkal<b>i</b>.</i></td></tr>
+        <tr><td class="n">mužský neživotný</td><td>spadl</td><td class="end">-y</td><td><i>Stromy kvetl<b>y</b>.</i></td></tr>
+        <tr><td class="n">ženský</td><td>přišla</td><td class="end">-y</td><td><i>Dívky zpíval<b>y</b>.</i></td></tr>
+        <tr><td class="n">střední</td><td>přišlo</td><td class="end">-a</td><td><i>Kuřata pípal<b>a</b>.</i></td></tr>
+        <tr><td class="n">děti</td><td>(dítě) přišlo</td><td class="end">-y</td><td><i>Děti si hrál<b>y</b>.</i> „Děti“ jsou v množném čísle <b>ženského rodu</b>.</td></tr>
+      </tbody>
+    </table>
+    <p class="note">Shoda platí i pro příčestí trpné a přídavné jméno v přísudku: <i>Domy byl<b>y</b> postaven<b>y</b>. Chlapci byl<b>i</b> unaven<b>i</b>.</i></p>
+  </div>
+
+  <div class="grid">
+    <div class="box">
+      <h2>Několikanásobný podmět</h2>
+      <ul>
+        <li>Aspoň jeden <b>mužský životný</b> → <span class="k">-i</span><br><i>Muž a žena stál<b>i</b>.</i></li>
+        <li>Žádný mužský životný → <span class="k">-y</span><br><i>Stůl a židle stál<b>y</b>.</i></li>
+        <li>Všechno <b>střední rod v množném čísle</b> → <span class="k">-a</span><br><i>Auta a kola stál<b>a</b>.</i></li>
+        <li><b>Přísudek před podmětem</b>: jde obojí.<br><i>Přišl<b>a</b> Jana a Petr.</i> i <i>Přišl<b>i</b> Jana a Petr.</i></li>
+        <li><b>Spojení s předložkou „s“</b>: jde obojí.<br><i>Julie s Kamilem zmizel<b>a</b> / zmizel<b>i</b>.</i></li>
+      </ul>
+    </div>
+    <div class="box">
+      <h2>Číslovky a zájmena</h2>
+      <ul>
+        <li><b>dva, tři, čtyři</b> → normální množné číslo<br><i>Dva žáci přišl<b>i</b>. Tři dívky přišl<b>y</b>.</i></li>
+        <li><b>pět a víc, několik, mnoho</b> → <span class="k">-o</span><br><i>Pět žáků přišl<b>o</b>. Deset aut bylo odtažen<b>o</b>.</i></li>
+        <li><b>stovky, tisíce</b> → <span class="k">-y</span><br><i>Stovky lidí se sešl<b>y</b>.</i> (u „tisíce“ jde i -o)</li>
+        <li><b>kdo</b> → jako mužský rod: <i>Kdo to udělal?</i></li>
+        <li><b>co</b> → jako střední rod: <i>Co se stal<b>o</b>?</i></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="box">
+    <h2>Vykání a „my / vy“</h2>
+    <ul>
+      <li>Vykáš <b>jednomu člověku</b> → „jste“, ale příčestí v <b>jednotném čísle</b>: <i>Pane učiteli, <b>byl jste</b>… · Paní učitelko, <b>byla jste</b>…</i> Ne „byli jste“.</li>
+      <li>„My, vy“ podle toho, <b>koho myslíš</b>: jen holky → <i>vy jste nemohl<b>y</b></i>. Aspoň jeden kluk → <i>vy jste nemohl<b>i</b></i>.</li>
+    </ul>
+  </div>
+
+  <div class="box try grow">
+    <h2>Zkus sám — doplň koncovku</h2>
+    <ol>
+      <li>Kluci a holky hrál<span class="blank s"></span> fotbal. · Děti se smál<span class="blank s"></span>. · Kočky a koťata spal<span class="blank s"></span>.</li>
+      <li>Osm žáků chyběl<span class="blank s"></span>. · Tři kamarádi přišl<span class="blank s"></span>. · Štěňata štěkal<span class="blank s"></span>.</li>
+      <li>Psi vyl<span class="blank s"></span> celou noc. · Auta a autobusy stál<span class="blank s"></span> v koloně. · Mnoho lidí odešl<span class="blank s"></span>.</li>
+      <li>Paní učitelko, byl<span class="blank s"></span> jste včera nemocná? · Holky, vy jste to věděl<span class="blank s"></span>? · Co se stal<span class="blank s"></span>?</li>
+    </ol>
+    <p class="ans"><b>Výsledky:</b> 1) -i (kluci = mužský životný), -y (děti), -y (žádný mužský životný) · 2) -o (osm = pět a víc), -i, -a · 3) -i (psi = mužský životný), -y, -o · 4) -a (byla jste, jedna paní), -y (jen holky), -o (co = střední rod)</p>
+  </div>
+
+  <footer>
+    <span>Udělal <b>Rosťa Čermák</b> · Telegram @TheWaffleNinja · pravidla ověřena v Internetové jazykové příručce ÚJČ</span>
+    <span>2 / 3</span>
+  </footer>
+</div>
+
+<!-- ============ LIST 3 — VEDLEJŠÍ VĚTY ============ -->
+<div class="sheet">
+  <header>
+    <h1>Čeština — <span>druhy vedlejších vět</span></h1>
+    <div class="meta">skladba · list 3 ze 3</div>
+  </header>
+
+  <div class="box hi">
+    <h2>Postup</h2>
+    <ol>
+      <li>Najdi slovo ve větě hlavní, ke kterému vedlejší věta patří: většinou <b>sloveso</b>, u přívlastkové <b>podstatné jméno</b>.</li>
+      <li>Od toho slova polož <b>otázku</b> na vedlejší větu.</li>
+      <li>Podle otázky poznáš <b>druh</b>. Spojka pomůže, ale sama nerozhoduje.</li>
+    </ol>
+  </div>
+
+  <div class="box">
+    <table class="vv">
+      <thead><tr><th>Druh</th><th>Otázka</th><th>Typické spojky</th><th>Příklad</th></tr></thead>
+      <tbody>
+        <tr><td class="n">podmětná</td><td>kdo? co?</td><td>kdo, co, že</td><td><i><b>Kdo šetří</b>, má za tři.</i></td></tr>
+        <tr><td class="n">přísudková</td><td>jaký je? čím je?</td><td>jaký, čím</td><td><i>Není, <b>jaký býval</b>.</i></td></tr>
+        <tr><td class="n">předmětná</td><td>pády 2–7: koho? co? o čem?…</td><td>že, aby, co, jestli</td><td><i>Řekl, <b>že přijde</b>.</i></td></tr>
+        <tr><td class="n">přívlastková</td><td>jaký? který? čí?</td><td>který, jenž, co, že</td><td><i>Kniha, <b>kterou čtu</b>, je dobrá.</i></td></tr>
+        <tr><td class="n">doplňková</td><td>jak? (k předmětu i slovesu)</td><td>jak</td><td><i>Slyšel jsem ho, <b>jak zpívá</b>.</i></td></tr>
+        <tr><td class="n">přísl. místní</td><td>kde? kam? odkud? kudy?</td><td>kde, kam, odkud, kudy</td><td><i>Bydlí tam, <b>kde jsem vyrostl</b>.</i></td></tr>
+        <tr><td class="n">přísl. časová</td><td>kdy? jak dlouho? dokdy?</td><td>když, až, jakmile, dokud</td><td><i><b>Když pršelo</b>, byli jsme doma.</i></td></tr>
+        <tr><td class="n">přísl. způsobová</td><td>jak? jakým způsobem?</td><td>jak, jako by</td><td><i>Udělal to, <b>jak uměl</b>.</i></td></tr>
+        <tr><td class="n">přísl. měrová</td><td>do jaké míry? jak moc?</td><td>až, že</td><td><i>Křičel, <b>až ochraptěl</b>.</i></td></tr>
+        <tr><td class="n">přísl. příčinná</td><td>proč? z jaké příčiny?</td><td>protože, jelikož</td><td><i>Nepřišel, <b>protože stonal</b>.</i></td></tr>
+        <tr><td class="n">přísl. účelová</td><td>za jakým účelem? proč?</td><td>aby</td><td><i>Přišel, <b>aby pomohl</b>.</i></td></tr>
+        <tr><td class="n">přísl. podmínková</td><td>za jaké podmínky?</td><td>jestliže, kdyby, pokud, -li</td><td><i><b>Jestliže prší</b>, jsme doma.</i></td></tr>
+        <tr><td class="n">přísl. přípustková</td><td>navzdory čemu? i přes co?</td><td>ačkoli, přestože, i když</td><td><i><b>Ačkoli pršelo</b>, šli jsme ven.</i></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid">
+    <div class="box">
+      <h2>Jedna spojka, víc druhů</h2>
+      <ul>
+        <li><b>když</b>: <i>Když jsem přišel, spal.</i> = časová · <i>Když budeš chtít, pomůžu.</i> = podmínková</li>
+        <li><b>aby</b>: <i>Přišel, aby pomohl.</i> = účelová · <i>Chci, aby přišel.</i> = předmětná (chci <b>co?</b>)</li>
+        <li><b>že</b>: <i>Řekl, že přijde.</i> = předmětná · <i>Je jisté, že přijde.</i> = podmětná (<b>co</b> je jisté?)</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h2>Další pasti</h2>
+      <ul>
+        <li><b>a, i, ale, nebo, ani, neboť</b> jsou <span class="k">souřadicí</span> spojky. Vedlejší větu <b>neuvozují</b>. <i>Neboť</i> taky ne, i když vyjadřuje důvod.</li>
+        <li><b>Příčinná × účelová</b>: <i>protože</i> = příčina, stalo se to dřív. <i>aby</i> = účel, má se to stát potom.</li>
+        <li><b>Podmětná × předmětná</b>: věta hlavní <b>nemá vlastní podmět</b> → podmětná.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="box try grow">
+    <h2>Zkus sám — urči druh vedlejší věty</h2>
+    <ol class="cols2">
+      <li><i>Nevím, kdy se vrátí.</i> <span class="blank"></span></li>
+      <li><i>Učím se, abych prošel.</i> <span class="blank"></span></li>
+      <li><i>Dům, který stojí na kopci, je starý.</i> <span class="blank"></span></li>
+      <li><i>Zůstal doma, protože pršelo.</i> <span class="blank"></span></li>
+      <li><i>Přestože byl unavený, dohrál zápas.</i> <span class="blank"></span></li>
+      <li><i>Kdo pozdě chodí, sám sobě škodí.</i> <span class="blank"></span></li>
+      <li><i>Až zazvoní, půjdeme domů.</i> <span class="blank"></span></li>
+      <li><i>Pokud budeš chtít, pomůžu ti.</i> <span class="blank"></span></li>
+      <li><i>Chci, aby to vyšlo.</i> <span class="blank"></span></li>
+      <li><i>Šel tam, kam ho poslali.</i> <span class="blank"></span></li>
+    </ol>
+    <p class="ans"><b>Výsledky:</b> 1) předmětná (nevím <b>co?</b> — „kdy“ tu neznamená časová) · 2) účelová · 3) přívlastková (<b>který</b> dům?) · 4) příčinná · 5) přípustková · 6) podmětná (<b>kdo</b> škodí?) · 7) časová · 8) podmínková · 9) předmětná (chci <b>co?</b>) · 10) místní</p>
+  </div>
+
+  <footer>
+    <span>Udělal <b>Rosťa Čermák</b> · GitHub WafflingNinja · Telegram @TheWaffleNinja</span>
+    <span>3 / 3</span>
+  </footer>
+</div>
+
+</body>
+</html>

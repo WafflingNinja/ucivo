@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Chemie — nádobí a směsi</title>
+<style>
+  :root{
+    --bg:#10141c; --panel:#1a2130; --panel2:#222b3d; --line:#2a3548;
+    --text:#eef2f7; --dim:#93a0b5; --accent:#2dd4bf; --accent2:#0d9488;
+    --ok:#a3e635; --bad:#fb7185; --warn:#f5c14a;
+    --radius:14px; --tap:48px; --navh:62px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--bg);color:var(--text);overflow-wrap:break-word;
+    font:16px/1.6 -apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+    padding:0 16px calc(var(--navh) + 26px + env(safe-area-inset-bottom));}
+  @media(min-width:760px){body{padding-bottom:60px}}
+  .wrap{max-width:820px;margin:0 auto}
+
+  header{padding:16px 0 4px}
+  h1{font-size:clamp(20px,5.2vw,28px);margin:0;letter-spacing:-.3px;line-height:1.15}
+  h1 span{color:var(--accent)}
+  .sub{color:var(--dim);margin:6px 0 0;font-size:13px}
+
+  nav{position:fixed;left:0;right:0;bottom:0;z-index:60;display:grid;grid-template-columns:repeat(3,1fr);
+    background:var(--panel);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
+  nav button{min-height:var(--navh);border:0;background:transparent;color:var(--dim);font:inherit;
+    font-size:11.5px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:2px;cursor:pointer;padding:6px 2px}
+  nav .ic{font-size:19px;line-height:1}
+  nav button.on{color:var(--accent)}
+  nav .bd{font-size:10px;min-height:11px;color:var(--dim);font-variant-numeric:tabular-nums}
+  nav button.on .bd{color:var(--accent)}
+  @media(min-width:760px){
+    nav{position:sticky;top:0;bottom:auto;display:flex;gap:8px;background:var(--bg);
+      border-top:0;border-bottom:1px solid var(--line);padding:10px 0;margin-bottom:8px}
+    nav button{min-height:46px;flex-direction:row;gap:8px;font-size:15px;padding:0 16px;
+      border-radius:999px;border:1px solid var(--line);background:var(--panel)}
+    nav button.on{background:#0b2e33;border-color:var(--accent)}
+    nav .bd{font-size:12px}
+  }
+  main{padding-top:14px}
+  section{display:none} section.on{display:block}
+
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    padding:18px 20px;margin-bottom:14px}
+  @media(max-width:520px){.card{padding:16px 14px}}
+  .card h2{margin:0 0 12px;font-size:18px;color:var(--accent)}
+  .card h3{margin:16px 0 6px;font-size:15px;color:#fff}
+  ul{margin:6px 0;padding-left:20px} li{margin:5px 0}
+  .key{color:var(--accent);font-weight:600}
+  .note{font-size:13px;color:var(--dim);border-top:1px dashed var(--line);margin-top:12px;padding-top:10px}
+  .tag{font-size:12px;color:var(--dim)}
+
+  details.mini{background:#0b2e33;border:1px solid var(--accent);border-radius:var(--radius);
+    margin-bottom:14px;padding:0;overflow:hidden}
+  details.mini>summary{list-style:none;cursor:pointer;min-height:56px;display:flex;align-items:center;
+    gap:8px;padding:12px 18px;font-size:17px;font-weight:600}
+  details.mini>summary::-webkit-details-marker{display:none}
+  details.mini>summary::after{content:"rozbalit";margin-left:auto;font-size:11px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--accent)}
+  details.mini[open]>summary::after{content:"sbalit"}
+  details.mini ol{margin:0;padding:0 18px 18px 38px;display:flex;flex-direction:column;gap:8px;font-size:15px}
+
+  .tablewrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -4px}
+  table{width:100%;border-collapse:collapse;font-size:14.5px}
+  th,td{padding:8px 10px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;white-space:nowrap}
+  thead th{color:var(--dim);font-size:12px;text-transform:uppercase;letter-spacing:.08em;font-weight:500}
+  tbody tr:last-child td{border-bottom:none}
+  td b{color:var(--accent)}
+  table.wrapcell td,table.wrapcell th{white-space:normal}
+
+  .fcbar{display:flex;gap:14px;margin-bottom:10px;color:var(--dim);font-size:13.5px;flex-wrap:wrap}
+  .fc{background:var(--panel2);border:1px solid var(--line);border-radius:var(--radius);
+    min-height:200px;display:flex;align-items:center;justify-content:center;text-align:center;
+    padding:26px;cursor:pointer;font-size:20px;user-select:none}
+  .fc small{display:block;color:var(--dim);font-size:12px;margin-top:14px}
+  .fc.back{background:#0b2e33;border-color:var(--accent2)}
+
+  .row{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+  button.btn{background:var(--accent);color:#05231a;border:0;min-height:var(--tap);padding:10px 20px;
+    border-radius:11px;font:inherit;font-size:15px;font-weight:600;cursor:pointer}
+  button.btn.big{flex:1 1 44%}
+  button.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+  button.small{min-height:40px;padding:6px 13px;font-size:13.5px}
+
+  .bar{height:7px;background:var(--panel2);border-radius:999px;overflow:hidden;margin-bottom:8px}
+  .bar i{display:block;height:100%;background:var(--accent);width:0}
+  .dots{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px}
+  .dots span{width:9px;height:9px;border-radius:50%;background:var(--panel2);border:1px solid var(--line)}
+  .dots span.d-ok{background:var(--ok);border-color:var(--ok)}
+  .dots span.d-bad{background:var(--bad);border-color:var(--bad)}
+  .dots span.d-now{background:var(--accent);border-color:var(--accent)}
+  .qn{color:var(--dim);font-size:13px;margin-bottom:6px}
+  .qt{font-size:18px;margin-bottom:14px;line-height:1.45}
+  .qt b{color:var(--accent)}
+  input.ans{width:100%;min-height:var(--tap);background:var(--panel2);color:var(--text);
+    border:1px solid var(--line);border-radius:11px;padding:12px 14px;font:inherit;font-size:17px}
+  input.ans:focus{outline:2px solid var(--accent);outline-offset:1px}
+  .fb{margin-top:14px;padding:12px 14px;border-radius:11px;font-size:15px}
+  .fb.ok{background:#13290f;border:1px solid var(--ok)}
+  .fb.bad{background:#2b1520;border:1px solid var(--bad)}
+  .fb>b:first-child{display:block;margin-bottom:4px}
+  .score{font-size:40px;font-weight:700;color:var(--accent);margin:8px 0}
+  .wrongs li{margin:10px 0}
+  .saved{font-size:12px;color:var(--dim);margin-top:14px}
+
+  .tipbar{position:fixed;left:0;right:0;z-index:70;background:var(--panel);
+    border-top:1px solid var(--accent);padding:11px 16px;
+    bottom:0;padding-bottom:calc(11px + env(safe-area-inset-bottom, 0px))}
+  .tipbar-in{max-width:820px;margin:0 auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .tipbar-txt{flex:1;min-width:170px;font-size:13.5px;color:var(--dim);line-height:1.45}
+  .tipbar-txt b{color:var(--text)}
+  .tipbar-btns{display:flex;gap:8px;flex:none}
+  .tipbar{transition:opacity 3s linear}
+  .tipbar.bye{opacity:0;pointer-events:none}
+  .tipbar-bye{flex:1;text-align:center;font-size:16px;padding:6px 0}
+  .tipbar [hidden]{display:none!important}
+  @media (prefers-reduced-motion: reduce){ .tipbar{transition:none} }
+  @media(min-width:760px){.tipbar{bottom:0}}
+
+  section.faq{display:block;margin-top:26px}
+  .faq h2{font-size:17px;margin:0 0 10px;color:var(--accent)}
+  .faq details{background:var(--panel);border:1px solid var(--line);border-radius:12px;margin-bottom:8px;overflow:hidden}
+  .faq summary{list-style:none;cursor:pointer;min-height:52px;display:flex;align-items:center;gap:10px;
+    padding:11px 15px;font-size:15px;font-weight:600;color:var(--text)}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:"+";margin-left:auto;color:var(--accent);font-size:19px;line-height:1}
+  .faq details[open] summary::after{content:"\2212"}
+  .faq .fa{padding:0 15px 15px;font-size:14.5px;color:var(--dim);line-height:1.6}
+  .faq .fa b{color:var(--text)}
+
+  section.tip{display:flex;align-items:center;gap:15px;margin-top:26px;padding:15px;
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--radius)}
+  .tip img{flex:none;width:108px;height:108px;background:#fff;border-radius:8px;padding:4px}
+  .tip b{display:block;font-size:15px;margin-bottom:4px}
+  .tip p{font-size:13.5px;color:var(--dim);margin:0 0 6px}
+  .tip .acc{font-size:13px;color:var(--text);font-variant-numeric:tabular-nums;
+    -webkit-user-select:all;user-select:all}
+  @media(max-width:439px){section.tip{gap:12px;padding:13px}.tip img{width:94px;height:94px}}
+
+  @media (prefers-reduced-motion: no-preference){.bar i{transition:width .2s linear}}
+
+  .author{margin:26px 0 0;padding:15px;border:1px solid var(--line);border-radius:14px;background:var(--panel)}
+  section.author{display:block}
+  .author h2{margin:0 0 8px;font-size:17px;color:var(--accent)}
+  .author p{margin:0 0 12px;font-size:14.5px;line-height:1.6;color:var(--dim)}
+  .author .who{font-weight:800;color:var(--text)}
+  .author .links{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0}
+  .author .links a{display:flex;align-items:center;gap:7px;min-height:48px;padding:0 14px;border:1px solid var(--line);border-radius:12px;background:var(--panel2);color:var(--dim);text-decoration:none;font-size:14px}
+  .author .links b{color:var(--text);font-weight:800;word-break:break-all}
+  .byline{margin:2px 0 10px;font-size:13px;color:var(--dim)}
+  .byline b{color:var(--text)}
+
+  .card.hi{border-color:var(--accent);background:#0b2e33}
+  .catsel{display:flex;align-items:center;gap:10px;margin:0 0 12px;font-size:15px;color:var(--dim)}
+  .catsel select{flex:1;min-width:0;min-height:48px;background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:11px;padding:0 12px;font:inherit;font-size:16px}
+
+  .pic{background:#f1f5f9;border-radius:12px;padding:6px}
+  .ill{display:block;width:100%;height:auto}
+  .ill .g{fill:#dcefff;fill-opacity:.8;stroke:#22324a;stroke-width:2.4;stroke-linejoin:round}
+  .ill .l{fill:#14b8a6;fill-opacity:.75}
+  .ill .k{fill:none;stroke:#22324a;stroke-width:1.6;stroke-linecap:round}
+  .ill .m{fill:#c3ccd8;stroke:#22324a;stroke-width:2.4;stroke-linejoin:round}
+  .ill .p{fill:#fbfaf5;stroke:#22324a;stroke-width:2.4;stroke-linejoin:round}
+  .ill .r{fill:#e2683c;stroke:#22324a;stroke-width:2.4;stroke-linejoin:round}
+  .ill .w{fill:#d6a56f;stroke:#22324a;stroke-width:2.4;stroke-linejoin:round}
+  .ill .hl{fill:none;stroke:#fff;stroke-width:3;stroke-linecap:round}
+  .gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:10px}
+  .gal figure{margin:0;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:8px;
+    text-align:center;font-size:13px;line-height:1.35;color:var(--dim)}
+  .gal figcaption{margin-top:6px}
+  .gal figcaption b{display:block;color:var(--accent);font-size:15px}
+  .fc .pic{width:min(200px,60vw);margin:0 auto 12px}
+  .fc .tag{display:block;margin-top:8px}
+  .qpic{width:min(170px,46vw);margin:0 auto 10px}
+  .wrongs .pic{width:90px;padding:3px;margin:4px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>Chemie — <span>nádobí a směsi</span></h1>
+    <p class="byline">Udělal <b>Rosťa Čermák</b> · <a href="#autor">sítě dole</a></p>
+    <p class="sub">chemické nádobí · homogenní a heterogenní směsi · oddělování · ústní zkoušení v pátek</p>
+  </header>
+
+  <nav id="tabs">
+    <button data-t="uc"><span class="ic">📖</span><span>Tahák</span><span class="bd"></span></button>
+    <button data-t="fc"><span class="ic">🃏</span><span>Kartičky</span><span class="bd" id="bd-fc"></span></button>
+    <button data-t="qz"><span class="ic">✅</span><span>Kvíz</span><span class="bd" id="bd-qz"></span></button>
+  </nav>
+
+  <main>
+
+  <!-- ==================== TAHÁK ==================== -->
+  <section id="uc">
+    <details class="mini">
+      <summary>Ústní zkoušení v pátek — co tě čeká</summary>
+      <ol>
+        <li>Učitel ti <b>náhodně vybere 10 věcí</b> z laboratorního nádobí. U každé řekneš <b>název</b>.</li>
+        <li>Nepotřebuješ popisovat funkci. Stačí <b>jméno věci</b>.</li>
+        <li>Pátek je zároveň učivo <b>směsí</b> — <b>přines si učebnici</b>.</li>
+        <li>Trénuj tak, že si řekneš název <b>nahlas</b>, ne jen v hlavě.</li>
+      </ol>
+    </details>
+
+    <div class="card">
+      <h2>Postup: učitel ukáže věc → řekni název</h2>
+      <ol class="steps" style="margin:6px 0;padding-left:22px">
+        <li>Podívej se na <b>tvar</b>: válec, kužel, trubička, miska, kleště.</li>
+        <li>Vzpomeň si, <b>k čemu</b> ta věc je (zahřívání, měření, filtrování…).</li>
+        <li>Řekni <b>název</b>. Jeden výraz, klidně i kratší („erlenka“).</li>
+      </ol>
+      <div class="note">Tvar <b>válce se širokým dnem</b> = kádinka. Tvar <b>kužele s úzkým hrdlem</b> = Erlenmeyerova baňka. Tvar <b>válce na nožce s ryskami</b> = odměrný válec.</div>
+    </div>
+
+    <div class="card">
+      <h2>Jak to vypadá — všech 19 věcí</h2>
+      <div class="gal" id="gal"></div>
+      <div class="note">Obrázky jsou kreslené, ne fotky. Skutečné nádobí ve škole může mít jinou velikost nebo barvu zátky — <b>tvar</b> je stejný. Na trénink bez názvů jdi do <b>Kartiček</b> nebo do kvízu „Obrázek → název“.</div>
+    </div>
+
+    <div class="card">
+      <h2>Skleněné nádobí</h2>
+      <div class="tablewrap">
+        <table class="wrapcell">
+          <thead><tr><th>Název</th><th>Pozná podle</th><th>K čemu</th></tr></thead>
+          <tbody>
+            <tr><td><b>kádinka</b></td><td>válec se širokým dnem, zobáček</td><td>zahřívání, rozpouštění, míchání</td></tr>
+            <tr><td><b>zkumavka</b></td><td>úzká trubička se zaobleným dnem</td><td>malé množství látky, zkoušky</td></tr>
+            <tr><td><b>Erlenmeyerova baňka</b> (erlenka, kuželová)</td><td>kužel, úzké hrdlo</td><td>míchaní kroužením, titrace</td></tr>
+            <tr><td><b>válcová baňka</b> (varná)</td><td>dlouhý válcový krk, kulaté dno</td><td>zahřívání, destilace</td></tr>
+            <tr><td><b>odměrná baňka</b> (kalibrovaná)</td><td>hruškovitý tvar, <b>jedna ryska</b> na krčku</td><td>přesné měření objemu roztoku</td></tr>
+            <tr><td><b>odměrný válec</b></td><td>válec na nožce, <b>hodně rysek</b>, výlevka</td><td>přibližné měření objemu</td></tr>
+            <tr><td><b>trychtýř</b> (filtrační nálevka)</td><td>klon, dole špička</td><td>filtrace</td></tr>
+            <tr><td><b>kapátko</b> (pipeta)</td><td>tenká trubička s gumovou baňkou</td><td>přenášení kapek</td></tr>
+            <tr><td><b>odpařovací miska</b></td><td>mělká miska</td><td>odpařování kapalin</td></tr>
+            <tr><td><b>hodinové sklo</b></td><td>kulaté klenuté sklo</td><td>krytí kádinky, odpařování</td></tr>
+            <tr><td><b>míchací tyčinka</b> (skleněná)</td><td>tenká tyčinka</td><td>míchání roztoků</td></tr>
+            <tr><td><b>třecí miska s tloučkem</b> (roztěrka)</td><td>miska + váleček</td><td>drcení tuhých látek</td></tr>
+            <tr><td><b>exsikátor</b> (sušidlo)</td><td>tlustá nádoba s těžkým víkem</td><td>sušení látek bez vlhkosti</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Pomůcky — ne sklo</h2>
+      <div class="tablewrap">
+        <table class="wrapcell">
+          <thead><tr><th>Název</th><th>Pozná podle</th><th>K čemu</th></tr></thead>
+          <tbody>
+            <tr><td><b>kahan</b> (plynový)</td><td>hořák s trubičkou a plamenem</td><td>zahřívání, žíhání</td></tr>
+            <tr><td><b>teploměr</b></td><td>úzká tyčinka se stupnicí</td><td>měření teploty</td></tr>
+            <tr><td><b>pinzeta</b></td><td>kleštičky</td><td>uchopení malých pevných věcí</td></tr>
+            <tr><td><b>kleště na kelímky</b></td><td>větší kleště</td><td>uchopení horkého nádobí</td></tr>
+            <tr><td><b>trojnožka</b></td><td>tři nohy, kovový kruh</td><td>podložka pod zahřívané nádobí</td></tr>
+            <tr><td><b>stojánek na zkumavky</b></td><td>deska s dírami</td><td>odkládání zkumavek</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Pasti — co se plete</h2>
+      <ul>
+        <li><b>kádinka × odměrný válec:</b> oba vypadají jako válec. Odměrný válec stojí na <b>nožce</b> a má <b>hodně rysek</b>. Kádinka má zobáček a rysky jsou jen orientační.</li>
+        <li><b>odměrná baňka × válcová baňka:</b> odměrná má <b>jednu rysku</b> a hruškovitý tvar — na přesné odměření. Válcová je na zahřívání.</li>
+        <li><b>erlenka × kádinka:</b> erlenka má <b>kuželovitý tvar a úzké hrdlo</b>, kádinka je válec.</li>
+        <li><b>trychtýř × nálevka:</b> je to <b>táž věc</b>. Filtrační nálevka = trychtýř s filtračním papírem.</li>
+        <li><b>kapátko × pipeta:</b> ve škole se tomu říká <b>kapátko</b>, odborně Pasteurova pipeta.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Čistá látka × směs</h2>
+      <ul>
+        <li><b>Čistá látka</b> — skládá se jen z <b>jednoho druhu částic</b>. Příklady: destilovaná voda, cukr, kyslík, zlato.</li>
+        <li><b>Směs</b> — <b>dvě nebo víc látek</b> pohromadě. Nic se nemění, látky se jen mísí. Příklady: čaj, vzduch, písek s vodou.</li>
+        <li>Směs se dá zase <b>rozdělit fyzikálně</b> (filtrem, zahřátím…). Chemická reakce se nekoná.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Homogenní × heterogenní směs</h2>
+      <div class="tablewrap">
+        <table class="wrapcell">
+          <thead><tr><th></th><th>Homogenní (roztok)</th><th>Heterogenní</th></tr></thead>
+          <tbody>
+            <tr><td><b>Jak vypadá</b></td><td>všude stejná</td><td>složky jsou vidět</td></tr>
+            <tr><td><b>Složky</b></td><td>nejdou rozeznat ani pod mikroskopem</td><td>dají se od sebe odlišit</td></tr>
+            <tr><td><b>Příklady</b></td><td>roztok cukru, slaná voda, ocet, vzduch</td><td>písek s vodou, olej s vodou, mlha</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3>Typy heterogenních směsí</h3>
+      <div class="tablewrap">
+        <table class="wrapcell">
+          <thead><tr><th>Typ</th><th>Co v ní je</th><th>Příklad</th></tr></thead>
+          <tbody>
+            <tr><td><b>suspenze</b></td><td>pevné částice v kapalině</td><td>písek ve vodě, kalná voda</td></tr>
+            <tr><td><b>emulze</b></td><td>dvě nemísitelné kapaliny</td><td>olej s vodou, mléko</td></tr>
+            <tr><td><b>pěna</b></td><td>plyn v kapalině</td><td>šlehačka, mýdlová pěna</td></tr>
+            <tr><td><b>aerosol</b></td><td>pevné částice nebo kapky v plynu</td><td>mlha, kouř</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note">Plynné směsi jsou <b>vždy homogenní</b> — vzduch, zemní plyn.</div>
+    </div>
+
+    <div class="card">
+      <h2>Roztok</h2>
+      <ul>
+        <li><b>Roztok</b> = homogenní směs. <b>Rozpouštědlo</b> + <b>rozpouštěná látka</b>.</li>
+        <li>Příklad: slaná voda = voda (rozpouštědlo) + sůl (rozpouštěná látka).</li>
+        <li>Voda je nejčastější rozpouštědlo — proto se jí říká <b>univerzální rozpouštědlo</b>.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Jak se směsi rozdělují</h2>
+      <div class="tablewrap">
+        <table class="wrapcell">
+          <thead><tr><th>Metoda</th><th>Podle čeho se dělí</th><th>Příklad</th></tr></thead>
+          <tbody>
+            <tr><td><b>filtrace</b></td><td>velikost částic — pevné nerozpustné zůstane na papíře</td><td>písek z vody</td></tr>
+            <tr><td><b>sedimentace</b></td><td>hustota — těžší se usadí na dně</td><td>písek ve sklenici vody</td></tr>
+            <tr><td><b>magnetická separace</b></td><td>magnetickost</td><td>železo ze směsi se sírou</td></tr>
+            <tr><td><b>vysévání</b></td><td>velikost zrn</td><td>obilí od plev, písek od kamínků</td></tr>
+            <tr><td><b>odpařování</b> / <b>krystalizace</b></td><td>rozpuštěná pevná látka zůstane</td><td>sůl z mořské vody</td></tr>
+            <tr><td><b>destilace</b></td><td>rozdílné <b>teploty varu</b></td><td>voda od barviv v inkoustu (jednoduchá)</td></tr>
+            <tr><td><b>chromatografie</b></td><td>složky putují různou rychlostí</td><td>barviva v inkoustu na papíře</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3>Slova k filtraci</h3>
+      <ul>
+        <li><b>kal</b> — co zůstane na filtračním papíře (pevné).</li>
+        <li><b>filtrát</b> — co proteče papírem (kapalina).</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Ověřeno</h2>
+      <ul>
+        <li><b>Erlenmeyerova baňka</b> — správně podle německého chemika Emila Erlenmeyera (1860). Ve škole se říká i <i>erlenka</i> nebo <i>kuželová baňka</i> — všechno je to ono.</li>
+        <li><b>Mléko</b> je odborně emulze (heterogenní směs). V některých učebnicích je vedená zvlášť jako koloidní směs. <span class="key">Do testu piš podle sešitu.</span></li>
+        <li>Názvy jako <i>trychtýř / filtrační nálevka</i> a <i>kapátko / pipeta</i> jsou totéž v různých učebnicích.</li>
+        <li>Ústní zkoušení je z <b>nádobí</b>, učivo <b>směsí</b> jde s učebnicí v pátek.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ==================== KARTIČKY ==================== -->
+  <section id="fc">
+    <div class="fcbar"><span id="fcpos"></span><span id="fcknown"></span></div>
+    <div class="fc" id="fccard" tabindex="0" role="button"></div>
+    <div class="row">
+      <button class="btn big" id="fcyes">✓ Umím</button>
+      <button class="btn ghost big" id="fcno">✗ Ještě ne</button>
+    </div>
+    <div class="row">
+      <button class="btn ghost small" id="fcprev">◂ Zpět</button>
+      <button class="btn ghost small" id="fcnext">Přeskočit ▸</button>
+      <button class="btn ghost small" id="fconly">Jen co neumím</button>
+      <button class="btn ghost small" id="fcreset">Vynulovat značky</button>
+    </div>
+    <p class="saved">Značky se ukládají. Zavři to kdykoli, vrátíš se na stejnou kartičku.</p>
+  </section>
+
+  <!-- ==================== KVÍZ ==================== -->
+  <section id="qz">
+    <label class="catsel">Téma: <select id="cat"></select></label>
+    <div class="bar"><i id="pbar"></i></div>
+    <div class="dots" id="dots"></div>
+    <div class="card" id="qbox"></div>
+    <div class="row"><button class="btn ghost small" id="qreset">↺ Začít téma od začátku</button></div>
+    <p class="saved">Kvíz jede po kolech po 6 otázkách. Po každém kole je pauza a postup je uložený. Háčky a čárky psát nemusíš.</p>
+  </section>
+
+  </main>
+
+
+  <section class="author" id="autor">
+    <h2>Kdo to udělal</h2>
+    <p><span class="who">Rosťa Čermák</span> — tenhle materiál jsem napsal a naprogramoval já, sám. Není to práce nikoho jiného. Když ho posíláš dál, nech ho celý i s tímhle blokem.</p>
+    <ul class="links"><li><a href="https://github.com/WafflingNinja" target="_blank" rel="noopener noreferrer"><span>GitHub</span> <b>WafflingNinja</b></a></li><li><a href="https://www.tiktok.com/@waffleninja7" target="_blank" rel="noopener noreferrer"><span>TikTok</span> <b>@waffleninja7</b></a></li><li><a href="https://t.me/TheWaffleNinja" target="_blank" rel="noopener noreferrer"><span>Telegram</span> <b>@TheWaffleNinja</b></a></li><li><a href="https://www.instagram.com/angel_dust.mp4/" target="_blank" rel="noopener noreferrer"><span>Instagram</span> <b>angel_dust.mp4</b></a></li></ul>
+  </section>
+
+  <section class="faq">
+    <h2>Časté otázky</h2>
+    <details>
+      <summary>Musím zaplatit, abych to mohl použít?</summary>
+      <div class="fa">Ne. Všechno je odemčené, nic se neschovává za platbu. QR kód dole je dobrovolný.</div>
+    </details>
+    <details>
+      <summary>Proč bych ti posílal peníze?</summary>
+      <div class="fa">Protože to zabralo čas, který jsi nemusel obětovat ty. Materiál je postavený na pátečním ústním zkoušení: <b>38 kartiček</b>, <b>59 otázek</b> na psaní a tahák na nádobí i směsi. Když ti to ušetří hodinu, dvacka je slušný kurz.</div>
+    </details>
+    <details>
+      <summary>Zaručuje mi to dobrou známku?</summary>
+      <div class="fa"><b>Ne.</b> Tohle nikdy tvrdit nebudu. Učitel vybírá věci náhodně ze svého seznamu — když bude mít jiné názvy nebo jiné kusy, tady je nenajdeš. Není to oficiální materiál od školy ani od učitele. Ber to jako pomůcku navíc, ne jako náhradu učení.</div>
+    </details>
+    <details>
+      <summary>Jak víš, že tam nejsou chyby?</summary>
+      <div class="fa">Názvy nádobí i způsoby oddělování směsí jsou ověřené proti běžným učebnicím chemie pro 8. ročník a proti Wikipedii (Erlenmeyerova baňka). Kde se učebnice liší, je to v kartě <b>„Ověřeno“</b>. Když přesto chybu najdeš, napiš mi a opravím ji.</div>
+    </details>
+    <details>
+      <summary>Můžu to poslat dál?</summary>
+      <div class="fa">Jo. Komukoliv, i lidem z jiné třídy nebo školy. Je to jeden soubor, funguje i bez internetu.</div>
+    </details>
+    <details>
+      <summary>Kam ty peníze jdou?</summary>
+      <div class="fa">Na nástroje, kterými to dělám, a na čas, který v tom strávím. Za každý předmět je v QR kódu jiná zpráva, takže vím, co lidem reálně pomáhá, a podle toho dělám další.</div>
+    </details>
+  </section>
+
+  <section class="tip">
+    <img src="data:image/png;base64,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" alt="QR kód pro platbu" width="180" height="180">
+    <div>
+      <b>Kdyby chtěl někdo přihodit na kafe</b>
+      <p>Dělal jsem to hlavně pro sebe, tak si to klidně vezmi. Naskenuj QR bankovní aplikací — částka <b>20 Kč</b> se vyplní sama. Nemusí nikdo, funguje to všem stejně.</p>
+      <span class="acc">300369512 / 0300 · 20 Kč</span>
+    </div>
+  </section>
+
+</div>
+
+
+  <div class="tipbar" id="tipbar" hidden role="region" aria-label="Dobrovolný příspěvek">
+    <div class="tipbar-in">
+      <span class="tipbar-txt"><b>Pomohlo ti to?</b> Dobrovolný příspěvek 20 Kč. Nemusíš, funguje to všem stejně.</span>
+      <span class="tipbar-btns">
+        <button type="button" class="btn small" id="tipbar-yes">Ukázat QR</button>
+        <button type="button" class="btn ghost small" id="tipbar-no">Teď ne</button>
+      </span>
+        <span class="tipbar-bye" hidden>oka.... 😓</span>
+    </div>
+  </div>
+
+<script>
+/* ===== obrázky nádobí (kreslené SVG, viewBox 120×140) ===== */
+function rod(d,w){w=w||7;
+  return '<path d="'+d+'" fill="none" stroke="#22324a" stroke-width="'+w+'" stroke-linecap="round" stroke-linejoin="round"/>'
+    +'<path d="'+d+'" fill="none" stroke="#c3ccd8" stroke-width="'+(w-3.5)+'" stroke-linecap="round" stroke-linejoin="round"/>';}
+function ticks(x,y0,y1,st,dir){var s='';
+  for(var y=y0,i=0;y<=y1;y+=st,i++){s+='M'+x+' '+y+'h'+(dir||1)*(i%2?5:9);}
+  return '<path class="k" d="'+s+'"/>';}
+function tt(cx,liq,col){var a=cx-7,b=cx+7;
+  var s='<path class="g" d="M'+a+' 18 L'+a+' 104 A7 7 0 0 0 '+b+' 104 L'+b+' 18"/>';
+  if(liq){s+='<path d="M'+(a+1.2)+' '+liq+' L'+(b-1.2)+' '+liq+' L'+(b-1.2)+' 104 A5.8 5.8 0 0 1 '+(a+1.2)+' 104 Z" fill="'+col+'" fill-opacity=".8"/>';}
+  return s;}
+var PIC={
+  kadinka:'<path class="g" d="M22 22 Q30 24 32 32 L32 118 Q32 126 40 126 L80 126 Q88 126 88 118 L88 22"/>'
+    +'<path class="l" d="M33.2 78 L86.8 78 L86.8 118 Q86.8 124.8 80 124.8 L40 124.8 Q33.2 124.8 33.2 118 Z"/>'
+    +'<path class="k" d="M38 50h10M38 64h6M38 78h10M38 92h6M38 106h10"/><path class="hl" d="M80 36 V112"/>',
+  zkumavka:'<path class="g" d="M45 12 L47 16 L47 110 A13 13 0 0 0 73 110 L73 16 L75 12"/>'
+    +'<path class="l" d="M48.2 80 L71.8 80 L71.8 110 A11.8 11.8 0 0 1 48.2 110 Z"/><path class="hl" d="M66 24 V104"/>',
+  erlenka:'<path class="g" d="M50 12 L52 16 L52 50 L21 118 Q18 126 27 126 L93 126 Q102 126 99 118 L68 50 L68 16 L70 12"/>'
+    +'<path class="l" d="M33.3 94 L86.7 94 L97.6 118.5 Q99.8 124.7 93 124.7 L27 124.7 Q20.2 124.7 22.4 118.5 Z"/>'
+    +'<path class="hl" d="M62 22 V48"/>',
+  varna:'<path class="g" d="M50 10 L52 14 L52 59 A34 34 0 1 0 68 59 L68 14 L70 10"/>'
+    +'<path class="l" d="M27.75 98 A32.8 32.8 0 0 0 92.25 98 Z"/><path class="hl" d="M78 70 A26 26 0 0 1 86 88"/>',
+  odmbanka:'<path class="g" d="M54 14 L54 62 C54 76 20 86 20 108 Q20 126 36 126 L84 126 Q100 126 100 108 C100 86 66 76 66 62 L66 14"/>'
+    +'<path class="l" d="M55.2 34 L64.8 34 L64.8 62 C64.8 77 98.8 87 98.8 108 Q98.8 124.8 84 124.8 L36 124.8 Q21.2 124.8 21.2 108 C21.2 87 55.2 77 55.2 62 Z"/>'
+    +'<rect class="r" x="51" y="4" width="18" height="12" rx="3"/>'
+    +'<ellipse cx="60" cy="34" rx="7.5" ry="2.2" fill="none" stroke="#c0262d" stroke-width="2.2"/>'
+    +'<path class="k" d="M70 34h8"/><text x="80" y="37.5" font-size="10" font-family="Arial,sans-serif" fill="#22324a">ryska</text>',
+  odmvalec:'<path class="g" d="M38 10 Q46 11 46 18 L46 114 L74 114 L74 12"/>'
+    +'<path class="l" d="M47.2 56 L72.8 56 L72.8 112.8 L47.2 112.8 Z"/>'
+    +ticks(47,24,108,6)+'<path class="g" d="M34 126 L40 114 L80 114 L86 126 Z"/><path class="hl" d="M68 22 V106"/>',
+  trychtyr:'<path class="g" d="M16 22 L54 72 L54 128 L66 120 L66 72 L104 22 Z"/>'
+    +'<ellipse class="g" cx="60" cy="22" rx="44" ry="7"/><path class="hl" d="M32 34 L52 60"/>',
+  kapatko:'<path class="g" d="M55 50 L55 110 L58.5 132 L61.5 132 L65 110 L65 50 Z"/>'
+    +'<path class="l" d="M56.2 98 L63.8 98 L63.8 110 L60.6 130.8 L59.4 130.8 L56.2 110 Z"/>'
+    +'<path class="r" d="M53 56 L53 44 C42 38 44 10 60 8 C76 10 78 38 67 44 L67 56 Z"/><path class="hl" d="M52 24 Q52 17 57 14" opacity=".6"/>',
+  odpmiska:'<path class="p" d="M48 104 L46 112 L74 112 L72 104"/>'
+    +'<path class="p" d="M14 60 L4 55 L12 66 C16 98 40 108 60 108 C80 108 106 98 108 62 Z"/>'
+    +'<ellipse cx="60" cy="62" rx="48" ry="12" fill="#e7e3d6" stroke="#22324a" stroke-width="2.4"/>'
+    +'<ellipse class="l" cx="60" cy="65" rx="36" ry="7"/>',
+  hodsklo:'<path class="g" d="M10 64 Q60 110 110 64"/><ellipse class="g" cx="60" cy="64" rx="50" ry="12"/>'
+    +'<path class="hl" d="M28 61 Q42 56 58 55"/>',
+  tycinka:'<path d="M28 126 L92 14" stroke="#22324a" stroke-width="11" stroke-linecap="round"/>'
+    +'<path d="M28 126 L92 14" stroke="#dcefff" stroke-width="6.6" stroke-linecap="round"/>'
+    +'<path d="M30.5 121 L88 20.5" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>',
+  trecimiska:'<path class="p" d="M44 112 L42 124 L78 124 L76 112"/>'
+    +'<path class="p" d="M16 66 C16 104 36 116 60 116 C84 116 104 104 104 66 Z"/>'
+    +'<ellipse cx="60" cy="66" rx="44" ry="10" fill="#d9d5c8" stroke="#22324a" stroke-width="2.4"/>'
+    +'<path d="M70 64 L98 18" stroke="#22324a" stroke-width="13" stroke-linecap="round"/>'
+    +'<path d="M70 64 L98 18" stroke="#fbfaf5" stroke-width="8.6" stroke-linecap="round"/>'
+    +'<path d="M16 66 A44 10 0 0 0 104 66" fill="none" stroke="#22324a" stroke-width="2.4"/>',
+  exsikator:'<path class="g" d="M52 24 L52 14 Q60 6 68 14 L68 24"/>'
+    +'<path class="g" d="M8 62 C8 36 32 22 60 22 C88 22 112 36 112 62 Z"/>'
+    +'<path class="g" d="M14 70 L106 70 L100 94 L84 104 L84 120 L90 128 L30 128 L36 120 L36 104 L20 94 Z"/>'
+    +'<path d="M37.2 108 L82.8 108 L82.8 120 L87.5 126.8 L32.5 126.8 L37.2 120 Z" fill="#5b7fd1" fill-opacity=".85"/>'
+    +'<path d="M44 114h.1M54 118h.1M64 113h.1M74 117h.1M49 122h.1M69 122h.1" stroke="#fff" stroke-width="3" stroke-linecap="round"/>'
+    +'<ellipse class="p" cx="60" cy="99" rx="30" ry="4"/>'
+    +'<rect class="g" x="5" y="61" width="110" height="9" rx="2"/><path class="hl" d="M22 54 Q26 38 42 31"/>',
+  kahan:'<path d="M53 48 C46 32 54 18 60 2 C66 18 74 32 67 48 Z" fill="#7cb7ff" fill-opacity=".55" stroke="#3b82f6" stroke-width="1.5"/>'
+    +'<path d="M55.5 48 L60 26 L64.5 48 Z" fill="#1d4ed8" fill-opacity=".75"/>'
+    +'<rect class="m" x="66" y="104" width="32" height="7" rx="1"/><path class="k" d="M86 104v7M91 104v7"/>'
+    +'<rect class="m" x="53" y="48" width="14" height="68"/>'
+    +'<rect class="m" x="50" y="88" width="20" height="12" rx="2"/><rect x="56" y="91" width="8" height="6" rx="1" fill="#22324a"/>'
+    +'<path class="m" d="M28 128 L36 114 L84 114 L92 128 Z"/>',
+  teplomer:'<circle class="g" cx="60" cy="120" r="11"/><rect class="g" x="51" y="6" width="18" height="112" rx="9"/>'
+    +'<circle cx="60" cy="120" r="8.6" fill="#e11d48"/><rect x="58" y="50" width="4" height="72" fill="#e11d48"/>'
+    +ticks(63,16,106,6),
+  pinzeta:rod('M60 10 Q40 66 54 128')+rod('M60 10 Q80 66 66 128'),
+  kleste:rod('M36 130 L60 72 C70 54 72 30 62 10')+rod('M84 130 L60 72 C50 54 48 30 58 10')
+    +'<circle class="m" cx="60" cy="72" r="5"/>',
+  trojnozka:rod('M23.6 33 L14 128')+rod('M96.4 33 L106 128')
+    +'<ellipse cx="60" cy="38" rx="42" ry="10" fill="none" stroke="#22324a" stroke-width="7"/>'
+    +'<ellipse cx="60" cy="38" rx="42" ry="10" fill="none" stroke="#c3ccd8" stroke-width="3.5"/>'
+    +rod('M60 48 L60 132'),
+  stojanek:'<rect class="w" x="6" y="118" width="108" height="10" rx="2"/>'
+    +'<rect class="w" x="8" y="60" width="8" height="60"/><rect class="w" x="104" y="60" width="8" height="60"/>'
+    +tt(28,70,'#14b8a6')+tt(50,0)+tt(72,82,'#f472b6')+tt(94,62,'#f59e0b')
+    +'<rect class="w" x="6" y="54" width="108" height="12" rx="2"/>'
+};
+function pic(id,label){
+  return '<svg class="ill" viewBox="0 0 120 140" '+(label?'role="img" aria-label="'+label+'"':'aria-hidden="true"')+'>'+PIC[id]+'</svg>';
+}
+
+/* ===== kartičky =====  [přední strana, zadní strana, obrázek] */
+var FLASH = [
+  ["Válec se širokým dnem, zobáček, rysky jen orientační","<b>kádinka</b><br>zahřívání, rozpouštění, míchání","kadinka"],
+  ["Úzká trubička se zaobleným dnem","<b>zkumavka</b><br>malé množství látky","zkumavka"],
+  ["Kužel s úzkým hrdlem — jde kroužit, aniž se vylije","<b>Erlenmeyerova baňka</b><br>erlenka · kuželová baňka","erlenka"],
+  ["Dlouhý válcový krk, kulaté dno","<b>válcová baňka</b> (varná)<br>zahřívání, destilace","varna"],
+  ["Hruškovitý tvar, na krčku <b>jedna</b> ryska","<b>odměrná baňka</b><br>přesné měření objemu roztoku","odmbanka"],
+  ["Válec na nožce, <b>hodně</b> rysek, výlevka","<b>odměrný válec</b><br>přibližné měření objemu","odmvalec"],
+  ["Klon se špičkou dole","<b>trychtýř</b> (filtrační nálevka)<br>filtrace","trychtyr"],
+  ["Tenká trubička s gumovou baňkou","<b>kapátko</b> (pipeta)<br>přenášení kapek","kapatko"],
+  ["Mělká miska","<b>odpařovací miska</b><br>odpařování kapalin","odpmiska"],
+  ["Kulaté klenuté sklo","<b>hodinové sklo</b><br>krytí kádinky, odpařování","hodsklo"],
+  ["Tenká skleněná tyčinka","<b>míchací tyčinka</b><br>míchání roztoků","tycinka"],
+  ["Miska s válečkem (tloučkem)","<b>třecí miska s tloučkem</b> (roztěrka)<br>drcení tuhých látek","trecimiska"],
+  ["Tlustá nádoba s těžkým víkem","<b>exsikátor</b> (sušidlo)<br>sušení látek","exsikator"],
+  ["Hořák s trubičkou a plamenem","<b>kahan</b> (plynový)<br>zahřívání, žíhání","kahan"],
+  ["Úzká tyčinka se stupnicí","<b>teploměr</b><br>měření teploty","teplomer"],
+  ["Kleštičky","<b>pinzeta</b><br>malé pevné věci","pinzeta"],
+  ["Větší kleště na horké sklo","<b>kleště na kelímky</b><br>uchopení horkého nádobí","kleste"],
+  ["Tři nohy, kovový kruh nahoře","<b>trojnožka</b><br>podložka pod zahřívané nádobí","trojnozka"],
+  ["Deska s dírami na zkumavky","<b>stojánek na zkumavky</b>","stojanek"],
+  ["Látka = jen jeden druh částic","<b>čistá látka</b><br>cukr, destilovaná voda, kyslík"],
+  ["Dvě nebo víc látek pohromadě, nic se nemění","<b>směs</b><br>čaj, vzduch, písek s vodou"],
+  ["Všude stejná, složky nejdou rozeznat","<b>homogenní směs</b> = <b>roztok</b>"],
+  ["Složky jsou vidět, dají se odlišit","<b>heterogenní směs</b>"],
+  ["Pevné částice v kapalině","<b>suspenze</b><br>písek ve vodě"],
+  ["Dvě nemísitelné kapaliny","<b>emulze</b><br>olej s vodou, mléko"],
+  ["Plyn v kapalině","<b>pěna</b><br>šlehačka, mýdlová pěna"],
+  ["Částice nebo kapky v plynu","<b>aerosol</b><br>mlha, kouř"],
+  ["Rozpouštědlo + rozpouštěná látka","<b>roztok</b><br>voda + sůl"],
+  ["Pevné nerozpustné zůstane na filtračním papíře","<b>filtrace</b>"],
+  ["Co zůstane na papíře","<b>kal</b>"],
+  ["Co proteče papírem","<b>filtrát</b>"],
+  ["Těžší částice se usadí na dně","<b>sedimentace</b>"],
+  ["Železo ze směsi vytáhneš magnetem","<b>magnetická separace</b>"],
+  ["Třídění podle velikosti zrn","<b>vysévání</b>"],
+  ["Krystaly z roztoku po odpaření vody","<b>krystalizace</b> (odpařování)"],
+  ["Oddělení podle různých teplot varu","<b>destilace</b>"],
+  ["Složky putují papírem různou rychlostí","<b>chromatografie</b>"],
+  ["Jsou plynné směsi někdy heterogenní?","<b>Ne.</b> Plynné směsi jsou vždy homogenní."]
+];
+
+/* ===== kvíz =====
+   q = otázka, acc = přijaté odpovědi (diakritika nevadí), w = vysvětlení, c = téma */
+var CATS=[["all","Všechno"],["obr","Obrázek → název"],["nadobi","Nádobí a pomůcky"],["smesi","Směsi"]];
+
+var Q = [
+  /* --- nádobí: popis → název --- */
+  {c:"nadobi",img:"kadinka",q:"Válec se širokým dnem, dole plocha, nahoře zobáček. Čím to je?",acc:["kádinka"],w:"<b>kádinka</b> — zahřívání, rozpouštění, míchání."},
+  {c:"nadobi",img:"zkumavka",q:"Úzká trubička se zaobleným dnem, vejde se do ní málo látky. Čím to je?",acc:["zkumavka"],w:"<b>zkumavka</b> — na malé množství látky a na zkoušky."},
+  {c:"nadobi",img:"erlenka",q:"Skleněná baňka s kuželovitým dnem a úzkým hrdlem — jde s ní kroužit, aniž se vylije. Jak se jmenuje?",acc:["erlenmeyerova baňka","erlenka","kuželová baňka"],w:"<b>Erlenmeyerova baňka</b> (erlenka, kuželová) — míchání kroužením, titrace."},
+  {c:"nadobi",img:"varna",q:"Baňka s dlouhým válcovým krkem a kulatým dnem. Jak se jmenuje?",acc:["válcová baňka","varná baňka","kulatá baňka","baňka s kulatým dnem"],w:"<b>válcová baňka</b> (varná) — zahřívání, destilace."},
+  {c:"nadobi",img:"odmbanka",q:"Hruškovitá baňka s úzkým krčkem a jednou ryskou — na přesné měření objemu. Jak se jmenuje?",acc:["odměrná baňka","kalibrovaná baňka"],w:"<b>odměrná baňka</b> — jedna ryska = přesné odměření objemu roztoku."},
+  {c:"nadobi",img:"odmvalec",q:"Válec na nožce, s výlevkou a hodně ryskami. Čím to je?",acc:["odměrný válec","odmerny valec"],w:"<b>odměrný válec</b> — měří objem jen přibližně."},
+  {c:"nadobi",img:"trychtyr",q:"Kónická nálevka se špičkou dole, dává se do ní filtrační papír. Jak se jmenuje?",acc:["trychtýř","filtrační nálevka","trychtir"],w:"<b>trychtýř</b> = filtrační nálevka."},
+  {c:"nadobi",img:"kapatko",q:"Tenká trubička s gumovou baňkou nahoře, přenáší se s ní pár kapek. Čím to je?",acc:["kapátko","pipeta"],w:"<b>kapátko</b> (odborně pipeta)."},
+  {c:"nadobi",img:"odpmiska",q:"Mělká miska, ve které se odpařuje kapalina. Jak se jmenuje?",acc:["odpařovací miska","odparovaci miska"],w:"<b>odpařovací miska</b>."},
+  {c:"nadobi",img:"hodsklo",q:"Kulaté klenuté sklo — dá se jím přikrýt kádinka. Jak se jmenuje?",acc:["hodinové sklo","hodinove sklo"],w:"<b>hodinové sklo</b> — krytí kádinky, odpařování."},
+  {c:"nadobi",img:"tycinka",q:"Tenká skleněná tyčinka na míchání roztoku. Jak se jmenuje?",acc:["míchací tyčinka","skleněná tyčinka","míchadlo"],w:"<b>míchací tyčinka</b> (skleněná tyčinka)."},
+  {c:"nadobi",img:"trecimiska",q:"Miska s válečkem (tloučkem) na drcení tuhých látek. Jak se jmenuje?",acc:["třecí miska","roztěrka","miska s tloučkem","mlecí miska"],w:"<b>třecí miska s tloučkem</b> — lidově roztěrka."},
+  {c:"nadobi",img:"exsikator",q:"Tlustá nádoba s těžkým vzduchotěsným víkem — suší se v ní látky. Jak se jmenuje?",acc:["exsikátor","sušidlo","exsikator"],w:"<b>exsikátor</b> (sušidlo)."},
+  {c:"nadobi",img:"kahan",q:"Hořák s trubičkou, jde z něj plamen. Čím to je?",acc:["kahan","plynový kahan","hořák","horak"],w:"<b>kahan</b> (plynový hořák) — zahřívání, žíhání."},
+  {c:"nadobi",img:"teplomer",q:"Úzká tyčinka se stupnicí na měření teploty. Čím to je?",acc:["teploměr","teplomer"],w:"<b>teploměr</b>."},
+  {c:"nadobi",img:"pinzeta",q:"Malé kleštičky na uchopení drobných pevných věcí. Čím to je?",acc:["pinzeta"],w:"<b>pinzeta</b>."},
+  {c:"nadobi",img:"kleste",q:"Větší kleště, uchopíš jimi horkou kádinku. Čím to je?",acc:["kleště na kelímky","kleště","kelímkové kleště"],w:"<b>kleště na kelímky</b> — na horké nádobí."},
+  {c:"nadobi",img:"trojnozka",q:"Kovová konstrukce na třech nohách s kruhem nahoře, stojí pod ní zahřívané nádobí. Jak se jmenuje?",acc:["trojnožka","trojnozka"],w:"<b>trojnožka</b>."},
+  {c:"nadobi",img:"stojanek",q:"Deska s dírami, odkládají se do ní zkumavky. Jak se jmenuje?",acc:["stojánek na zkumavky","stojánek"],w:"<b>stojánek na zkumavky</b>."},
+  /* --- nádobí: obráceně a pasti --- */
+  {c:"nadobi",q:"K čemu je <b>kádinka</b>?",acc:["zahřívání","zahřívání a míchání","rozpouštění","míchání","k zahřívání"],w:"Kádinka: zahřívání, rozpouštění, míchání. Neměří se v ní přesně objem."},
+  {c:"nadobi",q:"K čemu je <b>Erlenmeyerova baňka</b>?",acc:["míchání","titrace","míchání kroužením","k míchání"],w:"Erlenka: míchání kroužením (nevylije se), titrace, zahřívání."},
+  {c:"nadobi",q:"K čemu je <b>odměrná baňka</b>?",acc:["měření objemu","přesné měření objemu","odměření objemu roztoku"],w:"Odměrná baňka: přesné měření objemu roztoku. Má jednu rysku."},
+  {c:"nadobi",q:"K čemu je <b>exsikátor</b>?",acc:["sušení","sušení látek"],w:"Exsikátor = sušidlo. Látky v něm nezvlhnou."},
+  {c:"nadobi",q:"K čemu je <b>kahan</b>?",acc:["zahřívání","žíhání","zahřívání a žíhání"],w:"Kahan: zahřívání a žíhání látek."},
+  {c:"nadobi",q:"Čím se měří <b>přesně</b> objemu roztoku?",acc:["odměrná baňka"],w:"Odměrná baňka (jedna ryska). Odměrný válec měří jen přibližně."},
+  {c:"nadobi",q:"Čím se měří objemu <b>přibližně</b>?",acc:["odměrný válec"],w:"Odměrný válec. Kádinka má rysky jen orientační."},
+  {c:"nadobi",q:"Jaký je rozdíl mezi kádinkou a odměrným válcem?",acc:["odměrný válec stojí na nožce","válec má nožku","nožka a rysky","odměrný válec má hodně rysek"],w:"Odměrný válec stojí na <b>nožce</b> a má hodně rysek. Kádinka je obyčejný válec se zobáčkem."},
+  {c:"nadobi",q:"Co je to erlenka?",acc:["erlenmeyerova baňka","kuželová baňka"],w:"Erlenka = lidové jméno pro <b>Erlenmeyerovu (kuželovou) baňku</b>."},
+  {c:"nadobi",q:"Co je to sušidlo?",acc:["exsikátor"],w:"Sušidlo = <b>exsikátor</b>."},
+  {c:"nadobi",q:"Trychtýř a filtrační nálevka — je to totéž?",acc:["ano"],w:"Ano, je to <b>táž věc</b>. Filtrační nálevka = trychtýř s filtračním papírem."},
+  /* --- směsi --- */
+  {c:"smesi",q:"Dvě nebo víc látek pohromadě, nic se nemění, žádná reakce. Jak se tomu říká?",acc:["směs"],w:"<b>Směs</b>. Látky se dají zase rozdělit fyzikálně."},
+  {c:"smesi",q:"Látka, která se skládá jen z jednoho druhu částic. Jak se jmenuje?",acc:["čistá látka"],w:"<b>Čistá látka</b> — cukr, destilovaná voda, kyslík."},
+  {c:"smesi",q:"Směs, která je všude stejná a složky nejdou rozeznat ani pod mikroskopem. Jak se jmenuje?",acc:["homogenní směs","homogenní","roztok"],w:"<b>Homogenní směs</b> = roztok."},
+  {c:"smesi",q:"Směs, ve které jsou složky vidět a dají se od sebe odlišit. Jak se jmenuje?",acc:["heterogenní směs","heterogenní"],w:"<b>Heterogenní směs</b>."},
+  {c:"smesi",q:"Jak se jinak říká homogenní směsi?",acc:["roztok"],w:"Homogenní směs = <b>roztok</b>."},
+  {c:"smesi",q:"Z čeho se skládá roztok?",acc:["rozpouštědlo a rozpouštěná látka","rozpouštědlo + rozpouštěná látka","rozpouštědlo a rozpouštená látka"],w:"Roztok = <b>rozpouštědlo</b> + <b>rozpouštěná látka</b>. Např. voda + sůl."},
+  {c:"smesi",q:"Ve slané vodě je voda a sůl. Co je v tomto roztoku <b>rozpouštědlo</b>?",acc:["voda"],w:"Rozpouštědlo je <b>voda</b>, rozpouštěná látka je sůl."},
+  {c:"smesi",q:"Které rozpouštědlo se používá nejčastěji a říká se mu univerzální?",acc:["voda"],w:"<b>Voda</b> — univerzální rozpouštědlo."},
+  {c:"smesi",q:"Písek ve vodě — pevné částice plavou v kapalině. Jaký typ heterogenní směsi?",acc:["suspenze"],w:"<b>Suspenze</b> — pevné částice v kapalině."},
+  {c:"smesi",q:"Olej s vodou — dvě nemísitelné kapaliny. Jaký typ heterogenní směsi?",acc:["emulze"],w:"<b>Emulze</b>. Příkladem je i mléko."},
+  {c:"smesi",q:"Mléko — jaký typ heterogenní směsi?",acc:["emulze"],w:"<b>Emulze</b> (kapky tuku v vodě). Některé učebnice to uvádějí zvlášť jako koloidní směs — do testu piš podle sešitu."},
+  {c:"smesi",q:"Šlehačka a mýdlová pěna — plyn je v kapalině. Jaký typ směsi?",acc:["pěna","pena"],w:"<b>Pěna</b> — plyn v kapalině."},
+  {c:"smesi",q:"Mlha a kouř — jaký typ heterogenní směsi?",acc:["aerosol"],w:"<b>Aerosol</b> — kapky nebo pevné částice v plynu."},
+  {c:"smesi",q:"Jsou plynné směsi někdy heterogenní?",acc:["ne"],w:"<b>Ne.</b> Plynné směsi (vzduch, zemní plyn) jsou vždy homogenní."},
+  {c:"smesi",q:"Je vzduch homogenní, nebo heterogenní směs?",acc:["homogenní","homogenní směs"],w:"<b>Homogenní</b> — plyn + plyn se vždy mísí rovnoměrně."},
+  {c:"smesi",q:"Jak se jmenuje směs, ve které vidíš jednotlivé složky okem?",acc:["heterogenní směs","heterogenní"],w:"<b>Heterogenní směs</b>."},
+  {c:"smesi",q:"Oddělíš pevnou nerozpustnou látku od kapaliny filtračním papírem. Jak se metoda jmenuje?",acc:["filtrace"],w:"<b>Filtrace</b>."},
+  {c:"smesi",q:"Co zůstane při filtraci na filtračním papíře?",acc:["kal","sedlina"],w:"<b>Kal</b> (sedlina)."},
+  {c:"smesi",q:"Co proteče při filtraci papírem do kádinky?",acc:["filtrát","filtrat"],w:"<b>Filtrát</b>."},
+  {c:"smesi",q:"Těžší částice se samy usadí na dně. Jak se metoda jmenuje?",acc:["sedimentace","usazování"],w:"<b>Sedimentace</b> (usazování) — podle hustoty."},
+  {c:"smesi",q:"Vytáhneš železo ze směsi se sírou magnetem. Jak se to jmenuje?",acc:["magnetická separace","magnetické oddělování"],w:"<b>Magnetická separace</b>."},
+  {c:"smesi",q:"Rozdělíš obilí od plev podle velikosti zrn. Jak se metoda jmenuje?",acc:["vysévání","vysivani","sévání"],w:"<b>Vysévání</b> — podle velikosti zrn."},
+  {c:"smesi",q:"Odpaříš z roztoku vodu a zůstanou krystaly soli. Jak se to jmenuje?",acc:["krystalizace","odpařování","krystalizace (odpařování)"],w:"<b>Krystalizace</b> (odpařování) — rozpouštědlo se odpaří."},
+  {c:"smesi",q:"Dvě kapaliny s různou teplotou varu rozdělíš zahřátím. Jak se metoda jmenuje?",acc:["destilace"],w:"<b>Destilace</b> — podle teplot varu."},
+  {c:"smesi",q:"Barviva z inkoustu rozdělíš na papíře — každé putuje jinak rychle. Jak se to jmenuje?",acc:["chromatografie"],w:"<b>Chromatografie</b> — složky putují různou rychlostí."},
+  {c:"smesi",q:"Jakou metodou dostaneš sůl z mořské vody?",acc:["krystalizace","odpařování"],w:"<b>Krystalizace</b> (odpaření vody)."},
+  {c:"smesi",q:"Jak rozdělíš písek a vodu?",acc:["filtrací","filtrace"],w:"<b>Filtrací</b> — písek je nerozpustný."},
+  {c:"smesi",q:"Je čaj homogenní, nebo heterogenní směs?",acc:["homogenní","homogenní směs","roztok"],w:"Čaj bez sedliny je <b>homogenní</b> (roztok). S kalnou sedlinou by to byla suspenze."},
+  {c:"smesi",q:"Je cukr rozpustný ve vodě?",acc:["ano"],w:"Ano. Proto je cukrová voda <b>roztok</b> (homogenní), narozdíl od písku ve vodě."}
+];
+
+/* obrázek → název: vyrobí se z popisných otázek, které mají img */
+Q.slice().forEach(function(q){
+  if(q.img){Q.push({c:"obr",img:q.img,q:"Co to je? Napiš název.",acc:q.acc,w:q.w});}
+});
+
+var ROUND = 6;
+
+/* ===== ukládání ===== */
+var KEY="chemnad1";
+function load(){try{return JSON.parse(localStorage.getItem(KEY))||{};}catch(e){return {};}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+var S=load();
+if(!S.known){S.known={};}
+if(typeof S.fcId!=='number'){S.fcId=0;}
+if(!S.tab){S.tab='uc';}
+if(!S.quiz){S.quiz=null;}
+if(S.only===undefined){S.only=false;}
+
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.random()*(i+1)|0;var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function norm(s){return String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+  .replace(/[^a-z0-9 ]/g,'').replace(/\s+/g,' ').trim();}
+
+/* ===== taby ===== */
+var TABS=["uc","fc","qz"];
+function showTab(t){
+  if(TABS.indexOf(t)<0){t="uc";}
+  TABS.forEach(function(x){document.getElementById(x).classList.toggle('on',x===t);});
+  [].forEach.call(document.querySelectorAll('#tabs button'),function(b){
+    b.classList.toggle('on',b.dataset.t===t);
+  });
+  S.tab=t; save(); window.scrollTo(0,0);
+}
+[].forEach.call(document.querySelectorAll('#tabs button'),function(b){
+  b.onclick=function(){showTab(b.dataset.t);};
+});
+
+function countKnown(){var n=0;for(var k in S.known){if(S.known[k]){n++;}}return n;}
+function badges(){
+  document.getElementById('bd-fc').textContent=countKnown()?countKnown()+'/'+FLASH.length:'';
+  var z=S.quiz;
+  document.getElementById('bd-qz').textContent=z?Math.min(z.i,z.order.length)+'/'+z.order.length:'';
+}
+
+/* ===== kartičky ===== */
+var deck=[], flip=false;
+function buildDeck(keep){
+  deck=[];
+  for(var i=0;i<FLASH.length;i++){ if(!S.only || !S.known[i]){deck.push(i);} }
+  if(keep===undefined || deck.indexOf(keep)<0){ S.fcId=deck.length?deck[0]:0; }
+  save();
+}
+function fcPos(){var p=deck.indexOf(S.fcId);return p<0?0:p;}
+function drawFC(){
+  var el=document.getElementById('fccard');
+  document.getElementById('fcknown').textContent='Umím '+countKnown()+' z '+FLASH.length;
+  if(!deck.length){
+    el.className='fc back';
+    el.innerHTML='Všechno označené jako „umím“. 🎉<small>Dej „Zobrazit všechny“, nebo jdi na kvíz.</small>';
+    document.getElementById('fcpos').textContent='';
+    badges(); return;
+  }
+  var pair=FLASH[S.fcId];
+  el.className='fc'+(flip?' back':'');
+  var front=pair[2]?'<div class="pic">'+pic(pair[2],'obrázek nádobí')+'</div>Co to je? Řekni název nahlas.':pair[0];
+  var back=pair[2]?'<div class="pic">'+pic(pair[2])+'</div>'+pair[1]+'<span class="tag">Pozná podle: '+pair[0]+'</span>':pair[1];
+  el.innerHTML='<div>'+(flip?back:front)+'<small>'+(flip?'klikni pro otázku':'klikni pro odpověď')+'</small></div>';
+  document.getElementById('fcpos').textContent='Kartička '+(fcPos()+1)+' z '+deck.length+(S.known[S.fcId]?' · ✓ umím':'');
+  badges();
+}
+function fcMove(step){
+  if(!deck.length){return drawFC();}
+  var p=fcPos()+step;
+  if(p<0){p=deck.length-1;}
+  if(p>=deck.length){p=0;}
+  S.fcId=deck[p]; flip=false; save(); drawFC();
+}
+document.getElementById('fccard').onclick=function(){flip=!flip;drawFC();};
+document.getElementById('fccard').onkeydown=function(e){
+  if(e.key===' '||e.key==='Enter'){e.preventDefault();flip=!flip;drawFC();}
+};
+document.getElementById('fcnext').onclick=function(){fcMove(1);};
+document.getElementById('fcprev').onclick=function(){fcMove(-1);};
+document.getElementById('fcyes').onclick=function(){
+  if(!deck.length){return;}
+  S.known[S.fcId]=true; save();
+  if(S.only){buildDeck(undefined);flip=false;drawFC();} else {fcMove(1);}
+};
+document.getElementById('fcno').onclick=function(){
+  if(!deck.length){return;}
+  S.known[S.fcId]=false; save(); fcMove(1);
+};
+document.getElementById('fconly').onclick=function(){
+  S.only=!S.only;
+  this.textContent=S.only?'Zobrazit všechny':'Jen co neumím';
+  buildDeck(S.fcId); flip=false; drawFC();
+};
+document.getElementById('fcreset').onclick=function(){
+  S.known={}; save(); buildDeck(S.fcId); drawFC();
+};
+
+/* ===== kvíz ===== */
+var box=document.getElementById('qbox'), pbar=document.getElementById('pbar'), dots=document.getElementById('dots');
+var catSel=document.getElementById('cat');
+var answered=false;
+
+function idsOf(cat){
+  var r=[];
+  Q.forEach(function(q,i){ if(cat==='all'||q.c===cat){r.push(i);} });
+  return r;
+}
+CATS.forEach(function(c){
+  var o=document.createElement('option');
+  o.value=c[0]; o.textContent=c[1]+' ('+idsOf(c[0]).length+')';
+  catSel.appendChild(o);
+});
+catSel.onchange=function(){newQuiz(null,catSel.value);};
+
+function newQuiz(ids,cat){
+  cat=cat||(S.quiz&&S.quiz.cat)||'all';
+  S.quiz={order:shuffle((ids||idsOf(cat)).slice()),i:0,score:0,wrong:[],res:[],cat:cat};
+  save(); render();
+}
+function drawDots(){
+  var z=S.quiz, h='';
+  if(!z){dots.innerHTML='';return;}
+  for(var k=0;k<z.order.length;k++){
+    var c=z.res[k]===1?'d-ok':z.res[k]===0?'d-bad':(k===z.i?'d-now':'');
+    h+='<span class="'+c+'"></span>';
+  }
+  dots.innerHTML=h;
+  pbar.style.width=(z.i/z.order.length*100)+'%';
+}
+function render(){
+  var z=S.quiz;
+  if(!z){return newQuiz(null,'all');}
+  catSel.value=z.cat||'all';
+  drawDots(); badges();
+  if(z.i>=z.order.length){return finish();}
+  var q=Q[z.order[z.i]];
+  var kolo=Math.floor(z.i/ROUND)+1, kol=Math.ceil(z.order.length/ROUND);
+  var h='<div class="qn">Otázka '+(z.i+1)+'/'+z.order.length+' · kolo '+kolo+'/'+kol+' · správně '+z.score+'</div>';
+  if(q.c==='obr'){h+='<div class="pic qpic">'+pic(q.img,'obrázek nádobí')+'</div>';}
+  h+='<div class="qt">'+q.q+'</div>';
+  h+='<input type="text" class="ans" id="ans" placeholder="napiš odpověď" autocomplete="off">';
+  h+='<div class="tag">Háčky a čárky psát nemusíš.</div>';
+  h+='<div id="fb"></div><div class="row"><button class="btn" id="go">Zkontrolovat</button></div>';
+  box.innerHTML=h;
+  answered=false;
+  var inp=document.getElementById('ans');
+  inp.onkeydown=function(e){if(e.key==='Enter'){answered?next():check();}};
+  inp.focus();
+  document.getElementById('go').onclick=function(){answered?next():check();};
+}
+function check(){
+  if(answered){return;}
+  var z=S.quiz, q=Q[z.order[z.i]];
+  var v=norm(document.getElementById('ans').value);
+  var ok = v!=='' && q.acc.some(function(a){var n=norm(a);return n===v||v.indexOf(n)>-1;});
+  answered=true;
+  z.res[z.i]=ok?1:0;
+  if(ok){z.score++;}else{z.wrong.push(z.order[z.i]);}
+  save(); drawDots(); badges();
+  var fb=document.getElementById('fb');
+  fb.className='fb '+(ok?'ok':'bad');
+  fb.innerHTML='<b>'+(ok?'✅ Správně — '+q.acc[0]:'❌ Špatně — správně je '+q.acc[0])+'</b>'+q.w;
+  var go=document.getElementById('go');
+  go.textContent='Další ▸';
+  go.onclick=next;
+}
+function next(){
+  var z=S.quiz;
+  z.i++; save();
+  if(z.i<z.order.length && z.i%ROUND===0){return breakScreen();}
+  render();
+}
+function breakScreen(){
+  var z=S.quiz;
+  drawDots();
+  var kolo=z.i/ROUND, kol=Math.ceil(z.order.length/ROUND), okv=0;
+  for(var i=z.i-ROUND;i<z.i;i++){if(z.res[i]===1){okv++;}}
+  box.innerHTML='<div class="qn">Pauza</div><h2 style="margin:0 0 4px">Kolo '+kolo+' z '+kol+' hotové</h2>'
+    +'<div class="score">'+okv+' / '+ROUND+'</div>'
+    +'<p>Zbývá '+(z.order.length-z.i)+' otázek. Můžeš pokračovat, nebo skončit — je to uložené.</p>'
+    +'<div class="row"><button class="btn" id="cont">Další kolo ▸</button>'
+    +'<button class="btn ghost" id="stop">Dost pro teď</button></div>';
+  document.getElementById('cont').onclick=render;
+  document.getElementById('stop').onclick=function(){
+    box.innerHTML='<div class="qn">Uloženo</div><h2 style="margin:0 0 4px">Máš to uložené</h2>'
+      +'<p>Až se vrátíš, naskočíš na otázku '+(z.i+1)+'.</p>'
+      +'<div class="row"><button class="btn" id="back">Pokračovat teď</button></div>';
+    document.getElementById('back').onclick=render;
+  };
+}
+function finish(){
+  var z=S.quiz;
+  pbar.style.width='100%';
+  var pct=Math.round(z.score/z.order.length*100);
+  var msg=pct===100?'Všechno správně. Jsi na ústní připravený.':
+          pct>=80?'Dobré. Projeď si chyby dole.':
+          pct>=50?'Půlka sedí. Projdi si karty a dej „Jen chyby“.':
+          'Projdi si nejdřív tahák a kartičky, pak to zkus znovu.';
+  var h='<div class="qn">Hotovo</div><div class="score">'+z.score+' / '+z.order.length+' ('+pct+' %)</div><p>'+msg+'</p>';
+  if(z.wrong.length){
+    h+='<h3>Co ti nešlo:</h3><ul class="wrongs">';
+    z.wrong.forEach(function(id){
+      var q=Q[id];
+      h+='<li>'+(q.c==='obr'?'<div class="pic">'+pic(q.img)+'</div>':q.q)+'<br>→ <b>'+q.acc[0]+'</b><br><span class="tag">'+q.w+'</span></li>';
+    });
+    h+='</ul>';
+  }
+  h+='<div class="row"><button class="btn" id="again">🔁 Znovu celé téma</button>';
+  if(z.wrong.length){h+='<button class="btn ghost" id="onlybad">Jen chyby ('+z.wrong.length+')</button>';}
+  h+='</div>';
+  box.innerHTML=h;
+  var bad=z.wrong.slice();
+  document.getElementById('again').onclick=function(){newQuiz(null,z.cat);};
+  var ob=document.getElementById('onlybad');
+  if(ob){ob.onclick=function(){newQuiz(bad,z.cat);};}
+  if(window.__tipbar){window.__tipbar.afterQuiz();}
+}
+document.getElementById('qreset').onclick=function(){newQuiz(null,catSel.value);};
+
+/* ===== galerie v taháku ===== */
+document.getElementById('gal').innerHTML=FLASH.filter(function(f){return f[2];}).map(function(f){
+  return '<figure><div class="pic">'+pic(f[2])+'</div><figcaption>'+f[1].replace('<br>',' ')+'</figcaption></figure>';
+}).join('');
+
+/* ===== start ===== */
+buildDeck(S.fcId);
+if(S.only){document.getElementById('fconly').textContent='Zobrazit všechny';}
+drawFC();
+render();
+badges();
+showTab(S.tab);
+
+/* ===== lišta s dobrovolným příspěvkem =====
+   Ukáže se JEDNOU po 45 s a pak už nikdy — volba se ukládá.
+   Jediná výjimka: po dokončení kvízu.
+   Během kvízu nevyskočí vůbec, aby nerušila. */
+(function(){
+  var bar=document.getElementById('tipbar');
+  if(!bar){return;}
+  var FIRST=45000, t=null, opened=false;
+
+  function quizOpen(){
+    var s=document.getElementById("qz");
+    return !!(s && s.classList.contains("on"));
+  }
+
+  function seen(){ try{ return !!S.tipSeen; }catch(e){ return false; } }
+  function markSeen(){ try{ S.tipSeen=true; save(); }catch(e){} }
+
+  function place(){
+    var nav=document.querySelector("nav"), o=0;
+    if(nav && getComputedStyle(nav).position==="fixed"){ o=Math.round(nav.getBoundingClientRect().height); }
+    bar.style.bottom = o ? o+"px" : "";
+  }
+  function show(){ if(opened){return;} resetLook(); place(); bar.hidden=false; }
+  function hide(){ bar.hidden=true; if(t){clearTimeout(t); t=null;} }
+
+  document.getElementById('tipbar-yes').onclick=function(){
+    opened=true; markSeen(); hide();
+    var tip=document.querySelector('.tip');
+    if(tip){ tip.scrollIntoView({block:'center'}); }
+  };
+  var txtEl=bar.querySelector('.tipbar-txt');
+  var btnEl=bar.querySelector('.tipbar-btns');
+  var byeEl=bar.querySelector('.tipbar-bye');
+  var byeT=null;
+
+  function resetLook(){
+    if(byeT){ clearTimeout(byeT); byeT=null; }
+    bar.classList.remove('bye');
+    if(byeEl){ byeEl.hidden=true; }
+    if(txtEl){ txtEl.hidden=false; }
+    if(btnEl){ btnEl.hidden=false; }
+  }
+
+  document.getElementById('tipbar-no').onclick=function(){
+    markSeen();
+    if(!byeEl){ hide(); return; }
+    txtEl.hidden=true; btnEl.hidden=true; byeEl.hidden=false;
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduce){ hide(); resetLook(); return; }
+    bar.classList.add('bye');
+    byeT=setTimeout(function(){ hide(); resetLook(); }, 3100);
+  };
+
+  function firstTry(){
+    if(seen() || opened){ return; }
+    if(quizOpen()){ t=setTimeout(firstTry, 20000); return; }
+    show();
+  }
+  if(!seen()){ t=setTimeout(firstTry, FIRST); }
+
+  window.addEventListener("resize", function(){ if(!bar.hidden){ place(); } });
+
+  window.__tipbar={
+    show:show, hide:hide, first:FIRST, seen:seen, isOff:function(){return opened;},
+    afterQuiz:function(){ if(opened){return;} setTimeout(show, 600); }
+  };
+})();
+</script>
+</body>
+</html>

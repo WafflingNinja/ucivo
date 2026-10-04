@@ -36,19 +36,74 @@ zadání pro formát materiálů. Materiály se tomu přizpůsobují, obsah se n
 - Kroky číslované, ne v jednom odstavci.
 
 ## Soubory
-- `30leta-valka.html` — dějepis: třicetiletá válka, Valdštejn, Komenský (tahák + kartičky + kvíz).
-- `cestina.html` — čeština na prověrku: 10 okruhů (učení → kartičky → cvičení → test).
-- `fyzika.html` — fyzika, zápis 16. 9.: práce, W = F · s (tahák → kartičky → kvíz).
+
+Soubory jsou roztříděny do složek podle předmětu: `dejepis/`, `cestina/`,
+`fyzika/`, `matika/`, `chemie/`, `zemepis/`, `spanelstina/`. V kořenové
+složce zůstává jen tenhle `CLAUDE.md` a `qr-original-csob-20kc.jpg`.
+
+- `dejepis/30leta-valka.html` — dějepis: třicetiletá válka, Valdštejn, Komenský (tahák + kartičky + kvíz).
+- `cestina/cestina.html` — čeština na prověrku: 10 okruhů (učení → kartičky → cvičení → test).
+- `fyzika/fyzika.html` — fyzika, zápis 16. 9.: práce, W = F · s (tahák → kartičky → kvíz).
   Kvíz umí i **číselné odpovědi** — tolerance, desetinná čárka i tečka, mezery v tisících.
   Tenhle vzor použij pro každý počítací předmět (matika, fyzika, chemie).
-- `procenta.html` — matika, 7. ročník 3. díl, kapitola VIII: procenta (tahák → kartičky → kvíz).
+- `fyzika/fyzika-tisk.html` + `fyzika/fyzika-tisk.pdf` — stejná látka na **2 listy A4** k vlepení do učebnice
+  (tahák + příklady + „Zkus sám“). Bez FAQ/QR/lišty, jen autor v patičce. Kontrola: PDF musí mít 2 strany.
+- `cestina/cestina-skladba-tisk.html` + `cestina/cestina-skladba-tisk.pdf` — čeština na tisk, **3 listy A4**, jedno téma
+  na list: přísudek (druhy) · shoda přísudku s podmětem · druhy vedlejších vět. Každý list má „Zkus sám“
+  s výsledky. Pravidla shody ověřena v IJP (`?id=600`, `601`, `602`). Kontrola: PDF musí mít 3 strany.
+- `cestina/prisudek.html` — čeština, druhy přísudku od nuly (tahák → kartičky → kvíz). Jádro je postup na
+  **3 kroky** + seznam 7 sloves (musím, můžu, chci, smím, mám, začnu, přestanu). Kvíz: 38 vět, možnosti
+  vždy ve stejném pořadí, u každé vysvětlení. Uživatel opakovaně chybuje v pasti `budu psát` → dává
+  „složený“, správně je jednoduchý. Věty typu „Šel plavat“ vynechány (školy je určují různě).
+- `cestina/cestina-chyby.html` — čeština, trénink na chyby z opravdových testů uživatele (tahák → kartičky → kvíz).
+  Tahák začíná kartou „Než odevzdáš test — 6 kroků“. Kvíz má **výběr tématu** (`<select id="cat">`):
+  zájmena · vzory · přídavná jména · číslovky · slovesa · tělo × věci · postup na test. Otázky mají
+  `c` (téma) a volitelně `t` (šablona zadání + možností v objektu `T`). Nová otázka = jeden řádek v `Q`.
+- `cestina/cestina-proverka-chyby.html` — čeština 8. ročník: chyby z prověrky (78/100) a diktátu 24. 9. (5).
+  Stejné jádro kvízu jako `cestina-chyby.html`, 9 témat: druhy VV · přísudek (celý, S/J) · větné členy
+  holý/rozvitý/několikanásobný · pád vztažných zájmen · tečky u čísel · celé tvary sloves · slovní druhy ·
+  pravopis · zadání. Ověřeno v IJP: penězi, v konvi, tabulky jenž/jež. Pravopis prověrky se z fotky
+  nedal přečíst po písmenech → procvičený celý text.
+- `cestina/cestina-chyby-tisk.html` + `cestina/cestina-chyby-tisk.pdf` — stejná látka na **3 listy A4**: 1) postup na test
+  + zájmena, 2) vzory, přídavná jména, číslovky, slovesa, tělo × věci, 3) „Zkus sám“ (28 úloh, výsledky dole
+  v rámečku). Kontrola: PDF musí mít 3 strany.
+- `cestina/literarni-zanry.html` — literatura, žánry podle běžného učiva (bez zápisků ze třídy). Tahák začíná
+  postupem „úryvek → žánr“. Kvíz má 4 režimy (`<select id="cat">`): úryvek → žánr (vlastní úryvky,
+  ne citace), znak → žánr, žánr → druh, pasti. Stejné jádro kvízu jako `cestina-chyby.html`.
+  Až uživatel pošle zápisky, sladit názvy a přidat kartu „Ověřeno — kde je sešit jiný“.
+- `zemepis/mapa-evropy.html` — zeměpis, slepá mapa Evropy: 78 pojmů ze seznamu z hodiny (oceány, moře, průlivy,
+  zálivy, poloostrovy, ostrovy, pohoří, řeky, jezera). Mapa je SVG z dat **Natural Earth** vložené
+  přímo v souboru (offline). Kvíz: **drag & drop** názvů na čísla (pointer events → funguje i prstem,
+  záloha „klikni na název, pak na číslo“) + režim „Kde je?“. Štítky se samy odsunou, když se překrývají.
+  Generátor mapy: `build-map.mjs` (d3-geo, projekce azimutální, značky řek přichycené na čáru řeky).
+  Neziderské jezero v datech chybí → jen bod. QR: `zemepis/qr-zemepis.png` (MSG `ZEMEPIS`, ověřeno).
+- `matika/procenta.html` — matika, 7. ročník 3. díl, kapitola VIII: procenta (tahák → kartičky → kvíz).
   Obsahuje **výsledky celého pracovního sešitu A-1 až A-14** na sebekontrolu.
   Kvíz bere i zlomky: `3/4` se vyhodnotí stejně jako `0,75`.
-- `chemie-uvod.html` — chemie, 1. zápis: co je chemie, chemický vs. fyzikální děj, obory,
+- `matika/zlomky.html` — matika 7. ročník, zlomky od nuly (bez sešitu, podle běžného učiva): 9 témat
+  s obrázky dílků, zlomky sázené pod sebou (`.fr`). Kvíz má typ `fr`: bere `3/4` i `1 1/2`
+  a hlásí „hodnota sedí, ale zkrať“ / „chce se smíšené číslo“. Příští krok: uživatel pošle
+  fotky testů → najít, jakou chybu dělá opakovaně, a doplnit ji do karty „Nejčastější chyby“.
+- `chemie/chemie-uvod.html` — chemie, 1. zápis: co je chemie, chemický vs. fyzikální děj, obory,
   6 pravidel učebny, 9 symbolů GHS (kreslené v SVG, ne obrázky), historie, alchymie,
   periodická tabulka + karta „Ověřeno“ (tahák → kartičky → kvíz).
-- `cestina-puvodni-zaloha.html` — původní verze češtiny před přestavbou. Smazat, až bude nová odladěná.
-- `qr-cestina.png`, `qr-dejepis.png`, `qr-fyzika.png`, `qr-matika.png` — QR na příspěvek, dají se poslat i samostatně do skupiny.
+- `chemie/chemie-nadobi.html` — chemie: chemické nádobí a pomůcky (19 kusů, popis → název) + směsi
+  (homogenní/heterogenní, roztok, oddělování: filtrace, destilace, krystalizace…). Kvíz na
+  **psaní odpovědí** (`norm()`, pole `acc` s variantami), výběr tématu (`<select id="cat">`:
+  nádobí / směsi). 38 karet, 59 otázek. Na ústní zkoušení 2. 10. QR: `chemie/qr-chemie2.png` (MSG `CHEMIE2`).
+  Každý kus nádobí má **kreslený obrázek** (inline SVG v objektu `PIC`): galerie v taháku (`#gal`),
+  obrázek na přední straně kartičky (3. prvek ve `FLASH`), téma kvízu `obr` „Obrázek → název“
+  (19 otázek se generuje z popisných otázek s `img`).
+- `spanelstina/spanelstina-jidlo.html` — španělština: comidas y bebidas (jídlo, pití, ovoce/zelenina, jídla dne)
+  + sloveso GUSTAR celé (me/te/le/nos/os/les, gusta/gustan, negace, ¿Te gusta…?, a mí me gusta).
+  Kvíz na psaní, akcenty/¿/¡ tolerantně přes `norm()`, ale ukáže správný tvar s akcenty.
+  Témata: česky→španělsky (s členem, přísně) / španělsky→česky / gustar. 45 karet, 81 otázek.
+  QR: `spanelstina/qr-spanelstina.png` (MSG `SPANELSTINA`). Ověřeno: Collins Spanish Grammar, SpanishDict,
+  A1 slovní zásoba; regionální rozdíly (zumo/jugo, plátano/banano, almuerzo/comida) v kartě „Ověřeno“.
+- `cestina/cestina-puvodni-zaloha.html` — původní verze češtiny před přestavbou. Smazat, až bude nová odladěná.
+- QR na příspěvek (dají se poslat i samostatně do skupiny): `cestina/qr-cestina.png`, `dejepis/qr-dejepis.png`,
+  `fyzika/qr-fyzika.png`, `matika/qr-matika.png`, `chemie/qr-chemie2.png`, `spanelstina/qr-spanelstina.png`,
+  `zemepis/qr-zemepis.png`.
 - `qr-original-csob-20kc.jpg` — originál z ČSOB appky (pevných 20 Kč), záloha.
 
 **Tři pasti při úpravách hotového HTML — všechny už jednou zabily:**
@@ -91,10 +146,10 @@ Do **každého** HTML patří dvě věci — dělej to automaticky, bez ptaní:
 
    | síť | jméno | odkaz |
    |---|---|---|
-   | GitHub | `rostikcermak-pixel` | `https://github.com/rostikcermak-pixel` |
+   | GitHub | `WafflingNinja` | `https://github.com/WafflingNinja` |
    | TikTok | `@waffleninja7` | `https://www.tiktok.com/@waffleninja7` |
    | Telegram | `@TheWaffleNinja` | `https://t.me/TheWaffleNinja` |
-   | Instagram | `WaffleNinja444` | `https://www.instagram.com/waffleninja444/` |
+   | Instagram | `angel_dust.mp4` | `https://www.instagram.com/angel_dust.mp4/` |
 
 Pravidla:
 - Odkazy vždy `target="_blank" rel="noopener noreferrer"`, tlačítka min. 48 px na výšku.
