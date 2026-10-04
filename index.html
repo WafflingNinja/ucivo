@@ -5,89 +5,104 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Učivo - studijní materiály</title>
 <style>
-  :root{--bg:#10141c;--panel:#1a2130;--line:#2a3548;--text:#eef2f7;--dim:#93a0b5;--accent:#2dd4bf;--tap:48px}
+  :root{--bg:#0d1118;--panel:#171e2b;--line:#2a3548;--text:#eef2f7;--dim:#93a0b5;--accent:#2dd4bf;--tap:48px}
   *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 system-ui,sans-serif;overflow-wrap:break-word}
-  main{max-width:760px;margin:0 auto;padding:20px 16px 40px}
-  h1{margin:0 0 4px;font-size:26px}
+  html{scroll-behavior:auto}
+  body{margin:0;background:radial-gradient(circle at 50% -10%,#1b2a3d 0,var(--bg) 55%) no-repeat,var(--bg);color:var(--text);font:16px/1.5 system-ui,sans-serif;overflow-wrap:break-word}
+  main{max-width:820px;margin:0 auto;padding:24px 16px 48px}
+  h1{margin:0;font-size:30px;line-height:1.15}
   h1 span{color:var(--accent)}
-  h2{margin:28px 0 10px;font-size:18px;color:var(--accent)}
   p{margin:6px 0}
-  .dim,.byline{color:var(--dim);font-size:14px}
   a{color:var(--accent)}
-  ul.how{margin:10px 0;padding-left:20px}
-  .item{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:0 0 10px}
-  .item b{display:block}
-  .item .dim{margin:2px 0 8px}
-  .links{display:flex;flex-wrap:wrap;gap:8px}
-  .links a{display:inline-flex;align-items:center;min-height:var(--tap);padding:0 16px;border:1px solid var(--accent);border-radius:12px;text-decoration:none;font-weight:600}
-  .links a.alt{border-color:var(--line);color:var(--text);font-weight:400}
-  section.author .links a{border-color:var(--line);color:var(--text)}
-  section.author{margin-top:32px;border-top:1px solid var(--line);padding-top:8px}
+  .dim,.byline{color:var(--dim);font-size:14px}
+  .hub{text-align:center;padding:8px 0 4px}
+  .hub .core{display:inline-block;padding:14px 22px;border:2px solid var(--accent);border-radius:999px;background:var(--panel)}
+  .stats{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:12px 0}
+  .stats span{background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:14px}
+  .stats b{color:var(--accent)}
+  .how{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 16px;margin:14px 0}
+  .how ul{margin:6px 0 0;padding-left:20px}
+  .flow{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin:8px 0}
+  .flow i{font-style:normal;border:1px solid var(--accent);border-radius:8px;padding:2px 10px;font-size:14px}
+  .flow s{text-decoration:none;color:var(--dim)}
+  .nav{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:18px 0 6px}
+  .nav a{display:inline-flex;align-items:center;min-height:var(--tap);padding:0 16px;border:2px solid var(--c);border-radius:12px;color:var(--text);text-decoration:none;font-weight:600;background:var(--panel)}
+  .trunk{width:2px;height:28px;background:var(--line);margin:0 auto}
+  .branch{position:relative;margin:0 0 6px 18px;padding:0 0 10px 22px;border-left:3px solid var(--c);scroll-margin-top:12px}
+  .branch h2{position:relative;margin:0 0 10px;font-size:21px;color:var(--c)}
+  .branch h2 small{font-size:13px;color:var(--dim);border:1px solid var(--line);border-radius:999px;padding:1px 9px;margin-left:6px;vertical-align:middle}
+  .dot{position:absolute;left:-34px;top:5px;width:20px;height:20px;border-radius:50%;background:var(--c);border:3px solid var(--bg)}
+  .mat{position:relative;margin:0 0 10px;background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--c);border-radius:12px;overflow:hidden}
+  .mat::before{content:"";position:absolute;left:-26px;top:26px;width:22px;height:2px;background:var(--c)}
+  .mat .main{display:block;min-height:var(--tap);padding:10px 14px;color:var(--text);text-decoration:none}
+  .mat .main b{display:block}
+  .mat .main .dim{display:block}
+  .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+  .tags i{font-style:normal;font-size:12px;border:1px solid var(--c);color:var(--c);border-radius:6px;padding:0 7px}
+  .extra{display:flex;border-top:1px solid var(--line)}
+  .extra a{flex:1;display:flex;align-items:center;justify-content:center;min-height:var(--tap);color:var(--text);text-decoration:none;font-size:15px}
+  .extra a+a{border-left:1px solid var(--line)}
+  a:focus-visible{outline:3px solid #fff;outline-offset:2px}
+  section.author{margin-top:36px;border-top:1px solid var(--line);padding-top:8px}
+  section.author h2{font-size:18px;color:var(--accent)}
+  .links{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+  .links a{display:inline-flex;align-items:center;min-height:var(--tap);padding:0 16px;border:1px solid var(--line);border-radius:12px;color:var(--text);text-decoration:none}
 </style>
 </head>
 <body>
 <main>
-<h1>Učivo <span>- studijní materiály</span></h1>
-<p class="byline">Udělal <b>Rosťa Čermák</b> · <a href="#autor">sítě dole</a></p>
+<div class="hub"><div class="core"><h1>Učivo <span>- studijní materiály</span></h1></div></div>
+<p class="byline" style="text-align:center">Udělal <b>Rosťa Čermák</b> · <a href="#autor">sítě dole</a></p>
+<div class="stats"><span><b>7</b> předmětů</span><span><b>15</b> materiálů</span><span><b>4</b> PDF</span><span>zdarma</span></div>
 
-<h2>Co to je</h2>
-<ul class="how">
-  <li>Studijní materiály na prověrky a zkoušení. Zdarma, bez registrace.</li>
-  <li>Každý je jeden HTML soubor. Funguje i offline po prvním otevření.</li>
-  <li>Pořadí: <b>Tahák</b> (fakta) → <b>Kartičky</b> (vybavování) → <b>Kvíz</b> (test).</li>
-  <li>"Tisk" = látka na A4 k vytištění. Je i jako PDF.</li>
-  <li>Materiály nejsou oficiální od školy. Nezaručují známku.</li>
-</ul>
+<div class="how">
+  <b>Jak to funguje</b>
+  <div class="flow"><i>Tahák</i><s>→</s><i>Kartičky</i><s>→</s><i>Kvíz</i></div>
+  <ul>
+    <li>Každý materiál je jeden HTML soubor. Funguje i offline po prvním otevření.</li>
+    <li>Jedna session stačí na 5 minut. Bez časového limitu.</li>
+    <li>Tisk = látka na A4 k vytištění. Je i jako PDF.</li>
+    <li>Nejsou oficiální od školy. Nezaručují známku.</li>
+  </ul>
+</div>
 
-<h2>Dějepis</h2>
-<div class="item"><b>Třicetiletá válka 1618-1648</b><p class="dim">Valdštejn, Komenský. Tahák + kartičky + kvíz.</p>
-  <div class="links"><a href="dejepis/30leta-valka.html">Otevřít</a></div></div>
-<div class="item"><b>Baroko</b><p class="dim">1 list A4.</p>
-  <div class="links"><a href="dejepis/baroko-tisk.html">Tisk (HTML)</a><a class="alt" href="dejepis/baroko-tisk.pdf">PDF</a></div></div>
+<nav class="nav" aria-label="Předměty"><a href="#dejepis" style="--c:#f5c14a">Dějepis</a><a href="#cestina" style="--c:#fb7185">Čeština</a><a href="#matika" style="--c:#a3e635">Matika</a><a href="#fyzika" style="--c:#60a5fa">Fyzika</a><a href="#chemie" style="--c:#2dd4bf">Chemie</a><a href="#zemepis" style="--c:#c084fc">Zeměpis</a><a href="#spanelstina" style="--c:#fb923c">Španělština</a></nav>
+<div class="trunk"></div>
 
-<h2>Čeština</h2>
-<div class="item"><b>Příprava na prověrku</b><p class="dim">10 okruhů: učení, kartičky, cvičení, test.</p>
-  <div class="links"><a href="cestina/cestina.html">Otevřít</a></div></div>
-<div class="item"><b>Druhy přísudku od nuly</b><p class="dim">Postup na 3 kroky, 38 vět v kvízu.</p>
-  <div class="links"><a href="cestina/prisudek.html">Otevřít</a></div></div>
-<div class="item"><b>Nejčastější chyby</b><p class="dim">Zájmena, vzory, přídavná jména, číslovky, slovesa. Tisk: 3 listy A4.</p>
-  <div class="links"><a href="cestina/cestina-chyby.html">Otevřít</a><a class="alt" href="cestina/cestina-chyby-tisk.html">Tisk (HTML)</a><a class="alt" href="cestina/cestina-chyby-tisk.pdf">PDF</a></div></div>
-<div class="item"><b>Chyby z prověrky a diktátu (8. ročník)</b><p class="dim">Druhy vedlejších vět, přísudek, větné členy, pravopis.</p>
-  <div class="links"><a href="cestina/cestina-proverka-chyby.html">Otevřít</a></div></div>
-<div class="item"><b>Přísudek, shoda, vedlejší věty - tisk</b><p class="dim">3 listy A4, každý s úlohami "Zkus sám".</p>
-  <div class="links"><a href="cestina/cestina-skladba-tisk.html">Tisk (HTML)</a><a class="alt" href="cestina/cestina-skladba-tisk.pdf">PDF</a></div></div>
-<div class="item"><b>Literární žánry</b><p class="dim">Úryvek → žánr, znak → žánr, žánr → druh, pasti.</p>
-  <div class="links"><a href="cestina/literarni-zanry.html">Otevřít</a></div></div>
-
-<h2>Matika</h2>
-<div class="item"><b>Procenta (7. ročník, 3. díl, kapitola VIII)</b><p class="dim">Včetně výsledků pracovního sešitu A-1 až A-14.</p>
-  <div class="links"><a href="matika/procenta.html">Otevřít</a></div></div>
-<div class="item"><b>Zlomky od nuly</b><p class="dim">9 témat s obrázky. Kvíz bere i zlomky a smíšená čísla.</p>
-  <div class="links"><a href="matika/zlomky.html">Otevřít</a></div></div>
-
-<h2>Fyzika</h2>
-<div class="item"><b>Práce, W = F · s</b><p class="dim">Kvíz s číselnými odpověďmi. Tisk: 2 listy A4.</p>
-  <div class="links"><a href="fyzika/fyzika.html">Otevřít</a><a class="alt" href="fyzika/fyzika-tisk.html">Tisk (HTML)</a><a class="alt" href="fyzika/fyzika-tisk.pdf">PDF</a></div></div>
-
-<h2>Chemie</h2>
-<div class="item"><b>Úvod</b><p class="dim">Chemický × fyzikální děj, pravidla učebny, symboly GHS, historie, periodická tabulka.</p>
-  <div class="links"><a href="chemie/chemie-uvod.html">Otevřít</a></div></div>
-<div class="item"><b>Nádobí a směsi</b><p class="dim">19 kusů nádobí s obrázky, oddělování směsí. Kvíz na psaní.</p>
-  <div class="links"><a href="chemie/chemie-nadobi.html">Otevřít</a></div></div>
-
-<h2>Zeměpis</h2>
-<div class="item"><b>Slepá mapa Evropy</b><p class="dim">78 pojmů. Přetahování názvů na mapu, funguje i prstem.</p>
-  <div class="links"><a href="zemepis/mapa-evropy.html">Otevřít</a></div></div>
-
-<h2>Španělština</h2>
-<div class="item"><b>Comidas y bebidas + gustar</b><p class="dim">Jídlo, pití, sloveso gustar. Kvíz na psaní.</p>
-  <div class="links"><a href="spanelstina/spanelstina-jidlo.html">Otevřít</a></div></div>
+<section class="branch" id="dejepis" style="--c:#f5c14a"><h2><span class="dot"></span>Dějepis <small>2</small></h2>
+<div class="mat"><a class="main" href="dejepis/30leta-valka.html"><b>Třicetiletá válka 1618-1648</b><span class="dim">Valdštejn, Komenský</span><span class="tags"><i>Tahák</i><i>Kartičky</i><i>Kvíz</i></span></a></div>
+<div class="mat"><a class="main" href="dejepis/baroko-tisk.html"><b>Baroko</b><span class="dim">1 list A4</span><span class="tags"><i>Tisk</i></span></a><div class="extra"><a class="alt" href="dejepis/baroko-tisk.pdf">PDF</a></div></div>
+</section>
+<section class="branch" id="cestina" style="--c:#fb7185"><h2><span class="dot"></span>Čeština <small>6</small></h2>
+<div class="mat"><a class="main" href="cestina/cestina.html"><b>Příprava na prověrku</b><span class="dim">10 okruhů</span><span class="tags"><i>Tahák</i><i>Kartičky</i><i>Cvičení</i><i>Kvíz</i></span></a></div>
+<div class="mat"><a class="main" href="cestina/prisudek.html"><b>Druhy přísudku od nuly</b><span class="dim">Postup na 3 kroky, 38 vět</span><span class="tags"><i>Tahák</i><i>Kartičky</i><i>Kvíz</i></span></a></div>
+<div class="mat"><a class="main" href="cestina/cestina-chyby.html"><b>Nejčastější chyby</b><span class="dim">Zájmena, vzory, slovesa...</span><span class="tags"><i>Tahák</i><i>Kartičky</i><i>Kvíz</i></span></a><div class="extra"><a class="alt" href="cestina/cestina-chyby-tisk.html">Tisk</a><a class="alt" href="cestina/cestina-chyby-tisk.pdf">PDF</a></div></div>
+<div class="mat"><a class="main" href="cestina/cestina-proverka-chyby.html"><b>Chyby z prověrky a diktátu</b><span class="dim">8. ročník</span><span class="tags"><i>Tahák</i><i>Kartičky</i><i>Kvíz</i></span></a></div>
+<div class="mat"><a class="main" href="cestina/cestina-skladba-tisk.html"><b>Přísudek, shoda, vedlejší věty</b><span class="dim">3 listy A4 se cvičením</span><span class="tags"><i>Tisk</i></span></a><div class="extra"><a class="alt" href="cestina/cestina-skladba-tisk.pdf">PDF</a></div></div>
+<div class="mat"><a class="main" href="cestina/literarni-zanry.html"><b>Literární žánry</b><span class="dim">Úryvek → žánr</span><span class="tags"><i>Tahák</i><i>Kartičky</i><i>Kvíz</i></span></a></div>
+</section>
+<section class="branch" id="matika" style="--c:#a3e635"><h2><span class="dot"></span>Matika <small>2</small></h2>
+<div class="mat"><a class="main" href="matika/procenta.html"><b>Procenta</b><span class="dim">7. ročník, kap. VIII, výsledky sešitu</span><span class="tags"><i>Tahák</i><i>Kartičky</i><i>Kvíz</i></span></a></div>
+<div class="mat"><a class="main" href="matika/zlomky.html"><b>Zlomky od nuly</b><span class="dim">9 témat s obrázky</span><span class="tags"><i>Tahák</i><i>Kartičky</i><i>Kvíz</i></span></a></div>
+</section>
+<section class="branch" id="fyzika" style="--c:#60a5fa"><h2><span class="dot"></span>Fyzika <small>1</small></h2>
+<div class="mat"><a class="main" href="fyzika/fyzika.html"><b>Práce, W = F · s</b><span class="dim">Číselný kvíz</span><span class="tags"><i>Tahák</i><i>Kartičky</i><i>Kvíz</i></span></a><div class="extra"><a class="alt" href="fyzika/fyzika-tisk.html">Tisk</a><a class="alt" href="fyzika/fyzika-tisk.pdf">PDF</a></div></div>
+</section>
+<section class="branch" id="chemie" style="--c:#2dd4bf"><h2><span class="dot"></span>Chemie <small>2</small></h2>
+<div class="mat"><a class="main" href="chemie/chemie-uvod.html"><b>Úvod</b><span class="dim">Děje, GHS, periodická tabulka</span><span class="tags"><i>Tahák</i><i>Kartičky</i><i>Kvíz</i></span></a></div>
+<div class="mat"><a class="main" href="chemie/chemie-nadobi.html"><b>Nádobí a směsi</b><span class="dim">19 kusů s obrázky</span><span class="tags"><i>Tahák</i><i>Kartičky</i><i>Kvíz</i></span></a></div>
+</section>
+<section class="branch" id="zemepis" style="--c:#c084fc"><h2><span class="dot"></span>Zeměpis <small>1</small></h2>
+<div class="mat"><a class="main" href="zemepis/mapa-evropy.html"><b>Slepá mapa Evropy</b><span class="dim">78 pojmů, přetahování</span><span class="tags"><i>Mapa</i><i>Kvíz</i></span></a></div>
+</section>
+<section class="branch" id="spanelstina" style="--c:#fb923c"><h2><span class="dot"></span>Španělština <small>1</small></h2>
+<div class="mat"><a class="main" href="spanelstina/spanelstina-jidlo.html"><b>Comidas y bebidas + gustar</b><span class="dim">Jídlo, pití, gustar</span><span class="tags"><i>Tahák</i><i>Kartičky</i><i>Kvíz</i></span></a></div>
+</section>
 
 <section class="author" id="autor">
 <h2>Kdo to udělal</h2>
 <p>Tyhle materiály jsem napsal a naprogramoval já, sám. Není to práce nikoho jiného. Když je posíláš dál, nech je celé i s blokem o autorovi.</p>
-<div class="links" style="margin-top:10px">
+<div class="links">
   <a href="https://github.com/WafflingNinja" target="_blank" rel="noopener noreferrer">GitHub: WafflingNinja</a>
   <a href="https://www.tiktok.com/@waffleninja7" target="_blank" rel="noopener noreferrer">TikTok: @waffleninja7</a>
   <a href="https://t.me/TheWaffleNinja" target="_blank" rel="noopener noreferrer">Telegram: @TheWaffleNinja</a>
