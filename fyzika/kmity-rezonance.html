@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fyzika — kmity, vlny, zvuk, rezonance</title>
+<style>
+  :root{
+    --bg:#0f1417; --panel:#161d21; --panel2:#1c2529; --line:#293439;
+    --text:#e8efee; --dim:#94a6a5; --accent:#4bd6a5; --accent2:#2f9d78;
+    --ok:#4bd6a5; --bad:#e05252; --warn:#e0b04e;
+    --radius:14px; --tap:48px; --navh:62px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--bg);color:var(--text);overflow-wrap:break-word;
+    font:16px/1.6 -apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+    padding:0 16px calc(var(--navh) + 26px + env(safe-area-inset-bottom));}
+  @media(min-width:760px){body{padding-bottom:60px}}
+  .wrap{max-width:820px;margin:0 auto}
+
+  header{padding:16px 0 4px}
+  h1{font-size:clamp(20px,5.2vw,28px);margin:0;letter-spacing:-.3px;line-height:1.15}
+  h1 span{color:var(--accent)}
+  .sub{color:var(--dim);margin:6px 0 0;font-size:13px}
+
+  nav{position:fixed;left:0;right:0;bottom:0;z-index:60;display:grid;grid-template-columns:repeat(3,1fr);
+    background:var(--panel);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
+  nav button{min-height:var(--navh);border:0;background:transparent;color:var(--dim);font:inherit;
+    font-size:11.5px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:2px;cursor:pointer;padding:6px 2px}
+  nav .ic{font-size:19px;line-height:1}
+  nav button.on{color:var(--accent)}
+  nav .bd{font-size:10px;min-height:11px;color:var(--dim);font-variant-numeric:tabular-nums}
+  nav button.on .bd{color:var(--accent)}
+  @media(min-width:760px){
+    nav{position:sticky;top:0;bottom:auto;display:flex;gap:8px;background:var(--bg);
+      border-top:0;border-bottom:1px solid var(--line);padding:10px 0;margin-bottom:8px}
+    nav button{min-height:46px;flex-direction:row;gap:8px;font-size:15px;padding:0 16px;
+      border-radius:999px;border:1px solid var(--line);background:var(--panel)}
+    nav button.on{background:#12302a;border-color:var(--accent)}
+    nav .bd{font-size:12px}
+  }
+  main{padding-top:14px}
+  section{display:none} section.on{display:block}
+
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    padding:18px 20px;margin-bottom:14px}
+  @media(max-width:520px){.card{padding:16px 14px}}
+  .card h2{margin:0 0 12px;font-size:18px;color:var(--accent)}
+  .card h3{margin:16px 0 6px;font-size:15px;color:#fff}
+  ul{margin:6px 0;padding-left:20px} li{margin:5px 0}
+  .key{color:var(--accent);font-weight:600}
+  .note{font-size:13px;color:var(--dim);border-top:1px dashed var(--line);margin-top:12px;padding-top:10px}
+  .tag{font-size:12px;color:var(--dim)}
+
+  details.mini{background:#12302a;border:1px solid var(--accent);border-radius:var(--radius);
+    margin-bottom:14px;padding:0;overflow:hidden}
+  details.mini>summary{list-style:none;cursor:pointer;min-height:56px;display:flex;align-items:center;
+    gap:8px;padding:12px 18px;font-size:17px;font-weight:600}
+  details.mini>summary::-webkit-details-marker{display:none}
+  details.mini>summary::after{content:"rozbalit";margin-left:auto;font-size:11px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--accent)}
+  details.mini[open]>summary::after{content:"sbalit"}
+  details.mini ol{margin:0;padding:0 18px 18px 38px;display:flex;flex-direction:column;gap:8px;font-size:15px}
+
+  .formula{background:var(--panel2);border:1px solid var(--line);border-radius:12px;
+    padding:16px;text-align:center;margin:10px 0}
+  .formula b{font-size:24px;color:var(--accent);display:block;line-height:1.35}
+  .formula span{font-size:13px;color:var(--dim);display:block;margin-top:6px}
+
+  .tablewrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -4px}
+  table{width:100%;border-collapse:collapse;font-size:14.5px}
+  th,td{padding:8px 10px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;white-space:nowrap}
+  thead th{color:var(--dim);font-size:12px;text-transform:uppercase;letter-spacing:.08em;font-weight:500}
+  tbody tr:last-child td{border-bottom:none}
+  td b{color:var(--accent)}
+  table.wrapcell td,table.wrapcell th{white-space:normal}
+
+  .ex{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:12px}
+  .ex .zadani{font-size:15px;margin-bottom:8px}
+  .ex .kroky{font-size:15px;color:var(--dim);line-height:1.9}
+  .ex .kroky b{color:var(--text)}
+  .ex .vysl{margin-top:8px;padding-top:8px;border-top:1px dashed var(--line);font-size:16px}
+  .ex .vysl b{color:var(--ok)}
+
+  .fcbar{display:flex;gap:14px;margin-bottom:10px;color:var(--dim);font-size:13.5px;flex-wrap:wrap}
+  .fc{background:var(--panel2);border:1px solid var(--line);border-radius:var(--radius);
+    min-height:200px;display:flex;align-items:center;justify-content:center;text-align:center;
+    padding:26px;cursor:pointer;font-size:20px;user-select:none}
+  .fc small{display:block;color:var(--dim);font-size:12px;margin-top:14px}
+  .fc.back{background:#12302a;border-color:var(--accent2)}
+
+  .row{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+  button.btn{background:var(--accent);color:#05231a;border:0;min-height:var(--tap);padding:10px 20px;
+    border-radius:11px;font:inherit;font-size:15px;font-weight:600;cursor:pointer}
+  button.btn.big{flex:1 1 44%}
+  button.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+  button.small{min-height:40px;padding:6px 13px;font-size:13.5px}
+
+  .bar{height:7px;background:var(--panel2);border-radius:999px;overflow:hidden;margin-bottom:8px}
+  .bar i{display:block;height:100%;background:var(--accent);width:0}
+  .dots{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px}
+  .dots span{width:9px;height:9px;border-radius:50%;background:var(--panel2);border:1px solid var(--line)}
+  .dots span.d-ok{background:var(--ok);border-color:var(--ok)}
+  .dots span.d-bad{background:var(--bad);border-color:var(--bad)}
+  .dots span.d-now{background:var(--accent);border-color:var(--accent)}
+  .qn{color:var(--dim);font-size:13px;margin-bottom:6px}
+  .qt{font-size:18px;margin-bottom:14px;line-height:1.45}
+  .qt b{color:var(--accent)}
+  .opt{display:block;width:100%;text-align:left;background:var(--panel2);border:1px solid var(--line);
+    color:var(--text);min-height:var(--tap);padding:12px 14px;border-radius:11px;margin-bottom:8px;
+    cursor:pointer;font:inherit;font-size:16px}
+  .opt:hover{border-color:var(--accent)}
+  .opt.sel{border-color:var(--accent);background:#12302a}
+  .opt.ok{border-color:var(--ok);background:#123025}
+  .opt.bad{border-color:var(--bad);background:#31161a}
+  .numrow{display:flex;gap:10px;align-items:center}
+  input[type=text]{flex:1;min-width:0;background:var(--panel2);border:1px solid var(--line);color:var(--text);
+    min-height:52px;padding:12px 14px;border-radius:11px;font:inherit;font-size:17px}
+  .unit{font-size:17px;color:var(--dim);flex:none}
+  .fb{margin-top:14px;padding:12px 14px;border-radius:11px;font-size:15px}
+  .fb.ok{background:#123025;border:1px solid var(--ok)}
+  .fb.bad{background:#31161a;border:1px solid var(--bad)}
+  .fb b{display:block;margin-bottom:4px}
+  .score{font-size:40px;font-weight:700;color:var(--accent);margin:8px 0}
+  .wrongs li{margin:10px 0}
+  .saved{font-size:12px;color:var(--dim);margin-top:14px}
+
+  .tipbar{position:fixed;left:0;right:0;z-index:70;background:var(--panel);
+    border-top:1px solid var(--accent);padding:11px 16px;
+    bottom:0;padding-bottom:calc(11px + env(safe-area-inset-bottom, 0px))}
+  .tipbar-in{max-width:820px;margin:0 auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .tipbar-txt{flex:1;min-width:170px;font-size:13.5px;color:var(--dim);line-height:1.45}
+  .tipbar-txt b{color:var(--text)}
+  .tipbar-btns{display:flex;gap:8px;flex:none}
+.tipbar{transition:opacity 3s linear}
+.tipbar.bye{opacity:0;pointer-events:none}
+.tipbar-bye{flex:1;text-align:center;font-size:16px;padding:6px 0}
+.tipbar [hidden]{display:none!important}
+@media (prefers-reduced-motion: reduce){ .tipbar{transition:none} }
+
+  @media(min-width:760px){.tipbar{bottom:0}}
+
+
+  section.faq{display:block;margin-top:26px}
+  .faq h2{font-size:17px;margin:0 0 10px;color:var(--accent)}
+  .faq details{background:var(--panel);border:1px solid var(--line);border-radius:12px;margin-bottom:8px;overflow:hidden}
+  .faq summary{list-style:none;cursor:pointer;min-height:52px;display:flex;align-items:center;gap:10px;
+    padding:11px 15px;font-size:15px;font-weight:600;color:var(--text)}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:"+";margin-left:auto;color:var(--accent);font-size:19px;line-height:1}
+  .faq details[open] summary::after{content:"\2212"}
+  .faq .fa{padding:0 15px 15px;font-size:14.5px;color:var(--dim);line-height:1.6}
+  .faq .fa b{color:var(--text)}
+
+  section.tip{display:flex;align-items:center;gap:15px;margin-top:26px;padding:15px;
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--radius)}
+  .tip img{flex:none;width:108px;height:108px;background:#fff;border-radius:8px;padding:4px}
+  .tip b{display:block;font-size:15px;margin-bottom:4px}
+  .tip p{font-size:13.5px;color:var(--dim);margin:0 0 6px}
+  .tip .acc{font-size:13px;color:var(--text);font-variant-numeric:tabular-nums;
+    -webkit-user-select:all;user-select:all}
+  @media(max-width:439px){section.tip{gap:12px;padding:13px}.tip img{width:94px;height:94px}}
+
+  @media (prefers-reduced-motion: no-preference){.bar i{transition:width .2s linear}}
+
+.author{margin:26px 0 0;padding:15px;border:1px solid var(--line);border-radius:14px;background:var(--panel)}
+section.author{display:block}
+.author h2{margin:0 0 8px;font-size:17px;color:var(--accent)}
+.author p{margin:0 0 12px;font-size:14.5px;line-height:1.6;color:var(--dim)}
+.author .who{font-weight:800;color:var(--text)}
+.author .links{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0}
+.author .links a{display:flex;align-items:center;gap:7px;min-height:48px;padding:0 14px;border:1px solid var(--line);border-radius:12px;background:var(--panel2);color:var(--dim);text-decoration:none;font-size:14px}
+.author .links b{color:var(--text);font-weight:800;word-break:break-all}
+.byline{margin:2px 0 10px;font-size:13px;color:var(--dim)}
+.byline b{color:var(--text)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>Fyzika — <span>kmity, vlny, rezonance</span></h1>
+    <p class="byline">Udělal <b>Rosťa Čermák</b> · <a href="#autor">sítě dole</a></p>
+    <p class="sub">plán 5.–11. 10. · MFS · v = λ · f · f = 1 : T · postup se ukládá</p>
+  </header>
+
+  <nav id="tabs">
+    <button data-t="uc"><span class="ic">📖</span><span>Tahák</span><span class="bd"></span></button>
+    <button data-t="fc"><span class="ic">🃏</span><span>Kartičky</span><span class="bd" id="bd-fc"></span></button>
+    <button data-t="qz"><span class="ic">✅</span><span>Kvíz</span><span class="bd" id="bd-qz"></span></button>
+  </nav>
+
+  <main>
+
+  <!-- ==================== TAHÁK ==================== -->
+  <section id="uc">
+    <details class="mini" id="mini">
+      <summary>Minimum na test — 7 vět</summary>
+      <ol>
+        <li><span class="key">Kmitání</span> je pohyb tam a zpět kolem rovnovážné polohy (kyvadlo, pružina, struna).</li>
+        <li><span class="key">Perioda T</span> je doba jednoho kmitu, v sekundách. <span class="key">Frekvence f</span> je počet kmitů za 1 s, v hertzích (Hz).</li>
+        <li><span class="key">f = 1 : T</span> a <span class="key">T = 1 : f</span>.</li>
+        <li><span class="key">Vlnění</span> přenáší energii, ale ne látku. Zvuk je <span class="key">podélné</span> vlnění a ve vakuu se nešíří.</li>
+        <li><span class="key">v = λ · f</span> (rychlost = vlnová délka × frekvence). Zvuk ve vzduchu: asi <span class="key">340 m/s</span>.</li>
+        <li>Slyšitelný zvuk: asi <span class="key">20 Hz až 20 kHz</span>. Pod tím infrazvuk, nad tím ultrazvuk.</li>
+        <li><span class="key">Rezonance</span>: když těleso budíš frekvencí, kterou má samo od sebe, kmity se zvětšují.</li>
+      </ol>
+    </details>
+
+    <div class="card">
+      <h2>Kmitání</h2>
+      <ul>
+        <li>Těleso se pohybuje <b>tam a zpět</b> kolem jedné polohy — <b>rovnovážné polohy</b>.</li>
+        <li>Příklady: kyvadlo, závaží na pružině, struna kytary, houpačka.</li>
+        <li><span class="key">Amplituda</span> — největší výchylka z rovnovážné polohy.</li>
+        <li><span class="key">Kmit</span> — jeden celý pohyb tam a zpět do původního místa.</li>
+      </ul>
+      <div class="note">U kyvadla perioda <b>nezávisí na hmotnosti závaží</b>. Závisí na délce závěsu: delší závěs = delší perioda (pomalejší kmitání).</div>
+    </div>
+
+    <div class="card">
+      <h2>Perioda a frekvence</h2>
+      <div class="tablewrap">
+        <table class="wrapcell">
+          <thead><tr><th>Veličina</th><th>Značka</th><th>Jednotka</th><th>Co to je</th></tr></thead>
+          <tbody>
+            <tr><td><b>perioda</b></td><td>T</td><td>s</td><td>doba 1 kmitu</td></tr>
+            <tr><td><b>frekvence</b></td><td>f</td><td>Hz (hertz)</td><td>počet kmitů za 1 s</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="formula">
+        <b>f = 1 : T</b>
+        <span>T = 1 : f · čím kratší perioda, tím větší frekvence</span>
+      </div>      <ul>
+        <li>Příklad: T = 0,5 s → f = 1 : 0,5 = <b>2 Hz</b> (2 kmity za sekundu).</li>
+        <li>Příklad: f = 50 Hz → T = 1 : 50 = <b>0,02 s</b>.</li>
+        <li>1 kHz = 1 000 Hz · 1 MHz = 1 000 000 Hz</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Vlnění</h2>
+      <ul>
+        <li>Vlnění je šíření kmitání látkou. Částice se jen <b>kývají na místě</b>, vlna jde dál.</li>
+        <li>Vlnění přenáší <b>energii</b>, ne látku.</li>
+        <li><span class="key">Příčné</span> — kmitání je kolmo na směr šíření (vlna na laně, voda).</li>
+        <li><span class="key">Podélné</span> — kmitání je ve směru šíření (zvuk, stlačování pružiny).</li>
+        <li><span class="key">Vlnová délka λ</span> — vzdálenost, kterou vlna urazí za 1 periodu. Jednotka metr.</li>
+      </ul>
+      <div class="note">λ se čte „lambda“.</div>
+    </div>
+
+    <div class="card">
+      <h2>Vzorec pro vlnění</h2>
+      <div class="formula">
+        <b>v = λ · f</b>
+        <span>rychlost vlny = vlnová délka × frekvence</span>
+      </div>      <ul>
+        <li>Příklad: f = 340 Hz, λ = 1 m → v = 1 · 340 = <b>340 m/s</b>.</li>
+        <li>Příklad: v = 340 m/s, f = 170 Hz → λ = 340 : 170 = <b>2 m</b>.</li>
+        <li>Dráha zvuku: <b>s = v · t</b>. Za 3 s ve vzduchu urazí zvuk 340 · 3 = <b>1 020 m</b>.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Zvuk</h2>
+      <div class="tablewrap">
+        <table class="wrapcell">
+          <thead><tr><th>Co</th><th>Hodnota</th></tr></thead>
+          <tbody>
+            <tr><td><b>druh vlnění</b></td><td>podélné</td></tr>
+            <tr><td><b>šíření</b></td><td>potřebuje látku (vzduch, voda, kov); <b>ve vakuu ne</b></td></tr>
+            <tr><td><b>rychlost ve vzduchu</b></td><td>asi 340 m/s (při 20 °C asi 343 m/s)</td></tr>
+            <tr><td><b>rychlost ve vodě</b></td><td>asi 1 500 m/s</td></tr>
+            <tr><td><b>rychlost v oceli</b></td><td>asi 5 000 m/s</td></tr>
+            <tr><td><b>slyšitelný zvuk</b></td><td>asi 20 Hz až 20 kHz (starší učebnice: 16 Hz)</td></tr>
+            <tr><td><b>infrazvuk</b></td><td>pod slyšitelnou hranicí</td></tr>
+            <tr><td><b>ultrazvuk</b></td><td>nad slyšitelnou hranicí (netopýři, sonar, lékařské vyšetření)</td></tr>
+            <tr><td><b>výška tónu</b></td><td>určuje <b>frekvence</b> (vyšší f = vyšší tón)</td></tr>
+            <tr><td><b>hlasitost</b></td><td>určuje <b>amplituda</b> (větší amplituda = hlasitější)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note"><b>Ozvěna:</b> zvuk se odrazí od překážky. Ozvěnu slyšíš, když je překážka aspoň asi <b>17 m</b> daleko. Zvuk musí urazit tam i zpět (34 m), to trvá 0,1 s.</div>
+    </div>
+
+    <div class="card">
+      <h2>Rezonance</h2>
+      <ul>
+        <li>Každé těleso má <b>svou vlastní frekvenci</b>, na které rádo kmitá.</li>
+        <li>Když ho budíš <b>stejnou frekvencí</b>, amplituda kmitů se postupně zvětšuje. To je <span class="key">rezonance</span>.</li>
+        <li><span class="key">Houpačka</span> — postrkuješ ji v rytmu jejího kývání. Postrkuješ ve špatném rytmu = skoro nic.</li>
+        <li><span class="key">Ladička</span> a <span class="key">ozvučná skříň</span> kytary nebo houslí — skříň rezonuje a zesiluje zvuk.</li>
+        <li><span class="key">Sklenice</span> — zvuk o její vlastní frekvenci ji může rozkmitat tak, že praskne.</li>
+        <li><span class="key">Vojáci na mostě</span> — proto se na mostech nemá pochodovat v kroku.</li>
+      </ul>
+      <div class="note">Rezonance může pomáhat (hudební nástroje, rádio) i škodit (rozkmitaný most, lustr, praskající sklo).</div>
+    </div>
+
+    <div class="card">
+      <h2>Ověřeno — co se často píše špatně</h2>
+      <ul>
+        <li><b>Most Tacoma Narrows (USA, 7. 11. 1940).</b> V učebnicích je často uveden jako příklad rezonance. Dnešní vysvětlení je složitější: byl to <span class="key">aerodynamický třepetavý (flutter) jev</span>, vítr se opřel do pružného mostu a rozkýval ho. Do testu piš verzi ze sešitu, ale vědět to můžeš.</li>
+        <li><b>Rychlost zvuku není 340 m/s všude.</b> To je hodnota ve <b>vzduchu při teplotě asi 15–20 °C</b>. Ve vodě a v kovech je zvuk mnohem rychlejší.</li>
+        <li><b>Hranice slyšitelnosti.</b> Dnes se uvádí 20 Hz až 20 kHz. Starší učebnice píšou 16 Hz. Piš to, co máš v sešitě.</li>
+        <li><b>Tohle není zápis ze sešitu.</b> Z týdenního plánu je jen „Kmity, vlny a zvuky – rezonance“. Obsah je podle běžného učiva.</li>
+      </ul>
+    </div>
+
+  </section>
+
+  <!-- ==================== KARTIČKY ==================== -->
+  <section id="fc">
+    <div class="fcbar"><span id="fcpos"></span><span id="fcknown"></span></div>
+    <div class="fc" id="fccard" tabindex="0" role="button"></div>
+    <div class="row">
+      <button class="btn big" id="fcyes">✓ Umím</button>
+      <button class="btn ghost big" id="fcno">✗ Ještě ne</button>
+    </div>
+    <div class="row">
+      <button class="btn ghost small" id="fcprev">◂ Zpět</button>
+      <button class="btn ghost small" id="fcnext">Přeskočit ▸</button>
+      <button class="btn ghost small" id="fconly">Jen co neumím</button>
+      <button class="btn ghost small" id="fcreset">Vynulovat značky</button>
+    </div>
+    <p class="saved">Značky se ukládají. Zavři to kdykoli, vrátíš se na stejnou kartičku.</p>
+  </section>
+
+  <!-- ==================== KVÍZ ==================== -->
+  <section id="qz">
+    <div class="bar"><i id="pbar"></i></div>
+    <div class="dots" id="dots"></div>
+    <div class="card" id="qbox"></div>
+    <div class="row"><button class="btn ghost small" id="qreset">↺ Začít kvíz od začátku</button></div>
+    <p class="saved">Kvíz jede po kolech po 6 otázkách. Po každém kole je pauza a postup je uložený.</p>
+  </section>
+
+  </main>
+
+
+  <section class="author" id="autor">
+    <h2>Kdo to udělal</h2>
+    <p><span class="who">Rosťa Čermák</span> — tenhle materiál jsem napsal a naprogramoval já, sám. Není to práce nikoho jiného. Když ho posíláš dál, nech ho celý i s tímhle blokem.</p>
+    <ul class="links"><li><a href="https://github.com/WafflingNinja" target="_blank" rel="noopener noreferrer"><span>GitHub</span> <b>WafflingNinja</b></a></li><li><a href="https://www.tiktok.com/@waffleninja7" target="_blank" rel="noopener noreferrer"><span>TikTok</span> <b>@waffleninja7</b></a></li><li><a href="https://t.me/TheWaffleNinja" target="_blank" rel="noopener noreferrer"><span>Telegram</span> <b>@TheWaffleNinja</b></a></li><li><a href="https://www.instagram.com/angel_dust.mp4/" target="_blank" rel="noopener noreferrer"><span>Instagram</span> <b>angel_dust.mp4</b></a></li></ul>
+  </section>
+
+  <section class="faq">
+    <h2>Časté otázky</h2>
+    <details>
+      <summary>Musím zaplatit, abych to mohl použít?</summary>
+      <div class="fa">Ne. Všechno je odemčené, nic se neschovává za platbu. QR kód dole je dobrovolný.</div>
+    </details>
+    <details>
+      <summary>Proč bych ti posílal peníze?</summary>
+      <div class="fa">Protože to zabralo čas, který jsi nemusel obětovat ty. Je tady <b>minimum na 7 vět</b>, vzorce s příklady, <b>16 kartiček</b> a <b>25 otázek</b>. Když ti to ušetří hodinu, dvacka je slušný kurz.</div>
+    </details>
+    <details>
+      <summary>Zaručuje mi to dobrou známku?</summary>
+      <div class="fa"><b>Ne.</b> Tohle nikdy tvrdit nebudu. Materiál je sestavený podle zadání z týdenního plánu, ne podle tvého sešitu. Když se učitel zeptá na něco jiného, tady to nenajdeš. Není to oficiální materiál od školy ani od učitele. Ber to jako pomůcku navíc, ne jako náhradu učení.</div>
+    </details>
+    <details>
+      <summary>Jak víš, že tam nejsou chyby?</summary>
+      <div class="fa">Číselné výsledky jsou <b>přepočítané skriptem</b>, ne opsané. Co se v učebnicích píše nepřesně (Tacoma Narrows, hranice slyšitelnosti), je v kartě <b>„Ověřeno“</b>. Když přesto chybu najdeš, napiš mi a opravím ji.</div>
+    </details>
+    <details>
+      <summary>Můžu to poslat dál?</summary>
+      <div class="fa">Jo. Komukoliv, i lidem z jiné třídy nebo školy. Je to jeden soubor, funguje i bez internetu.</div>
+    </details>
+    <details>
+      <summary>Kam ty peníze jdou?</summary>
+      <div class="fa">Na nástroje, kterými to dělám, a na čas, který v tom strávím. Za každý předmět je v QR kódu jiná zpráva, takže vím, co lidem reálně pomáhá, a podle toho dělám další.</div>
+    </details>
+  </section>
+
+  <section class="tip">
+    <img src="data:image/png;base64,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" alt="QR kód pro platbu 20 Kč na účet 300369512/0300" width="108" height="108">
+    <div>
+      <b>Kdyby chtěl někdo přihodit na kafe</b>
+      <p>Naskenuj QR bankovní aplikací — částka <b>20 Kč</b> se vyplní sama. Nemusí nikdo, materiál funguje všem stejně.</p>
+      <span class="acc">300369512 / 0300 · 20 Kč</span>
+    </div>
+  </section>
+
+</div>
+
+
+  <div class="tipbar" id="tipbar" hidden role="region" aria-label="Dobrovolný příspěvek">
+    <div class="tipbar-in">
+      <span class="tipbar-txt"><b>Pomohlo ti to?</b> Dobrovolný příspěvek 20 Kč. Nemusíš, funguje to všem stejně.</span>
+      <span class="tipbar-btns">
+        <button type="button" class="btn small" id="tipbar-yes">Ukázat QR</button>
+        <button type="button" class="btn ghost small" id="tipbar-no">Teď ne</button>
+      </span>
+        <span class="tipbar-bye" hidden>oka.... 😓</span>
+    </div>
+  </div>
+
+<script>
+/* ===== kartičky ===== */
+var FLASH = [["Co je kmitání?","Pohyb <b>tam a zpět</b> kolem rovnovážné polohy."],["Co je amplituda?","<b>Největší výchylka</b> z rovnovážné polohy."],["Co je perioda T? V čem se měří?","Doba <b>jednoho kmitu</b>.<br>V sekundách (s)."],["Co je frekvence f? V čem se měří?","Počet kmitů <b>za 1 s</b>.<br>V hertzích (Hz)."],["Vztah mezi f a T?","<b>f = 1 : T</b><br><b>T = 1 : f</b>"],["T = 0,5 s. f = ?","1 : 0,5 = <b>2 Hz</b>"],["Co přenáší vlnění?","<b>Energii</b>, ne látku."],["Příčné × podélné vlnění?","Příčné: kmitání <b>kolmo</b> na směr šíření.<br>Podélné: kmitání <b>ve směru</b> šíření."],["Zvuk je vlnění…","<b>podélné</b>. Potřebuje látku, ve vakuu se nešíří."],["Vzorec pro rychlost vlnění?","<b>v = λ · f</b>"],["Rychlost zvuku ve vzduchu?","asi <b>340 m/s</b>"],["Slyšitelný zvuk?","asi <b>20 Hz až 20 kHz</b>"],["Co určuje výšku tónu a co hlasitost?","Výšku: <b>frekvence</b>.<br>Hlasitost: <b>amplituda</b>."],["Kdy slyšíme ozvěnu?","Když je překážka aspoň asi <b>17 m</b> daleko."],["Co je rezonance?","Těleso budíš <b>jeho vlastní frekvencí</b> a kmity se zvětšují."],["Dva příklady rezonance?","<b>Houpačka</b> postrkovaná v rytmu, <b>ozvučná skříň</b> kytary."]];
+
+/* ===== otázky ===== */
+var Q = [
+  {"t":"c","q":"Co je kmitání?","o":["Pohyb tam a zpět kolem rovnovážné polohy","Pohyb jedním směrem stálou rychlostí","Pohyb po kružnici","Stání na místě"],"a":0,"w":"Kmitání je pohyb tam a zpět kolem rovnovážné polohy."},
+  {"t":"c","q":"Co je perioda T?","o":["Doba jednoho kmitu","Počet kmitů za sekundu","Největší výchylka","Rychlost vlny"],"a":0,"w":"Perioda je doba jednoho kmitu. Počet kmitů za sekundu je frekvence."},
+  {"t":"c","q":"V jaké jednotce se měří frekvence?","o":["hertz (Hz)","sekunda (s)","watt (W)","metr (m)"],"a":0,"w":"Frekvence se měří v hertzích. Sekunda je jednotka periody."},
+  {"t":"c","q":"Který vzorec platí mezi frekvencí a periodou?","o":["f = 1 : T","f = T","f = T · 2","f = T : 2"],"a":0,"w":"f = 1 : T."},
+  {"t":"c","q":"Které vlnění je zvuk?","o":["podélné","příčné","ani jedno"],"a":0,"w":"Zvuk je podélné vlnění."},
+  {"t":"c","q":"Šíří se zvuk ve vakuu?","o":["Ne, potřebuje látku","Ano, stejně rychle jako ve vzduchu","Ano, ale pomaleji"],"a":0,"w":"Zvuk potřebuje látku (vzduch, vodu, kov). Ve vakuu se nešíří."},
+  {"t":"c","q":"Co přenáší vlnění?","o":["Energii","Látku","Hmotnost","Teplotu bez energie"],"a":0,"w":"Vlnění přenáší energii. Částice látky se jen kývají na místě."},
+  {"t":"c","q":"Co určuje výšku tónu?","o":["Frekvence","Amplituda","Vzdálenost od zdroje","Teplota"],"a":0,"w":"Vyšší frekvence = vyšší tón. Hlasitost určuje amplituda."},
+  {"t":"c","q":"Co je rezonance?","o":["Rozkmitání tělesa budicí frekvencí, kterou má samo od sebe","Odraz zvuku od překážky","Zastavení kmitání","Zvuk o frekvenci nad 20 kHz"],"a":0,"w":"Při rezonanci je budicí frekvence stejná jako vlastní frekvence tělesa a kmity se zvětšují."},
+  {"t":"m","q":"Které dva příklady jsou rezonance? (dvě správné)","o":["Houpačka postrkovaná v rytmu","Ozvučná skříň kytary zesiluje tón","Kulička se kutálí po stole","Zvuk se odrazí od zdi jako ozvěna"],"a":[0,1],"w":"Houpačka a ozvučná skříň rezonují. Kutálení není kmitání a ozvěna je odraz."},
+  {"t":"n","q":"Perioda T = 0,5 s. Kolik je frekvence f v hertzích?","acc":2,"u":"Hz","w":"f = 1 : 0,5 = 2 Hz"},
+  {"t":"n","q":"Frekvence f = 50 Hz. Kolik je perioda T v sekundách?","acc":0.02,"u":"s","w":"T = 1 : 50 = 0,02 s"},
+  {"t":"n","q":"Těleso udělá 20 kmitů za 10 s. Kolik je frekvence v hertzích?","acc":2,"u":"Hz","w":"f = 20 : 10 = 2 Hz"},
+  {"t":"n","q":"Kolik hertzů je 2 kHz?","acc":2000,"u":"Hz","w":"2 · 1 000 = 2 000 Hz"},
+  {"t":"n","q":"Frekvence 340 Hz, vlnová délka 1 m. Jaká je rychlost vlny v m/s?","acc":340,"u":"m/s","w":"v = λ · f = 1 · 340 = 340 m/s"},
+  {"t":"n","q":"Rychlost vlny 340 m/s, frekvence 170 Hz. Jaká je vlnová délka v metrech?","acc":2,"u":"m","w":"λ = v : f = 340 : 170 = 2 m"},
+  {"t":"n","q":"Rychlost vlny 20 m/s, vlnová délka 4 m. Jaká je frekvence v hertzích?","acc":5,"u":"Hz","w":"f = v : λ = 20 : 4 = 5 Hz"},
+  {"t":"n","q":"Zvuk jde vzduchem rychlostí 340 m/s. Kolik metrů urazí za 3 s?","acc":1020,"u":"m","w":"s = v · t = 340 · 3 = 1 020 m"},
+  {"t":"n","q":"Hrom uslyšíš 4 s po záblesku. Jak daleko je blesk? Počítej s 340 m/s.","acc":1360,"u":"m","w":"Světlo je prakticky okamžité, takže měříš cestu zvuku: 340 · 4 = 1 360 m"},
+  {"t":"n","q":"Zvuk jde vodou rychlostí 1 500 m/s. Kolik metrů urazí za 2 s?","acc":3000,"u":"m","w":"s = 1 500 · 2 = 3 000 m"},
+  {"t":"n","q":"Ozvěna se vrátila za 2 s. Zvuk letí 340 m/s. Jak daleko je překážka?","acc":340,"u":"m","w":"Zvuk urazil tam i zpět 340 · 2 = 680 m. Překážka je poloviční: 340 m."},
+  {"t":"n","q":"Kyvadlo udělá 30 kmitů za 60 s. Kolik sekund trvá jeden kmit?","acc":2,"u":"s","w":"T = 60 : 30 = 2 s"},
+  {"t":"c","q":"Kyvadlo prodloužíš (delší závěs). Co se stane s periodou?","o":["Zvětší se","Zmenší se","Nezmění se"],"a":0,"w":"Delší závěs = delší perioda. Hmotnost závaží na periodu nemá vliv."},
+  {"t":"c","q":"Kdy slyšíš ozvěnu?","o":["Když je překážka aspoň asi 17 m daleko","Když je překážka blíž než 1 m","Jen v tunelu","Jen ve vodě"],"a":0,"w":"Zvuk musí urazit tam i zpět aspoň asi 34 m, to trvá 0,1 s."},
+  {"t":"c","q":"Jaká je rychlost zvuku ve vzduchu?","o":["asi 340 m/s","asi 3 400 m/s","asi 34 m/s","asi 300 000 km/s"],"a":0,"w":"Ve vzduchu je to asi 340 m/s. 300 000 km/s je rychlost světla."}
+];
+
+var ROUND = 6;
+
+/* ===== ukládání ===== */
+var KEY="fyzkmity1";
+function load(){try{return JSON.parse(localStorage.getItem(KEY))||{};}catch(e){return {};}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+var S=load();
+if(!S.known){S.known={};}
+if(typeof S.fcId!=='number'){S.fcId=0;}
+if(!S.tab){S.tab='uc';}
+if(!S.quiz){S.quiz=null;}
+if(S.only===undefined){S.only=false;}
+
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.random()*(i+1)|0;var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+
+/* číselná odpověď: „0,26", „0.26", „35 Kč", „3/4", „1 250" */
+function parseNum(v){
+  var s=String(v).replace(/\s| /g,'').replace(/%/g,'').replace(/,/g,'.');
+  s=s.replace(/[a-zA-Zá-žÁ-Ž³²]+$/,'');
+  if(s===''){return null;}
+  var zl=s.match(/^(-?\d+(?:\.\d+)?)\/(\d+(?:\.\d+)?)$/);
+  if(zl){
+    var jm=parseFloat(zl[2]);
+    if(!jm){return null;}
+    return parseFloat(zl[1])/jm;
+  }
+  var n=parseFloat(s);
+  return isNaN(n)?null:n;
+}
+function numOk(got,want){
+  if(got===null){return false;}
+  /* jen tolerance na zaokrouhleni v plovouci carce, ne na spatny vysledek */
+  var tol=Math.max(Math.abs(want)*1e-9,1e-9);
+  return Math.abs(got-want)<=tol;
+}
+function fmtNum(n){
+  var s=String(n).replace('.',',');
+  var d=s.split(',');
+  d[0]=d[0].replace(/\B(?=(\d{3})+(?!\d))/g,' ');
+  return d.join(',');
+}
+
+/* ===== taby ===== */
+var TABS=["uc","fc","qz"];
+function showTab(t){
+  if(TABS.indexOf(t)<0){t="uc";}
+  TABS.forEach(function(x){document.getElementById(x).classList.toggle('on',x===t);});
+  [].forEach.call(document.querySelectorAll('#tabs button'),function(b){
+    b.classList.toggle('on',b.dataset.t===t);
+  });
+  S.tab=t; save(); window.scrollTo(0,0);
+}
+[].forEach.call(document.querySelectorAll('#tabs button'),function(b){
+  b.onclick=function(){showTab(b.dataset.t);};
+});
+
+function countKnown(){var n=0;for(var k in S.known){if(S.known[k]){n++;}}return n;}
+function badges(){
+  document.getElementById('bd-fc').textContent=countKnown()?countKnown()+'/'+FLASH.length:'';
+  var z=S.quiz;
+  document.getElementById('bd-qz').textContent=z?Math.min(z.i,z.order.length)+'/'+z.order.length:'';
+}
+
+/* ===== kartičky ===== */
+var deck=[], flip=false;
+function buildDeck(keep){
+  deck=[];
+  for(var i=0;i<FLASH.length;i++){ if(!S.only || !S.known[i]){deck.push(i);} }
+  if(keep===undefined || deck.indexOf(keep)<0){ S.fcId=deck.length?deck[0]:0; }
+  save();
+}
+function fcPos(){var p=deck.indexOf(S.fcId);return p<0?0:p;}
+function drawFC(){
+  var el=document.getElementById('fccard');
+  document.getElementById('fcknown').textContent='Umím '+countKnown()+' z '+FLASH.length;
+  if(!deck.length){
+    el.className='fc back';
+    el.innerHTML='Všechno označené jako „umím“. 🎉<small>Dej „Zobrazit všechny“, nebo jdi na kvíz.</small>';
+    document.getElementById('fcpos').textContent='';
+    badges(); return;
+  }
+  var pair=FLASH[S.fcId];
+  el.className='fc'+(flip?' back':'');
+  el.innerHTML=(flip?pair[1]:pair[0])+'<small>'+(flip?'klikni pro otázku':'klikni pro odpověď')+'</small>';
+  document.getElementById('fcpos').textContent='Kartička '+(fcPos()+1)+' z '+deck.length+(S.known[S.fcId]?' · ✓ umím':'');
+  badges();
+}
+function fcMove(step){
+  if(!deck.length){return drawFC();}
+  var p=fcPos()+step;
+  if(p<0){p=deck.length-1;}
+  if(p>=deck.length){p=0;}
+  S.fcId=deck[p]; flip=false; save(); drawFC();
+}
+document.getElementById('fccard').onclick=function(){flip=!flip;drawFC();};
+document.getElementById('fccard').onkeydown=function(e){
+  if(e.key===' '||e.key==='Enter'){e.preventDefault();flip=!flip;drawFC();}
+};
+document.getElementById('fcnext').onclick=function(){fcMove(1);};
+document.getElementById('fcprev').onclick=function(){fcMove(-1);};
+document.getElementById('fcyes').onclick=function(){
+  if(!deck.length){return;}
+  S.known[S.fcId]=true; save();
+  if(S.only){buildDeck(undefined);flip=false;drawFC();} else {fcMove(1);}
+};
+document.getElementById('fcno').onclick=function(){
+  if(!deck.length){return;}
+  S.known[S.fcId]=false; save(); fcMove(1);
+};
+document.getElementById('fconly').onclick=function(){
+  S.only=!S.only;
+  this.textContent=S.only?'Zobrazit všechny':'Jen co neumím';
+  buildDeck(S.fcId); flip=false; drawFC();
+};
+document.getElementById('fcreset').onclick=function(){
+  S.known={}; save(); buildDeck(S.fcId); drawFC();
+};
+
+/* ===== kvíz ===== */
+var box=document.getElementById('qbox'), pbar=document.getElementById('pbar'), dots=document.getElementById('dots');
+var answered=false;
+
+function newQuiz(ids){
+  S.quiz={order:shuffle(ids?ids.slice():Q.map(function(_,i){return i;})),i:0,score:0,wrong:[],res:[]};
+  save(); render();
+}
+function drawDots(){
+  var z=S.quiz, h='';
+  if(!z){dots.innerHTML='';return;}
+  for(var k=0;k<z.order.length;k++){
+    var c=z.res[k]===1?'d-ok':z.res[k]===0?'d-bad':(k===z.i?'d-now':'');
+    h+='<span class="'+c+'"></span>';
+  }
+  dots.innerHTML=h;
+  pbar.style.width=(z.i/z.order.length*100)+'%';
+}
+function render(){
+  var z=S.quiz;
+  if(!z){return newQuiz();}
+  drawDots(); badges();
+  if(z.i>=z.order.length){return finish();}
+  var q=Q[z.order[z.i]];
+  var kolo=Math.floor(z.i/ROUND)+1, kol=Math.ceil(z.order.length/ROUND);
+  var h='<div class="qn">Otázka '+(z.i+1)+'/'+z.order.length+' · kolo '+kolo+'/'+kol+' · správně '+z.score+'</div>';
+  h+='<div class="qt">'+q.q+'</div>';
+  if(q.t==='n'){
+    h+='<div class="numrow"><input type="text" id="ans" inputmode="decimal" placeholder="číslo" autocomplete="off">'
+      +(q.u?'<span class="unit">'+q.u+'</span>':'')+'</div>';
+    h+='<div class="tag">Čárka i tečka fungují. Mezery v tisících nevadí (800 000).</div>';
+  }else{
+    if(!q._idx){q._idx=shuffle(q.o.map(function(_,i){return i;}));}
+    q._idx.forEach(function(i){h+='<button class="opt" data-i="'+i+'">'+q.o[i]+'</button>';});
+    if(q.t==='m'){h+='<div class="tag">Správné jsou dvě. Označ obě, pak dej Zkontrolovat.</div>';}
+  }
+  h+='<div id="fb"></div><div class="row"><button class="btn" id="go">Zkontrolovat</button></div>';
+  box.innerHTML=h;
+  answered=false;
+  if(q.t==='n'){
+    var inp=document.getElementById('ans');
+    inp.onkeydown=function(e){if(e.key==='Enter'){answered?next():check();}};
+    inp.focus();
+  }else{
+    [].forEach.call(box.querySelectorAll('.opt'),function(b){
+      b.onclick=function(){
+        if(answered){return;}
+        if(q.t==='c'){[].forEach.call(box.querySelectorAll('.opt'),function(x){x.classList.remove('sel');});}
+        b.classList.toggle('sel');
+        if(q.t==='c'){check();}
+      };
+    });
+  }
+  document.getElementById('go').onclick=function(){answered?next():check();};
+}
+function check(){
+  if(answered){return;}
+  var z=S.quiz, q=Q[z.order[z.i]], ok=false, spravne='';
+  if(q.t==='n'){
+    var got=parseNum(document.getElementById('ans').value);
+    ok=numOk(got,q.acc);
+    spravne=fmtNum(q.acc)+(q.u?' '+q.u:'');
+  }else{
+    var sel=[].slice.call(box.querySelectorAll('.opt.sel')).map(function(b){return +b.dataset.i;});
+    if(!sel.length){return;}
+    var corr=q.t==='c'?[q.a]:q.a;
+    ok=sel.length===corr.length&&sel.every(function(i){return corr.indexOf(i)>-1;});
+    spravne=corr.map(function(i){return q.o[i];}).join(' + ');
+    [].forEach.call(box.querySelectorAll('.opt'),function(b){
+      var i=+b.dataset.i;
+      if(corr.indexOf(i)>-1){b.classList.add('ok');}
+      else if(b.classList.contains('sel')){b.classList.add('bad');}
+      b.classList.remove('sel');
+    });
+  }
+  answered=true;
+  z.res[z.i]=ok?1:0;
+  if(ok){z.score++;}else{z.wrong.push(z.order[z.i]);}
+  save(); drawDots(); badges();
+  var fb=document.getElementById('fb');
+  fb.className='fb '+(ok?'ok':'bad');
+  fb.innerHTML='<b>'+(ok?'✅ Správně':'❌ Špatně — správně je '+spravne)+'</b>'+q.w;
+  var go=document.getElementById('go');
+  go.textContent='Další ▸'; go.onclick=next;
+}
+function next(){
+  var z=S.quiz;
+  z.i++; save();
+  if(z.i<z.order.length && z.i%ROUND===0){return breakScreen();}
+  render();
+}
+function breakScreen(){
+  var z=S.quiz;
+  drawDots();
+  var kolo=z.i/ROUND, kol=Math.ceil(z.order.length/ROUND), okv=0;
+  for(var i=z.i-ROUND;i<z.i;i++){if(z.res[i]===1){okv++;}}
+  box.innerHTML='<div class="qn">Pauza</div><h2 style="margin:0 0 4px">Kolo '+kolo+' z '+kol+' hotové</h2>'
+    +'<div class="score">'+okv+' / '+ROUND+'</div>'
+    +'<p>Zbývá '+(z.order.length-z.i)+' otázek. Můžeš pokračovat, nebo skončit — je to uložené.</p>'
+    +'<div class="row"><button class="btn" id="cont">Další kolo ▸</button>'
+    +'<button class="btn ghost" id="stop">Dost pro teď</button></div>';
+  document.getElementById('cont').onclick=render;
+  document.getElementById('stop').onclick=function(){
+    box.innerHTML='<div class="qn">Uloženo</div><h2 style="margin:0 0 4px">Máš to uložené</h2>'
+      +'<p>Až se vrátíš, naskočíš na otázku '+(z.i+1)+'.</p>'
+      +'<div class="row"><button class="btn" id="back">Pokračovat teď</button></div>';
+    document.getElementById('back').onclick=render;
+  };
+}
+function finish(){
+  var z=S.quiz;
+  pbar.style.width='100%';
+  var pct=Math.round(z.score/z.order.length*100);
+  var msg=pct===100?'Všechno správně. Jsi připravený.':
+          pct>=80?'Dobré. Projeď si chyby dole.':
+          pct>=50?'Půlka sedí. Vrať se na tahák a dej kvíz znovu.':
+          'Projeď tahák a vyřešené příklady, pak kvíz znovu.';
+  var h='<div class="qn">Hotovo</div><div class="score">'+z.score+' / '+z.order.length+' ('+pct+' %)</div><p>'+msg+'</p>';
+  if(z.wrong.length){
+    h+='<h3>Co ti nešlo:</h3><ul class="wrongs">';
+    z.wrong.forEach(function(id){h+='<li><b>'+Q[id].q+'</b><br><span class="tag">'+Q[id].w+'</span></li>';});
+    h+='</ul>';
+  }
+  h+='<div class="row"><button class="btn" id="again">🔁 Celý kvíz znovu</button>';
+  if(z.wrong.length){h+='<button class="btn ghost" id="onlybad">Jen chyby ('+z.wrong.length+')</button>';}
+  h+='</div>';
+  box.innerHTML=h;
+  var bad=z.wrong.slice();
+  document.getElementById('again').onclick=function(){newQuiz();};
+  var ob=document.getElementById('onlybad');
+  if(ob){ob.onclick=function(){newQuiz(bad);};}
+  if(window.__tipbar){window.__tipbar.afterQuiz();}
+}
+document.getElementById('qreset').onclick=function(){newQuiz();};
+
+var mini=document.getElementById('mini');
+if(S.mini){mini.open=true;}
+mini.addEventListener('toggle',function(){S.mini=mini.open;save();});
+
+/* ===== start ===== */
+buildDeck(S.fcId);
+if(S.only){document.getElementById('fconly').textContent='Zobrazit všechny';}
+drawFC();
+render();
+badges();
+showTab(S.tab);
+
+/* ===== lišta s dobrovolným příspěvkem =====
+   Ukáže se JEDNOU po 45 s a pak už nikdy — volba se ukládá.
+   Jediná výjimka: po dokončení kvízu.
+   Během kvízu nevyskočí vůbec, aby nerušila při počítání. */
+(function(){
+  var bar=document.getElementById('tipbar');
+  if(!bar){return;}
+  var FIRST=45000, t=null, opened=false;
+
+  function quizOpen(){
+    var s=document.getElementById("qz");
+    return !!(s && s.classList.contains("on"));
+  }
+
+  function seen(){ try{ return !!S.tipSeen; }catch(e){ return false; } }
+  function markSeen(){ try{ S.tipSeen=true; save(); }catch(e){} }
+
+  function place(){
+    var nav=document.querySelector("nav"), o=0;
+    if(nav && getComputedStyle(nav).position==="fixed"){ o=Math.round(nav.getBoundingClientRect().height); }
+    bar.style.bottom = o ? o+"px" : "";
+  }
+  function show(){ if(opened){return;} resetLook(); place(); bar.hidden=false; }
+  function hide(){ bar.hidden=true; if(t){clearTimeout(t); t=null;} }
+
+  document.getElementById('tipbar-yes').onclick=function(){
+    opened=true; markSeen(); hide();
+    var tip=document.querySelector('.tip');
+    if(tip){ tip.scrollIntoView({block:'center'}); }
+  };
+  var txtEl=bar.querySelector('.tipbar-txt');
+  var btnEl=bar.querySelector('.tipbar-btns');
+  var byeEl=bar.querySelector('.tipbar-bye');
+  var byeT=null;
+
+  function resetLook(){
+    if(byeT){ clearTimeout(byeT); byeT=null; }
+    bar.classList.remove('bye');
+    if(byeEl){ byeEl.hidden=true; }
+    if(txtEl){ txtEl.hidden=false; }
+    if(btnEl){ btnEl.hidden=false; }
+  }
+
+  document.getElementById('tipbar-no').onclick=function(){
+    markSeen();
+    if(!byeEl){ hide(); return; }
+    txtEl.hidden=true; btnEl.hidden=true; byeEl.hidden=false;
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduce){ hide(); resetLook(); return; }
+    bar.classList.add('bye');
+    byeT=setTimeout(function(){ hide(); resetLook(); }, 3100);
+  };
+
+  function firstTry(){
+    if(seen() || opened){ return; }
+    if(quizOpen()){ t=setTimeout(firstTry, 20000); return; }
+    show();
+  }
+  if(!seen()){ t=setTimeout(firstTry, FIRST); }
+
+  window.addEventListener("resize", function(){ if(!bar.hidden){ place(); } });
+
+  window.__tipbar={
+    show:show, hide:hide, first:FIRST, seen:seen, isOff:function(){return opened;},
+    afterQuiz:function(){ if(opened){return;} setTimeout(show, 600); }
+  };
+})();
+</script>
+</body>
+</html>

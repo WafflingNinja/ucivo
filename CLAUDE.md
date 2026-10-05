@@ -100,6 +100,14 @@ složce zůstává jen tenhle `CLAUDE.md` a `qr-original-csob-20kc.jpg`.
   Témata: česky→španělsky (s členem, přísně) / španělsky→česky / gustar. 45 karet, 81 otázek.
   QR: `spanelstina/qr-spanelstina.png` (MSG `SPANELSTINA`). Ověřeno: Collins Spanish Grammar, SpanishDict,
   A1 slovní zásoba; regionální rozdíly (zumo/jugo, plátano/banano, almuerzo/comida) v kartě „Ověřeno“.
+- Týden 5.-11. 10. (plán 8.B, bez němčiny; generované z šablony `fyzika.html`, stejné jádro kvízu):
+  `fyzika/fyzika-vykon.html` (výkon, slovní úlohy) · `fyzika/kmity-rezonance.html` (MFS) ·
+  `chemie/chemie-deleni-smesi.html` (filtrace, chromatografie) · `prirodopis/genetika-uvod.html` ·
+  `cestina/funkcni-styly.html` (administrativní, řečnický) · `anglictina/past-modals.html` ·
+  `zemepis/evropa-priroda.html`. Obsah je podle běžného učiva, ne podle sešitu. Revision Unit 2 (angličtina)
+  chybí - není učebnice. Expozice Ecuador (španělština) vynechána, je přidělená jiným žákům.
+  QR: `qr-*.png` v každé složce (MSG `FYZIKAVYKON`, `FYZIKAKMITY`, `CHEMIESMESI`, `PRIRODOPIS`, `CESTINASTYLY`, `ANGLICTINA`, `ZEMEPISPRIRODA`).
+  `index.html` má sekci `#tyden` (týdenní plán) a nové uzly v SVG mapě.
 - `cestina/cestina-puvodni-zaloha.html` — původní verze češtiny před přestavbou. Smazat, až bude nová odladěná.
 - QR na příspěvek (dají se poslat i samostatně do skupiny): `cestina/qr-cestina.png`, `dejepis/qr-dejepis.png`,
   `fyzika/qr-fyzika.png`, `matika/qr-matika.png`, `chemie/qr-chemie2.png`, `spanelstina/qr-spanelstina.png`,
