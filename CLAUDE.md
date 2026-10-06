@@ -59,7 +59,7 @@ složce zůstává jen tenhle `CLAUDE.md` a `qr-original-csob-20kc.jpg`.
   Tahák začíná kartou „Než odevzdáš test — 6 kroků“. Kvíz má **výběr tématu** (`<select id="cat">`):
   zájmena · vzory · přídavná jména · číslovky · slovesa · tělo × věci · postup na test. Otázky mají
   `c` (téma) a volitelně `t` (šablona zadání + možností v objektu `T`). Nová otázka = jeden řádek v `Q`.
-- `cestina/cestina-proverka-chyby.html` — čeština 8. ročník: chyby z prověrky (78/100) a diktátu 24. 9. (5).
+- `cestina/cestina-proverka-chyby.html` — čeština: chyby z prověrky (78/100) a diktátu 24. 9. (5).
   Stejné jádro kvízu jako `cestina-chyby.html`, 9 témat: druhy VV · přísudek (celý, S/J) · větné členy
   holý/rozvitý/několikanásobný · pád vztažných zájmen · tečky u čísel · celé tvary sloves · slovní druhy ·
   pravopis · zadání. Ověřeno v IJP: penězi, v konvi, tabulky jenž/jež. Pravopis prověrky se z fotky
@@ -77,10 +77,10 @@ složce zůstává jen tenhle `CLAUDE.md` a `qr-original-csob-20kc.jpg`.
   záloha „klikni na název, pak na číslo“) + režim „Kde je?“. Štítky se samy odsunou, když se překrývají.
   Generátor mapy: `build-map.mjs` (d3-geo, projekce azimutální, značky řek přichycené na čáru řeky).
   Neziderské jezero v datech chybí → jen bod. QR: `zemepis/qr-zemepis.png` (MSG `ZEMEPIS`, ověřeno).
-- `matika/procenta.html` — matika, 7. ročník 3. díl, kapitola VIII: procenta (tahák → kartičky → kvíz).
+- `matika/procenta.html` — matika, kapitola VIII: procenta (tahák → kartičky → kvíz). Má i **těžší úlohy na základ** (5 pastí, 51 otázek, str. 219–221 s výsledky) — uživatel v nich chybuje (0,05 %, dělení co nevyjde celé, 1 200 : 96 = 12,5).
   Obsahuje **výsledky celého pracovního sešitu A-1 až A-14** na sebekontrolu.
   Kvíz bere i zlomky: `3/4` se vyhodnotí stejně jako `0,75`.
-- `matika/zlomky.html` — matika 7. ročník, zlomky od nuly (bez sešitu, podle běžného učiva): 9 témat
+- `matika/zlomky.html` — matika, zlomky od nuly (bez sešitu, podle běžného učiva): 9 témat
   s obrázky dílků, zlomky sázené pod sebou (`.fr`). Kvíz má typ `fr`: bere `3/4` i `1 1/2`
   a hlásí „hodnota sedí, ale zkrať“ / „chce se smíšené číslo“. Příští krok: uživatel pošle
   fotky testů → najít, jakou chybu dělá opakovaně, a doplnit ji do karty „Nejčastější chyby“.
@@ -100,14 +100,15 @@ složce zůstává jen tenhle `CLAUDE.md` a `qr-original-csob-20kc.jpg`.
   Témata: česky→španělsky (s členem, přísně) / španělsky→česky / gustar. 45 karet, 81 otázek.
   QR: `spanelstina/qr-spanelstina.png` (MSG `SPANELSTINA`). Ověřeno: Collins Spanish Grammar, SpanishDict,
   A1 slovní zásoba; regionální rozdíly (zumo/jugo, plátano/banano, almuerzo/comida) v kartě „Ověřeno“.
-- Týden 5.-11. 10. (plán 8.B, bez němčiny; generované z šablony `fyzika.html`, stejné jádro kvízu):
+- Týden 5.-11. 10. (bez němčiny; generované z šablony `fyzika.html`, stejné jádro kvízu):
   `fyzika/fyzika-vykon.html` (výkon, slovní úlohy) · `fyzika/kmity-rezonance.html` (MFS) ·
   `chemie/chemie-deleni-smesi.html` (filtrace, chromatografie) · `prirodopis/genetika-uvod.html` ·
   `cestina/funkcni-styly.html` (administrativní, řečnický) · `anglictina/past-modals.html` ·
   `zemepis/evropa-priroda.html`. Obsah je podle běžného učiva, ne podle sešitu. Revision Unit 2 (angličtina)
   chybí - není učebnice. Expozice Ecuador (španělština) vynechána, je přidělená jiným žákům.
   QR: `qr-*.png` v každé složce (MSG `FYZIKAVYKON`, `FYZIKAKMITY`, `CHEMIESMESI`, `PRIRODOPIS`, `CESTINASTYLY`, `ANGLICTINA`, `ZEMEPISPRIRODA`).
-  `index.html` má sekci `#tyden` (týdenní plán) a nové uzly v SVG mapě.
+  `index.html` už sekci s týdenním plánem NEMÁ (smazána, viz Anonymita) a má nové uzly v SVG mapě.
+- `cestina/lakomec.html` — literatura: Molière, Lakomec (čtenářský deník pro ty, co to nečetli: tahák, postavy, děj po dějstvích, hotové odpovědi do deníku, kvíz 29 otázek). Ověřeno v cs/en Wikipedii. QR: `cestina/qr-lakomec.png` (MSG `LAKOMEC`).
 - `cestina/cestina-puvodni-zaloha.html` — původní verze češtiny před přestavbou. Smazat, až bude nová odladěná.
 - QR na příspěvek (dají se poslat i samostatně do skupiny): `cestina/qr-cestina.png`, `dejepis/qr-dejepis.png`,
   `fyzika/qr-fyzika.png`, `matika/qr-matika.png`, `chemie/qr-chemie2.png`, `spanelstina/qr-spanelstina.png`,
@@ -125,6 +126,10 @@ složce zůstává jen tenhle `CLAUDE.md` a `qr-original-csob-20kc.jpg`.
 
 Po každé úpravě: `node --check` na vytažený `<script>` **a** kontrola v prohlížeči
 (Playwright chromium je nainstalovaný, `playwright-core` je v npx cache).
+
+## Anonymita — rozhodnutí uživatele
+
+Uživatel nechce, aby šlo poznat, kdo a odkud je. **Nepiš** třídu (8.B), ročník, zmínky o školním týdenním plánu ani jména spolužáků. Výjimka: odkazy na sítě (viz níže) — ty zůstávají.
 
 ## Ověřování faktů — povinné, ne volitelné
 
