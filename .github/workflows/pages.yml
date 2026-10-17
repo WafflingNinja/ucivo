@@ -23,7 +23,7 @@ jobs:
           mkdir _site
           cp index.html _site/
           touch _site/.nojekyll
-          for d in dejepis cestina fyzika matika chemie zemepis spanelstina; do cp -r "$d" _site/; done
+          for d in dejepis cestina fyzika matika chemie zemepis spanelstina prirodopis; do cp -r "$d" _site/; done
           rm -f _site/cestina/cestina-puvodni-zaloha.html
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
