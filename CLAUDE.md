@@ -131,6 +131,8 @@ Po každé úpravě: `node --check` na vytažený `<script>` **a** kontrola v pr
 
 Uživatel nechce, aby šlo poznat, kdo a odkud je. **Nepiš** třídu (8.B), ročník, zmínky o školním týdenním plánu ani jména spolužáků. Výjimka: odkazy na sítě (viz níže) — ty zůstávají.
 
+**Výjimka k výjimce (17. 10. 2026):** `prirodopis/genetika-pojmy.html` a `zemepis/evropa-krajina.html` jsou anonymní kopie. Nemají byline, blok autora ani sítě, nezmiňují test ani plán a na nic jiného se neodkazují (ani na mapu). Původní `prirodopis/genetika-uvod.html` a `zemepis/evropa-priroda.html` zůstaly beze změny, dál nesou jméno. U nových materiálů držet stejný styl, pokud uživatel neřekne jinak.
+
 ## Ověřování faktů — povinné, ne volitelné
 
 Materiály jdou do třídní skupiny a lidi za ně posílají peníze. Když se podle nich
