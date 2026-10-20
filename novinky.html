@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Novinky - Učivo</title>
+<style>
+  :root{--bg:#0d1118;--panel:#171e2b;--line:#2a3548;--text:#eef2f7;--dim:#93a0b5;--accent:#2dd4bf;--tap:48px}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 system-ui,sans-serif;overflow-wrap:break-word}
+  main{max-width:820px;margin:0 auto;padding:24px 16px 48px}
+  h1{margin:0;font-size:30px;line-height:1.15}
+  h1 span{color:var(--accent)}
+  h2{margin:0 0 8px;font-size:18px}
+  p{margin:6px 0}
+  a{color:var(--accent)}
+  .dim,.byline{color:var(--dim);font-size:14px}
+  .back{display:inline-flex;align-items:center;min-height:var(--tap)}
+  .day{margin:22px 0}
+  .day h2{color:var(--accent)}
+  .item{display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;min-height:var(--tap);margin:0 0 8px;padding:10px 14px;background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--c);border-radius:12px;color:var(--text);text-decoration:none}
+  .item b{flex:1 1 200px}
+  .tag{font-size:12px;border:1px solid var(--c);color:var(--c);border-radius:6px;padding:0 7px}
+  .tag.new{background:var(--c);color:#10141c;font-weight:700}
+  section.author{margin-top:36px;padding-top:16px;border-top:1px solid var(--line)}
+  section.author h2{color:var(--accent)}
+  .links{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+  .links a{display:inline-flex;align-items:center;min-height:var(--tap);padding:0 16px;border:1px solid var(--line);border-radius:12px;color:var(--text);text-decoration:none}
+</style>
+</head>
+<body>
+<main>
+<a class="back" href="index.html">← Všechny materiály</a>
+<h1>Novinky <span>- co je nového</span></h1>
+<p class="byline">Udělal <b>Rosťa Čermák</b> · <a href="#autor">sítě dole</a></p>
+<p class="dim">Nejnovější nahoře. „Nové“ = přibylo. „Upraveno“ = opravené nebo doplněné.</p>
+
+<!--NOVINKY:START-->
+<section class="day"><h2><time datetime="2026-10-06">6. 10. 2026</time></h2>
+<a class="item" style="--c:#fb7185" href="cestina/lakomec.html"><span class="tag new">Nové</span><b>Lakomec — Molière</b><span class="dim">Čeština</span></a>
+</section>
+<section class="day"><h2><time datetime="2026-10-05">5. 10. 2026</time></h2>
+<a class="item" style="--c:#38bdf8" href="anglictina/past-modals.html"><span class="tag new">Nové</span><b>past modals</b><span class="dim">Angličtina</span></a>
+<a class="item" style="--c:#fb7185" href="cestina/funkcni-styly.html"><span class="tag new">Nové</span><b>funkční styly, administrativní a řečnický</b><span class="dim">Čeština</span></a>
+<a class="item" style="--c:#2dd4bf" href="chemie/chemie-deleni-smesi.html"><span class="tag new">Nové</span><b>dělení směsí, filtrace, chromatografie</b><span class="dim">Chemie</span></a>
+<a class="item" style="--c:#60a5fa" href="fyzika/fyzika-vykon.html"><span class="tag new">Nové</span><b>výkon a práce (slovní úlohy)</b><span class="dim">Fyzika</span></a>
+<a class="item" style="--c:#60a5fa" href="fyzika/kmity-rezonance.html"><span class="tag new">Nové</span><b>kmity, vlny, zvuk, rezonance</b><span class="dim">Fyzika</span></a>
+<a class="item" style="--c:#4ade80" href="prirodopis/genetika-uvod.html"><span class="tag new">Nové</span><b>úvod do genetiky</b><span class="dim">Přírodopis</span></a>
+<a class="item" style="--c:#c084fc" href="zemepis/evropa-priroda.html"><span class="tag new">Nové</span><b>přírodní podmínky Evropy</b><span class="dim">Zeměpis</span></a>
+</section>
+<section class="day"><h2><time datetime="2026-10-04">4. 10. 2026</time></h2>
+<a class="item" style="--c:#fb7185" href="cestina/cestina-chyby-tisk.html"><span class="tag new">Nové</span><b>nejčastější chyby (tisk)</b><span class="dim">Čeština</span></a>
+<a class="item" style="--c:#fb7185" href="cestina/cestina-chyby.html"><span class="tag new">Nové</span><b>nejčastější chyby</b><span class="dim">Čeština</span></a>
+<a class="item" style="--c:#fb7185" href="cestina/cestina-proverka-chyby.html"><span class="tag new">Nové</span><b>chyby z prověrky</b><span class="dim">Čeština</span></a>
+<a class="item" style="--c:#fb7185" href="cestina/cestina-skladba-tisk.html"><span class="tag new">Nové</span><b>přísudek, shoda, vedlejší věty (tisk)</b><span class="dim">Čeština</span></a>
+<a class="item" style="--c:#fb7185" href="cestina/cestina.html"><span class="tag new">Nové</span><b>příprava na prověrku</b><span class="dim">Čeština</span></a>
+<a class="item" style="--c:#fb7185" href="cestina/literarni-zanry.html"><span class="tag new">Nové</span><b>literární žánry</b><span class="dim">Čeština</span></a>
+<a class="item" style="--c:#fb7185" href="cestina/prisudek.html"><span class="tag new">Nové</span><b>druhy přísudku</b><span class="dim">Čeština</span></a>
+<a class="item" style="--c:#2dd4bf" href="chemie/chemie-nadobi.html"><span class="tag new">Nové</span><b>nádobí a směsi</b><span class="dim">Chemie</span></a>
+<a class="item" style="--c:#2dd4bf" href="chemie/chemie-uvod.html"><span class="tag new">Nové</span><b>CHEMIE · úvod — tahák, kartičky, kvíz</b><span class="dim">Chemie</span></a>
+<a class="item" style="--c:#f5c14a" href="dejepis/30leta-valka.html"><span class="tag new">Nové</span><b>Třicetiletá válka — učení a kvíz</b><span class="dim">Dějepis</span></a>
+<a class="item" style="--c:#f5c14a" href="dejepis/baroko-tisk.html"><span class="tag new">Nové</span><b>baroko (tisk)</b><span class="dim">Dějepis</span></a>
+<a class="item" style="--c:#60a5fa" href="fyzika/fyzika-tisk.html"><span class="tag new">Nové</span><b>práce (tisk)</b><span class="dim">Fyzika</span></a>
+<a class="item" style="--c:#60a5fa" href="fyzika/fyzika.html"><span class="tag new">Nové</span><b>práce</b><span class="dim">Fyzika</span></a>
+<a class="item" style="--c:#a3e635" href="matika/procenta.html"><span class="tag new">Nové</span><b>procenta</b><span class="dim">Matika</span></a>
+<a class="item" style="--c:#a3e635" href="matika/zlomky.html"><span class="tag new">Nové</span><b>zlomky</b><span class="dim">Matika</span></a>
+<a class="item" style="--c:#fb923c" href="spanelstina/spanelstina-jidlo.html"><span class="tag new">Nové</span><b>comidas y bebidas + GUSTAR</b><span class="dim">Španělština</span></a>
+<a class="item" style="--c:#c084fc" href="zemepis/mapa-evropy.html"><span class="tag new">Nové</span><b>slepá mapa Evropy</b><span class="dim">Zeměpis</span></a>
+</section>
+<!--NOVINKY:END-->
+
+<section class="author" id="autor">
+<h2>Kdo to udělal</h2>
+<p>Tyhle materiály jsem napsal a naprogramoval já, sám. Není to práce nikoho jiného. Když je posíláš dál, nech je celé i s blokem o autorovi.</p>
+<div class="links">
+  <a href="https://github.com/WafflingNinja" target="_blank" rel="noopener noreferrer">GitHub: WafflingNinja</a>
+  <a href="https://www.tiktok.com/@waffleninja7" target="_blank" rel="noopener noreferrer">TikTok: @waffleninja7</a>
+  <a href="https://t.me/TheWaffleNinja" target="_blank" rel="noopener noreferrer">Telegram: @TheWaffleNinja</a>
+  <a href="https://www.instagram.com/angel_dust.mp4/" target="_blank" rel="noopener noreferrer">Instagram: angel_dust.mp4</a>
+</div>
+</section>
+</main>
+</body>
+</html>

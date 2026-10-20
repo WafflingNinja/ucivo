@@ -109,6 +109,12 @@ složce zůstává jen tenhle `CLAUDE.md` a `qr-original-csob-20kc.jpg`.
   QR: `qr-*.png` v každé složce (MSG `FYZIKAVYKON`, `FYZIKAKMITY`, `CHEMIESMESI`, `PRIRODOPIS`, `CESTINASTYLY`, `ANGLICTINA`, `ZEMEPISPRIRODA`).
   `index.html` už sekci s týdenním plánem NEMÁ (smazána, viz Anonymita) a má nové uzly v SVG mapě.
 - `cestina/lakomec.html` — literatura: Molière, Lakomec (čtenářský deník pro ty, co to nečetli: tahák, postavy, děj po dějstvích, hotové odpovědi do deníku, kvíz 29 otázek). Ověřeno v cs/en Wikipedii. QR: `cestina/qr-lakomec.png` (MSG `LAKOMEC`).
+- `novinky.html` + `novinky.json` + `.github/scripts/novinky.mjs` — stránka „co je nového“ a oznamovač. Po každém
+  pushi do `master` (`pages.yml`) skript porovná `novinky.json → last` s HEAD, přidá nové/změněné `*/*.html` do
+  `novinky.html` (mezi značkami `NOVINKY:START/END`, ručně tam nepiš) a otevře GitHub issue s odkazem
+  `wa.me/?text=…`: klepneš, vybereš skupinu, odešleš. Do WhatsAppu to samo neposílá (neoficiální boti porušují
+  podmínky a hrozí ban; oficiální API má limit 8 členů skupiny). Přeskakuje anonymní kopie a zálohu (seznam `IGNORE`
+  ve skriptu) - nový anonymní materiál přidej tam.
 - `cestina/cestina-puvodni-zaloha.html` — původní verze češtiny před přestavbou. Smazat, až bude nová odladěná.
 - QR na příspěvek (dají se poslat i samostatně do skupiny): `cestina/qr-cestina.png`, `dejepis/qr-dejepis.png`,
   `fyzika/qr-fyzika.png`, `matika/qr-matika.png`, `chemie/qr-chemie2.png`, `spanelstina/qr-spanelstina.png`,
@@ -130,6 +136,8 @@ Po každé úpravě: `node --check` na vytažený `<script>` **a** kontrola v pr
 ## Anonymita — rozhodnutí uživatele
 
 Uživatel nechce, aby šlo poznat, kdo a odkud je. **Nepiš** třídu (8.B), ročník, zmínky o školním týdenním plánu ani jména spolužáků. Výjimka: odkazy na sítě (viz níže) — ty zůstávají.
+
+**Výjimka k výjimce (17. 10. 2026):** `prirodopis/genetika-pojmy.html` a `zemepis/evropa-krajina.html` jsou anonymní kopie. Nemají byline, blok autora ani sítě, nezmiňují test ani plán a na nic jiného se neodkazují (ani na mapu). Původní `prirodopis/genetika-uvod.html` a `zemepis/evropa-priroda.html` zůstaly beze změny, dál nesou jméno. U nových materiálů držet stejný styl, pokud uživatel neřekne jinak.
 
 ## Ověřování faktů — povinné, ne volitelné
 
