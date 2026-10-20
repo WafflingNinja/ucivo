@@ -37,7 +37,7 @@ jobs:
       - name: Stage public files
         run: |
           mkdir _site
-          cp index.html novinky.html _site/
+          cp index.html novinky.html devmenu.html _site/
           touch _site/.nojekyll
           for d in dejepis cestina fyzika matika chemie zemepis spanelstina prirodopis; do cp -r "$d" _site/; done
           rm -f _site/cestina/cestina-puvodni-zaloha.html
