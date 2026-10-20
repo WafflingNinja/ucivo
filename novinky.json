@@ -1,0 +1,170 @@
+{
+ "last": "6337af7b2ebff4528dad529f50178095b8c930fb",
+ "days": [
+  {
+   "date": "2026-10-06",
+   "items": [
+    {
+     "path": "cestina/lakomec.html",
+     "title": "Lakomec — Molière",
+     "subject": "Čeština",
+     "kind": "new"
+    }
+   ]
+  },
+  {
+   "date": "2026-10-05",
+   "items": [
+    {
+     "path": "anglictina/past-modals.html",
+     "title": "past modals",
+     "subject": "Angličtina",
+     "kind": "new"
+    },
+    {
+     "path": "cestina/funkcni-styly.html",
+     "title": "funkční styly, administrativní a řečnický",
+     "subject": "Čeština",
+     "kind": "new"
+    },
+    {
+     "path": "chemie/chemie-deleni-smesi.html",
+     "title": "dělení směsí, filtrace, chromatografie",
+     "subject": "Chemie",
+     "kind": "new"
+    },
+    {
+     "path": "fyzika/fyzika-vykon.html",
+     "title": "výkon a práce (slovní úlohy)",
+     "subject": "Fyzika",
+     "kind": "new"
+    },
+    {
+     "path": "fyzika/kmity-rezonance.html",
+     "title": "kmity, vlny, zvuk, rezonance",
+     "subject": "Fyzika",
+     "kind": "new"
+    },
+    {
+     "path": "prirodopis/genetika-uvod.html",
+     "title": "úvod do genetiky",
+     "subject": "Přírodopis",
+     "kind": "new"
+    },
+    {
+     "path": "zemepis/evropa-priroda.html",
+     "title": "přírodní podmínky Evropy",
+     "subject": "Zeměpis",
+     "kind": "new"
+    }
+   ]
+  },
+  {
+   "date": "2026-10-04",
+   "items": [
+    {
+     "path": "cestina/cestina-chyby-tisk.html",
+     "title": "nejčastější chyby (tisk)",
+     "subject": "Čeština",
+     "kind": "new"
+    },
+    {
+     "path": "cestina/cestina-chyby.html",
+     "title": "nejčastější chyby",
+     "subject": "Čeština",
+     "kind": "new"
+    },
+    {
+     "path": "cestina/cestina-proverka-chyby.html",
+     "title": "chyby z prověrky",
+     "subject": "Čeština",
+     "kind": "new"
+    },
+    {
+     "path": "cestina/cestina-skladba-tisk.html",
+     "title": "přísudek, shoda, vedlejší věty (tisk)",
+     "subject": "Čeština",
+     "kind": "new"
+    },
+    {
+     "path": "cestina/cestina.html",
+     "title": "příprava na prověrku",
+     "subject": "Čeština",
+     "kind": "new"
+    },
+    {
+     "path": "cestina/literarni-zanry.html",
+     "title": "literární žánry",
+     "subject": "Čeština",
+     "kind": "new"
+    },
+    {
+     "path": "cestina/prisudek.html",
+     "title": "druhy přísudku",
+     "subject": "Čeština",
+     "kind": "new"
+    },
+    {
+     "path": "chemie/chemie-nadobi.html",
+     "title": "nádobí a směsi",
+     "subject": "Chemie",
+     "kind": "new"
+    },
+    {
+     "path": "chemie/chemie-uvod.html",
+     "title": "CHEMIE · úvod — tahák, kartičky, kvíz",
+     "subject": "Chemie",
+     "kind": "new"
+    },
+    {
+     "path": "dejepis/30leta-valka.html",
+     "title": "Třicetiletá válka — učení a kvíz",
+     "subject": "Dějepis",
+     "kind": "new"
+    },
+    {
+     "path": "dejepis/baroko-tisk.html",
+     "title": "baroko (tisk)",
+     "subject": "Dějepis",
+     "kind": "new"
+    },
+    {
+     "path": "fyzika/fyzika-tisk.html",
+     "title": "práce (tisk)",
+     "subject": "Fyzika",
+     "kind": "new"
+    },
+    {
+     "path": "fyzika/fyzika.html",
+     "title": "práce",
+     "subject": "Fyzika",
+     "kind": "new"
+    },
+    {
+     "path": "matika/procenta.html",
+     "title": "procenta",
+     "subject": "Matika",
+     "kind": "new"
+    },
+    {
+     "path": "matika/zlomky.html",
+     "title": "zlomky",
+     "subject": "Matika",
+     "kind": "new"
+    },
+    {
+     "path": "spanelstina/spanelstina-jidlo.html",
+     "title": "comidas y bebidas + GUSTAR",
+     "subject": "Španělština",
+     "kind": "new"
+    },
+    {
+     "path": "zemepis/mapa-evropy.html",
+     "title": "slepá mapa Evropy",
+     "subject": "Zeměpis",
+     "kind": "new"
+    }
+   ]
+  }
+ ]
+}
