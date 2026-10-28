@@ -16,6 +16,7 @@ const IGNORE = new Set([
   'cestina/cestina-puvodni-zaloha.html',
   'prirodopis/genetika-pojmy.html',
   'zemepis/evropa-krajina.html',
+  'cestina/dopis-lakomec.html',
 ]);
 
 const git = (...args) => execFileSync('git', args, { encoding: 'utf8' });

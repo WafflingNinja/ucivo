@@ -180,9 +180,13 @@ function applyFlags(){var s=sett(),b=document.body;
   for(var k in db.days)t+=db.days[k].v||0;
   bd.style.display=s.badge?'block':'none';bd.textContent='dev · visits '+t+(s.pause?' · paused':'');}
 function day(db,now){var k=dk(now);var d=db.days[k]||(db.days[k]={v:0,h:[],o:{}});for(var i=0;i<24;i++)d.h[i]=d.h[i]||0;return d}
+var TZ={'Europe/Prague':'CZ','Europe/Bratislava':'SK','Europe/Berlin':'DE','Europe/Warsaw':'PL','Europe/Vienna':'AT','Europe/London':'GB','Europe/Paris':'FR','Europe/Madrid':'ES','Europe/Rome':'IT','Europe/Budapest':'HU','Europe/Kyiv':'UA','Europe/Kiev':'UA','America/New_York':'US','America/Chicago':'US','America/Denver':'US','America/Los_Angeles':'US','America/Toronto':'CA'};
+function cc(){var tz='';try{tz=Intl.DateTimeFormat().resolvedOptions().timeZone||''}catch(e){}
+  if(TZ[tz])return TZ[tz];var l=(navigator.language||'').split('-')[1];return l?l.toUpperCase():'??'}
 function track(){var s=sett();if(s.pause)return;
   var now=new Date(),db=load(KEY,{days:{},first:0,last:0});
-  if(!db.last||now-db.last>GAP){var d=day(db,now);d.v++;d.h[now.getHours()]++;if(!db.first)db.first=now.getTime()}
+  if(!db.last||now-db.last>GAP){var d=day(db,now);d.v++;d.h[now.getHours()]++;if(!db.first)db.first=now.getTime();
+    var c=cc();db.c=db.c||{};db.c[c]=(db.c[c]||0)+1;db.v=(db.v||[]).concat({t:now.getTime(),c:c}).slice(-50)}
   db.last=now.getTime();save(KEY,db)}
 function opened(href){if(sett().pause)return;var now=new Date(),db=load(KEY,{days:{},first:0,last:0});
   var d=day(db,now);d.o[href]=(d.o[href]||0)+1;db.last=now.getTime();save(KEY,db);log('open '+href)}

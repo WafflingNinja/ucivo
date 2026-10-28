@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dopis o Lakomci — kniha × film</title>
+<style>
+  :root{
+    --bg:#15130e; --panel:#1d1a12; --panel2:#262218; --line:#3a3423;
+    --text:#f0ebdc; --dim:#a8a08a; --accent:#e8b64c; --accent2:#b88a2a;
+    --ok:#6fd08c; --bad:#e05252; --warn:#e0b04e;
+    --radius:14px; --tap:48px; --navh:62px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--bg);color:var(--text);overflow-wrap:break-word;
+    font:16px/1.6 -apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+    padding:0 16px calc(var(--navh) + 26px + env(safe-area-inset-bottom));}
+  @media(min-width:760px){body{padding-bottom:60px}}
+  .wrap{max-width:820px;margin:0 auto}
+
+  header{padding:16px 0 4px}
+  h1{font-size:clamp(20px,5.2vw,28px);margin:0;letter-spacing:-.3px;line-height:1.15}
+  h1 span{color:var(--accent)}
+  .sub{color:var(--dim);margin:6px 0 0;font-size:13px}
+
+  nav{position:fixed;left:0;right:0;bottom:0;z-index:60;display:grid;grid-template-columns:repeat(4,1fr);
+    background:var(--panel);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
+  nav button{min-height:var(--navh);border:0;background:transparent;color:var(--dim);font:inherit;
+    font-size:11.5px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:2px;cursor:pointer;padding:6px 2px}
+  nav .ic{font-size:19px;line-height:1}
+  nav button.on{color:var(--accent)}
+  nav .bd{font-size:10px;min-height:11px;color:var(--dim);font-variant-numeric:tabular-nums}
+  nav button.on .bd{color:var(--accent)}
+  @media(min-width:760px){
+    nav{position:sticky;top:0;bottom:auto;display:flex;gap:8px;background:var(--bg);
+      border-top:0;border-bottom:1px solid var(--line);padding:10px 0;margin-bottom:8px}
+    nav button{min-height:46px;flex-direction:row;gap:8px;font-size:15px;padding:0 16px;
+      border-radius:999px;border:1px solid var(--line);background:var(--panel)}
+    nav button.on{background:#2e2711;border-color:var(--accent)}
+    nav .bd{font-size:12px}
+  }
+  main{padding-top:14px}
+  section{display:none} section.on{display:block}
+  section.faq,section.tip{display:flex}
+  section.faq{display:block}
+
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    padding:18px 20px;margin-bottom:14px}
+  @media(max-width:520px){.card{padding:16px 14px}}
+  .card h2{margin:0 0 12px;font-size:18px;color:var(--accent)}
+  .card h3{margin:16px 0 6px;font-size:15px;color:#fff}
+  ul,ol{margin:6px 0;padding-left:22px} li{margin:6px 0}
+  .key{color:var(--accent);font-weight:600}
+  .note{font-size:13px;color:var(--dim);border-top:1px dashed var(--line);margin-top:12px;padding-top:10px}
+  .ex{background:var(--panel2);border:1px solid var(--line);border-radius:11px;padding:12px 14px;
+    margin:8px 0;font-size:15px;line-height:1.7}
+  .ex .l{color:var(--dim);font-size:12px;display:block;margin-bottom:2px}
+
+  .steps{counter-reset:s;list-style:none;padding:0;margin:0}
+  .steps li{counter-increment:s;position:relative;padding:0 0 0 44px;margin:0 0 14px;min-height:34px}
+  .steps li::before{content:counter(s);position:absolute;left:0;top:0;width:32px;height:32px;
+    border-radius:50%;background:var(--accent);color:#2a1f05;font-weight:700;
+    display:flex;align-items:center;justify-content:center}
+  .steps b{display:block}
+
+  .row{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    padding:14px;margin-bottom:12px}
+  .row h3{margin:0 0 8px;font-size:15px;color:var(--accent)}
+  .row .k{font-size:14.5px;margin:0 0 10px}
+  .row .k b,.lab{display:block;font-size:12px;color:var(--dim);font-weight:600;
+    text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
+  textarea,input[type=text],select{width:100%;background:var(--panel2);border:1px solid var(--line);
+    color:var(--text);border-radius:11px;padding:12px 14px;font:inherit;font-size:16px}
+  input[type=text],select{min-height:52px}
+  textarea{min-height:92px;resize:vertical;line-height:1.5}
+  textarea:focus,input:focus,select:focus{outline:2px solid var(--accent);outline-offset:0}
+  .fld{margin-bottom:14px}
+
+  button.btn{background:var(--accent);color:#2a1f05;border:0;min-height:var(--tap);padding:10px 20px;
+    border-radius:11px;font:inherit;font-weight:700;cursor:pointer}
+  button.btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+  button.btn.small{min-height:var(--tap);padding:8px 14px;font-size:14px}
+
+  .letter{background:#fffdf4;color:#222;border-radius:6px;padding:22px 20px;font:16px/1.65 Georgia,"Times New Roman",serif;
+    white-space:pre-wrap;word-break:break-word;min-height:120px}
+  .letter .ph{color:#9a9482}
+  .warn{background:#3a2b0c;border:1px solid var(--warn);border-radius:11px;padding:10px 14px;
+    margin:10px 0;font-size:14px}
+  .warn[hidden]{display:none}
+  .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+
+  .chk{display:flex;gap:12px;align-items:flex-start;min-height:var(--tap);padding:10px 4px;
+    border-bottom:1px solid var(--line);cursor:pointer}
+  .chk input{width:26px;height:26px;flex:none;margin-top:1px;accent-color:var(--accent)}
+  .chk span{flex:1}
+  .chk small{display:block;color:var(--dim);font-size:13px}
+  .bar{height:7px;background:var(--panel2);border-radius:999px;overflow:hidden;margin:6px 0 10px}
+  .bar i{display:block;height:100%;background:var(--accent);width:0}
+  .saved{font-size:12px;color:var(--dim);margin-top:12px}
+
+  .tipbar{position:fixed;left:0;right:0;z-index:70;background:var(--panel);
+    border-top:1px solid var(--accent);padding:11px 16px;
+    bottom:0;padding-bottom:calc(11px + env(safe-area-inset-bottom, 0px));transition:opacity 1.6s linear}
+  .tipbar.bye{opacity:0;pointer-events:none}
+  .tipbar-in{max-width:820px;margin:0 auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .tipbar-txt{flex:1;min-width:170px;font-size:13.5px;color:var(--dim);line-height:1.45}
+  .tipbar-txt b{color:var(--text)}
+  .tipbar-btns{display:flex;gap:8px;flex:none}
+  .tipbar-bye{flex:1;text-align:center;font-size:16px;padding:6px 0}
+  .tipbar [hidden]{display:none!important}
+  @media (prefers-reduced-motion: reduce){ .tipbar{transition:none} }
+
+  section.faq{margin-top:26px}
+  .faq h2{font-size:17px;margin:0 0 10px;color:var(--accent)}
+  .faq details{background:var(--panel);border:1px solid var(--line);border-radius:12px;margin-bottom:8px;overflow:hidden}
+  .faq summary{list-style:none;cursor:pointer;min-height:52px;display:flex;align-items:center;gap:10px;
+    padding:11px 15px;font-size:15px;font-weight:600}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:"+";margin-left:auto;color:var(--accent);font-size:19px;line-height:1}
+  .faq details[open] summary::after{content:"\2212"}
+  .faq .fa{padding:0 15px 15px;font-size:14.5px;color:var(--dim);line-height:1.6}
+  .faq .fa b{color:var(--text)}
+
+  section.tip{align-items:center;gap:15px;margin-top:26px;padding:15px;
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--radius)}
+  .tip img{flex:none;width:108px;height:108px;background:#fff;border-radius:8px;padding:4px}
+  .tip b{display:block;font-size:15px;margin-bottom:4px}
+  .tip p{font-size:13.5px;color:var(--dim);margin:0 0 6px}
+  .tip .acc{font-size:13px;color:var(--text);font-variant-numeric:tabular-nums;-webkit-user-select:all;user-select:all}
+  @media(max-width:439px){section.tip{gap:12px;padding:13px}.tip img{width:94px;height:94px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Dopis o <span>Lakomci</span></h1>
+  <p class="sub">Jak napsat dopis o rozdílech mezi knihou a filmem. Molière, Lakomec (L'Avare).</p>
+</header>
+
+<nav id="nav">
+  <button data-t="jak" class="on"><span class="ic">📖</span>Jak na to<span class="bd"></span></button>
+  <button data-t="por"><span class="ic">⚖️</span>Porovnání<span class="bd" id="bd-por"></span></button>
+  <button data-t="dop"><span class="ic">✉️</span>Dopis<span class="bd"></span></button>
+  <button data-t="kon"><span class="ic">✅</span>Kontrola<span class="bd" id="bd-kon"></span></button>
+</nav>
+
+<main>
+
+<!-- ===== JAK NA TO ===== -->
+<section id="jak" class="on">
+  <div class="card">
+    <h2>Dopis v 6 krocích</h2>
+    <ol class="steps">
+      <li><b>Místo a datum</b>vpravo nahoře. Například <span class="key">Praha 28. října 2026</span>. Čárka mezi místem a datem není.</li>
+      <li><b>Oslovení</b>v 5. pádu a <span class="key">čárka</span>: <span class="key">Milý Honzo,</span> Pozor: text pod ním začíná <span class="key">malým písmenem</span>.</li>
+      <li><b>Úvod</b>1–2 věty. Proč píšeš. Že sis přečetl knihu a viděl film.</li>
+      <li><b>Rozdíly</b>3 až 5 kousků. U každého: <span class="key">kniha → film → můj názor</span>.</li>
+      <li><b>Závěr</b>co je lepší a proč. Jedna věta stačí.</li>
+      <li><b>Pozdrav a podpis</b>např. <span class="key">S pozdravem</span> (bez tečky) a pod to jméno.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h2>Jak napsat jeden rozdíl</h2>
+    <div class="ex"><span class="l">Vzorec</span>V knize … , ale ve filmu … . Podle mě je lepší …, protože … .</div>
+    <div class="ex"><span class="l">Příklad na tvar (obsah si doplň sám)</span>V knize <b>Čipera ukradne truhlici</b>, ale ve filmu <b>[co se děje ve filmu]</b>. Podle mě je lepší <b>[kniha / film]</b>, protože <b>[důvod]</b>.</div>
+    <ul>
+      <li>Jedna myšlenka = jedna věta nebo dvě.</li>
+      <li>Piš konkrétně: jméno postavy, scéna, věc. Ne „je to jiné“.</li>
+      <li>Vždy napiš i <b>proč</b> to tak vidíš.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Co porovnávat</h2>
+    <ul>
+      <li><span class="key">Konec</span> — jak to dopadne a kdo co dostane</li>
+      <li><span class="key">Postavy</span> — chybí někdo? přibyl někdo? chová se jinak?</li>
+      <li><span class="key">Doba a místo</span> — kdy a kde se to děje</li>
+      <li><span class="key">Scény</span> — co ve filmu chybí a co je přidané</li>
+      <li><span class="key">Humor</span> — čím se smějeme v knize a čím ve filmu</li>
+      <li><span class="key">Jazyk</span> — dialogy, vtipy, způsob mluvení</li>
+      <li><span class="key">Forma</span> — kniha je <b>hra pro divadlo</b> (drama), film má kameru, hudbu, kostýmy</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Pravidla dopisu — ověřeno</h2>
+    <ul>
+      <li>Oslovení končí <span class="key">čárkou</span>, ne vykřičníkem. Text pod ním začíná <span class="key">malým písmenem</span>.</li>
+      <li>Kdybys psal <span class="key">vykání</span>: Vy, Vám, Váš se v dopise píšou <span class="key">velkým</span> písmenem.</li>
+      <li>Závěrečný pozdrav je <span class="key">bez tečky</span>: <i>S pozdravem</i>, <i>S přátelským pozdravem</i>, <i>Se srdečnými pozdravy</i>.</li>
+      <li>Mezi odstavci a před pozdravem <span class="key">volný řádek</span>.</li>
+    </ul>
+    <div class="note">Zdroj: Internetová jazyková příručka ÚJČ, <a href="https://prirucka.ujc.cas.cz/?id=850" target="_blank" rel="noopener noreferrer" style="color:var(--accent)">Oslovení a závěrečný pozdrav</a> a <a href="https://prirucka.ujc.cas.cz/?id=840" target="_blank" rel="noopener noreferrer" style="color:var(--accent)">Grafická úprava dopisu</a>.</div>
+  </div>
+
+  <div class="card">
+    <h2>Ověřeno — kde si dát pozor</h2>
+    <ul>
+      <li><b>Ty, Tvůj</b> (tykání): příručka na tohle pravidlo neuvádí, jen Vy / Vám / Váš. Vyber si jednu variantu a drž ji v celém dopise.</li>
+      <li><b>Jména postav</b> se podle překladu liší (Kleant / Kleantes, Čipera / La Flèche). Piš je tak, jak jsou ve tvém vydání.</li>
+      <li><b>Film</b>: o něm tu zatím nic není. Doplň ho sám v kartě Porovnání.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== POROVNÁNÍ ===== -->
+<section id="por">
+  <div class="card">
+    <h2>Kniha × film</h2>
+    <p style="margin:0">Kniha je vyplněná. Do <span class="key">Film</span> piš, co vidíš ve filmu. Ukládá se samo.</p>
+  </div>
+  <div id="rows"></div>
+  <p class="saved">Uloženo jen v tomhle prohlížeči.</p>
+</section>
+
+<!-- ===== DOPIS ===== -->
+<section id="dop">
+  <div class="card">
+    <h2>Napiš dopis</h2>
+    <div class="fld"><label class="lab" for="f-misto">Místo a datum</label>
+      <input type="text" id="f-misto" placeholder="Praha 28. října 2026"></div>
+    <div class="fld"><label class="lab" for="f-osl">Oslovení (5. pád)</label>
+      <input type="text" id="f-osl" placeholder="Milý Honzo"></div>
+    <div class="fld"><label class="lab" for="f-uvod">Úvod (začni malým písmenem)</label>
+      <textarea id="f-uvod" placeholder="minulý týden jsem přečetl Lakomce a pak jsem viděl i film. Chci ti napsat, v čem se liší."></textarea></div>
+    <div class="fld"><label class="lab" for="f-r1">Rozdíl 1</label>
+      <textarea id="f-r1" placeholder="V knize … , ale ve filmu … . Podle mě je lepší … , protože … ."></textarea></div>
+    <div class="fld"><label class="lab" for="f-r2">Rozdíl 2</label>
+      <textarea id="f-r2"></textarea></div>
+    <div class="fld"><label class="lab" for="f-r3">Rozdíl 3</label>
+      <textarea id="f-r3"></textarea></div>
+    <div class="fld"><label class="lab" for="f-zaver">Závěr</label>
+      <textarea id="f-zaver" placeholder="Celkově se mi víc líbí … , protože … ."></textarea></div>
+    <div class="fld"><label class="lab" for="f-poz">Pozdrav</label>
+      <select id="f-poz">
+        <option>S pozdravem</option>
+        <option>S přátelským pozdravem</option>
+        <option>Se srdečnými pozdravy</option>
+      </select></div>
+    <div class="fld"><label class="lab" for="f-podp">Podpis</label>
+      <input type="text" id="f-podp" placeholder="Tvé jméno"></div>
+    <div class="warn" id="warn" hidden></div>
+  </div>
+  <div class="card">
+    <h2>Takhle to vypadá</h2>
+    <div class="letter" id="letter"></div>
+    <div class="actions">
+      <button class="btn" id="copy" type="button">Zkopírovat text</button>
+      <button class="btn ghost" id="clear" type="button">Smazat vše</button>
+    </div>
+    <div class="saved" id="copied"></div>
+  </div>
+</section>
+
+<!-- ===== KONTROLA ===== -->
+<section id="kon">
+  <div class="card">
+    <h2>Než to odevzdáš</h2>
+    <div class="bar"><i id="kbar"></i></div>
+    <div id="chk"></div>
+    <div class="actions"><button class="btn ghost small" id="kreset" type="button">Odškrtat vše</button></div>
+  </div>
+</section>
+
+  <section class="faq">
+    <h2>Časté otázky</h2>
+    <details>
+      <summary>Musím zaplatit, abych to mohl použít?</summary>
+      <div class="fa">Ne. Všechno je odemčené, nic se neschovává za platbu. QR kód dole je dobrovolný.</div>
+    </details>
+    <details>
+      <summary>Proč bych ti posílal peníze?</summary>
+      <div class="fa">Protože to zabralo čas, který jsi nemusel obětovat ty. Je tady <b>postup na dopis</b>, <b>porovnání knihy a filmu</b>, <b>psací šablona</b> a <b>kontrolní seznam</b>.</div>
+    </details>
+    <details>
+      <summary>Zaručuje mi to dobrou známku?</summary>
+      <div class="fa"><b>Ne.</b> Tohle nikdy tvrdit nebudu. Není to oficiální materiál. Dopis musíš napsat po svém, tohle je jen pomůcka.</div>
+    </details>
+    <details>
+      <summary>Jak víš, že tam nejsou chyby?</summary>
+      <div class="fa">Pravidla dopisu jsou z Internetové jazykové příručky ÚJČ. Fakta o knize jsou ověřená v české a anglické Wikipedii. Co se liší podle vydání, je v kartě <b>Ověřeno — kde si dát pozor</b>.</div>
+    </details>
+    <details>
+      <summary>Můžu to poslat dál?</summary>
+      <div class="fa">Jo. Komukoliv. Je to jeden soubor, funguje i bez internetu.</div>
+    </details>
+    <details>
+      <summary>Kam ty peníze jdou?</summary>
+      <div class="fa">Na nástroje, kterými to dělám, a na čas, který v tom strávím. Za každý materiál je v QR kódu jiná zpráva, takže vím, co lidem reálně pomáhá, a podle toho dělám další.</div>
+    </details>
+  </section>
+
+  <section class="tip">
+    <img src="data:image/png;base64,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" alt="QR kód pro platbu" width="180" height="180">
+    <div>
+      <b>Kdyby chtěl někdo přihodit na kafe</b>
+      <p>Naskenuj QR bankovní aplikací — částka <b>20 Kč</b> se vyplní sama. Nemusí nikdo, materiál funguje všem stejně.</p>
+      <span class="acc">300369512 / 0300 · 20 Kč</span>
+    </div>
+  </section>
+
+</main>
+</div>
+
+<div class="tipbar" id="tipbar" hidden role="region" aria-label="Dobrovolný příspěvek">
+  <div class="tipbar-in">
+    <span class="tipbar-txt"><b>Pomohlo ti to?</b> Dobrovolný příspěvek 20 Kč. Nemusíš, funguje to všem stejně.</span>
+    <span class="tipbar-btns">
+      <button type="button" class="btn small" id="tipbar-yes">Ukázat QR</button>
+      <button type="button" class="btn ghost small" id="tipbar-no">Teď ne</button>
+    </span>
+    <span class="tipbar-bye" hidden>oka.... 😓</span>
+  </div>
+</div>
+
+<script>
+/* ===== data ===== */
+var ROWS = [
+  ["Forma","Drama (hra pro divadlo), próza, 5 dějství."],
+  ["Doba a místo","Paříž, dům Harpagona, 17. století (doba autora)."],
+  ["Harpagonovy plány","Sám se ožení s Marianou. Elišku dá Anselmovi bez věna. Kleanta ožení s bohatou vdovou."],
+  ["Půjčka","Kleant si chce půjčit a půjčovatel je jeho vlastní otec Harpagon."],
+  ["Truhlice","Harpagon ji zakopal na zahradě. Ukradne ji Čipera, Kleantův sluha."],
+  ["Nedorozumění","Harpagon křičí o ukradené truhlici. Valér myslí, že jde o Elišku, a přizná se k lásce."],
+  ["Konec","Vyjde najevo, že Valér a Mariana jsou děti Anselma. Anselm zaplatí všechno. Kleant vrátí truhlici za svolení k svatbě."],
+  ["Postavy","Harpagon, Kleant, Eliška, Valér, Mariana, Anselm, Frosina, Čipera, Mistr Jakub. Jména se podle překladu liší."]
+];
+var CHECKS = [
+  ["Místo a datum nahoře","např. Praha 28. října 2026, bez čárky mezi nimi"],
+  ["Oslovení v 5. pádu, za ním čárka","Milý Honzo,"],
+  ["Pod oslovením malé písmeno","kromě jmen"],
+  ["Vy / Vám / Váš velké","jen když vykáš. Při tykání drž jednu variantu"],
+  ["Aspoň 3 rozdíly","ne jen „je to jiné“"],
+  ["U každého rozdílu: kniha, film, můj názor",""],
+  ["Jména postav stejně jako ve tvém vydání",""],
+  ["Závěr: co je lepší a proč",""],
+  ["Pozdrav bez tečky","S pozdravem"],
+  ["Podpis pod pozdravem",""],
+  ["Přečteno nahlas — nic nezní divně",""],
+  ["Zkontrolovaný pravopis",""]
+];
+var FIELDS = ["misto","osl","uvod","r1","r2","r3","zaver","poz","podp"];
+
+/* ===== ukládání ===== */
+var KEY="dopis1";
+function load(){try{return JSON.parse(localStorage.getItem(KEY))||{};}catch(e){return {};}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+var S=load();
+if(!S.film){S.film={};} if(!S.f){S.f={};} if(!S.c){S.c={};} if(!S.tab){S.tab='jak';}
+
+function $(id){return document.getElementById(id);}
+function esc(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+/* ===== taby ===== */
+function showTab(t){
+  S.tab=t; save();
+  ['jak','por','dop','kon'].forEach(function(id){$(id).classList.toggle('on',id===t);});
+  [].forEach.call($('nav').querySelectorAll('button'),function(b){b.classList.toggle('on',b.dataset.t===t);});
+  window.scrollTo(0,0);
+}
+[].forEach.call($('nav').querySelectorAll('button'),function(b){b.onclick=function(){showTab(b.dataset.t);};});
+
+/* ===== porovnání ===== */
+function badges(){
+  var f=0; ROWS.forEach(function(r,i){if((S.film[i]||'').trim()){f++;}});
+  $('bd-por').textContent=f+' z '+ROWS.length;
+  var c=0; CHECKS.forEach(function(r,i){if(S.c[i]){c++;}});
+  $('bd-kon').textContent=c+' z '+CHECKS.length;
+  $('kbar').style.width=Math.round(c/CHECKS.length*100)+'%';
+}
+function renderRows(){
+  var h='';
+  ROWS.forEach(function(r,i){
+    h+='<div class="row"><h3>'+esc(r[0])+'</h3><p class="k"><b>Kniha</b>'+esc(r[1])+'</p>'
+      +'<label class="lab" for="fi'+i+'">Film</label><textarea id="fi'+i+'" data-i="'+i+'" placeholder="doplň, co vidíš ve filmu"></textarea></div>';
+  });
+  $('rows').innerHTML=h;
+  [].forEach.call($('rows').querySelectorAll('textarea'),function(t){
+    t.value=S.film[t.dataset.i]||'';
+    t.oninput=function(){S.film[t.dataset.i]=t.value; save(); badges();};
+  });
+}
+
+/* ===== dopis ===== */
+function ph(t){return '<span class="ph">'+esc(t)+'</span>';}
+function val(k){return (S.f[k]||'').trim();}
+function render(){
+  var parts=[];
+  var m=val('misto'), o=val('osl');
+  var datum='<div style="text-align:right">'+(m?esc(m):ph('místo a datum'))+'</div>';
+  parts.push(o?esc(o.replace(/[!.,\s]+$/,''))+',':ph('oslovení,'));
+  ['uvod','r1','r2','r3','zaver'].forEach(function(k){
+    var v=val(k); if(v){parts.push(esc(v));}
+  });
+  if(!val('uvod')){parts.splice(2,0,ph('úvod'));}
+  parts.push(esc(S.f.poz||'S pozdravem'));
+  parts.push(val('podp')?esc(val('podp')):ph('podpis'));
+  $('letter').innerHTML=datum+'\n'+parts.join('\n\n');
+
+  var w=[], u=val('uvod');
+  if(o && /[!.]$/.test(o)){w.push('Oslovení má končit čárkou, ne '+o.slice(-1)+'. V dopise to opravuju.');}
+  if(u && /^[A-ZÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ]/.test(u)){w.push('Text pod oslovením začíná malým písmenem (kromě jmen).');}
+  if(val('misto') && /,/.test(val('misto'))){w.push('Mezi místem a datem není čárka.');}
+  $('warn').hidden=!w.length; $('warn').innerHTML=w.map(esc).join('<br>');
+}
+function plain(){
+  var L=$('letter'), t=L.innerText||L.textContent;
+  return t;
+}
+FIELDS.forEach(function(k){
+  var el=$('f-'+k); el.value=S.f[k]||(k==='poz'?'S pozdravem':'');
+  if(!S.f[k] && k==='poz'){S.f.poz=el.value;}
+  el.oninput=el.onchange=function(){S.f[k]=el.value; save(); render();};
+});
+$('copy').onclick=function(){
+  var t=plain();
+  function ok(){$('copied').textContent='Zkopírováno.';}
+  function fail(){$('copied').textContent='Nešlo zkopírovat. Označ text ručně.';}
+  try{ navigator.clipboard.writeText(t).then(ok,fail); }catch(e){ fail(); }
+};
+$('clear').onclick=function(){
+  if(!confirm('Smazat celý dopis?')){return;}
+  S.f={poz:'S pozdravem'}; save();
+  FIELDS.forEach(function(k){$('f-'+k).value=S.f[k]||'';}); render();
+};
+
+/* ===== kontrola ===== */
+function renderChecks(){
+  var h='';
+  CHECKS.forEach(function(r,i){
+    h+='<label class="chk"><input type="checkbox" data-i="'+i+'"><span>'+esc(r[0])+(r[1]?'<small>'+esc(r[1])+'</small>':'')+'</span></label>';
+  });
+  $('chk').innerHTML=h;
+  [].forEach.call($('chk').querySelectorAll('input'),function(c){
+    c.checked=!!S.c[c.dataset.i];
+    c.onchange=function(){S.c[c.dataset.i]=c.checked; save(); badges();};
+  });
+}
+$('kreset').onclick=function(){S.c={}; save(); renderChecks(); badges();};
+
+renderRows(); renderChecks(); render(); badges(); showTab(S.tab);
+
+/* ===== lišta s dobrovolným příspěvkem =====
+   Ukáže se JEDNOU po 45 s a pak už nikdy — volba se ukládá.
+   Tady není kvíz, takže žádná výjimka. */
+(function(){
+  var bar=$('tipbar'), FIRST=45000, t=null, opened=false;
+  function seen(){ try{ return !!S.tipSeen; }catch(e){ return false; } }
+  function markSeen(){ try{ S.tipSeen=true; save(); }catch(e){} }
+  function place(){
+    var nav=$('nav'), o=0;
+    if(getComputedStyle(nav).position==="fixed"){ o=Math.round(nav.getBoundingClientRect().height); }
+    bar.style.bottom = o ? o+"px" : "";
+  }
+  var txtEl=bar.querySelector('.tipbar-txt'), btnEl=bar.querySelector('.tipbar-btns'),
+      byeEl=bar.querySelector('.tipbar-bye'), byeT=null;
+  function resetLook(){
+    if(byeT){ clearTimeout(byeT); byeT=null; }
+    bar.classList.remove('bye'); byeEl.hidden=true; txtEl.hidden=false; btnEl.hidden=false;
+  }
+  function show(){ if(opened){return;} resetLook(); place(); bar.hidden=false; }
+  function hide(){ bar.hidden=true; if(t){clearTimeout(t); t=null;} }
+  $('tipbar-yes').onclick=function(){
+    opened=true; markSeen(); hide();
+    document.querySelector('.tip').scrollIntoView({block:'center'});
+  };
+  $('tipbar-no').onclick=function(){
+    markSeen();
+    txtEl.hidden=true; btnEl.hidden=true; byeEl.hidden=false;
+    var reduce=window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduce){ hide(); resetLook(); return; }
+    bar.classList.add('bye');
+    byeT=setTimeout(function(){ hide(); resetLook(); }, 1700);
+  };
+  if(!seen()){ t=setTimeout(function(){ if(!seen() && !opened){ show(); } }, FIRST); }
+  window.addEventListener("resize", function(){ if(!bar.hidden){ place(); } });
+  window.__tipbar={show:show, hide:hide, first:FIRST, seen:seen};
+})();
+</script>
+</body>
+</html>

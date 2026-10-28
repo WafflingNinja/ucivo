@@ -109,6 +109,10 @@ složce zůstává jen tenhle `CLAUDE.md` a `qr-original-csob-20kc.jpg`.
   QR: `qr-*.png` v každé složce (MSG `FYZIKAVYKON`, `FYZIKAKMITY`, `CHEMIESMESI`, `PRIRODOPIS`, `CESTINASTYLY`, `ANGLICTINA`, `ZEMEPISPRIRODA`).
   `index.html` už sekci s týdenním plánem NEMÁ (smazána, viz Anonymita) a má nové uzly v SVG mapě.
 - `cestina/lakomec.html` — literatura: Molière, Lakomec (čtenářský deník pro ty, co to nečetli: tahák, postavy, děj po dějstvích, hotové odpovědi do deníku, kvíz 29 otázek). Ověřeno v cs/en Wikipedii. QR: `cestina/qr-lakomec.png` (MSG `LAKOMEC`).
+- `cestina/dopis-lakomec.html` — **anonymní** (bez bylinu, autora, sítí; ani slovo o třídě/škole/zadání; v `IGNORE` v novinky.mjs).
+  Jak napsat dopis o rozdílech kniha × film u Lakomce. Taby: Jak na to · Porovnání (kniha vyplněná, sloupec Film prázdný,
+  ukládá se) · Dopis (šablona + živý náhled + kopírovat) · Kontrola. Pravidla dopisu ověřena v IJP (`?id=850`, `840`).
+  **Čeká na fotky zadání od uživatele** → upravit podle nich (film, požadavky, rozsah). QR: MSG `DOPIS`, ověřeno.
 - `novinky.html` + `novinky.json` + `.github/scripts/novinky.mjs` — stránka „co je nového“ a oznamovač. Po každém
   pushi do `master` (`pages.yml`) skript porovná `novinky.json → last` s HEAD, přidá nové/změněné `*/*.html` do
   `novinky.html` (mezi značkami `NOVINKY:START/END`, ručně tam nepiš) a otevře GitHub issue s odkazem
