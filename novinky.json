@@ -1,6 +1,17 @@
 {
- "last": "6337af7b2ebff4528dad529f50178095b8c930fb",
+ "last": "546bccf1691d32f3e88b8a2436113c924f073e7d",
  "days": [
+  {
+   "date": "2026-10-28",
+   "items": [
+    {
+     "path": "cestina/lakomec.html",
+     "title": "Lakomec — Molière",
+     "subject": "Čeština",
+     "kind": "update"
+    }
+   ]
+  },
   {
    "date": "2026-10-06",
    "items": [
