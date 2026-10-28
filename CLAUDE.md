@@ -112,7 +112,7 @@ složce zůstává jen tenhle `CLAUDE.md` a `qr-original-csob-20kc.jpg`.
 - `cestina/dopis-lakomec.html` — **anonymní** (bez bylinu, autora, sítí; ani slovo o třídě/škole/zadání; v `IGNORE` v novinky.mjs).
   Jak napsat dopis o rozdílech kniha × film u Lakomce. Taby: Jak na to · Porovnání (kniha vyplněná, sloupec Film prázdný,
   ukládá se) · Dopis (šablona + živý náhled + kopírovat) · Kontrola. Pravidla dopisu ověřena v IJP (`?id=850`, `840`).
-  **Čeká na fotky zadání od uživatele** → upravit podle nich (film, požadavky, rozsah). QR: MSG `DOPIS`, ověřeno.
+  Podle fotek poznámek (28. 10.): soukromý dopis; datum stačí, místo → čárka (příručka ÚJČ píše bez čárky, v kartě Ověřeno obojí); oslovení + čárka → malé písmeno, + vykřičník → velké; úvod/tělo/závěr/loučení. **Pořád chybí zadání** (film, rozsah). QR: MSG `DOPIS`, ověřeno.
 - `novinky.html` + `novinky.json` + `.github/scripts/novinky.mjs` — stránka „co je nového“ a oznamovač. Po každém
   pushi do `master` (`pages.yml`) skript porovná `novinky.json → last` s HEAD, přidá nové/změněné `*/*.html` do
   `novinky.html` (mezi značkami `NOVINKY:START/END`, ručně tam nepiš) a otevře GitHub issue s odkazem

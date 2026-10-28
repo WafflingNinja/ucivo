@@ -151,14 +151,22 @@
 <!-- ===== JAK NA TO ===== -->
 <section id="jak" class="on">
   <div class="card">
-    <h2>Dopis v 6 krocích</h2>
+    <h2>Dva druhy dopisu</h2>
+    <ul>
+      <li><span class="key">Soukromý</span> (prostě sdělovací) — mezi člověkem a člověkem. <b>Tenhle píšeš.</b></li>
+      <li><span class="key">Úřední</span> (administrativní) — mezi občanem a úřadem, nebo úřadem a úřadem.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Soukromý dopis v 6 krocích</h2>
     <ol class="steps">
-      <li><b>Místo a datum</b>vpravo nahoře. Například <span class="key">Praha 28. října 2026</span>. Čárka mezi místem a datem není.</li>
-      <li><b>Oslovení</b>v 5. pádu a <span class="key">čárka</span>: <span class="key">Milý Honzo,</span> Pozor: text pod ním začíná <span class="key">malým písmenem</span>.</li>
+      <li><b>Datum (a místo)</b>vpravo nahoře. Stačí datum. Když píšeš i místo, za místem je <span class="key">čárka</span>: <span class="key">Praha, 28. 10. 2026</span></li>
+      <li><b>Oslovení</b>v 5. pádu. Dvě možnosti: <span class="key">Milý Pavle,</span> a pod tím <span class="key">malé</span> písmeno, nebo <span class="key">Milý Pavle!</span> a pod tím <span class="key">velké</span> písmeno.</li>
       <li><b>Úvod</b>1–2 věty. Proč píšeš. Že sis přečetl knihu a viděl film.</li>
-      <li><b>Rozdíly</b>3 až 5 kousků. U každého: <span class="key">kniha → film → můj názor</span>.</li>
+      <li><b>Tělo textu — rozdíly</b>3 až 5 kousků. U každého: <span class="key">kniha → film → můj názor</span>.</li>
       <li><b>Závěr</b>co je lepší a proč. Jedna věta stačí.</li>
-      <li><b>Pozdrav a podpis</b>např. <span class="key">S pozdravem</span> (bez tečky) a pod to jméno.</li>
+      <li><b>Loučení a podpis</b>např. <span class="key">S pozdravem</span> (bez tečky) a pod to jméno.</li>
     </ol>
   </div>
 
@@ -189,7 +197,9 @@
   <div class="card">
     <h2>Pravidla dopisu — ověřeno</h2>
     <ul>
-      <li>Oslovení končí <span class="key">čárkou</span>, ne vykřičníkem. Text pod ním začíná <span class="key">malým písmenem</span>.</li>
+      <li>Oslovení + <span class="key">čárka</span> → text pod ním začíná <span class="key">malým písmenem</span>.</li>
+      <li>Oslovení + <span class="key">vykřičník</span> → text pod ním začíná <span class="key">velkým písmenem</span>. V soukromém dopise jde obojí.</li>
+      <li>Místo a datum: stačí <span class="key">datum</span>. Když píšeš i místo, za místem je <span class="key">čárka</span>.</li>
       <li>Kdybys psal <span class="key">vykání</span>: Vy, Vám, Váš se v dopise píšou <span class="key">velkým</span> písmenem.</li>
       <li>Závěrečný pozdrav je <span class="key">bez tečky</span>: <i>S pozdravem</i>, <i>S přátelským pozdravem</i>, <i>Se srdečnými pozdravy</i>.</li>
       <li>Mezi odstavci a před pozdravem <span class="key">volný řádek</span>.</li>
@@ -200,6 +210,7 @@
   <div class="card">
     <h2>Ověřeno — kde si dát pozor</h2>
     <ul>
+      <li><b>Místo a datum</b>: tady s čárkou (<i>Praha, 28. 10. 2026</i>). Příručka ÚJČ v ukázkách píše <i>bez čárky</i> (<i>Praha 5. května 2024</i>). Vyber jednu variantu a drž ji v celém dopise.</li>
       <li><b>Ty, Tvůj</b> (tykání): příručka na tohle pravidlo neuvádí, jen Vy / Vám / Váš. Vyber si jednu variantu a drž ji v celém dopise.</li>
       <li><b>Jména postav</b> se podle překladu liší (Kleant / Kleantes, Čipera / La Flèche). Piš je tak, jak jsou ve tvém vydání.</li>
       <li><b>Film</b>: o něm tu zatím nic není. Doplň ho sám v kartě Porovnání.</li>
@@ -222,10 +233,10 @@
   <div class="card">
     <h2>Napiš dopis</h2>
     <div class="fld"><label class="lab" for="f-misto">Místo a datum</label>
-      <input type="text" id="f-misto" placeholder="Praha 28. října 2026"></div>
-    <div class="fld"><label class="lab" for="f-osl">Oslovení (5. pád)</label>
-      <input type="text" id="f-osl" placeholder="Milý Honzo"></div>
-    <div class="fld"><label class="lab" for="f-uvod">Úvod (začni malým písmenem)</label>
+      <input type="text" id="f-misto" placeholder="Praha, 28. 10. 2026"></div>
+    <div class="fld"><label class="lab" for="f-osl">Oslovení (5. pád, na konci , nebo !)</label>
+      <input type="text" id="f-osl" placeholder="Milý Pavle,"></div>
+    <div class="fld"><label class="lab" for="f-uvod">Úvod (po čárce malé písmeno, po ! velké)</label>
       <textarea id="f-uvod" placeholder="minulý týden jsem přečetl Lakomce a pak jsem viděl i film. Chci ti napsat, v čem se liší."></textarea></div>
     <div class="fld"><label class="lab" for="f-r1">Rozdíl 1</label>
       <textarea id="f-r1" placeholder="V knize … , ale ve filmu … . Podle mě je lepší … , protože … ."></textarea></div>
@@ -330,9 +341,10 @@ var ROWS = [
   ["Postavy","Harpagon, Kleant, Eliška, Valér, Mariana, Anselm, Frosina, Čipera, Mistr Jakub. Jména se podle překladu liší."]
 ];
 var CHECKS = [
-  ["Místo a datum nahoře","např. Praha 28. října 2026, bez čárky mezi nimi"],
-  ["Oslovení v 5. pádu, za ním čárka","Milý Honzo,"],
-  ["Pod oslovením malé písmeno","kromě jmen"],
+  ["Datum vpravo nahoře","stačí datum; když je i místo, za ním čárka"],
+  ["Oslovení v 5. pádu, za ním čárka nebo vykřičník","Milý Pavle,  /  Milý Pavle!"],
+  ["Po čárce malé písmeno, po vykřičníku velké","u jmen vždy velké"],
+  ["Je tam úvod, tělo textu, závěr a loučení",""],
   ["Vy / Vám / Váš velké","jen když vykáš. Při tykání drž jednu variantu"],
   ["Aspoň 3 rozdíly","ne jen „je to jiné“"],
   ["U každého rozdílu: kniha, film, můj názor",""],
@@ -392,7 +404,8 @@ function render(){
   var parts=[];
   var m=val('misto'), o=val('osl');
   var datum='<div style="text-align:right">'+(m?esc(m):ph('místo a datum'))+'</div>';
-  parts.push(o?esc(o.replace(/[!.,\s]+$/,''))+',':ph('oslovení,'));
+  var ex=/!\s*$/.test(o);
+  parts.push(o?esc(o.replace(/[!.,\s]+$/,''))+(ex?'!':','):ph('oslovení,'));
   ['uvod','r1','r2','r3','zaver'].forEach(function(k){
     var v=val(k); if(v){parts.push(esc(v));}
   });
@@ -402,9 +415,10 @@ function render(){
   $('letter').innerHTML=datum+'\n'+parts.join('\n\n');
 
   var w=[], u=val('uvod');
-  if(o && /[!.]$/.test(o)){w.push('Oslovení má končit čárkou, ne '+o.slice(-1)+'. V dopise to opravuju.');}
-  if(u && /^[A-ZÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ]/.test(u)){w.push('Text pod oslovením začíná malým písmenem (kromě jmen).');}
-  if(val('misto') && /,/.test(val('misto'))){w.push('Mezi místem a datem není čárka.');}
+  var up=/^[A-ZÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ]/.test(u);
+  if(o && /\.\s*$/.test(o)){w.push('Oslovení končí čárkou nebo vykřičníkem, ne tečkou. V dopise to opravuju.');}
+  if(u && !ex && up){w.push('Po čárce je malé písmeno (kromě jmen).');}
+  if(u && ex && !up){w.push('Po vykřičníku je velké písmeno.');}
   $('warn').hidden=!w.length; $('warn').innerHTML=w.map(esc).join('<br>');
 }
 function plain(){
