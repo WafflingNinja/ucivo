@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DEV MENU · Učivo</title>
+<!--
+  DEV MENU — single self-contained file (CSS + JS inline, no dependencies, works offline).
+  Copy this whole file into another AI/tool if you want the same menu there.
+  Data lives in localStorage of the origin that serves it (keys: ucivo_dm_*).
+  The lobby (index.html) writes visits + link opens into those keys; this menu reads them.
+-->
+<style>
+  :root{--bg:#07090d;--panel:#0f141c;--panel2:#141b26;--line:#222d3d;--text:#e6edf6;--dim:#7d8ba1;--acc:#22d3ee;--ok:#4ade80;--warn:#facc15;--bad:#fb7185;--mag:#e879f9}
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:var(--bg);color:var(--text);font:13px/1.45 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;overflow:hidden}
+  header{display:flex;align-items:center;gap:10px;padding:8px 12px;border-bottom:1px solid var(--line);background:var(--panel)}
+  header h1{margin:0;font-size:15px;letter-spacing:.12em;color:var(--acc)}
+  header .sub{color:var(--dim);font-size:11px;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .pill{font-size:11px;border:1px solid var(--line);border-radius:999px;padding:2px 8px;color:var(--dim)}
+  .pill.on{border-color:var(--ok);color:var(--ok)}
+  .pill.off{border-color:var(--bad);color:var(--bad)}
+  button{font:inherit;color:var(--text);background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:6px 10px;cursor:pointer;min-height:32px}
+  button:hover{border-color:var(--acc)}
+  button.danger{color:var(--bad)} button.danger:hover{border-color:var(--bad)}
+  button.primary{border-color:var(--acc);color:var(--acc)}
+  button[aria-pressed="true"]{background:var(--acc);color:#001318;border-color:var(--acc)}
+  button:focus-visible,select:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px solid #fff;outline-offset:2px}
+  nav.tabs{display:flex;gap:4px;overflow-x:auto;padding:6px 8px;border-bottom:1px solid var(--line);background:var(--bg)}
+  nav.tabs button{background:transparent;border-color:transparent;color:var(--dim);white-space:nowrap}
+  nav.tabs button[aria-selected="true"]{color:var(--text);border-color:var(--acc);background:var(--panel2)}
+  main{height:calc(100% - 92px);overflow:auto;padding:12px}
+  section.panel{display:none} section.panel.on{display:block}
+  h2{font-size:13px;margin:16px 0 8px;color:var(--acc);letter-spacing:.08em;text-transform:uppercase}
+  h2:first-child{margin-top:0}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px}
+  .card .k{color:var(--dim);font-size:11px;text-transform:uppercase;letter-spacing:.06em}
+  .card .v{font-size:22px;font-weight:700;margin-top:2px;word-break:break-word}
+  .card .n{color:var(--dim);font-size:11px;margin-top:2px}
+  .good{color:var(--ok)} .bad{color:var(--bad)} .warn{color:var(--warn)} .mag{color:var(--mag)} .dim{color:var(--dim)}
+  .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0}
+  select,textarea,input[type=text]{font:inherit;background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:6px 8px}
+  textarea{width:100%;min-height:120px;resize:vertical}
+  .chart{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px;margin:8px 0}
+  .chart svg{width:100%;height:auto;display:block}
+  .chart .cap{color:var(--dim);font-size:11px;margin-top:4px;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+  table{width:100%;border-collapse:collapse;font-size:12px}
+  th,td{text-align:left;padding:5px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--dim);font-weight:600;font-size:11px;text-transform:uppercase}
+  td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+  .bar{height:8px;background:var(--acc);border-radius:4px;min-width:2px}
+  .bar.bad{background:var(--bad)}
+  .toggle{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--line)}
+  .toggle small{color:var(--dim);display:block}
+  .log{font-size:12px;max-height:60vh;overflow:auto;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+  .log div{padding:4px 8px;border-bottom:1px solid var(--line);white-space:pre-wrap;word-break:break-word}
+  .log .t{color:var(--dim);margin-right:8px}
+  .log .warn{color:var(--warn)} .log .err{color:var(--bad)}
+  pre{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px;white-space:pre-wrap;word-break:break-word;max-height:40vh;overflow:auto;margin:8px 0}
+  .warnbox{border:1px dashed var(--warn);color:var(--warn);border-radius:10px;padding:8px;margin:8px 0;font-size:12px}
+  .hidden{display:none !important}
+  .legend{color:var(--dim);font-size:11px;display:flex;gap:12px;flex-wrap:wrap}
+  .legend i{display:inline-block;width:10px;height:10px;border-radius:2px;vertical-align:middle;margin-right:4px}
+  @media (max-width:560px){header h1{font-size:13px}.card .v{font-size:18px}}
+</style>
+</head>
+<body>
+<header>
+  <h1>DEV MENU</h1>
+  <span class="pill" id="pillTrack">tracking</span>
+  <span class="sub" id="sub">Učivo · local-only telemetry</span>
+  <button id="btnLive" aria-pressed="true" title="Auto-refresh every 4 s">LIVE</button>
+  <button id="btnClose" title="Close (Esc)">✕</button>
+</header>
+<nav class="tabs" role="tablist" id="tabs">
+  <button role="tab" data-t="over" aria-selected="true">Overview</button>
+  <button role="tab" data-t="traffic">Traffic</button>
+  <button role="tab" data-t="pages">Pages</button>
+  <button role="tab" data-t="tools">Tools</button>
+  <button role="tab" data-t="flags">Flags</button>
+  <button role="tab" data-t="env">Environment</button>
+  <button role="tab" data-t="log">Log</button>
+  <button role="tab" data-t="console">Console</button>
+</nav>
+<main>
+
+<!-- ============ OVERVIEW ============ -->
+<section class="panel on" id="p-over">
+  <h2>Right now</h2>
+  <div class="grid" id="ovCards"></div>
+  <h2>Last 30 days</h2>
+  <div class="chart" id="ovSpark"></div>
+  <h2>Lobby inventory</h2>
+  <div class="grid" id="ovInv"></div>
+  <div class="dim" style="margin-top:8px">Visit = a lobby load after 30+ min of no activity in this browser. Clicks on lobby links are counted as "opens".</div>
+</section>
+
+<!-- ============ TRAFFIC ============ -->
+<section class="panel" id="p-traffic">
+  <div class="row">
+    <label class="dim">Range</label>
+    <select id="range">
+      <option value="7">Last 7 days</option>
+      <option value="30">Last 30 days</option>
+      <option value="90">Last 90 days</option>
+      <option value="183" selected>Last 6 months (183 d)</option>
+      <option value="all">All recorded</option>
+    </select>
+    <span class="dim" id="rangeInfo"></span>
+  </div>
+  <h2>Key numbers</h2>
+  <div class="grid" id="trCards"></div>
+  <h2>Daily visits</h2>
+  <div class="chart" id="trDaily"></div>
+  <h2>Weekday average</h2>
+  <div class="chart" id="trWeekday"></div>
+  <h2>Hour of day (all visits in range)</h2>
+  <div class="chart" id="trHour"></div>
+  <h2>Per month</h2>
+  <div style="overflow:auto"><table id="trMonths"></table></div>
+</section>
+
+<!-- ============ PAGES ============ -->
+<section class="panel" id="p-pages">
+  <div class="row">
+    <label class="dim">Range</label>
+    <select id="pgRange">
+      <option value="7">Last 7 days</option>
+      <option value="30">Last 30 days</option>
+      <option value="183" selected>Last 6 months</option>
+      <option value="all">All recorded</option>
+    </select>
+  </div>
+  <h2>Most opened links (lobby clicks)</h2>
+  <div style="overflow:auto"><table id="pgTable"></table></div>
+  <h2>Never opened in range</h2>
+  <div class="dim" id="pgNever"></div>
+</section>
+
+<!-- ============ TOOLS ============ -->
+<section class="panel" id="p-tools">
+  <h2>Tracking switches</h2>
+  <div class="toggle"><div>Pause tracking<small>Lobby stops counting visits and opens.</small></div><button id="tPause" aria-pressed="false">off</button></div>
+  <div class="toggle"><div>Visit badge on lobby<small>Small "dev · visits N" pill in the corner of the lobby.</small></div><button id="tBadge" aria-pressed="false">off</button></div>
+  <div class="toggle"><div>Include demo data<small>Adds the synthetic 6-month dataset to every number.</small></div><button id="tDemo" aria-pressed="false">off</button></div>
+
+  <h2>Data</h2>
+  <div class="row">
+    <button id="bSeed" class="primary">Seed 6 months of demo data</button>
+    <button id="bClearDemo">Clear demo data</button>
+    <button id="bSim">Simulate a visit now</button>
+    <button id="bNewSess">Force new session (next load counts)</button>
+  </div>
+  <div class="row">
+    <button id="bExJson">Export JSON</button>
+    <button id="bExCsv">Export CSV</button>
+    <button id="bCopy">Copy JSON to clipboard</button>
+    <button type="button" onclick="document.getElementById('imp').click()">Import JSON (merge = add)</button>
+    <input type="file" id="imp" accept="application/json,.json" class="hidden">
+  </div>
+  <div class="row">
+    <button id="bWipe" class="danger">Wipe REAL data…</button>
+    <span class="dim">asks you to type WIPE</span>
+  </div>
+
+  <h2>Site</h2>
+  <div class="row">
+    <button id="bOpenLobby">Open lobby</button>
+    <button id="bReload">Reload lobby</button>
+    <button id="bCheck">Check every lobby link (HTTP)</button>
+    <button id="bStorage">Storage usage</button>
+    <button id="bClearAll" class="danger">Clear all ucivo_* keys except data</button>
+  </div>
+  <div id="checkOut"></div>
+  <div class="warnbox">Everything here is stored in THIS browser only. The site is static (GitHub Pages), so there is no server-side counter: other people's visits are not visible here.</div>
+</section>
+
+<!-- ============ FLAGS ============ -->
+<section class="panel" id="p-flags">
+  <h2>Lobby flags</h2>
+  <div class="dim" style="margin-bottom:6px">Applied live to the lobby (through storage events), and remembered on reload.</div>
+  <div class="toggle"><div>High contrast<small>Stronger contrast on the lobby.</small></div><button id="fContrast" aria-pressed="false">off</button></div>
+  <div class="toggle"><div>Outline every link<small>Dashed magenta outline on links and buttons.</small></div><button id="fOutline" aria-pressed="false">off</button></div>
+  <div class="toggle"><div>Kill motion<small>Disable transitions and animations on the lobby.</small></div><button id="fNomotion" aria-pressed="false">off</button></div>
+</section>
+
+<!-- ============ ENV ============ -->
+<section class="panel" id="p-env">
+  <h2>Browser &amp; page</h2>
+  <table id="envTable"></table>
+  <h2>Timing</h2>
+  <table id="timeTable"></table>
+</section>
+
+<!-- ============ LOG ============ -->
+<section class="panel" id="p-log">
+  <div class="row">
+    <select id="logFilter">
+      <option value="">all</option><option value="info">info</option><option value="warn">warn</option><option value="err">err</option>
+    </select>
+    <button id="logClear" class="danger">Clear log</button>
+    <span class="dim" id="logCount"></span>
+  </div>
+  <div class="log" id="logBox"></div>
+</section>
+
+<!-- ============ CONSOLE ============ -->
+<section class="panel" id="p-console">
+  <div class="warnbox">Runs JavaScript in the LOBBY window (same origin), not in this menu. Ctrl/Cmd+Enter to run. Careful.</div>
+  <textarea id="jsIn" spellcheck="false" placeholder="e.g.  document.querySelectorAll('.mat').length  or  localStorage.getItem('ucivo_dm_v1')"></textarea>
+  <div class="row"><button id="jsRun" class="primary">Run in lobby</button><button id="jsClear">Clear output</button></div>
+  <pre id="jsOut" class="dim">(no output yet)</pre>
+</section>
+
+</main>
+
+<script>
+(function(){
+'use strict';
+
+/* ---------- basics ---------- */
+const KEY='ucivo_dm_v1', DEMO='ucivo_dm_demo', SET='ucivo_dm_settings', LOGK='ucivo_dm_log';
+const $=(s,r=document)=>r.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const load=(k,d)=>{try{const v=JSON.parse(localStorage.getItem(k));return v==null?d:v}catch(e){return d}};
+const save=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){return false}};
+const pad=n=>String(n).padStart(2,'0');
+const dk=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const pk=s=>{const [y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d)};
+const addD=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x};
+const todayD=()=>{const t=new Date();return new Date(t.getFullYear(),t.getMonth(),t.getDate())};
+const fmt=n=>Number(n).toLocaleString('en-US',{maximumFractionDigits:1});
+const pct=n=>(n>0?'+':'')+fmt(n)+'%';
+const WD=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const isFramed=window.parent!==window;
+
+function mlog(m,l){const a=load(LOGK,[]);a.push({t:Date.now(),m:String(m),l:l||'info'});save(LOGK,a.slice(-300))}
+function settings(){const s=load(SET,{});return Object.assign({pause:false,badge:false,demo:false},s,{flags:Object.assign({contrast:false,outline:false,nomotion:false},s.flags||{})})}
+function setSettings(p){const s=settings();const n=Object.assign({},s,p);if(p.flags)n.flags=Object.assign({},s.flags,p.flags);save(SET,n);return n}
+function realDB(){return load(KEY,{days:{},first:0,last:0})}
+function demoDB(){return load(DEMO,{days:{}})}
+
+/* merge real (+ demo) into one map of dayKey -> {v,h[24],o{}} */
+function merged(){
+  const out={};const add=(src)=>{for(const k in (src.days||{})){const d=src.days[k];const t=out[k]||(out[k]={v:0,h:Array(24).fill(0),o:{}});
+    t.v+=d.v||0;(d.h||[]).forEach((x,i)=>t.h[i]+=x||0);for(const h in (d.o||{}))t.o[h]=(t.o[h]||0)+d.o[h]}};
+  add(realDB());if(settings().demo)add(demoDB());return out;
+}
+function rangeKeys(r,M){
+  const t=todayD();
+  if(r==='all'){const ks=Object.keys(M).filter(k=>M[k].v>0).sort();if(!ks.length)return [dk(t)];
+    let d=pk(ks[0]);const arr=[];while(dk(d)<=dk(t)){arr.push(dk(d));d=addD(d,1)}return arr}
+  const n=+r;const arr=[];for(let i=n-1;i>=0;i--)arr.push(dk(addD(t,-i)));return arr;
+}
+
+/* ---------- statistics ---------- */
+function compute(r){
+  const M=merged();const keys=rangeKeys(r,M);
+  const rows=keys.map(k=>{const d=M[k]||{v:0,h:Array(24).fill(0),o:{}};return {k,v:d.v,h:d.h,o:d.o,wd:pk(k).getDay()}});
+  const n=rows.length, vals=rows.map(x=>x.v), total=vals.reduce((a,b)=>a+b,0);
+  const opens=rows.reduce((a,x)=>a+Object.values(x.o).reduce((p,q)=>p+q,0),0);
+  const active=rows.filter(x=>x.v>0).length;
+  const fi=rows.findIndex(x=>x.v>0), since=fi<0?0:n-fi;
+  const sorted=[...vals].sort((a,b)=>a-b);
+  const median=n?(n%2?sorted[(n-1)/2]:(sorted[n/2-1]+sorted[n/2])/2):0;
+  let peak={v:-1,k:'-'};rows.forEach(x=>{if(x.v>peak.v)peak={v:x.v,k:x.k}});
+  if(peak.v<0)peak={v:0,k:'-'};
+  const last7=vals.slice(-7).reduce((a,b)=>a+b,0), prev7=vals.slice(-14,-7).reduce((a,b)=>a+b,0);
+  const wow=prev7?((last7-prev7)/prev7*100):null;
+  let cur=0;for(let i=n-1;i>=0;i--){if(vals[i]>0)cur++;else if(i===n-1)continue;else break}
+  let best=0,run=0;vals.forEach(v=>{run=v>0?run+1:0;if(run>best)best=run});
+  const wd=Array.from({length:7},()=>({s:0,c:0}));rows.forEach(x=>{wd[x.wd].s+=x.v;wd[x.wd].c++});
+  // linear trend over the window
+  let sx=0,sy=0,sxy=0,sxx=0;vals.forEach((y,i)=>{sx+=i;sy+=y;sxy+=i*y;sxx+=i*i});
+  const slope=n>1?(n*sxy-sx*sy)/(n*sxx-sx*sx||1):0;
+  const avgDay=n?total/n:0;
+  const trendPct=avgDay&&n>1?(slope*(n-1))/avgDay*100:0; // fitted change first→last day, relative to mean
+  const ma=vals.map((_,i)=>{const s=vals.slice(Math.max(0,i-6),i+1);return s.reduce((a,b)=>a+b,0)/s.length});
+  const hours=Array(24).fill(0);rows.forEach(x=>x.h.forEach((c,i)=>hours[i]+=c));
+  const months={};rows.forEach(x=>{const m=x.k.slice(0,7);const o=months[m]||(months[m]={v:0,days:0,o:0,act:0});o.v+=x.v;o.days++;o.o+=Object.values(x.o).reduce((a,b)=>a+b,0);if(x.v>0)o.act++});
+  const last14=vals.slice(-14);const avg14=last14.length?last14.reduce((a,b)=>a+b,0)/last14.length:0;
+  const pages={};rows.forEach(x=>{for(const h in x.o)pages[h]=(pages[h]||0)+x.o[h]});
+  return {rows,n,total,opens,active,since,avgDay,avgActive:active?total/active:0,avgSince:since?total/since:0,
+    avgWeek:avgDay*7,avgMonth:avgDay*30.4,median,peak,today:rows.length?rows[n-1].v:0,yest:n>1?rows[n-2].v:0,
+    last7,prev7,wow,cur,best,wd,slope,trendPct,ma,hours,months,forecast:avg14*30,pages,
+    firstKey:fi<0?'-':rows[fi].k,vals};
+}
+
+/* ---------- SVG helpers ---------- */
+function barSvg(vals,labels,{h=200,color='var(--acc)',ma=null,titles=null,xTicks=null}={}){
+  const W=1000,H=h,pb=22,pt=8,n=vals.length||1;const max=Math.max(1,...vals,...(ma||[0]));
+  const bw=W/n;let s=`<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img">`;
+  vals.forEach((v,i)=>{const bh=(H-pb-pt)*v/max;const x=i*bw+bw*.12;
+    s+=`<rect x="${x.toFixed(2)}" y="${(H-pb-bh).toFixed(2)}" width="${(bw*.76).toFixed(2)}" height="${bh.toFixed(2)}" fill="${color}" opacity=".85" rx="1"><title>${esc(titles?titles[i]:(labels?labels[i]:i))}: ${fmt(v)}</title></rect>`});
+  if(ma&&ma.length){const pts=ma.map((v,i)=>`${(i*bw+bw/2).toFixed(1)},${(H-pb-(H-pb-pt)*v/max).toFixed(1)}`).join(' ');
+    s+=`<polyline points="${pts}" fill="none" stroke="var(--mag)" stroke-width="3" vector-effect="non-scaling-stroke"/>`}
+  if(xTicks){xTicks.forEach(([i,t])=>{s+=`<text x="${(i*bw+bw/2).toFixed(1)}" y="${H-6}" font-size="20" fill="#7d8ba1" text-anchor="middle">${esc(t)}</text>`})}
+  s+=`<line x1="0" x2="${W}" y1="${H-pb}" y2="${H-pb}" stroke="#222d3d"/>`;
+  return s+'</svg>';
+}
+function sparkSvg(vals){
+  const W=600,H=90,max=Math.max(1,...vals),n=vals.length;const bw=W/Math.max(1,n);
+  let s=`<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">`;
+  vals.forEach((v,i)=>{const bh=(H-6)*v/max;s+=`<rect x="${(i*bw+1).toFixed(1)}" y="${(H-bh).toFixed(1)}" width="${Math.max(1,bw-3).toFixed(1)}" height="${bh.toFixed(1)}" fill="var(--acc)" opacity=".8"><title>${fmt(v)}</title></rect>`});
+  return s+'</svg>';
+}
+function card(k,v,n,cls){return `<div class="card"><div class="k">${esc(k)}</div><div class="v ${cls||''}">${v}</div>${n?`<div class="n">${n}</div>`:''}</div>`}
+
+/* ---------- panels ---------- */
+let range='183', pgRange='183';
+function renderOverview(){
+  const r=compute('183');const t=compute('all');const s=settings();const rd=realDB();
+  $('#ovCards').innerHTML=[
+    card('Visits today',fmt(r.today),`yesterday ${fmt(r.yest)}`),
+    card('Visits, last 6 mo',fmt(r.total),`${fmt(r.opens)} link opens`),
+    card('Avg per day (6 mo)',fmt(r.avgDay),`${fmt(r.avgSince)} since first visit`),
+    card('Avg per week',fmt(r.avgWeek),'6-month window'),
+    card('Last 7 days',fmt(r.last7),r.wow===null?'no prior week':`${pct(r.wow)} vs previous 7`,r.wow>0?'good':r.wow<0?'bad':''),
+    card('Current streak',r.cur+' d','consecutive days with visits'),
+    card('Pause',s.pause?'ON':'off',s.pause?'tracking stopped':'tracking running',s.pause?'warn':'good'),
+    card('Demo data',s.demo?'INCLUDED':'hidden',demoDB().days&&Object.keys(demoDB().days).length?Object.keys(demoDB().days).length+' demo days stored':'none stored',s.demo?'mag':'dim'),
+    card('All-time (real)',fmt(Object.values(rd.days||{}).reduce((a,d)=>a+(d.v||0),0)),'this browser only')
+  ].join('');
+  const last30=r.vals.slice(-30);$('#ovSpark').innerHTML=sparkSvg(last30)+`<div class="cap"><span>${esc(dk(addD(todayD(),-29)))}</span><span>max ${fmt(Math.max(0,...last30))}/day</span><span>${esc(dk(todayD()))}</span></div>`;
+  const q=x=>typeof x==='number'?fmt(x):'…';
+  $('#ovInv').innerHTML=card('Lobby links',q(inv.links),'a[href] in index.html')+card('Materials',q(inv.mats),'cards in lobby')+card('Subjects',q(inv.subj),'sections')+card('Map nodes',q(inv.nodes),'SVG links')+card('Material files',q(inv.pages),'linked .html files');
+  $('#pillTrack').className='pill '+(s.pause?'off':'on');$('#pillTrack').textContent=s.pause?'paused':'tracking';
+}
+function renderTraffic(){
+  const r=compute(range);
+  $('#rangeInfo').textContent=`${r.n} days · ${esc(r.rows[0]?r.rows[0].k:'')} → ${esc(r.rows.at(-1)?r.rows.at(-1).k:'')}`;
+  const trendCls=r.trendPct>2?'good':r.trendPct<-2?'bad':'';
+  $('#trCards').innerHTML=[
+    card('Total visits',fmt(r.total),`${fmt(r.active)} active days`),
+    card('Avg / day',fmt(r.avgDay),'over the whole window'),
+    card('Avg / active day',fmt(r.avgActive),'only days with visits'),
+    card('Avg / week',fmt(r.avgWeek),'avg/day × 7'),
+    card('Avg / month',fmt(r.avgMonth),'avg/day × 30.4'),
+    card('Median / day',fmt(r.median),''),
+    card('Peak day',fmt(r.peak.v),esc(r.peak.k)),
+    card('First record',esc(r.firstKey),r.since+' days'),
+    card('Trend',pct(r.trendPct),'linear fit, first→last','' + trendCls),
+    card('Forecast next 30 d',fmt(r.forecast),'avg of last 14 d × 30'),
+    card('Link opens',fmt(r.opens),r.total?fmt(r.opens/r.total)+' per visit':''),
+    card('Best streak',r.best+' d','longest run with visits'),
+  ].join('');
+  $('#trDaily').innerHTML=barSvg(r.vals,r.rows.map(x=>x.k),{ma:r.ma,titles:r.rows.map(x=>x.k+' ('+WD[x.wd]+')'),
+    xTicks:r.rows.map((x,i)=>[i,x.k.slice(5)]).filter((_,i,a)=>i%Math.max(1,Math.round(a.length/8))===0)})+
+    `<div class="cap"><span>bars = visits per day</span><span><i style="color:var(--mag)">━</i> 7-day moving average</span></div>`;
+  const wdOrder=[1,2,3,4,5,6,0];const wdv=wdOrder.map(i=>r.wd[i].c?r.wd[i].s/r.wd[i].c:0);
+  $('#trWeekday').innerHTML=barSvg(wdv,wdOrder.map(i=>WD[i]),{h:150,titles:wdOrder.map(i=>WD[i]+' avg')})+
+    `<div class="cap">${wdOrder.map((i,j)=>`${WD[i]} ${fmt(wdv[j])}`).join(' · ')}</div>`;
+  const hv=r.hours;$('#trHour').innerHTML=barSvg(hv,null,{h:150,color:'var(--mag)',titles:hv.map((_,i)=>pad(i)+':00'),xTicks:hv.map((_,i)=>[i,i%3===0?pad(i):''])})+`<div class="cap"><span>visits by hour of day</span><span>peak ${pad(hv.indexOf(Math.max(...hv)))}:00</span></div>`;
+  const mrows=Object.keys(r.months).sort();
+  $('#trMonths').innerHTML=`<tr><th>Month</th><th class="num">Visits</th><th class="num">Avg/day</th><th class="num">Active days</th><th class="num">Opens</th></tr>`+
+    mrows.map(m=>{const o=r.months[m];return `<tr><td>${esc(m)}</td><td class="num">${fmt(o.v)}</td><td class="num">${fmt(o.v/o.days)}</td><td class="num">${o.act}/${o.days}</td><td class="num">${fmt(o.o)}</td></tr>`}).join('')||'<tr><td class="dim">no data</td></tr>';
+}
+function renderPages(){
+  const r=compute(pgRange);const entries=Object.entries(r.pages).sort((a,b)=>b[1]-a[1]);
+  const max=Math.max(1,...entries.map(e=>e[1]));
+  $('#pgTable').innerHTML=`<tr><th>#</th><th>Link</th><th class="num">Opens</th><th style="width:35%">Share</th></tr>`+
+    entries.slice(0,40).map(([h,c],i)=>`<tr><td>${i+1}</td><td>${esc(h)}</td><td class="num">${fmt(c)}</td><td><div class="bar" style="width:${(c/max*100).toFixed(1)}%"></div></td></tr>`).join('')||'<tr><td colspan=4 class="dim">no opens recorded yet — click a link in the lobby</td></tr>';
+  const never=(inv.hrefs||[]).filter(h=>!r.pages[h]);
+  $('#pgNever').textContent=inv.hrefs?(never.length+' of '+inv.hrefs.length+' links: '+(never.slice(0,30).join(', ')||'none')+(never.length>30?' …':'')):'inventory loading…';
+}
+
+/* ---------- inventory (fetch lobby) ---------- */
+let inv={};
+const lobbyUrl=()=>new URL('index.html',location.href).href;
+async function loadInventory(){
+  try{
+    const txt=await (await fetch(lobbyUrl(),{cache:'no-store'})).text();
+    const doc=new DOMParser().parseFromString(txt,'text/html');
+    const all=[...doc.querySelectorAll('a[href]')].map(a=>a.getAttribute('href'));
+    const hrefs=[...new Set(all.filter(h=>!h.startsWith('#')&&!/^https?:/.test(h)&&!h.startsWith('mailto:')))];
+    inv={links:all.length,hrefs,mats:doc.querySelectorAll('.mat').length,subj:doc.querySelectorAll('section.branch').length,
+      nodes:doc.querySelectorAll('#g a').length,pages:hrefs.filter(h=>h.endsWith('.html')).length};
+  }catch(e){inv={hrefs:[],err:String(e)}}
+  renderOverview();renderPages();
+}
+
+/* ---------- tools ---------- */
+function syncToggles(){
+  const s=settings();
+  const set=(id,on)=>{const b=$(id);b.setAttribute('aria-pressed',on?'true':'false');b.textContent=on?'on':'off'};
+  set('#tPause',s.pause);set('#tBadge',s.badge);set('#tDemo',s.demo);
+  set('#fContrast',s.flags.contrast);set('#fOutline',s.flags.outline);set('#fNomotion',s.flags.nomotion);
+}
+function toggleSetting(k,flag){const s=settings();if(flag){setSettings({flags:{[flag]:!s.flags[flag]}});mlog('flag '+flag+' → '+!s.flags[flag])}else{setSettings({[k]:!s[k]});mlog(k+' → '+!s[k])}syncToggles();renderAll()}
+function toast(msg){const out=$('#checkOut');out.innerHTML=`<pre>${esc(msg)}</pre>`}
+function seedDemo(){
+  const rnd=(function(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}})(20260420);
+  const hw=[.3,.2,.1,.1,.1,.2,.6,1.5,2.2,1.6,1.2,1.4,1.8,1.6,1.4,1.6,2.2,3.2,4.0,4.2,3.6,2.4,1.4,.7];
+  const hwSum=hw.reduce((a,b)=>a+b,0);
+  const hrefs=inv.hrefs&&inv.hrefs.length?inv.hrefs:['dejepis/30leta-valka.html','#matika','matika/procenta.html','fyzika/fyzika.html','chemie/chemie-uvod.html','cestina/cestina.html'];
+  const db={days:{},demo:true,generated:Date.now()};
+  const t=todayD();
+  for(let i=183;i>=1;i--){
+    const d=addD(t,-i),wd=d.getDay();
+    const f=wd===0?.45:wd===6?.6:1;
+    const growth=0.45+0.9*(1-i/183);            // grows toward "now"
+    const spike=rnd()<.04?2.4:1;                  // random busy day
+    const v=Math.max(0,Math.round(9*f*growth*spike*(.55+.9*rnd())));
+    const h=Array(24).fill(0);
+    for(let k=0;k<v;k++){let x=rnd()*hwSum;let j=0;while(x>hw[j]&&j<23){x-=hw[j];j++}h[j]++}
+    const o={};const opens=Math.round(v*(0.8+rnd()*1.2));
+    for(let k=0;k<opens;k++){const idx=Math.min(hrefs.length-1,Math.floor(Math.pow(rnd(),2.2)*hrefs.length));const hr=hrefs[idx];o[hr]=(o[hr]||0)+1}
+    if(v>0)db.days[dk(d)]={v,h,o};
+  }
+  save(DEMO,db);setSettings({demo:true});
+  mlog('seeded demo data: '+Object.keys(db.days).length+' days','info');
+  toast('Seeded '+Object.keys(db.days).length+' demo days (last 183 days). Demo is now INCLUDED.');
+  renderAll();
+}
+function clearDemo(){localStorage.removeItem(DEMO);mlog('demo data cleared');toast('Demo data cleared.');renderAll()}
+function simVisit(){
+  const db=realDB();const now=new Date();const k=dk(now);
+  db.days[k]=db.days[k]||{v:0,h:Array(24).fill(0),o:{}};db.days[k].v++;db.days[k].h[now.getHours()]++;
+  db.last=Date.now();if(!db.first)db.first=db.last;save(KEY,db);mlog('simulated visit','info');toast('Added 1 visit for '+k+' at '+pad(now.getHours())+':'+pad(now.getMinutes()));renderAll()
+}
+function download(name,text,type){const b=new Blob([text],{type:type||'text/plain'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500)}
+function exportJSON(){const data={exported:new Date().toISOString(),real:realDB(),demo:demoDB()};download('ucivo-dev-stats-'+dk(new Date())+'.json',JSON.stringify(data,null,2),'application/json');mlog('exported JSON')}
+function exportCSV(){
+  const M=merged();const keys=Object.keys(M).sort();
+  const lines=['date,weekday,visits,opens'].concat(keys.map(k=>{const o=Object.values(M[k].o).reduce((a,b)=>a+b,0);return `${k},${WD[pk(k).getDay()]},${M[k].v},${o}`}));
+  download('ucivo-visits-'+dk(new Date())+'.csv',lines.join('\n'),'text/csv');mlog('exported CSV ('+keys.length+' days)')
+}
+function importJSON(file){
+  const fr=new FileReader();fr.onload=()=>{try{
+    const j=JSON.parse(fr.result);const src=j.real&&j.real.days?j.real:j;if(!src.days)throw new Error('no "days" object');
+    const db=realDB();for(const k in src.days){const s=src.days[k],t=db.days[k]||(db.days[k]={v:0,h:Array(24).fill(0),o:{}});
+      t.v+=s.v||0;(s.h||[]).forEach((x,i)=>t.h[i]=(t.h[i]||0)+(x||0));for(const h in (s.o||{}))t.o[h]=(t.o[h]||0)+s.o[h]}
+    save(KEY,db);mlog('imported '+Object.keys(src.days).length+' days (merged)');toast('Imported and merged '+Object.keys(src.days).length+' days.');renderAll()
+  }catch(e){toast('Import failed: '+e.message);mlog('import failed: '+e.message,'err')}};fr.readAsText(file)
+}
+async function checkLinks(){
+  const out=$('#checkOut');const list=inv.hrefs||[];
+  if(!list.length){out.innerHTML='<pre>no links loaded yet</pre>';return}
+  out.innerHTML=`<pre>checking ${list.length} links…</pre>`;
+  const res=await Promise.all(list.map(async h=>{try{let r=await fetch(new URL(h,lobbyUrl()),{method:'HEAD',cache:'no-store'});if(r.status===405)r=await fetch(new URL(h,lobbyUrl()),{cache:'no-store'});return [h,r.status]}catch(e){return [h,'ERR']}}));
+  const bad=res.filter(x=>x[1]!==200).length;
+  out.innerHTML=`<table><tr><th>Link</th><th class="num">Status</th></tr>`+res.map(([h,s])=>`<tr><td>${esc(h)}</td><td class="num ${s===200?'good':'bad'}">${s}</td></tr>`).join('')+`</table><div class="${bad?'bad':'good'}" style="margin-top:6px">${bad?bad+' not OK':'all '+res.length+' OK'}</div>`;
+  mlog('link check: '+(bad?bad+' bad':'all ok'),bad?'warn':'info');
+}
+function storageUsage(){
+  let rows=[],total=0;for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);const v=localStorage.getItem(k)||'';const b=(k.length+v.length)*2;total+=b;rows.push([k,b])}
+  rows.sort((a,b)=>b[1]-a[1]);
+  $('#checkOut').innerHTML=`<table><tr><th>Key</th><th class="num">Bytes</th></tr>`+rows.map(([k,b])=>`<tr><td>${esc(k)}</td><td class="num">${fmt(b)}</td></tr>`).join('')+`<tr><td><b>total</b></td><td class="num"><b>${fmt(total)}</b></td></tr></table>`;
+}
+
+/* ---------- env & log ---------- */
+function renderEnv(){
+  const n=navigator,sc=screen,c=n.connection||{};
+  const rows=[['URL',location.href],['Framed in lobby',isFramed?'yes':'no (standalone)'],['User agent',n.userAgent],['Language',n.language+' / '+(n.languages||[]).join(', ')],
+    ['Time zone',Intl.DateTimeFormat().resolvedOptions().timeZone],['Local time',new Date().toString()],['Screen',sc.width+'×'+sc.height+' @'+devicePixelRatio+'x'],
+    ['Viewport',innerWidth+'×'+innerHeight],['Touch points',n.maxTouchPoints],['Online',n.onLine],['Cookies',n.cookieEnabled],
+    ['Prefers dark',matchMedia('(prefers-color-scheme: dark)').matches],['Reduced motion',matchMedia('(prefers-reduced-motion: reduce)').matches],
+    ['Connection',c.effectiveType||'n/a'],['Memory (JS heap)',performance.memory?fmt(performance.memory.usedJSHeapSize/1048576)+' MB':'n/a'],
+    ['Referrer',document.referrer||'(none)'],['Service worker',('serviceWorker' in n)?'supported':'no'],['Hardware threads',n.hardwareConcurrency||'n/a']];
+  $('#envTable').innerHTML=rows.map(([k,v])=>`<tr><td class="dim" style="width:34%">${esc(k)}</td><td>${esc(v)}</td></tr>`).join('');
+  const nav=(performance.getEntriesByType&&performance.getEntriesByType('navigation')[0])||{};
+  const tr=[['DOM content loaded',nav.domContentLoadedEventEnd],['Load event',nav.loadEventEnd],['Response time',nav.responseEnd],['Transfer size (bytes)',nav.transferSize],['Type',nav.type]];
+  $('#timeTable').innerHTML=tr.map(([k,v])=>`<tr><td class="dim" style="width:34%">${esc(k)}</td><td>${v==null?'n/a':(typeof v==='number'?fmt(v)+(k.includes('bytes')?'':' ms'):esc(v))}</td></tr>`).join('');
+}
+function renderLog(){
+  const f=$('#logFilter').value;const a=load(LOGK,[]).slice().reverse();
+  const shown=a.filter(e=>!f||(f==='err'?e.l==='err':e.l===f)).slice(0,300);
+  $('#logBox').innerHTML=shown.map(e=>{const d=new Date(e.t);return `<div class="${e.l==='err'?'err':e.l==='warn'?'warn':''}"><span class="t">${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}</span>[${esc(e.l)}] ${esc(e.m)}</div>`}).join('')||'<div class="dim">empty</div>';
+  $('#logCount').textContent=a.length+' entries (max 300)';
+}
+
+/* ---------- console ---------- */
+function runJS(){
+  const code=$('#jsIn').value;const out=$('#jsOut');
+  try{
+    const target=isFramed?parent:window;
+    const r=(0,target.eval)(code);
+    let s;try{s=typeof r==='string'?r:JSON.stringify(r,null,2)}catch(e){s=String(r)}
+    out.textContent='> '+(s===undefined?'undefined':s);out.className='';
+    mlog('ran JS in '+(isFramed?'lobby':'menu')+': '+code.slice(0,80),'info');
+  }catch(e){out.textContent='! '+e;out.className='bad';mlog('JS error: '+e,'err')}
+}
+
+/* ---------- render all ---------- */
+function renderAll(){
+  syncToggles();renderOverview();
+  const cur=document.querySelector('#tabs [aria-selected="true"]').dataset.t;
+  if(cur==='traffic')renderTraffic();
+  if(cur==='pages')renderPages();
+  if(cur==='env')renderEnv();
+  if(cur==='log')renderLog();
+  if(cur==='over')renderOverview();
+}
+function show(t){
+  document.querySelectorAll('#tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.t===t?'true':'false'));
+  document.querySelectorAll('section.panel').forEach(p=>p.classList.toggle('on',p.id==='p-'+t));
+  if(t==='traffic')renderTraffic();if(t==='pages')renderPages();if(t==='env')renderEnv();if(t==='log')renderLog();if(t==='over')renderOverview();
+  if(t==='tools'||t==='flags')syncToggles();
+  history.replaceState(null,'','#'+t);
+}
+
+/* ---------- wiring ---------- */
+document.querySelectorAll('#tabs button').forEach(b=>b.onclick=()=>show(b.dataset.t));
+$('#range').onchange=e=>{range=e.target.value;renderTraffic()};
+$('#pgRange').onchange=e=>{pgRange=e.target.value;renderPages()};
+$('#logFilter').onchange=renderLog;
+$('#logClear').onclick=()=>{save(LOGK,[]);renderLog()};
+$('#tPause').onclick=()=>toggleSetting('pause');
+$('#tBadge').onclick=()=>toggleSetting('badge');
+$('#tDemo').onclick=()=>toggleSetting('demo');
+$('#fContrast').onclick=()=>toggleSetting(null,'contrast');
+$('#fOutline').onclick=()=>toggleSetting(null,'outline');
+$('#fNomotion').onclick=()=>toggleSetting(null,'nomotion');
+$('#bSeed').onclick=()=>{if(confirm('Replace existing demo data with a new synthetic 6-month set?'))seedDemo()};
+$('#bClearDemo').onclick=()=>{if(confirm('Delete demo data?'))clearDemo()};
+$('#bSim').onclick=simVisit;
+$('#bNewSess').onclick=()=>{const db=realDB();db.last=0;save(KEY,db);mlog('forced new session');toast('Next lobby load will count as a new visit.')};
+$('#bExJson').onclick=exportJSON;
+$('#bExCsv').onclick=exportCSV;
+$('#bCopy').onclick=async()=>{const t=JSON.stringify({real:realDB(),demo:demoDB()},null,2);try{await navigator.clipboard.writeText(t);toast('Copied '+t.length+' chars to clipboard')}catch(e){toast('Clipboard blocked: '+e.message)}};
+$('#imp').onchange=e=>{if(e.target.files[0])importJSON(e.target.files[0]);e.target.value=''};
+$('#bWipe').onclick=()=>{const w=prompt('Type WIPE to delete all REAL visit data in this browser:');if(w==='WIPE'){localStorage.removeItem(KEY);mlog('REAL data wiped','warn');toast('Real data wiped.');renderAll()}else toast('Not wiped.')};
+$('#bOpenLobby').onclick=()=>{if(isFramed)parent.location.href=lobbyUrl();else location.href='index.html'};
+$('#bReload').onclick=()=>{try{if(isFramed)parent.location.reload();else location.reload()}catch(e){toast(e.message)}};
+$('#bCheck').onclick=checkLinks;
+$('#bStorage').onclick=storageUsage;
+$('#bClearAll').onclick=()=>{if(!confirm('Remove site settings/log/flags (keeps visit data)?'))return;[SET,LOGK,DEMO].forEach(k=>localStorage.removeItem(k));mlog('cleared settings/log','warn');renderAll();toast('Settings, log and demo cleared. Visit data kept.')};
+$('#jsRun').onclick=runJS;
+$('#jsClear').onclick=()=>{$('#jsOut').textContent='(no output yet)';$('#jsOut').className='dim'};
+$('#jsIn').onkeydown=e=>{if((e.ctrlKey||e.metaKey)&&e.key==='Enter'){e.preventDefault();runJS()}};
+$('#btnClose').onclick=closeMenu;
+let live=true;
+$('#btnLive').onclick=()=>{live=!live;$('#btnLive').setAttribute('aria-pressed',String(live));$('#btnLive').textContent=live?'LIVE':'PAUSED'};
+function closeMenu(){if(isFramed)parent.postMessage({type:'dm-close'},'*');else location.href='index.html'}
+addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu()});
+addEventListener('storage',e=>{if(e.key===SET||e.key===KEY||e.key===DEMO)renderAll()});
+setInterval(()=>{if(live&&!document.hidden){const cur=document.querySelector('#tabs [aria-selected="true"]').dataset.t;if(cur!=='console'&&cur!=='tools'&&cur!=='flags')renderAll()}},4000);
+
+/* ---------- start ---------- */
+const startTab=(location.hash||'#over').slice(1);
+show(document.getElementById('p-'+startTab)?startTab:'over');
+loadInventory();
+mlog('dev menu opened','info');
+renderAll();
+})();
+</script>
+</body>
+</html>

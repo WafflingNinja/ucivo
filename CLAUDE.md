@@ -120,6 +120,10 @@ složce zůstává jen tenhle `CLAUDE.md` a `qr-original-csob-20kc.jpg`.
   `fyzika/qr-fyzika.png`, `matika/qr-matika.png`, `chemie/qr-chemie2.png`, `spanelstina/qr-spanelstina.png`,
   `zemepis/qr-zemepis.png`.
 - `qr-original-csob-20kc.jpg` — originál z ČSOB appky (pevných 20 Kč), záloha.
+- `devmenu.html` — tajné dev menu (samostatný soubor, CSS+JS uvnitř, lze zkopírovat do jiné AI). Otevírá se z lobby
+  (`index.html`): ↑↑↓↓←→←→BA, nebo 5× rychle klepnout na hlavní bublinu „Učivo“. Počítá návštěvy a kliky **jen v tomhle
+  prohlížeči** (localStorage `ucivo_dm_*`), statický web nemá server. Data: 6 měsíců, průměry, graf, hodiny, dny v týdnu,
+  export/import, demo data, flagy, konzole. Publikuje se přes `pages.yml` (cp řádek) — při přidání souboru do kořene doplnit i tam.
 
 **Tři pasti při úpravách hotového HTML — všechny už jednou zabily:**
 

@@ -56,6 +56,15 @@
   section.author h2{font-size:18px;color:var(--accent)}
   .links{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
   .links a{display:inline-flex;align-items:center;min-height:var(--tap);padding:0 16px;border:1px solid var(--line);border-radius:12px;color:var(--text);text-decoration:none}
+  /* dev menu (secret) */
+  #dmo{position:fixed;inset:0;z-index:9999;background:rgba(3,5,8,.86);display:none;align-items:center;justify-content:center;padding:12px}
+  #dmo.on{display:flex}
+  #dmo iframe{width:min(1100px,100%);height:min(90vh,920px);border:1px solid #22d3ee;border-radius:12px;background:#07090d}
+  #dmbadge{position:fixed;right:8px;bottom:8px;z-index:50;font:12px ui-monospace,monospace;color:#22d3ee;background:#0f141c;border:1px solid #222d3d;border-radius:999px;padding:3px 10px;display:none;opacity:.85}
+  body.dm-contrast{filter:contrast(1.25)}
+  body.dm-contrast .dim,body.dm-contrast .byline{color:#c3ccd9}
+  body.dm-outline a,body.dm-outline button{outline:1px dashed #e879f9;outline-offset:2px}
+  body.dm-nomotion *,body.dm-nomotion *::before,body.dm-nomotion *::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}
 </style>
 </head>
 <body>
@@ -151,6 +160,55 @@ svg.addEventListener('pointerdown',function(e){down=true;moved=false;sx=e.client
 svg.addEventListener('pointermove',function(e){if(!down)return;var dx=e.clientX-sx,dy=e.clientY-sy;if(!moved&&Math.hypot(dx,dy)<8)return;moved=true;var s=pt(e)[2];x=px+dx*s;y=py+dy*s;ap()});
 window.addEventListener('pointerup',function(){down=false});
 svg.addEventListener('click',function(e){if(moved){e.preventDefault();e.stopPropagation();moved=false}},true);
+})();
+</script>
+<div id="dmo" role="dialog" aria-modal="true" aria-label="Dev menu"><iframe title="Dev menu" data-src="devmenu.html"></iframe></div>
+<div id="dmbadge"></div>
+<script>
+/* Local visit tracker + secret dev-menu trigger. Data never leaves this browser. */
+(function(){
+var KEY='ucivo_dm_v1',SET='ucivo_dm_settings',LOGK='ucivo_dm_log',GAP=30*60*1000;
+function load(k,d){try{var v=JSON.parse(localStorage.getItem(k));return v==null?d:v}catch(e){return d}}
+function save(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+function pad(n){return (n<10?'0':'')+n}
+function dk(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())}
+function log(m,l){var a=load(LOGK,[]);a.push({t:Date.now(),m:m,l:l||'info'});save(LOGK,a.slice(-300))}
+function sett(){var s=load(SET,{});s.flags=s.flags||{};return s}
+function applyFlags(){var s=sett(),b=document.body;
+  b.classList.toggle('dm-contrast',!!s.flags.contrast);b.classList.toggle('dm-outline',!!s.flags.outline);b.classList.toggle('dm-nomotion',!!s.flags.nomotion);
+  var bd=document.getElementById('dmbadge'),db=load(KEY,{days:{}}),t=0;
+  for(var k in db.days)t+=db.days[k].v||0;
+  bd.style.display=s.badge?'block':'none';bd.textContent='dev · visits '+t+(s.pause?' · paused':'');}
+function day(db,now){var k=dk(now);var d=db.days[k]||(db.days[k]={v:0,h:[],o:{}});for(var i=0;i<24;i++)d.h[i]=d.h[i]||0;return d}
+function track(){var s=sett();if(s.pause)return;
+  var now=new Date(),db=load(KEY,{days:{},first:0,last:0});
+  if(!db.last||now-db.last>GAP){var d=day(db,now);d.v++;d.h[now.getHours()]++;if(!db.first)db.first=now.getTime()}
+  db.last=now.getTime();save(KEY,db)}
+function opened(href){if(sett().pause)return;var now=new Date(),db=load(KEY,{days:{},first:0,last:0});
+  var d=day(db,now);d.o[href]=(d.o[href]||0)+1;db.last=now.getTime();save(KEY,db);log('open '+href)}
+track();applyFlags();
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href]');if(!a)return;
+  var h=a.getAttribute('href');if(h&&h.charAt(0)!=='#')opened(h)},true);
+window.addEventListener('error',function(e){log('JS error: '+(e.message||'?')+' @'+(e.filename||'')+':'+(e.lineno||''),'err')});
+window.addEventListener('storage',function(e){if(e.key===SET||e.key===KEY)applyFlags()});
+
+/* open/close */
+var ov=document.getElementById('dmo'),frame=ov.querySelector('iframe');
+function openMenu(){if(!frame.getAttribute('src'))frame.setAttribute('src',frame.getAttribute('data-src'));log('dev menu opened (secret trigger)');ov.classList.add('on')}
+function closeMenu(){ov.classList.remove('on');applyFlags()}
+window.addEventListener('message',function(e){if(e.source===frame.contentWindow&&e.data&&e.data.type==='dm-close')closeMenu()});
+ov.addEventListener('click',function(e){if(e.target===ov)closeMenu()});
+/* secret trigger 1: keyboard  ↑ ↑ ↓ ↓ ← → ← → b a  (Konami) */
+var seq=['arrowup','arrowup','arrowdown','arrowdown','arrowleft','arrowright','arrowleft','arrowright','b','a'],pos=0;
+document.addEventListener('keydown',function(e){
+  if(ov.classList.contains('on')){if(e.key==='Escape')closeMenu();return}
+  var k=e.key.toLowerCase();
+  if(k===seq[pos]){pos++;if(pos===seq.length){pos=0;openMenu()}}else{pos=(k===seq[0])?1:0}
+});
+/* secret trigger 2 (phone): 5 quick taps on the hub bubble */
+var taps=[],core=document.querySelector('.hub .core');
+if(core)core.addEventListener('click',function(){var now=Date.now();taps=taps.filter(function(t){return now-t<2500});taps.push(now);
+  if(taps.length>=5){taps=[];openMenu()}});
 })();
 </script>
 </body>
