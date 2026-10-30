@@ -119,6 +119,12 @@ složce zůstává jen tenhle `CLAUDE.md` a `qr-original-csob-20kc.jpg`.
   `wa.me/?text=…`: klepneš, vybereš skupinu, odešleš. Do WhatsAppu to samo neposílá (neoficiální boti porušují
   podmínky a hrozí ban; oficiální API má limit 8 členů skupiny). Přeskakuje anonymní kopie a zálohu (seznam `IGNORE`
   ve skriptu) - nový anonymní materiál přidej tam.
+- `dejepis/absolutismus-osvicenstvi.html` — dějepis, podle **4 fotek poznámek** (30. 10.): rekatolizace, Ludvík XIV., občanská válka v Anglii,
+  Petr I., Osmanská říše, osvícenství + věda, osvícený absolutismus (Kateřina II., Fridrich II., Marie Terezie). Tahák má 8 témat
+  (`.chips`, každé téma = jedna `.grp`, značka ✓ u navštívených), časovou osu a kartu „Ověřeno“ (Stuartovci nejsou „katolíci“, „Stát jsem já“
+  je údajný výrok, Osmané Vídeň jen oblehli, osvícenství vzniklo i v Anglii/Holandsku). Kvíz 55 otázek, roky se píšou bez mezery (`y:true`).
+  Z fotek nejisté: 1703/1707, Fridrich II./III., zkratka AV (Volta). Neověřeno: robotní patent 1680, školství Petra I.
+  QR: `dejepis/qr-absolutismus.png` (MSG `ABSOLUTISMUS`, ověřeno).
 - `cestina/cestina-puvodni-zaloha.html` — původní verze češtiny před přestavbou. Smazat, až bude nová odladěná.
 - QR na příspěvek (dají se poslat i samostatně do skupiny): `cestina/qr-cestina.png`, `dejepis/qr-dejepis.png`,
   `fyzika/qr-fyzika.png`, `matika/qr-matika.png`, `chemie/qr-chemie2.png`, `spanelstina/qr-spanelstina.png`,

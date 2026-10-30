@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Absolutismus a osvícenství</title>
+<style>
+  :root{
+    --bg:#11131a; --panel:#181b24; --panel2:#1f2330; --line:#2b3040;
+    --text:#e8eaf0; --dim:#9aa2b5; --accent:#e0a33e; --accent2:#c0552f;
+    --ok:#3fb27f; --bad:#e05252; --warn:#e0b04e;
+    --radius:14px; --tap:48px; --navh:62px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--bg);color:var(--text);overflow-wrap:break-word;
+    font:16px/1.6 -apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+    padding:0 16px calc(var(--navh) + 26px + env(safe-area-inset-bottom));}
+  @media(min-width:760px){body{padding-bottom:60px}}
+  .wrap{max-width:820px;margin:0 auto}
+
+  header{padding:16px 0 4px}
+  h1{font-size:clamp(20px,5.2vw,28px);margin:0;letter-spacing:-.3px;line-height:1.15}
+  h1 span{color:var(--accent)}
+  .sub{color:var(--dim);margin:6px 0 0;font-size:13px}
+
+  nav{position:fixed;left:0;right:0;bottom:0;z-index:60;display:grid;grid-template-columns:repeat(3,1fr);
+    background:var(--panel);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
+  nav button{min-height:var(--navh);border:0;background:transparent;color:var(--dim);font:inherit;
+    font-size:11.5px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:2px;cursor:pointer;padding:6px 2px}
+  nav .ic{font-size:19px;line-height:1}
+  nav button.on{color:var(--accent)}
+  nav .bd{font-size:10px;min-height:11px;color:var(--dim);font-variant-numeric:tabular-nums}
+  nav button.on .bd{color:var(--accent)}
+  @media(min-width:760px){
+    nav{position:sticky;top:0;bottom:auto;display:flex;gap:8px;background:var(--bg);
+      border-top:0;border-bottom:1px solid var(--line);padding:10px 0;margin-bottom:8px}
+    nav button{min-height:46px;flex-direction:row;gap:8px;font-size:15px;padding:0 16px;
+      border-radius:999px;border:1px solid var(--line);background:var(--panel)}
+    nav button.on{background:#2a2210;border-color:var(--accent)}
+    nav .bd{font-size:12px}
+  }
+  main{padding-top:14px}
+  section{display:none} section.on{display:block}
+
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    padding:18px 20px;margin-bottom:14px}
+  @media(max-width:520px){.card{padding:16px 14px}}
+  .card h2{margin:0 0 12px;font-size:18px;color:var(--accent)}
+  .card h3{margin:16px 0 6px;font-size:15px;color:#fff}
+  ul{margin:6px 0;padding-left:20px} li{margin:5px 0}
+  .key{color:var(--accent);font-weight:600}
+  .note{font-size:13px;color:var(--dim);border-top:1px dashed var(--line);margin-top:12px;padding-top:10px}
+  .tag{font-size:12px;color:var(--dim)}
+
+  details.mini{background:#2a2210;border:1px solid var(--accent);border-radius:var(--radius);
+    margin-bottom:14px;padding:0;overflow:hidden}
+  details.mini>summary{list-style:none;cursor:pointer;min-height:56px;display:flex;align-items:center;
+    gap:8px;padding:12px 18px;font-size:17px;font-weight:600}
+  details.mini>summary::-webkit-details-marker{display:none}
+  details.mini>summary::after{content:"rozbalit";margin-left:auto;font-size:11px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--accent)}
+  details.mini[open]>summary::after{content:"sbalit"}
+  details.mini ol{margin:0;padding:0 18px 18px 38px;display:flex;flex-direction:column;gap:8px;font-size:15px}
+
+  .formula{background:var(--panel2);border:1px solid var(--line);border-radius:12px;
+    padding:16px;text-align:center;margin:10px 0}
+  .formula b{font-size:24px;color:var(--accent);display:block;line-height:1.35}
+  .formula span{font-size:13px;color:var(--dim);display:block;margin-top:6px}
+
+  .tablewrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -4px}
+  table{width:100%;border-collapse:collapse;font-size:14.5px}
+  th,td{padding:8px 10px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;white-space:nowrap}
+  thead th{color:var(--dim);font-size:12px;text-transform:uppercase;letter-spacing:.08em;font-weight:500}
+  tbody tr:last-child td{border-bottom:none}
+  td b{color:var(--accent)}
+  table.wrapcell td,table.wrapcell th{white-space:normal}
+
+  .ex{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:12px}
+  .ex .zadani{font-size:15px;margin-bottom:8px}
+  .ex .kroky{font-size:15px;color:var(--dim);line-height:1.9}
+  .ex .kroky b{color:var(--text)}
+  .ex .vysl{margin-top:8px;padding-top:8px;border-top:1px dashed var(--line);font-size:16px}
+  .ex .vysl b{color:var(--ok)}
+
+  .fcbar{display:flex;gap:14px;margin-bottom:10px;color:var(--dim);font-size:13.5px;flex-wrap:wrap}
+  .fc{background:var(--panel2);border:1px solid var(--line);border-radius:var(--radius);
+    min-height:200px;display:flex;align-items:center;justify-content:center;text-align:center;
+    padding:26px;cursor:pointer;font-size:20px;user-select:none}
+  .fc small{display:block;color:var(--dim);font-size:12px;margin-top:14px}
+  .fc.back{background:#2a2210;border-color:var(--accent2)}
+
+  .row{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+  button.btn{background:var(--accent);color:#1a1305;border:0;min-height:var(--tap);padding:10px 20px;
+    border-radius:11px;font:inherit;font-size:15px;font-weight:600;cursor:pointer}
+  button.btn.big{flex:1 1 44%}
+  button.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+  button.small{min-height:40px;padding:6px 13px;font-size:13.5px}
+
+  .bar{height:7px;background:var(--panel2);border-radius:999px;overflow:hidden;margin-bottom:8px}
+  .bar i{display:block;height:100%;background:var(--accent);width:0}
+  .dots{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px}
+  .dots span{width:9px;height:9px;border-radius:50%;background:var(--panel2);border:1px solid var(--line)}
+  .dots span.d-ok{background:var(--ok);border-color:var(--ok)}
+  .dots span.d-bad{background:var(--bad);border-color:var(--bad)}
+  .dots span.d-now{background:var(--accent);border-color:var(--accent)}
+  .qn{color:var(--dim);font-size:13px;margin-bottom:6px}
+  .qt{font-size:18px;margin-bottom:14px;line-height:1.45}
+  .qt b{color:var(--accent)}
+  .opt{display:block;width:100%;text-align:left;background:var(--panel2);border:1px solid var(--line);
+    color:var(--text);min-height:var(--tap);padding:12px 14px;border-radius:11px;margin-bottom:8px;
+    cursor:pointer;font:inherit;font-size:16px}
+  .opt:hover{border-color:var(--accent)}
+  .opt.sel{border-color:var(--accent);background:#2a2210}
+  .opt.ok{border-color:var(--ok);background:#11291f}
+  .opt.bad{border-color:var(--bad);background:#31161a}
+  .numrow{display:flex;gap:10px;align-items:center}
+  input[type=text]{flex:1;min-width:0;background:var(--panel2);border:1px solid var(--line);color:var(--text);
+    min-height:52px;padding:12px 14px;border-radius:11px;font:inherit;font-size:17px}
+  .unit{font-size:17px;color:var(--dim);flex:none}
+  .fb{margin-top:14px;padding:12px 14px;border-radius:11px;font-size:15px}
+  .fb.ok{background:#11291f;border:1px solid var(--ok)}
+  .fb.bad{background:#31161a;border:1px solid var(--bad)}
+  .fb b{display:block;margin-bottom:4px}
+  .score{font-size:40px;font-weight:700;color:var(--accent);margin:8px 0}
+  .wrongs li{margin:10px 0}
+  .saved{font-size:12px;color:var(--dim);margin-top:14px}
+
+  .tipbar{position:fixed;left:0;right:0;z-index:70;background:var(--panel);
+    border-top:1px solid var(--accent);padding:11px 16px;
+    bottom:0;padding-bottom:calc(11px + env(safe-area-inset-bottom, 0px))}
+  .tipbar-in{max-width:820px;margin:0 auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .tipbar-txt{flex:1;min-width:170px;font-size:13.5px;color:var(--dim);line-height:1.45}
+  .tipbar-txt b{color:var(--text)}
+  .tipbar-btns{display:flex;gap:8px;flex:none}
+.tipbar{transition:opacity 3s linear}
+.tipbar.bye{opacity:0;pointer-events:none}
+.tipbar-bye{flex:1;text-align:center;font-size:16px;padding:6px 0}
+.tipbar [hidden]{display:none!important}
+@media (prefers-reduced-motion: reduce){ .tipbar{transition:none} }
+
+  @media(min-width:760px){.tipbar{bottom:0}}
+
+
+  section.faq{display:block;margin-top:26px}
+  .faq h2{font-size:17px;margin:0 0 10px;color:var(--accent)}
+  .faq details{background:var(--panel);border:1px solid var(--line);border-radius:12px;margin-bottom:8px;overflow:hidden}
+  .faq summary{list-style:none;cursor:pointer;min-height:52px;display:flex;align-items:center;gap:10px;
+    padding:11px 15px;font-size:15px;font-weight:600;color:var(--text)}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:"+";margin-left:auto;color:var(--accent);font-size:19px;line-height:1}
+  .faq details[open] summary::after{content:"\2212"}
+  .faq .fa{padding:0 15px 15px;font-size:14.5px;color:var(--dim);line-height:1.6}
+  .faq .fa b{color:var(--text)}
+
+  section.tip{display:flex;align-items:center;gap:15px;margin-top:26px;padding:15px;
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--radius)}
+  .tip img{flex:none;width:108px;height:108px;background:#fff;border-radius:8px;padding:4px}
+  .tip b{display:block;font-size:15px;margin-bottom:4px}
+  .tip p{font-size:13.5px;color:var(--dim);margin:0 0 6px}
+  .tip .acc{font-size:13px;color:var(--text);font-variant-numeric:tabular-nums;
+    -webkit-user-select:all;user-select:all}
+  @media(max-width:439px){section.tip{gap:12px;padding:13px}.tip img{width:94px;height:94px}}
+
+  @media (prefers-reduced-motion: no-preference){.bar i{transition:width .2s linear}}
+
+.author{margin:26px 0 0;padding:15px;border:1px solid var(--line);border-radius:14px;background:var(--panel)}
+section.author{display:block}
+.author h2{margin:0 0 8px;font-size:17px;color:var(--accent)}
+.author p{margin:0 0 12px;font-size:14.5px;line-height:1.6;color:var(--dim)}
+.author .who{font-weight:800;color:var(--text)}
+.author .links{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0}
+.author .links a{display:flex;align-items:center;gap:7px;min-height:48px;padding:0 14px;border:1px solid var(--line);border-radius:12px;background:var(--panel2);color:var(--dim);text-decoration:none;font-size:14px}
+.author .links b{color:var(--text);font-weight:800;word-break:break-all}
+.byline{margin:2px 0 10px;font-size:13px;color:var(--dim)}
+.byline b{color:var(--text)}
+.byline a{color:var(--accent)}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.chips button{min-height:48px;padding:6px 14px;border-radius:999px;border:1px solid var(--line);background:var(--panel);
+  color:var(--dim);font:inherit;font-size:14px;cursor:pointer}
+.chips button.on{color:var(--accent);border-color:var(--accent);background:#2a2210}
+.chips button.seen::after{content:" ✓";color:var(--ok)}
+.gpos{font-size:13px;color:var(--dim);margin-bottom:12px}
+.grp{display:none} .grp.on{display:block}
+.gnav{margin-top:6px}
+ol.tl{list-style:none;margin:0;padding:0;border-left:2px solid var(--line)}
+ol.tl li{margin:0 0 14px;padding-left:16px;position:relative;font-size:15px}
+ol.tl li::before{content:"";position:absolute;left:-6px;top:9px;width:10px;height:10px;border-radius:50%;background:var(--accent)}
+ol.tl b{display:block;color:var(--accent);font-size:16px;font-variant-numeric:tabular-nums}
+.ov{border-top:1px dashed var(--line);padding-top:4px;margin-top:10px}
+.ov h3{margin:10px 0 6px}
+.ov p{margin:6px 0;font-size:15px}
+.legend{font-size:13px;color:var(--dim);margin:0 0 6px}
+.t,.r{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.06em;padding:2px 8px;border-radius:6px;margin-right:6px}
+.t{background:#2a2210;color:var(--accent);border:1px solid var(--accent)}
+.r{background:#11291f;color:var(--ok);border:1px solid var(--ok)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>Absolutismus a <span>osvícenství</span></h1>
+    <p class="byline">Udělal <b>Rosťa Čermák</b> · <a href="#autor">sítě dole</a></p>
+    <p class="sub">Francie · Anglie · Rusko · Prusko · Habsburkové · 17.–18. století · postup se ukládá</p>
+  </header>
+
+  <nav id="tabs">
+    <button data-t="uc"><span class="ic">📖</span><span>Tahák</span><span class="bd" id="bd-uc"></span></button>
+    <button data-t="fc"><span class="ic">🃏</span><span>Kartičky</span><span class="bd" id="bd-fc"></span></button>
+    <button data-t="qz"><span class="ic">✅</span><span>Kvíz</span><span class="bd" id="bd-qz"></span></button>
+  </nav>
+
+  <main>
+
+  <!-- ==================== TAHÁK ==================== -->
+  <section id="uc">
+    <details class="mini" id="mini">
+      <summary>Minimum na test — 8 vět</summary>
+      <ol>
+        <li><span class="key">Absolutismus</span> = panovník má neomezenou moc. Příklad: <span class="key">Ludvík XIV.</span>, „Král Slunce“, <span class="key">Versailles</span>.</li>
+        <li>Anglie: král (<span class="key">Karel I.</span>) × parlament → <span class="key">1642</span> občanská válka → <span class="key">1649</span> král popraven → republika, vládne <span class="key">Cromwell</span>.</li>
+        <li>Po Cromwellovi se vrátí Stuartovci a vznikne <span class="key">konstituční monarchie</span> (moc krále omezuje parlament). <span class="key">1707</span> vzniká Velká Británie.</li>
+        <li>Rusko: <span class="key">Petr I.</span> — reformy, válka se Švédskem, <span class="key">1703</span> založil <span class="key">Petrohrad</span>.</li>
+        <li><span class="key">Osvícenství</span> = 18. století, důraz na <span class="key">rozum</span>. Filozofové: <span class="key">Voltaire</span>, <span class="key">Rousseau</span>. Ekonom: <span class="key">Adam Smith</span>.</li>
+        <li><span class="key">Osvícený absolutismus</span> = panovník vládne sám, ale dělá reformy (školství, zdravotnictví, ekonomika, náboženská svoboda).</li>
+        <li>Příklady: <span class="key">Kateřina II.</span> (Rusko), <span class="key">Fridrich II.</span> (Prusko), <span class="key">Marie Terezie</span> a <span class="key">Josef II.</span> (Habsburkové).</li>
+        <li>Habsburkové: <span class="key">Marie Terezie 1740–1780</span>, vládla díky <span class="key">Pragmatické sankci</span>, měla <span class="key">16 dětí</span>.</li>
+      </ol>
+    </details>
+
+    <div class="chips" id="chips" role="tablist" aria-label="Témata taháku">
+      <button data-g="0">České země</button>
+      <button data-g="1">Francie</button>
+      <button data-g="2">Anglie</button>
+      <button data-g="3">Rusko a Osmané</button>
+      <button data-g="4">Osvícenství</button>
+      <button data-g="5">Osvícený absolutismus</button>
+      <button data-g="6">Časová osa</button>
+      <button data-g="7">Ověřeno</button>
+    </div>
+    <div class="gpos" id="gpos"></div>
+
+    <!-- 0: České země -->
+    <div class="grp" data-g="0">
+      <div class="card">
+        <h2>Rekatolizace</h2>
+        <ul>
+          <li>Po Bílé hoře (1620) se země násilně vracejí ke <span class="key">katolické církvi</span>.</li>
+          <li>Hlavní roli mají <span class="key">jezuité</span> (řád Tovaryšstvo Ježíšovo).</li>
+          <li>Nejznámější: <span class="key">Antonín Koniáš</span> (1691–1760). Sbíral „kacířské“ knihy a pálil je.</li>
+        </ul>
+        <div class="note">Do testu stačí: rekatolizace = jezuité = Koniáš.</div>
+      </div>
+      <div class="card">
+        <h2>Manufaktury</h2>
+        <ul>
+          <li>Manufaktura = dílna, kde lidé dělají <span class="key">ručně</span>, ale <span class="key">každý jinou část práce</span>.</li>
+          <li>Zakládají je šlechtici i panovník.</li>
+          <li>V sešitě jsou dva druhy: <span class="key">textilní</span> (látky) a <span class="key">sklářské</span> (sklo).</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>Robotní patent</h2>
+        <ul>
+          <li><span class="key">Robota</span> = práce poddaného zdarma pro pána.</li>
+          <li><span class="key">Patent</span> = nařízení panovníka.</li>
+          <li>Císař <span class="key">Leopold I.</span> vydal robotní patent (<span class="key">1680</span>).</li>
+          <li>Robota nejvýše <span class="key">3× týdně</span>.</li>
+        </ul>
+        <div class="note">Rok 1680 v sešitě není. Doplnil jsem ho z učebnic, na Wikipedii se mi ho potvrdit nepodařilo. Do testu piš hlavně „Leopold I., max 3× týdně“.</div>
+      </div>
+    </div>
+
+    <!-- 1: Francie -->
+    <div class="grp" data-g="1">
+      <div class="card">
+        <h2>Ludvík XIV. — fakta</h2>
+        <ul>
+          <li>Vládl <span class="key">72 let</span> (1643–1715).</li>
+          <li>Přezdívka: <span class="key">Král Slunce</span>.</li>
+          <li>Výrok: <span class="key">„Stát jsem já.“</span></li>
+          <li>Měl <span class="key">neomezenou moc</span> = <span class="key">absolutismus</span>.</li>
+          <li>Nechal postavit <span class="key">Versailles</span> (zámek u Paříže).</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>Život na dvoře</h2>
+        <ul>
+          <li>Žil <span class="key">zhýralým životem</span> (samé hostiny a zábavy).</li>
+          <li>Rozdával <span class="key">peníze</span>.</li>
+          <li>Měl <span class="key">milenky</span> = <span class="key">metresy</span>.</li>
+        </ul>
+        <div class="note">Metresa = oficiální milenka krále. Slovo „metresy“ si zapamatuj, je v sešitě.</div>
+      </div>
+      <div class="card">
+        <h2>Co je absolutismus</h2>
+        <div class="formula"><b>absolutismus</b><span>panovník vládne sám a jeho moc nic neomezuje</span></div>
+        <ul>
+          <li>Zákony dává panovník.</li>
+          <li>Parlament ho nekontroluje.</li>
+          <li>Ve Francii dosáhl vrcholu za Ludvíka XIV. (2. polovina 17. století).</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 2: Anglie -->
+    <div class="grp" data-g="2">
+      <div class="card">
+        <h2>Proč vznikla válka</h2>
+        <ul>
+          <li>Od <span class="key">1603</span> vládnou v Anglii <span class="key">Stuartovci</span>.</li>
+          <li>Porušují práva <span class="key">anglikánů</span> (to je většinová církev v Anglii).</li>
+          <li>Zvyšují <span class="key">daně</span>.</li>
+          <li>Nesvolávají <span class="key">parlament</span>.</li>
+          <li>→ <span class="key">1642</span> začíná <span class="key">občanská válka</span>.</li>
+        </ul>
+        <div class="note">V sešitě jsou Stuartovci „katolíci“. Skutečnost je složitější, viz téma Ověřeno.</div>
+      </div>
+      <div class="card">
+        <h2>Dvě strany</h2>
+        <div class="tablewrap">
+          <table class="wrapcell">
+            <thead><tr><th>Král</th><th>Parlament</th></tr></thead>
+            <tbody>
+              <tr><td>podle sešitu: <b>katolíci</b></td><td>podle sešitu: <b>anglikáni</b></td></tr>
+              <tr><td>chce vládnout sám</td><td>chce rozhodovat o daních</td></tr>
+              <tr><td><b>prohrává</b></td><td><b>vítězí</b></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Konec války</h2>
+        <ul>
+          <li>Král byl <span class="key">popraven</span> v roce <span class="key">1649</span>.</li>
+          <li>Anglie se stala <span class="key">republikou</span>.</li>
+          <li>Vládl <span class="key">Oliver Cromwell</span>.</li>
+        </ul>
+        <div class="note">Poprava krále byla tehdy v Evropě výjimečná. Zapamatuj si 1649.</div>
+      </div>
+      <div class="card">
+        <h2>Co bylo potom</h2>
+        <ul>
+          <li>Po Cromwellovi se <span class="key">vrátili Stuartovci</span> (restaurace).</li>
+          <li>Vznikla <span class="key">konstituční monarchie</span>.</li>
+          <li><span class="key">1707</span> vzniká <span class="key">Velká Británie</span>.</li>
+        </ul>
+        <div class="formula"><b>konstituční monarchie</b><span>král je, ale jeho moc omezuje ústava a parlament</span></div>
+        <div class="note">Rok 1707 si v sešitě zkontroluj. Na fotce je špatně čitelný (vypadá jako 1703). Správně je 1707.</div>
+      </div>
+    </div>
+
+    <!-- 3: Rusko a Osmané -->
+    <div class="grp" data-g="3">
+      <div class="card">
+        <h2>Petr I. Veliký — kdo to je</h2>
+        <ul>
+          <li>Ruský car, vládl <span class="key">absolutisticky</span> = <span class="key">samoděržaví</span>.</li>
+          <li>Samoděržaví = car vládne sám, nikdo mu nemluví do věcí.</li>
+          <li>Skutečná vláda od <span class="key">1696</span>, zemřel <span class="key">1725</span>.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>Petrovy reformy</h2>
+        <ul>
+          <li><span class="key">školství</span></li>
+          <li><span class="key">církev</span> (1721 ji dal pod státní dohled — svatý synod)</li>
+          <li><span class="key">námořnictvo</span> (stavba válečné flotily)</li>
+          <li><span class="key">měna</span> (nový stříbrný rubl)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>Války a Petrohrad</h2>
+        <ul>
+          <li>Válčí se <span class="key">Švédskem</span> (Severní válka <span class="key">1700–1721</span>).</li>
+          <li>Rusko vyhrálo. Rozhodla bitva u <span class="key">Poltavy</span> (1709).</li>
+          <li><span class="key">1703</span> založil <span class="key">Petrohrad</span> u Baltského moře.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>Osmanská říše</h2>
+        <ul>
+          <li>Je to <span class="key">vojenská říše</span>.</li>
+          <li>Vládce se jmenuje <span class="key">sultán</span>.</li>
+          <li>Ohrožovala <span class="key">Evropu</span>. Dvakrát <span class="key">obléhala Vídeň</span> (1529 a 1683).</li>
+          <li>V 18. století <span class="key">slábne</span>: ekonomicky i vojensky.</li>
+        </ul>
+        <div class="note">V sešitě stojí „dobývali Vídeň“. Vídeň se jim nikdy nepodařilo dobýt, jen oblehli. Viz Ověřeno.</div>
+      </div>
+    </div>
+
+    <!-- 4: Osvícenství -->
+    <div class="grp" data-g="4">
+      <div class="card">
+        <h2>Co je osvícenství</h2>
+        <ul>
+          <li>Myšlenkový směr <span class="key">18. století</span>.</li>
+          <li>Vznikl ve <span class="key">Francii</span> (podle sešitu).</li>
+          <li>Klade důraz na <span class="key">rozum</span> a <span class="key">poznání</span>.</li>
+          <li>Heslo: <span class="key">„Měj odvahu přemýšlet!“</span></li>
+        </ul>
+        <div class="note">Smysl: lidé mají věci posuzovat rozumem, ne jen podle tradice a církve.</div>
+      </div>
+      <div class="card">
+        <h2>Myslitelé</h2>
+        <div class="tablewrap">
+          <table class="wrapcell">
+            <thead><tr><th>Kdo</th><th>Co</th></tr></thead>
+            <tbody>
+              <tr><td><b>Voltaire</b></td><td>filozof (Francie)</td></tr>
+              <tr><td><b>J. J. Rousseau</b></td><td>filozof (Francie)</td></tr>
+              <tr><td><b>Denis Diderot</b></td><td><b>Encyklopedie</b> (věda a řemesla)</td></tr>
+              <tr><td><b>Adam Smith</b></td><td><b>ekonomika</b></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Společenská smlouva</h2>
+        <p style="margin:0 0 8px">Teorie o tom, jak vznikl stát. Je to „dohoda“ mezi lidmi a panovníkem:</p>
+        <ul>
+          <li><span class="key">Lidé</span> odevzdávají daně a dodržují zákony.</li>
+          <li><span class="key">Panovník</span> zabezpečuje ochranu majetku a života.</li>
+        </ul>
+        <div class="note">V sešitě je to u Rousseaua a Voltaira. Pojem „společenská smlouva“ je nejspíš Rousseauův.</div>
+      </div>
+      <div class="card">
+        <h2>Encyklopedie</h2>
+        <ul>
+          <li>Velké dílo, které popisuje <span class="key">vědu a řemesla</span>.</li>
+          <li>Vedl ji <span class="key">Denis Diderot</span>.</li>
+          <li>Vycházela <span class="key">1751–1772</span>.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>Věda a vynálezy</h2>
+        <div class="tablewrap">
+          <table class="wrapcell">
+            <thead><tr><th>Kdo</th><th>Co</th></tr></thead>
+            <tbody>
+              <tr><td><b>Isaac Newton</b></td><td>gravitace (přitažlivost)</td></tr>
+              <tr><td><b>Prokop Diviš</b></td><td>první bleskosvod (1754)</td></tr>
+              <tr><td><b>Carl Linné</b></td><td>pojmenování rostlin a živočichů</td></tr>
+              <tr><td><b>bratři Montgolfierové</b></td><td>létající balon</td></tr>
+              <tr><td><b>James Watt</b></td><td>parní stroj</td></tr>
+              <tr><td><b>Alessandro Volta</b></td><td>výroba elektřiny (elektrický článek)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="note">Počáteční písmena ze sešitu: PD, CL, BM, JW, AV. Alessandro Volta je můj odhad zkratky AV, viz Ověřeno.</div>
+      </div>
+    </div>
+
+    <!-- 5: Osvícený absolutismus -->
+    <div class="grp" data-g="5">
+      <div class="card">
+        <h2>Osvícený absolutismus</h2>
+        <div class="formula"><b>absolutismus + osvícenství</b><span>panovník vládne sám, ale podle rozumu a pro užitek lidí</span></div>
+        <ul>
+          <li>Panovník <span class="key">vládne sám</span>.</li>
+          <li>Dělá <span class="key">reformy</span>: školství, zdravotnictví, ekonomika.</li>
+          <li>Zavádí <span class="key">náboženskou svobodu</span>.</li>
+        </ul>
+        <div class="note">Rozdíl proti obyčejnému absolutismu: reformy. Moc panovníka zůstává stejná.</div>
+      </div>
+      <div class="card">
+        <h2>Rusko — Kateřina II. Veliká</h2>
+        <ul>
+          <li>Vládla <span class="key">1762–1796</span>.</li>
+          <li>Boj s <span class="key">Osmanskou říší</span> o <span class="key">přístup k Černému moři</span>.</li>
+          <li>Přístav <span class="key">Sevastopol</span> (<span class="key">1783</span>).</li>
+          <li>Dělala reformy.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>Prusko — Fridrich II.</h2>
+        <ul>
+          <li>Pruský král <span class="key">1740–1786</span>.</li>
+          <li>Válčil s <span class="key">Marií Terezií</span> (o Slezsko).</li>
+          <li>Dělal <span class="key">reformy</span>.</li>
+          <li>Silná <span class="key">armáda</span>.</li>
+          <li><span class="key">Brambory</span>: prosazoval jejich pěstování.</li>
+        </ul>
+        <div class="note">Hláška ze sešitu: „Bez brambor těžko uděláš bramboráky.“ Vtip, ne citát krále.</div>
+      </div>
+      <div class="card">
+        <h2>Habsburkové — Marie Terezie</h2>
+        <ul>
+          <li>Vládla <span class="key">1740–1780</span>.</li>
+          <li>Mohla vládnout díky <span class="key">Pragmatické sankci</span>.</li>
+          <li>Otec: <span class="key">Karel VI.</span></li>
+          <li>Manžel: <span class="key">František Štěpán Lotrinský</span>.</li>
+          <li><span class="key">16 dětí</span>.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>Děti Marie Terezie</h2>
+        <div class="tablewrap">
+          <table class="wrapcell">
+            <thead><tr><th>Jméno</th><th>Kdo to byl</th></tr></thead>
+            <tbody>
+              <tr><td><b>Josef II.</b></td><td>císař, syn</td></tr>
+              <tr><td><b>Leopold II.</b></td><td>císař, syn</td></tr>
+              <tr><td><b>Marie Antoinetta</b></td><td>dcera, provdaná za francouzského krále Ludvíka XVI.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="note">V sešitě je nadpis „Habsburská monarchie“. Patřily do ní i České země.</div>
+      </div>
+    </div>
+
+    <!-- 6: Časová osa -->
+    <div class="grp" data-g="6">
+      <div class="card">
+        <h2>Časová osa</h2>
+        <ol class="tl">
+          <li><b>1603</b>Od téhle chvíle v Anglii vládnou Stuartovci.</li>
+          <li><b>1642</b>Občanská válka v Anglii: král × parlament.</li>
+          <li><b>1643–1715</b>Ludvík XIV. vládne ve Francii (72 let).</li>
+          <li><b>1649</b>Poprava anglického krále. Anglie je republika.</li>
+          <li><b>1680</b>Leopold I.: robotní patent, max 3× týdně.</li>
+          <li><b>1700–1721</b>Severní válka: Rusko × Švédsko.</li>
+          <li><b>1703</b>Petr I. zakládá Petrohrad.</li>
+          <li><b>1707</b>Vzniká Velká Británie.</li>
+          <li><b>1740</b>Marie Terezie a Fridrich II. nastupují na trůn.</li>
+          <li><b>1762–1796</b>Kateřina II. vládne v Rusku.</li>
+          <li><b>1783</b>Sevastopol, první balon bratří Montgolfierů.</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- 7: Ověřeno -->
+    <div class="grp" data-g="7">
+      <div class="card">
+        <h2>Ověřeno — kde je sešit nepřesný</h2>
+        <p class="legend"><span class="t">DO TESTU</span> = verze ze sešitu · <span class="r">JAK TO BYLO</span> = skutečnost</p>
+        <div class="ov">
+          <h3>1. Stuartovci jsou „katolíci“</h3>
+          <p><span class="t">DO TESTU</span> Stuartovci = katolíci, parlament = anglikáni.</p>
+          <p><span class="r">JAK TO BYLO</span> Stuartovci patřili k anglikánské církvi. Karel I. měl ale katolickou manželku a protestanti ho podezírali z přízně ke katolíkům. Opravdový katolík byl až Jakub II. (1685–1688). Velkou část parlamentu tvořili puritáni (přísní protestanti).</p>
+        </div>
+        <div class="ov">
+          <h3>2. „Stát jsem já“</h3>
+          <p><span class="t">DO TESTU</span> Ludvík XIV.: „Stát jsem já.“</p>
+          <p><span class="r">JAK TO BYLO</span> Wikipedie ho označuje za údajný výrok. Není doložené, že ho Ludvík řekl. Je to symbol absolutismu.</p>
+        </div>
+        <div class="ov">
+          <h3>3. Ludvík XIV. vládl 72 let</h3>
+          <p><span class="t">DO TESTU</span> 72 let.</p>
+          <p><span class="r">JAK TO BYLO</span> Sedí: 1643–1715. Ale první roky vládla místo něj matka a ministr Mazarin. Sám začal vládnout až v roce 1661.</p>
+        </div>
+        <div class="ov">
+          <h3>4. Osmané „dobývali Vídeň“</h3>
+          <p><span class="t">DO TESTU</span> ohrožovali Evropu, dobývali Vídeň.</p>
+          <p><span class="r">JAK TO BYLO</span> Vídeň dvakrát oblehli (1529, 1683) a ani jednou ji nedobyli.</p>
+        </div>
+        <div class="ov">
+          <h3>5. Osvícenství vzniklo ve Francii</h3>
+          <p><span class="t">DO TESTU</span> Francie.</p>
+          <p><span class="r">JAK TO BYLO</span> Podle Wikipedie vzniká v Holandsku a v Anglii. Ve Francii se prosadilo nejvíc.</p>
+        </div>
+        <div class="ov">
+          <h3>6. „První bleskosvod“ — Prokop Diviš</h3>
+          <p><span class="t">DO TESTU</span> Prokop Diviš: první bleskosvod.</p>
+          <p><span class="r">JAK TO BYLO</span> Diviš postavil svůj stroj 15. 6. 1754 v Příměticích u Znojma. Franklinův bleskosvod v Americe vznikl v podobné době a fungoval jinak. Kdo byl „první“, závisí na zdroji.</p>
+        </div>
+        <div class="ov">
+          <h3>7. James Watt a parní stroj</h3>
+          <p><span class="t">DO TESTU</span> James Watt: parní stroj.</p>
+          <p><span class="r">JAK TO BYLO</span> Parní stroje existovaly dřív (Newcomen, 1712). Watt je zásadně zdokonalil. Tohle jsem z paměti, nezkontroloval jsem to na Wikipedii.</p>
+        </div>
+        <div class="ov">
+          <h3>8. Kateřina II. jako osvícená vládkyně</h3>
+          <p><span class="t">DO TESTU</span> osvícený absolutismus, reformy.</p>
+          <p><span class="r">JAK TO BYLO</span> Dopisovala si s Voltairem. Historici její osvícenství často berou jako pózu. Většina reforem zůstala na papíře a nevolnictví přetrvalo.</p>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Co jsem z fotek nepřečetl jistě</h2>
+        <p style="margin:0 0 8px">Je to ručně psané písmo. Zkontroluj tyhle místa ve svém sešitě:</p>
+        <ul>
+          <li><span class="key">1703 / 1707</span> u Velké Británie. Správně je 1707.</li>
+          <li><span class="key">Fridrich II. / III.</span>. Správně je II.</li>
+          <li><span class="key">AV</span> u elektřiny. Čtu to jako Alessandro Volta.</li>
+          <li><span class="key">Reformy Petra I.</span> Čtu: školství, církev, námořnictvo, měna.</li>
+          <li><span class="key">„Politika = složka státu“</span> jsem do taháku nedával. Nejsem si jistý, co tím sešit myslí.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>Co jsem neověřil</h2>
+        <ul>
+          <li>Robotní patent <span class="key">1680</span> (Leopold I., max 3× týdně). Wikipedie ho nezmiňuje. Je to z učebnic.</li>
+          <li>Petrovo <span class="key">školství</span>. Wikipedie o něm nic neříká. Piš to ze sešitu.</li>
+          <li>Tenhle materiál je podle <b>tvého sešitu</b>. Když se učitel zeptá na jiné jméno nebo jiný rok, piš jeho verzi.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row gnav">
+      <button class="btn ghost big" id="gprev">◂ Předchozí téma</button>
+      <button class="btn big" id="gnext">Další téma ▸</button>
+    </div>
+  </section>
+
+  <!-- ==================== KARTIČKY ==================== -->
+  <section id="fc">
+    <div class="fcbar"><span id="fcpos"></span><span id="fcknown"></span></div>
+    <div class="fc" id="fccard" tabindex="0" role="button"></div>
+    <div class="row">
+      <button class="btn big" id="fcyes">✓ Umím</button>
+      <button class="btn ghost big" id="fcno">✗ Ještě ne</button>
+    </div>
+    <div class="row">
+      <button class="btn ghost small" id="fcprev">◂ Zpět</button>
+      <button class="btn ghost small" id="fcnext">Přeskočit ▸</button>
+      <button class="btn ghost small" id="fconly">Jen co neumím</button>
+      <button class="btn ghost small" id="fcreset">Vynulovat značky</button>
+    </div>
+    <p class="saved">Značky se ukládají. Zavři to kdykoli, vrátíš se na stejnou kartičku.</p>
+  </section>
+
+  <!-- ==================== KVÍZ ==================== -->
+  <section id="qz">
+    <div class="bar"><i id="pbar"></i></div>
+    <div class="dots" id="dots"></div>
+    <div class="card" id="qbox"></div>
+    <div class="row"><button class="btn ghost small" id="qreset">↺ Začít kvíz od začátku</button></div>
+    <p class="saved">Kvíz jede po kolech po 6 otázkách. Po každém kole je pauza a postup je uložený.</p>
+  </section>
+
+  </main>
+
+
+  <section class="author" id="autor">
+    <h2>Kdo to udělal</h2>
+    <p><span class="who">Rosťa Čermák</span> — tenhle materiál jsem napsal a naprogramoval já, sám. Není to práce nikoho jiného. Když ho posíláš dál, nech ho celý i s tímhle blokem.</p>
+    <ul class="links"><li><a href="https://github.com/WafflingNinja" target="_blank" rel="noopener noreferrer"><span>GitHub</span> <b>WafflingNinja</b></a></li><li><a href="https://www.tiktok.com/@waffleninja7" target="_blank" rel="noopener noreferrer"><span>TikTok</span> <b>@waffleninja7</b></a></li><li><a href="https://t.me/TheWaffleNinja" target="_blank" rel="noopener noreferrer"><span>Telegram</span> <b>@TheWaffleNinja</b></a></li><li><a href="https://www.instagram.com/angel_dust.mp4/" target="_blank" rel="noopener noreferrer"><span>Instagram</span> <b>angel_dust.mp4</b></a></li></ul>
+  </section>
+
+  <section class="faq">
+    <h2>Časté otázky</h2>
+    <details>
+      <summary>Musím zaplatit, abych to mohl použít?</summary>
+      <div class="fa">Ne. Všechno je odemčené, nic se neschovává za platbu. QR kód dole je dobrovolný.</div>
+    </details>
+    <details>
+      <summary>Proč bych ti posílal peníze?</summary>
+      <div class="fa">Protože to zabralo čas, který jsi nemusel obětovat ty. Je tady <b>minimum na 8 vět</b>, <b>8 témat taháku</b> s časovou osou, <b>48 kartiček</b> a <b>55 otázek</b> s okamžitou zpětnou vazbou. Když ti to ušetří hodinu, dvacka je slušný kurz.</div>
+    </details>
+    <details>
+      <summary>Zaručuje mi to dobrou známku?</summary>
+      <div class="fa"><b>Ne.</b> Tohle nikdy tvrdit nebudu. Materiál je udělaný podle poznámek z fotek, ne podle učebnice ani podle toho, na co se zeptá učitel. Když se zeptá na něco jiného, tady to nenajdeš. Není to oficiální materiál od školy ani od učitele. Ber to jako pomůcku navíc, ne jako náhradu učení.</div>
+    </details>
+    <details>
+      <summary>Jak víš, že tam nejsou chyby?</summary>
+      <div class="fa">Data a jména jsem ověřil na české Wikipedii (Ludvík XIV., Petr I., Marie Terezie, Fridrich II., Kateřina II., Osvícenství, Sevastopol, Prokop Diviš). Co se nepodařilo ověřit, je v kartě <b>„Ověřeno“</b> výslovně napsané. Když přesto chybu najdeš, napiš mi a opravím ji.</div>
+    </details>
+    <details>
+      <summary>Můžu to poslat dál?</summary>
+      <div class="fa">Jo. Komukoliv. Je to jeden soubor, funguje i bez internetu.</div>
+    </details>
+    <details>
+      <summary>Kam ty peníze jdou?</summary>
+      <div class="fa">Na nástroje, kterými to dělám, a na čas, který v tom strávím. Za každý předmět je v QR kódu jiná zpráva, takže vím, co lidem reálně pomáhá, a podle toho dělám další.</div>
+    </details>
+  </section>
+
+  <section class="tip">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAJYCAYAAAC+ZpjcAAAAAklEQVR4AewaftIAAA/FSURBVO3BQXYdSI4kQHc83f/KmKxFb9XZMdCnWDSz7j8CAMCZCQAApyYAAJyaAABwagIAwKkJAACnJgAAnJoAAHBqAgDAqQkAAKcmAACcmgAAcGoCAMCpCQAApyYAAJyaAABwagIAwKkJAACnJgAAnJoAAHBqAgDAqQkAAKcmAACcmgAAcGoCAMCpCQAApyYAAJyaAABwagIAwKkJAACnJgAAnJoAAHBqAgDAqQkAAKcmAACcmgAAcGoCAMCpCQAApyYAAJyaAABwagIAwKkJAACnJgAAnJoAAHBqAgDAqQkAAKcmAACcmgAAcGoCAMCpCQAApyYAAJyaAABwagIAwKkJAACnJgAAnJoAAHBqAgDAqQkAAKcmAACc+pUfpG34++xuvkLbfNru5tPa5ivsbj6tbT5td/NTtM2n7W5etQ1/n93NTzABAODUBACAUxMAAE5NAAA4NQEA4NQEAIBTEwAATk0AADg1AQDg1AQAgFMTAABOTQAAODUBAODUBACAU7/Cv7K74ffa5jvZ3bxom1dt81O0zYvdzaftbl61zavdzae1zavdzU+wu+H32obfmwAAcGoCAMCpCQAApyYAAJyaAABwagIAwKkJAACnJgAAnJoAAHBqAgDAqQkAAKcmAACcmgAAcOpX+KPa5jvZ3XwnbfNqd/Nid/OdtM2r3c2ntc2ntc2r3c2ntc2r3c2ntc2r3c130jbfye6GP2MCAMCpCQAApyYAAJyaAABwagIAwKkJAACnJgAAnJoAAHBqAgDAqQkAAKcmAACcmgAAcGoCAMCpCQAAp34F+D9pm6+wu3mxu3nVNt/J7ubT2uanaBvg35kAAHBqAgDAqQkAAKcmAACcmgAAcGoCAMCpCQAApyYAAJyaAABwagIAwKkJAACnJgAAnJoAAHBqAgDAqV8B/k92N1+hbT5td/OqbV7sbj6tbV7tbn6K3c2LtoGfZgIAwKkJAACnJgAAnJoAAHBqAgDAqQkAAKcmAACcmgAAcGoCAMCpCQAApyYAAJyaAABwagIAwKlf4Y/a3cD/aJtP2928aptPa5tXu5sXu5uv0DY/we7mp9jdwH9MAAA4NQEA4NQEAIBTEwAATk0AADg1AQDg1AQAgFMTAABOTQAAODUBAODUBACAUxMAAE5NAAA4NQEA4NSv8K+0DfxH27za3bxqm+9kd/OibT6tbV7tbj5td/OqbV7tbl60zavdzae1Dfz/mgAAcGoCAMCpCQAApyYAAJyaAABwagIAwKkJAACnJgAAnJoAAHBqAgDAqQkAAKcmAACcmgAAcKr7j8A31Taftrt51Tb83u7m09rm1e7m09rm1e7mVdu82N3ATzMBAODUBACAUxMAAE5NAAA4NQEA4NQEAIBTEwAATk0AADg1AQDg1AQAgFMTAABOTQAAODUBAODUBACAU7/yg7TNq93Ni7bh93Y3r3Y3r9rmRdu82t18Wtt8J23Df5e2ebW7edU2/N7uhj9jAgDAqQkAAKcmAACcmgAAcGoCAMCpCQAApyYAAJyaAABwagIAwKkJAACnJgAAnJoAAHBqAgDAqQkAAKd+hT9qd/Oqbb6T3c2Ltnm1u/lO2ubTdjev2ubV7uZF27za3XwnbcOfs7v5LtrmK7TNi90NvzcBAODUBACAUxMAAE5NAAA4NQEA4NQEAIBTEwAATk0AADg1AQDg1AQAgFMTAABOTQAAODUBAODUr/DX2t28apsXu5tXbfNpbfNpu5uv0Daftrt51TYvdjef1jb873Y3n9Y2r3Y3L9rm03Y3r9rm1e6GP2MCAMCpCQAApyYAAJyaAABwagIAwKkJAACnJgAAnJoAAHBqAgDAqQkAAKcmAACcmgAAcGoCAMCpCQAAp37lB9ndvGqb72R386JtXu1uPq1t+HPa5tXu5kXbvNrdvNjdfIW2+U7a5sXu5iu0zYvdzau2edE2r3Y3/H0mAACcmgAAcGoCAMCpCQAApyYAAJyaAABwagIAwKkJAACnJgAAnJoAAHBqAgDAqQkAAKcmAACcmgAAcOpX+KN2N6/a5lXbfFrbvNjd8Hfa3bxqmxe7m09rm6+wu3nRNj/F7uY72d3Af0wAADg1AQDg1AQAgFMTAABOTQAAODUBAODUBACAUxMAAE5NAAA4NQEA4NQEAIBTEwAATk0AADj1Kz9I27za3bxom+9kd/NpbfMVdjcv2ubV7ubV7ubT2ubT2ubTdjdfoW34vbZ5tbt50TavdjffSdu82N3wexMAAE5NAAA4NQEA4NQEAIBTEwAATk0AADg1AQDg1AQAgFMTAABOTQAAODUBAODUBACAUxMAAE5NAAA49Sv8K23D77XNi93Nq7Z51Tb8ObubT2ubF23zFXY3L9rmK+xuXrTNq93Nq7b5Ltrm1e6Gv88EAIBTEwAATk0AADg1AQDg1AQAgFMTAABOTQAAODUBAODUBACAUxMAAE5NAAA4NQEA4NQEAIBTEwAATv3KD7K7+bS2ebW7+U52N5+2u/m0tvkKbfMTtM2n7W5etc2rtvlO2ubF7uZV27za3fB7uxv+jAkAAKcmAACcmgAAcGoCAMCpCQAApyYAAJyaAABwagIAwKkJAACnJgAAnJoAAHBqAgDAqQkAAKd+hb9W23za7uZV27zY3fB32t18J7ubF23zFXY3L9rmK+xuXrTNq93Np7XNq93Ni93Nq7Z5tbvhz5gAAHBqAgDAqQkAAKcmAACcmgAAcGoCAMCpCQAApyYAAJyaAABwagIAwKkJAACnJgAAnJoAAHBqAgDAqV/hj9rdvGqbV7ubF23zanfzom2+wu7mO9ndfFrbfCdt82J386ptXrXNi93NV2ibF7ub72R386ptXuxu+O8yAQDg1AQAgFMTAABOTQAAODUBAODUBACAUxMAAE5NAAA4NQEA4NQEAIBTEwAATk0AADg1AQDg1K/wR7XNq93Nd9I2L3Y3r9rm03Y3r9rmO9ndvGobfm9382lt82p3w+/tbuA/JgAAnJoAAHBqAgDAqQkAAKcmAACcmgAAcGoCAMCpCQAApyYAAJyaAABwagIAwKkJAACnJgAAnJoAAHCq+4/8EG3znexu+HPa5sXu5iu0zXeyu3nRNt/J7uZV27zY3XwnbcPv7W5etc2r3c2Ltnm1u/kJJgAAnJoAAHBqAgDAqQkAAKcmAACcmgAAcGoCAMCpCQAApyYAAJyaAABwagIAwKkJAACnJgAAnJoAAHDqV/hrtc2n7W5etc2L3c2rtvkpdjffSdt82u7mJ2ibr7C7+U52Ny/a5tPahv8uEwAATk0AADg1AQDg1AQAgFMTAABOTQAAODUBAODUBACAUxMAAE5NAAA4NQEA4NQEAIBTEwAATnX/kR+ibb6T3c2ntc2r3c2LtuF/t7t50Tavdjev2ubF7uZV23za7ubT2ubV7uanaJsXu5tPa5vvZHfD700AADg1AQDg1AQAgFMTAABOTQAAODUBAODUBACAUxMAAE5NAAA4NQEA4NQEAIBTEwAATk0AADg1AQDg1K/wr+xu+L22ebG7+Snaht9rm1e7m++kbfj7tM2r3c2L3c1XaBv+jAkAAKcmAACcmgAAcGoCAMCpCQAApyYAAJyaAABwagIAwKkJAACnJgAAnJoAAHBqAgDAqQkAAKcmAACc+hX+K7XNp+1uXrTNV9jdvGibV7ubV23zE+xufordzYu2+Qpt82m7m1e7m09rm5+gbV7tbn6CCQAApyYAAJyaAABwagIAwKkJAACnJgAAnJoAAHBqAgDAqQkAAKcmAACcmgAAcGoCAMCpCQAAp36FP6ptvpPdzau2+U7a5tPa5tXu5tPa5tPa5jvZ3fDntA2/t7t51TYvdjf83gQAgFMTAABOTQAAODUBAODUBACAUxMAAE5NAAA4NQEA4NQEAIBTEwAATk0AADg1AQDg1AQAgFMTAABOdf8R+Kba5tXu5kXbvNrdvGqb72R386JtXu1uXrTNV9jdvGibV7ubT2ubV7ub76RtvpPdzYu2ebW7+QkmAACcmgAAcGoCAMCpCQAApyYAAJyaAABwagIAwKkJAACnJgAAnJoAAHBqAgDAqQkAAKcmAACcmgAAcOpXfpC24e+zu3m1u/m03c1Psbvh93Y3/J3a5sXuht/b3fB7EwAATk0AADg1AQDg1AQAgFMTAABOTQAAODUBAODUBACAUxMAAE5NAAA4NQEA4NQEAIBTEwAATv0K/8ruht9rm09rm1e7mxdt82p382p386JtvpPdzaftbn6Ktvkpdjc/we6Gv88EAIBTEwAATk0AADg1AQDg1AQAgFMTAABOTQAAODUBAODUBACAUxMAAE5NAAA4NQEA4NQEAIBTEwAATv0Kf1TbfCe7G/gfbfNpu5tPa5uvsLv5tN3Np7XNq7b5CXY3r9rm1e6GP2MCAMCpCQAApyYAAJyaAABwagIAwKkJAACnJgAAnJoAAHBqAgDAqQkAAKcmAACcmgAAcGoCAMCpX4Efqm0+rW0+bXfzqm0+rW1e7W5e7G6+Qtt8Wtu82t38BLubV23zom1e7W74+0wAADg1AQDg1AQAgFMTAABOTQAAODUBAODUBACAUxMAAE5NAAA4NQEA4NQEAIBTEwAATk0AADg1AQDg1K8AH7O7+bS2+Qq7m5+gbV7tbl60zavdzau2ebG7edU2n9Y2r3Y38B8TAABOTQAAODUBAODUBACAUxMAAE5NAAA4NQEA4NQEAIBTEwAATk0AADg1AQDg1AQAgFMTAABOTQAAOPUr/FG7G/6c3c2rtnmxu3nVNq92Ny92N99J27za3bxom6/QNj9B27za3bxqmxe7m09rm6+wu3nRNq92Nz/BBACAUxMAAE5NAAA4NQEA4NQEAIBTEwAATk0AADg1AQDg1AQAgFMTAABOTQAAODUBAODUBACAU91/5IdoG/4+u5tXbfNqd/OibX6K3c130jY/we7mVdu82t28aJufYnfzom1e7W74+0wAADg1AQDg1AQAgFMTAABOTQAAODUBAODUBACAUxMAAE5NAAA4NQEA4NQEAIBTEwAATk0AADg1AQDgVPcfAQDgzAQAgFMTAABOTQAAODUBAODUBACAUxMAAE5NAAA4NQEA4NQEAIBTEwAATk0AADg1AQDg1AQAgFMTAABOTQAAODUBAODUBACAUxMAAE5NAAA4NQEA4NQEAIBTEwAATk0AADg1AQDg1AQAgFMTAABOTQAAODUBAODUBACAUxMAAE5NAAA4NQEA4NQEAIBTEwAATk0AADg1AQDg1AQAgFMTAABOTQAAODUBAODUBACAUxMAAE5NAAA4NQEA4NQEAIBTEwAATk0AADg1AQDg1AQAgFMTAABOTQAAODUBAODUBACAUxMAAE5NAAA4NQEA4NQEAIBT/w9cW+HkYJlenQAAAABJRU5ErkJggg==" alt="QR kód pro platbu 20 Kč na účet 300369512/0300" width="108" height="108">
+    <div>
+      <b>Kdyby chtěl někdo přihodit na kafe</b>
+      <p>Naskenuj QR bankovní aplikací — částka <b>20 Kč</b> se vyplní sama. Nemusí nikdo, materiál funguje všem stejně.</p>
+      <span class="acc">300369512 / 0300 · 20 Kč</span>
+    </div>
+  </section>
+
+</div>
+
+
+  <div class="tipbar" id="tipbar" hidden role="region" aria-label="Dobrovolný příspěvek">
+    <div class="tipbar-in">
+      <span class="tipbar-txt"><b>Pomohlo ti to?</b> Dobrovolný příspěvek 20 Kč. Nemusíš, funguje to všem stejně.</span>
+      <span class="tipbar-btns">
+        <button type="button" class="btn small" id="tipbar-yes">Ukázat QR</button>
+        <button type="button" class="btn ghost small" id="tipbar-no">Teď ne</button>
+      </span>
+        <span class="tipbar-bye" hidden>oka.... 😓</span>
+    </div>
+  </div>
+
+
+<script>
+/* ===== kartičky ===== */
+var FLASH = [["Co je <b>absolutismus</b>?", "Panovník má <b>neomezenou moc</b> a vládne sám."], ["Jak dlouho vládl Ludvík XIV.?", "<b>72 let</b> (1643–1715)"], ["Přezdívka Ludvíka XIV.?", "<b>Král Slunce</b>"], ["Jaký výrok se připisuje Ludvíku XIV.?", "<b>„Stát jsem já.“</b><br>(údajný výrok, není doložený)"], ["Co nechal Ludvík XIV. postavit?", "<b>Versailles</b>"], ["Jak se říká oficiálním milenkám krále?", "<b>metresy</b>"], ["Který rod vládl v Anglii od roku 1603?", "<b>Stuartovci</b>"], ["Kdo proti sobě stál v anglické občanské válce?", "<b>Král × parlament</b>"], ["Kdy začala občanská válka v Anglii?", "<b>1642</b>"], ["Co se stalo s králem v roce 1649?", "Byl <b>popraven</b>. Anglie se stala <b>republikou</b>."], ["Kdo vládl Anglii jako republice?", "<b>Oliver Cromwell</b>"], ["Co je <b>konstituční monarchie</b>?", "Král je, ale jeho moc omezuje <b>ústava a parlament</b>."], ["Kdy vznikla Velká Británie?", "<b>1707</b>"], ["Co je <b>rekatolizace</b>?", "Násilný návrat zemí ke <b>katolické církvi</b> po Bílé hoře."], ["Kdo byl Antonín Koniáš?", "<b>Jezuita</b>, který pálil „kacířské“ knihy."], ["Dva druhy manufaktur ze sešitu?", "<b>textilní</b> a <b>sklářské</b>"], ["Co je manufaktura?", "Dílna s <b>ruční prací</b>, kde každý dělá <b>jinou část</b> práce."], ["Co je <b>robota</b>?", "Práce poddaného <b>zdarma</b> pro pána."], ["Robotní patent: kdo a kolik dní?", "<b>Leopold I.</b><br>nejvýše <b>3× týdně</b>"], ["Co je <b>samoděržaví</b>?", "Car vládne <b>sám</b>, bez omezení."], ["Kdy a co založil Petr I.?", "<b>1703</b> — <b>Petrohrad</b>"], ["Reformy Petra I.? (4)", "<b>školství · církev · námořnictvo · měna</b>"], ["S kým Rusko válčilo v Severní válce?", "Se <b>Švédskem</b> (1700–1721)"], ["Kdo vládne v Osmanské říši?", "<b>sultán</b>"], ["Co dělala Osmanská říše s Vídní?", "Dvakrát ji <b>oblehla</b> (1529, 1683), nedobyla ji."], ["Co se dělo s Osmanskou říší v 18. století?", "<b>Slábla</b>: ekonomicky i vojensky."], ["Co je <b>osvícenství</b>?", "Myšlenkový směr <b>18. století</b>. Důraz na <b>rozum</b> a <b>poznání</b>."], ["Heslo osvícenství?", "<b>„Měj odvahu přemýšlet!“</b>"], ["Osvícenští filozofové ze sešitu?", "<b>Voltaire</b>, <b>J. J. Rousseau</b>"], ["Kdo vedl <b>Encyklopedii</b>?", "<b>Denis Diderot</b> (1751–1772)"], ["Který myslitel patří k ekonomice?", "<b>Adam Smith</b>"], ["Co říká <b>společenská smlouva</b>?", "Lidé platí <b>daně</b> a dodržují <b>zákony</b>. Panovník chrání <b>život a majetek</b>."], ["Isaac Newton?", "<b>gravitace</b>"], ["Prokop Diviš?", "<b>první bleskosvod</b> (1754)"], ["Carl Linné?", "pojmenování <b>rostlin a živočichů</b>"], ["Bratři Montgolfierové?", "létající <b>balon</b>"], ["James Watt?", "<b>parní stroj</b>"], ["Alessandro Volta?", "výroba <b>elektřiny</b> (elektrický článek)"], ["Co je <b>osvícený absolutismus</b>?", "Panovník <b>vládne sám</b>, ale dělá <b>reformy</b> (školství, zdravotnictví, ekonomika, náboženská svoboda)."], ["Kateřina II.: o co bojovala?", "S Osmanskou říší o <b>přístup k Černému moři</b>."], ["Jaký přístav je u Kateřiny II.?", "<b>Sevastopol</b> (1783)"], ["Fridrich II.: kdo to je?", "<b>Pruský král</b> (1740–1786). Válčil s Marií Terezií."], ["Co prosazoval Fridrich II. v zemědělství?", "<b>brambory</b>"], ["Marie Terezie: roky vlády?", "<b>1740–1780</b>"], ["Díky čemu mohla Marie Terezie vládnout?", "<b>Pragmatická sankce</b>"], ["Otec a manžel Marie Terezie?", "Otec: <b>Karel VI.</b><br>Manžel: <b>František Štěpán Lotrinský</b>"], ["Kolik dětí měla Marie Terezie?", "<b>16</b>"], ["Tři známé děti Marie Terezie?", "<b>Josef II.</b>, <b>Leopold II.</b>, <b>Marie Antoinetta</b>"]];
+
+/* ===== otázky ===== */
+var Q = [{"t": "c","q": "Co je absolutismus?","o": ["Panovník má neomezenou moc","Vládne parlament","Vládne církev","Vládne šlechta po volbách"],"a": 0,"w": "Absolutismus = panovník vládne sám a nic jeho moc neomezuje."},{"t": "n","q": "Kolik let vládl Ludvík XIV.?","acc": 72,"u": "let","w": "1643–1715 = 72 let. Sám vládl od 1661."},{"t": "c","q": "Jaká byla přezdívka Ludvíka XIV.?","o": ["Král Slunce","Král Měsíc","Král Hvězda","Král Voda"],"a": 0,"w": "Ludvík XIV. = Král Slunce."},{"t": "c","q": "Který výrok se připisuje Ludvíku XIV.?","o": ["„Stát jsem já.“","„Jsem první služebník svého státu.“","„Lid je pán.“","„Přišel jsem, viděl jsem, zvítězil jsem.“"],"a": 0,"w": "„Stát jsem já.“ Je to údajný výrok. „První služebník státu“ je heslo Fridricha II."},{"t": "c","q": "Co nechal Ludvík XIV. postavit?","o": ["Versailles","Petrohrad","Sevastopol","Schönbrunn"],"a": 0,"w": "Versailles, zámek u Paříže. Petrohrad založil Petr I."},{"t": "c","q": "Jak se říká oficiálním milenkám krále?","o": ["metresy","manufaktury","regentky","poddaní"],"a": 0,"w": "Metresy."},{"t": "c","q": "Který rod vládl v Anglii od roku 1603?","o": ["Stuartovci","Habsburkové","Bourboni","Romanovci"],"a": 0,"w": "Od 1603 vládli Stuartovci."},{"t": "c","q": "Kdo proti sobě stál v anglické občanské válce?","o": ["Král a parlament","Anglie a Francie","Katolíci a Osmané","Šlechta a města"],"a": 0,"w": "Král × parlament."},{"t": "n","q": "V kterém roce začala občanská válka v Anglii?","acc": 1642,"u": "","w": "Občanská válka začala v roce 1642.","y": true},{"t": "n","q": "V kterém roce byl anglický král popraven?","acc": 1649,"u": "","w": "Poprava krále: 1649.","y": true},{"t": "c","q": "Co se stalo s Anglií po popravě krále?","o": ["Stala se republikou","Připojila se k Francii","Dál vládla královna","Rozdělila se na dvě země"],"a": 0,"w": "Anglie se stala republikou."},{"t": "c","q": "Kdo vládl Anglii v republice?","o": ["Oliver Cromwell","Isaac Newton","Karel I.","Petr I."],"a": 0,"w": "Oliver Cromwell."},{"t": "m","q": "Co dělali Stuartovci podle sešitu? (dvě správné)","o": ["Zvyšovali daně","Nesvolávali parlament","Zrušili krále","Zakázali obchod"],"a": [0,1],"w": "Zvyšovali daně a nesvolávali parlament. To vedlo k válce 1642."},{"t": "c","q": "Co je konstituční monarchie?","o": ["Král je, ale moc mu omezuje ústava a parlament","Král má neomezenou moc","Žádný král není","Vládne církev"],"a": 0,"w": "Konstituční monarchie = král s omezenou mocí."},{"t": "n","q": "V kterém roce vznikla Velká Británie?","acc": 1707,"u": "","w": "Velká Británie vznikla v roce 1707. V sešitě může být špatně čitelné 1703.","y": true},{"t": "c","q": "Který řád stál za rekatolizací v českých zemích?","o": ["Jezuité","Husité","Templáři","Benediktini"],"a": 0,"w": "Rekatolizaci vedli hlavně jezuité."},{"t": "c","q": "Kdo byl Antonín Koniáš?","o": ["Jezuita, který pálil „kacířské“ knihy","Vojevůdce třicetileté války","Anglický král","Ruský car"],"a": 0,"w": "Koniáš byl jezuita a sbíral a pálil knihy."},{"t": "m","q": "Které dva druhy manufaktur jsou v sešitě? (dvě správné)","o": ["Textilní","Sklářské","Zbrojní","Lodní"],"a": [0,1],"w": "V sešitě jsou textilní a sklářské manufaktury."},{"t": "c","q": "Co je manufaktura?","o": ["Dílna s ruční prací, kde každý dělá jinou část","Továrna se stroji na páru","Sklad zboží","Škola pro řemeslníky"],"a": 0,"w": "Manufaktura = ruční výroba s dělbou práce."},{"t": "c","q": "Kdo vydal robotní patent v sešitě?","o": ["Leopold I.","Josef II.","Ludvík XIV.","Petr I."],"a": 0,"w": "Císař Leopold I."},{"t": "n","q": "Na kolik dní v týdnu nejvýše směla trvat robota podle patentu?","acc": 3,"u": "dny","w": "Robota maximálně 3× týdně."},{"t": "c","q": "Co je robota?","o": ["Bezplatná práce poddaného pro pána","Daň z obchodu","Druh stroje","Placená práce v manufaktuře"],"a": 0,"w": "Robota = práce poddaného zdarma pro pána."},{"t": "n","q": "V kterém roce Petr I. založil Petrohrad?","acc": 1703,"u": "","w": "Petrohrad: 1703.","y": true},{"t": "c","q": "Co je samoděržaví?","o": ["Car vládne sám, bez omezení","Vládne parlament","Vládne sultán","Země bez panovníka"],"a": 0,"w": "Samoděržaví = absolutní vláda cara."},{"t": "m","q": "Co reformoval Petr I.? (dvě správné)","o": ["Námořnictvo","Měnu","Bankovní systém Anglie","Univerzitu v Paříži"],"a": [0,1],"w": "Petr I. reformoval školství, církev, námořnictvo a měnu."},{"t": "c","q": "S kým válčilo Rusko za Petra I. v Severní válce?","o": ["Se Švédskem","S Francií","S Anglií","S Pruskem"],"a": 0,"w": "Severní válka 1700–1721: Rusko × Švédsko."},{"t": "c","q": "Jak se jmenuje vládce Osmanské říše?","o": ["Sultán","Car","Císař","Král"],"a": 0,"w": "Sultán."},{"t": "c","q": "Co udělali Osmané s Vídní?","o": ["Dvakrát ji oblehli a nedobyli","Dobyli ji a vládli jí","Nikdy k ní nedošli","Postavili ji"],"a": 0,"w": "Vídeň oblehli 1529 a 1683. V sešitě je „dobývali“."},{"t": "c","q": "Co se dělo s Osmanskou říší v 18. století?","o": ["Slábla ekonomicky i vojensky","Rostla","Zanikla","Dobyla Evropu"],"a": 0,"w": "Podle sešitu: pokles ekonomické a vojenské síly."},{"t": "n","q": "Které století je osvícenství? (napiš číslo)","acc": 18,"u": ". století","w": "Osvícenství = 18. století."},{"t": "c","q": "Na co klade osvícenství důraz?","o": ["Rozum a poznání","Víru","Tradici","Poslušnost"],"a": 0,"w": "Rozum a poznání."},{"t": "m","q": "Kteří dva jsou osvícenští filozofové ze sešitu? (dvě správné)","o": ["Voltaire","J. J. Rousseau","Oliver Cromwell","Antonín Koniáš"],"a": [0,1],"w": "Voltaire a J. J. Rousseau."},{"t": "c","q": "Kdo vedl vydávání Encyklopedie?","o": ["Denis Diderot","Adam Smith","Isaac Newton","Petr I."],"a": 0,"w": "Denis Diderot. Encyklopedie popisuje vědu a řemesla (1751–1772)."},{"t": "c","q": "Který myslitel je v sešitě u ekonomiky?","o": ["Adam Smith","Isaac Newton","Carl Linné","James Watt"],"a": 0,"w": "Adam Smith."},{"t": "c","q": "Co říká teorie o společenské smlouvě?","o": ["Lidé platí daně a dodržují zákony, panovník je chrání","Panovník smí cokoli","Lidé nemusí platit daně","Církev vládne státu"],"a": 0,"w": "Lidé: daně a zákony. Panovník: ochrana života a majetku."},{"t": "c","q": "Co objasnil Isaac Newton?","o": ["Gravitaci","Bleskosvod","Parní stroj","Balon"],"a": 0,"w": "Newton = gravitace."},{"t": "c","q": "Kdo postavil první bleskosvod podle sešitu?","o": ["Prokop Diviš","Isaac Newton","Alessandro Volta","Carl Linné"],"a": 0,"w": "Prokop Diviš, 1754, Přímětice."},{"t": "c","q": "Čím je známý Carl Linné?","o": ["Pojmenováním rostlin a živočichů","Elektřinou","Balonem","Parním strojem"],"a": 0,"w": "Linné pojmenoval rostliny a živočichy."},{"t": "c","q": "Co vymysleli bratři Montgolfierové?","o": ["Létající balon","Parní stroj","Bleskosvod","Elektrický článek"],"a": 0,"w": "Montgolfierové = balon (1783)."},{"t": "c","q": "S kým je spojený parní stroj?","o": ["James Watt","Alessandro Volta","Carl Linné","Prokop Diviš"],"a": 0,"w": "James Watt (zdokonalil parní stroj)."},{"t": "c","q": "Kdo je spojený s výrobou elektřiny?","o": ["Alessandro Volta","James Watt","Isaac Newton","Carl Linné"],"a": 0,"w": "Alessandro Volta (elektrický článek)."},{"t": "c","q": "Co je osvícený absolutismus?","o": ["Panovník vládne sám, ale dělá reformy","Vládne parlament a král jen reprezentuje","Vládne církev","Země bez panovníka"],"a": 0,"w": "Osvícený absolutismus = vláda jednoho panovníka + reformy."},{"t": "m","q": "Které dvě reformy dělal osvícený panovník? (dvě správné)","o": ["Školství","Zdravotnictví","Zavedení otroctví","Zákaz škol"],"a": [0,1],"w": "Školství, zdravotnictví, ekonomika a náboženská svoboda."},{"t": "c","q": "Proč Kateřina II. bojovala s Osmanskou říší?","o": ["O přístup k Černému moři","O Slezsko","O Vídeň","O Paříž"],"a": 0,"w": "O přístup k Černému moři."},{"t": "c","q": "Který přístav souvisí s Kateřinou II.?","o": ["Sevastopol","Petrohrad","Marseille","Hamburk"],"a": 0,"w": "Sevastopol (1783). Petrohrad založil Petr I."},{"t": "n","q": "V kterém roce vznikl Sevastopol?","acc": 1783,"u": "","w": "Sevastopol: 1783.","y": true},{"t": "c","q": "Který pruský král válčil s Marií Terezií?","o": ["Fridrich II.","Karel VI.","Leopold I.","Ludvík XIV."],"a": 0,"w": "Fridrich II. (Prusko)."},{"t": "c","q": "Co prosazoval Fridrich II. v zemědělství?","o": ["Brambory","Kukuřici","Rýži","Čaj"],"a": 0,"w": "Brambory."},{"t": "n","q": "V kterém roce nastoupila Marie Terezie?","acc": 1740,"u": "","w": "Marie Terezie vládla 1740–1780.","y": true},{"t": "c","q": "Díky čemu mohla Marie Terezie vládnout?","o": ["Pragmatická sankce","Zlatá bula","Toleranční patent","Bílá hora"],"a": 0,"w": "Pragmatická sankce umožnila vládnout ženě."},{"t": "c","q": "Kdo byl otec Marie Terezie?","o": ["Karel VI.","Leopold I.","Josef II.","František Štěpán"],"a": 0,"w": "Otec: Karel VI."},{"t": "c","q": "Kdo byl manžel Marie Terezie?","o": ["František Štěpán Lotrinský","Karel VI.","Leopold II.","Fridrich II."],"a": 0,"w": "Manžel: František Štěpán Lotrinský."},{"t": "n","q": "Kolik dětí měla Marie Terezie?","acc": 16,"u": "dětí","w": "16 dětí."},{"t": "c","q": "Která dcera Marie Terezie se provdala za francouzského krále?","o": ["Marie Antoinetta","Kateřina Veliká","Marie Terezie II.","Elizabeta"],"a": 0,"w": "Marie Antoinetta (manžel Ludvík XVI.)."},{"t": "m","q": "Kteří dva synové Marie Terezie se stali císaři? (dvě správné)","o": ["Josef II.","Leopold II.","Karel VI.","František Štěpán"],"a": [0,1],"w": "Josef II. a Leopold II."}];
+
+var ROUND = 6;
+
+/* ===== ukládání ===== */
+var KEY="dejabs1";
+function load(){try{return JSON.parse(localStorage.getItem(KEY))||{};}catch(e){return {};}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+var S=load();
+if(!S.known){S.known={};}
+if(typeof S.fcId!=='number'){S.fcId=0;}
+if(!S.tab){S.tab='uc';}
+if(!S.quiz){S.quiz=null;}
+if(!S.gseen){S.gseen={};}
+if(typeof S.g!=='number'){S.g=0;}
+if(S.only===undefined){S.only=false;}
+
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.random()*(i+1)|0;var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+
+/* číselná odpověď: „0,26", „0.26", „35 Kč", „3/4", „1 250" */
+function parseNum(v){
+  var s=String(v).replace(/\s| /g,'').replace(/%/g,'').replace(/,/g,'.');
+  s=s.replace(/[a-zA-Zá-žÁ-Ž³²]+$/,'');
+  if(s===''){return null;}
+  var zl=s.match(/^(-?\d+(?:\.\d+)?)\/(\d+(?:\.\d+)?)$/);
+  if(zl){
+    var jm=parseFloat(zl[2]);
+    if(!jm){return null;}
+    return parseFloat(zl[1])/jm;
+  }
+  var n=parseFloat(s);
+  return isNaN(n)?null:n;
+}
+function numOk(got,want){
+  if(got===null){return false;}
+  /* jen tolerance na zaokrouhleni v plovouci carce, ne na spatny vysledek */
+  var tol=Math.max(Math.abs(want)*1e-9,1e-9);
+  return Math.abs(got-want)<=tol;
+}
+function fmtNum(n){
+  var s=String(n).replace('.',',');
+  var d=s.split(',');
+  d[0]=d[0].replace(/\B(?=(\d{3})+(?!\d))/g,' ');
+  return d.join(',');
+}
+
+/* ===== taby ===== */
+var TABS=["uc","fc","qz"];
+function showTab(t){
+  if(TABS.indexOf(t)<0){t="uc";}
+  TABS.forEach(function(x){document.getElementById(x).classList.toggle('on',x===t);});
+  [].forEach.call(document.querySelectorAll('#tabs button'),function(b){
+    b.classList.toggle('on',b.dataset.t===t);
+  });
+  S.tab=t; save(); window.scrollTo(0,0);
+}
+[].forEach.call(document.querySelectorAll('#tabs button'),function(b){
+  b.onclick=function(){showTab(b.dataset.t);};
+});
+
+function countKnown(){var n=0;for(var k in S.known){if(S.known[k]){n++;}}return n;}
+function badges(){
+  var gs=0;for(var k in S.gseen){if(S.gseen[k]){gs++;}}
+  document.getElementById("bd-uc").textContent=gs?gs+"/"+GN:"";
+  document.getElementById('bd-fc').textContent=countKnown()?countKnown()+'/'+FLASH.length:'';
+  var z=S.quiz;
+  document.getElementById('bd-qz').textContent=z?Math.min(z.i,z.order.length)+'/'+z.order.length:'';
+}
+
+/* ===== kartičky ===== */
+var deck=[], flip=false;
+function buildDeck(keep){
+  deck=[];
+  for(var i=0;i<FLASH.length;i++){ if(!S.only || !S.known[i]){deck.push(i);} }
+  if(keep===undefined || deck.indexOf(keep)<0){ S.fcId=deck.length?deck[0]:0; }
+  save();
+}
+function fcPos(){var p=deck.indexOf(S.fcId);return p<0?0:p;}
+function drawFC(){
+  var el=document.getElementById('fccard');
+  document.getElementById('fcknown').textContent='Umím '+countKnown()+' z '+FLASH.length;
+  if(!deck.length){
+    el.className='fc back';
+    el.innerHTML='Všechno označené jako „umím“. 🎉<small>Dej „Zobrazit všechny“, nebo jdi na kvíz.</small>';
+    document.getElementById('fcpos').textContent='';
+    badges(); return;
+  }
+  var pair=FLASH[S.fcId];
+  el.className='fc'+(flip?' back':'');
+  el.innerHTML=(flip?pair[1]:pair[0])+'<small>'+(flip?'klikni pro otázku':'klikni pro odpověď')+'</small>';
+  document.getElementById('fcpos').textContent='Kartička '+(fcPos()+1)+' z '+deck.length+(S.known[S.fcId]?' · ✓ umím':'');
+  badges();
+}
+function fcMove(step){
+  if(!deck.length){return drawFC();}
+  var p=fcPos()+step;
+  if(p<0){p=deck.length-1;}
+  if(p>=deck.length){p=0;}
+  S.fcId=deck[p]; flip=false; save(); drawFC();
+}
+document.getElementById('fccard').onclick=function(){flip=!flip;drawFC();};
+document.getElementById('fccard').onkeydown=function(e){
+  if(e.key===' '||e.key==='Enter'){e.preventDefault();flip=!flip;drawFC();}
+};
+document.getElementById('fcnext').onclick=function(){fcMove(1);};
+document.getElementById('fcprev').onclick=function(){fcMove(-1);};
+document.getElementById('fcyes').onclick=function(){
+  if(!deck.length){return;}
+  S.known[S.fcId]=true; save();
+  if(S.only){buildDeck(undefined);flip=false;drawFC();} else {fcMove(1);}
+};
+document.getElementById('fcno').onclick=function(){
+  if(!deck.length){return;}
+  S.known[S.fcId]=false; save(); fcMove(1);
+};
+document.getElementById('fconly').onclick=function(){
+  S.only=!S.only;
+  this.textContent=S.only?'Zobrazit všechny':'Jen co neumím';
+  buildDeck(S.fcId); flip=false; drawFC();
+};
+document.getElementById('fcreset').onclick=function(){
+  S.known={}; save(); buildDeck(S.fcId); drawFC();
+};
+
+/* ===== kvíz ===== */
+var box=document.getElementById('qbox'), pbar=document.getElementById('pbar'), dots=document.getElementById('dots');
+var answered=false;
+
+function newQuiz(ids){
+  S.quiz={order:shuffle(ids?ids.slice():Q.map(function(_,i){return i;})),i:0,score:0,wrong:[],res:[]};
+  save(); render();
+}
+function drawDots(){
+  var z=S.quiz, h='';
+  if(!z){dots.innerHTML='';return;}
+  for(var k=0;k<z.order.length;k++){
+    var c=z.res[k]===1?'d-ok':z.res[k]===0?'d-bad':(k===z.i?'d-now':'');
+    h+='<span class="'+c+'"></span>';
+  }
+  dots.innerHTML=h;
+  pbar.style.width=(z.i/z.order.length*100)+'%';
+}
+function render(){
+  var z=S.quiz;
+  if(!z){return newQuiz();}
+  drawDots(); badges();
+  if(z.i>=z.order.length){return finish();}
+  var q=Q[z.order[z.i]];
+  var kolo=Math.floor(z.i/ROUND)+1, kol=Math.ceil(z.order.length/ROUND);
+  var h='<div class="qn">Otázka '+(z.i+1)+'/'+z.order.length+' · kolo '+kolo+'/'+kol+' · správně '+z.score+'</div>';
+  h+='<div class="qt">'+q.q+'</div>';
+  if(q.t==='n'){
+    h+='<div class="numrow"><input type="text" id="ans" inputmode="decimal" placeholder="číslo" autocomplete="off">'
+      +(q.u?'<span class="unit">'+q.u+'</span>':'')+'</div>';
+    h+='<div class="tag">'+(q.y?'Napiš rok čtyřmi číslicemi.':'Napiš číslo.')+'</div>';
+  }else{
+    if(!q._idx){q._idx=shuffle(q.o.map(function(_,i){return i;}));}
+    q._idx.forEach(function(i){h+='<button class="opt" data-i="'+i+'">'+q.o[i]+'</button>';});
+    if(q.t==='m'){h+='<div class="tag">Správné jsou dvě. Označ obě, pak dej Zkontrolovat.</div>';}
+  }
+  h+='<div id="fb"></div><div class="row"><button class="btn" id="go">Zkontrolovat</button></div>';
+  box.innerHTML=h;
+  answered=false;
+  if(q.t==='n'){
+    var inp=document.getElementById('ans');
+    inp.onkeydown=function(e){if(e.key==='Enter'){answered?next():check();}};
+    inp.focus();
+  }else{
+    [].forEach.call(box.querySelectorAll('.opt'),function(b){
+      b.onclick=function(){
+        if(answered){return;}
+        if(q.t==='c'){[].forEach.call(box.querySelectorAll('.opt'),function(x){x.classList.remove('sel');});}
+        b.classList.toggle('sel');
+        if(q.t==='c'){check();}
+      };
+    });
+  }
+  document.getElementById('go').onclick=function(){answered?next():check();};
+}
+function check(){
+  if(answered){return;}
+  var z=S.quiz, q=Q[z.order[z.i]], ok=false, spravne='';
+  if(q.t==='n'){
+    var got=parseNum(document.getElementById('ans').value);
+    ok=numOk(got,q.acc);
+    spravne=(q.y?String(q.acc):fmtNum(q.acc))+(q.u?' '+q.u:'');
+  }else{
+    var sel=[].slice.call(box.querySelectorAll('.opt.sel')).map(function(b){return +b.dataset.i;});
+    if(!sel.length){return;}
+    var corr=q.t==='c'?[q.a]:q.a;
+    ok=sel.length===corr.length&&sel.every(function(i){return corr.indexOf(i)>-1;});
+    spravne=corr.map(function(i){return q.o[i];}).join(' + ');
+    [].forEach.call(box.querySelectorAll('.opt'),function(b){
+      var i=+b.dataset.i;
+      if(corr.indexOf(i)>-1){b.classList.add('ok');}
+      else if(b.classList.contains('sel')){b.classList.add('bad');}
+      b.classList.remove('sel');
+    });
+  }
+  answered=true;
+  z.res[z.i]=ok?1:0;
+  if(ok){z.score++;}else{z.wrong.push(z.order[z.i]);}
+  save(); drawDots(); badges();
+  var fb=document.getElementById('fb');
+  fb.className='fb '+(ok?'ok':'bad');
+  fb.innerHTML='<b>'+(ok?'✅ Správně':'❌ Špatně — správně je '+spravne)+'</b>'+q.w;
+  var go=document.getElementById('go');
+  go.textContent='Další ▸'; go.onclick=next;
+}
+function next(){
+  var z=S.quiz;
+  z.i++; save();
+  if(z.i<z.order.length && z.i%ROUND===0){return breakScreen();}
+  render();
+}
+function breakScreen(){
+  var z=S.quiz;
+  drawDots();
+  var kolo=z.i/ROUND, kol=Math.ceil(z.order.length/ROUND), okv=0;
+  for(var i=z.i-ROUND;i<z.i;i++){if(z.res[i]===1){okv++;}}
+  box.innerHTML='<div class="qn">Pauza</div><h2 style="margin:0 0 4px">Kolo '+kolo+' z '+kol+' hotové</h2>'
+    +'<div class="score">'+okv+' / '+ROUND+'</div>'
+    +'<p>Zbývá '+(z.order.length-z.i)+' otázek. Můžeš pokračovat, nebo skončit — je to uložené.</p>'
+    +'<div class="row"><button class="btn" id="cont">Další kolo ▸</button>'
+    +'<button class="btn ghost" id="stop">Dost pro teď</button></div>';
+  document.getElementById('cont').onclick=render;
+  document.getElementById('stop').onclick=function(){
+    box.innerHTML='<div class="qn">Uloženo</div><h2 style="margin:0 0 4px">Máš to uložené</h2>'
+      +'<p>Až se vrátíš, naskočíš na otázku '+(z.i+1)+'.</p>'
+      +'<div class="row"><button class="btn" id="back">Pokračovat teď</button></div>';
+    document.getElementById('back').onclick=render;
+  };
+}
+function finish(){
+  var z=S.quiz;
+  pbar.style.width='100%';
+  var pct=Math.round(z.score/z.order.length*100);
+  var msg=pct===100?'Všechno správně. Jsi připravený.':
+          pct>=80?'Dobré. Projeď si chyby dole.':
+          pct>=50?'Půlka sedí. Vrať se na tahák a dej kvíz znovu.':
+          'Projeď tahák a vyřešené příklady, pak kvíz znovu.';
+  var h='<div class="qn">Hotovo</div><div class="score">'+z.score+' / '+z.order.length+' ('+pct+' %)</div><p>'+msg+'</p>';
+  if(z.wrong.length){
+    h+='<h3>Co ti nešlo:</h3><ul class="wrongs">';
+    z.wrong.forEach(function(id){h+='<li><b>'+Q[id].q+'</b><br><span class="tag">'+Q[id].w+'</span></li>';});
+    h+='</ul>';
+  }
+  h+='<div class="row"><button class="btn" id="again">🔁 Celý kvíz znovu</button>';
+  if(z.wrong.length){h+='<button class="btn ghost" id="onlybad">Jen chyby ('+z.wrong.length+')</button>';}
+  h+='</div>';
+  box.innerHTML=h;
+  var bad=z.wrong.slice();
+  document.getElementById('again').onclick=function(){newQuiz();};
+  var ob=document.getElementById('onlybad');
+  if(ob){ob.onclick=function(){newQuiz(bad);};}
+  if(window.__tipbar){window.__tipbar.afterQuiz();}
+}
+document.getElementById('qreset').onclick=function(){newQuiz();};
+
+var mini=document.getElementById('mini');
+if(S.mini){mini.open=true;}
+mini.addEventListener('toggle',function(){S.mini=mini.open;save();});
+
+
+/* ===== témata taháku ===== */
+var GR=[].slice.call(document.querySelectorAll('.grp')), CH=[].slice.call(document.querySelectorAll('#chips button')), GN=GR.length;
+function showG(g,noscroll){
+  if(typeof g!=='number'||g<0||g>=GN){g=0;}
+  S.g=g; S.gseen[g]=true; save();
+  GR.forEach(function(x,i){x.classList.toggle('on',i===g);});
+  CH.forEach(function(b,i){b.classList.toggle('on',i===g);b.classList.toggle('seen',!!S.gseen[i]&&i!==g);});
+  document.getElementById('gpos').textContent='Téma '+(g+1)+' z '+GN;
+  document.getElementById('gprev').style.visibility=g===0?'hidden':'visible';
+  document.getElementById('gnext').style.visibility=g===GN-1?'hidden':'visible';
+  badges();
+  if(!noscroll){window.scrollTo(0,0);}
+}
+CH.forEach(function(b,i){b.onclick=function(){showG(i);};});
+document.getElementById('gprev').onclick=function(){showG(S.g-1);};
+document.getElementById('gnext').onclick=function(){showG(S.g+1);};
+
+/* ===== start ===== */
+showG(S.g,true);
+buildDeck(S.fcId);
+if(S.only){document.getElementById('fconly').textContent='Zobrazit všechny';}
+drawFC();
+render();
+badges();
+showTab(S.tab);
+
+/* ===== lišta s dobrovolným příspěvkem =====
+   Ukáže se JEDNOU po 45 s a pak už nikdy — volba se ukládá.
+   Jediná výjimka: po dokončení kvízu.
+   Během kvízu nevyskočí vůbec, aby nerušila při počítání. */
+(function(){
+  var bar=document.getElementById('tipbar');
+  if(!bar){return;}
+  var FIRST=45000, t=null, opened=false;
+
+  function quizOpen(){
+    var s=document.getElementById("qz");
+    return !!(s && s.classList.contains("on"));
+  }
+
+  function seen(){ try{ return !!S.tipSeen; }catch(e){ return false; } }
+  function markSeen(){ try{ S.tipSeen=true; save(); }catch(e){} }
+
+  function place(){
+    var nav=document.querySelector("nav"), o=0;
+    if(nav && getComputedStyle(nav).position==="fixed"){ o=Math.round(nav.getBoundingClientRect().height); }
+    bar.style.bottom = o ? o+"px" : "";
+  }
+  function show(){ if(opened){return;} resetLook(); place(); bar.hidden=false; }
+  function hide(){ bar.hidden=true; if(t){clearTimeout(t); t=null;} }
+
+  document.getElementById('tipbar-yes').onclick=function(){
+    opened=true; markSeen(); hide();
+    var tip=document.querySelector('.tip');
+    if(tip){ tip.scrollIntoView({block:'center'}); }
+  };
+  var txtEl=bar.querySelector('.tipbar-txt');
+  var btnEl=bar.querySelector('.tipbar-btns');
+  var byeEl=bar.querySelector('.tipbar-bye');
+  var byeT=null;
+
+  function resetLook(){
+    if(byeT){ clearTimeout(byeT); byeT=null; }
+    bar.classList.remove('bye');
+    if(byeEl){ byeEl.hidden=true; }
+    if(txtEl){ txtEl.hidden=false; }
+    if(btnEl){ btnEl.hidden=false; }
+  }
+
+  document.getElementById('tipbar-no').onclick=function(){
+    markSeen();
+    if(!byeEl){ hide(); return; }
+    txtEl.hidden=true; btnEl.hidden=true; byeEl.hidden=false;
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduce){ hide(); resetLook(); return; }
+    bar.classList.add('bye');
+    byeT=setTimeout(function(){ hide(); resetLook(); }, 3100);
+  };
+
+  function firstTry(){
+    if(seen() || opened){ return; }
+    if(quizOpen()){ t=setTimeout(firstTry, 20000); return; }
+    show();
+  }
+  if(!seen()){ t=setTimeout(firstTry, FIRST); }
+
+  window.addEventListener("resize", function(){ if(!bar.hidden){ place(); } });
+
+  window.__tipbar={
+    show:show, hide:hide, first:FIRST, seen:seen, isOff:function(){return opened;},
+    afterQuiz:function(){ if(opened){return;} setTimeout(show, 600); }
+  };
+})();
+</script>
+</body>
+</html>
