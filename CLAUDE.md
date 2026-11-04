@@ -35,22 +35,36 @@ Formát se tomu přizpůsobuje, obsah se nezjednodušuje.
 - Jedna otázka najednou, ne pět naráz.
 - Kroky číslované, ne v jednom odstavci.
 
-## Anonymita — pravidlo číslo 1 (platí od 4. 11. 2026, přepisuje všechno níže)
+## Anonymita — pravidlo číslo 1 (platí od 4. 11. 2026)
 
-Do materiálů, do repa ani do commitů **nepiš nic, podle čeho by šlo poznat autora**:
-- žádné jméno, přezdívku, odkazy na sítě (GitHub, TikTok, Telegram, Instagram), e-mail,
-- žádný řádek „Udělal …“, žádný blok „Kdo to udělal“, žádný `author` v JSON-LD,
+Do materiálů, do repa ani do commitů **nepiš nic, podle čeho by šlo poznat autora**, kromě tří odkazů na sítě níže:
+- žádné jméno, e-mail ani odkaz na GitHub,
+- žádný řádek „Udělal …“ se jménem, žádný `author` v JSON-LD,
 - žádnou třídu, ročník, školu, jméno učitele ani spolužáků, žádné zmínky o školním plánu,
 - žádné výsledky testů, body, známky ani data konkrétních prověrek,
 - **žádnou zmínku, že obsah je ze sešitu, zápisu, poznámek, fotek nebo tabule.**
   Místo toho piš „zjednodušená verze × jak to bylo“, nebo jen fakta.
 - Do commit message a popisu PR taky nepiš „podle sešitu / fotek / poznámek“. Piš jen, co se změnilo.
 
-Dřívější pravidla o bylinu, bloku autora a odkazech na sítě **neplatí**. Nevracej je.
+**Jediná výjimka (4. 11. 2026): tři sítě.** Do každého materiálu (kromě anonymních kopií) patří:
+1. řádek pod nadpisem `<p class="byline"><a href="#autor">sítě dole</a></p>`,
+2. blok `<section class="author" id="autor">` nad FAQ s nadpisem „Kdo to udělal“, jednou větou
+   („tenhle materiál jsem napsal a naprogramoval já, sám; není to práce nikoho jiného; když ho posíláš dál, nech ho celý i s tímhle blokem“)
+   a třemi odkazy (`target="_blank" rel="noopener noreferrer"`, tlačítka min. 48 px):
 
-Platí i pro nové materiály a pro anonymní kopie (`prirodopis/genetika-pojmy.html`,
-`zemepis/evropa-krajina.html`, `cestina/dopis-lakomec.html`): žádná jména a žádné sítě
-a nesmí se na ně odkazovat z veřejných stránek ani ze sitemap.
+   | síť | jméno | odkaz |
+   |---|---|---|
+   | TikTok | `@waffleninja7` | `https://www.tiktok.com/@waffleninja7` |
+   | Telegram | `@TheWaffleNinja` | `https://t.me/TheWaffleNinja` |
+   | Instagram | `angel_dust.mp4` | `https://www.instagram.com/angel_dust.mp4/` |
+
+3. u tiskových listů v patičce `TikTok @waffleninja7 · Telegram @TheWaffleNinja · IG angel_dust.mp4`.
+Blok je vždy viditelný (v materiálech se `section{display:none}` potřebuje `section.author{display:block}`).
+Barvy ber z proměnných daného souboru. Bez „follow me“, bez tlaku, bez počítadel.
+**GitHub a jméno se nevracejí.**
+
+Platí i pro nové materiály. Anonymní kopie (`prirodopis/genetika-pojmy.html`,
+`zemepis/evropa-krajina.html`, `cestina/dopis-lakomec.html`) nemají ani sítě, a nesmí se na ně odkazovat z veřejných stránek ani ze sitemap.
 
 Nejde to vzít zpět: git historie, staré issues a PR, cache vyhledávačů a to, co už lidé přeposlali.
 Adresa webu a repa obsahuje jméno GitHub účtu. Skutečná anonymita = nový účet a nové repo.
