@@ -134,6 +134,11 @@ složce zůstává jen tenhle `CLAUDE.md` a `qr-original-csob-20kc.jpg`.
   `fyzika/qr-fyzika.png`, `matika/qr-matika.png`, `chemie/qr-chemie2.png`, `spanelstina/qr-spanelstina.png`,
   `zemepis/qr-zemepis.png`.
 - `qr-original-csob-20kc.jpg` — originál z ČSOB appky (pevných 20 Kč), záloha.
+- `.github/scripts/seo.mjs` — při nasazení (`pages.yml`) doplní do `_site` popisky, canonical, Open Graph, JSON-LD, `robots.txt`
+  a `sitemap.xml` (zdrojové soubory se nemění). Nový materiál se zařadí sám. Anonymní kopie, `devmenu.html` a `novinky.html` dostanou
+  `noindex` a nejsou v sitemap — nový anonymní materiál přidej do `NOINDEX` v tomhle skriptu **i** do `IGNORE` v novinky.mjs.
+  Nová složka předmětu = přidat ji do cyklu `for d in …` v `pages.yml` (chybějící `anglictina` dělala na webu 404) a do `SUBJECTS`.
+  Do Google Search Console se web musí přidat ručně (vlastník účtu), kód skript neumí.
 - `devmenu.html` — tajné dev menu (samostatný soubor, CSS+JS uvnitř, lze zkopírovat do jiné AI). Otevírá se z lobby
   (`index.html`): ↑↑↓↓←→←→BA, nebo 5× rychle klepnout na hlavní bublinu „Učivo“. Počítá návštěvy a kliky **jen v tomhle
   prohlížeči** (localStorage `ucivo_dm_*`), statický web nemá server. Data: 6 měsíců, průměry, graf, hodiny, dny v týdnu,
