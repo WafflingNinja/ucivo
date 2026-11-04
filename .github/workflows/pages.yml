@@ -39,8 +39,9 @@ jobs:
           mkdir _site
           cp index.html novinky.html devmenu.html _site/
           touch _site/.nojekyll
-          for d in dejepis cestina fyzika matika chemie zemepis spanelstina prirodopis; do cp -r "$d" _site/; done
+          for d in dejepis cestina fyzika matika chemie zemepis spanelstina anglictina prirodopis; do cp -r "$d" _site/; done
           rm -f _site/cestina/cestina-puvodni-zaloha.html
+          node .github/scripts/seo.mjs _site "${{ steps.pages.outputs.base_url }}"
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site
