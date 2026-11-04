@@ -112,6 +112,11 @@ Co kde je (stručně; jeden materiál = tahák + kartičky + kvíz, pokud není 
 - `novinky.html` + `novinky.json` + `.github/scripts/novinky.mjs` — „co je nového“. Po pushi do `master` (`pages.yml`)
   skript přidá nové/změněné `*/*.html` mezi značky `NOVINKY:START/END` (ručně tam nepiš) a otevře GitHub issue s odkazem
   `wa.me/?text=…`. Přeskakuje anonymní kopie a zálohu (seznam `IGNORE`) — nový anonymní materiál přidej tam.
+- `.github/scripts/build-pdf.mjs` — přegeneruje všech 5 PDF (`fyzika-tisk` 2 strany, `cestina-chyby-tisk` 3, `cestina-skladba-tisk` 3,
+  `baroko-tisk` 1, `mapa-evropy` 3) z HTML; PDF mapy staví z dat v `mapa-evropy.html`. **Po každé úpravě tiskového HTML nebo textu
+  v něm PDF přegeneruj** — PDF jsou hotové soubory a samy se neaktualizují (po úpravě textů v nich zůstalo staré jméno).
+  Spuštění: `NODE_PATH="$(npm root -g)" node .github/scripts/build-pdf.mjs`, pak `pdfinfo` na počet stran a `pdftotext | grep` na zakázané texty.
+  Listy mají pevnou výšku s `overflow:hidden` — co se nevejde, se potichu ořízne (patička se sítěmi), kontroluj text v PDF.
 - `.github/scripts/seo.mjs` — při nasazení doplní do `_site` popisky, canonical, Open Graph, JSON-LD (bez autora),
   `robots.txt` a `sitemap.xml`. Anonymní kopie, `devmenu.html` a `novinky.html` mají `noindex` a nejsou v sitemap —
   nový anonymní materiál přidej do `NOINDEX` v tom skriptu **i** do `IGNORE` v novinky.mjs.
