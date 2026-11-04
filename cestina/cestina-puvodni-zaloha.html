@@ -393,7 +393,7 @@ footer{
   <div class="hero-in">
     <div class="eyebrow">příprava na prověrku</div>
     <h1>Všechno, co v té <em>prověrce</em> bude</h1>
-    <p>Deset okruhů ze zápisu od učitele. U každého krátká teorie, pak cvičení, které ti hned řekne, jestli to máš. Vyjmenovaná slova včetně těch vzácných — s významem, ať víš, co to slovo vůbec je.</p>
+    <p>Deset okruhů. U každého krátká teorie, pak cvičení, které ti hned řekne, jestli to máš. Vyjmenovaná slova včetně těch vzácných — s významem, ať víš, co to slovo vůbec je.</p>
     <div class="hero-meta">
       <span class="chip">vyjmenovaná slova</span>
       <span class="chip">podstatná jm.</span>
@@ -828,7 +828,7 @@ footer{
     <div class="sechead">
       <span class="tag">Okruh 8</span>
       <h2>Skladba — co je věta</h2>
-      <p class="lede">Přesně ta čtveřice příkladů, kterou máš v sešitě. Rozhoduje jediná otázka: <b>je tam určité sloveso?</b></p>
+      <p class="lede">Přesně ta čtveřice příkladů, kterou je potřeba znát. Rozhoduje jediná otázka: <b>je tam určité sloveso?</b></p>
     </div>
 
     <div class="stack">
@@ -843,7 +843,7 @@ footer{
 
       <div class="tablewrap">
         <table>
-          <thead><tr><th>příklad ze sešitu</th><th>co to je</th><th>proč</th></tr></thead>
+          <thead><tr><th>příklad</th><th>co to je</th><th>proč</th></tr></thead>
           <tbody>
             <tr>
               <td><b>Karle?</b></td>
@@ -1032,7 +1032,7 @@ footer{
   </section>
 
   <footer>
-    <span>Sestaveno podle zápisu z hodiny a seznamu vyjmenovaných slov na Wikipedii.</span>
+    <span>Sestaveno podle seznamu vyjmenovaných slov na Wikipedii.</span>
     <button class="btn" id="themeBtn">Přepnout světlý / tmavý</button>
   </footer>
 
@@ -1485,7 +1485,7 @@ const RECIPE = {
     diag: "Chybí ti pevné schéma. Jsou to dvě otázky za sebou, nic víc.",
     steps: [
       "Nauč se schéma jako blokové: <b>Je tam určité sloveso?</b> Ne → větný ekvivalent, konec. Ano → <b>dá se doplnit podmět?</b> Ano → dvojčlenná. Ne → jednočlenná.",
-      "Nauč se zpaměti ty čtyři věty ze sešitu jako vzorové: <i>Karle?</i> · <i>Ten první.</i> · <i>Padala.</i> · <i>Prší.</i> Každou novou větu přiřadíš k jedné z nich.",
+      "Nauč se zpaměti ty čtyři věty jako vzorové: <i>Karle?</i> · <i>Ten první.</i> · <i>Padala.</i> · <i>Prší.</i> Každou novou větu přiřadíš k jedné z nich.",
       "Jednočlenné jsou skoro vždycky <b>počasí a tělo</b>: <i>prší, stmívá se, mrzne, bolí mě hlava, je mi zima</i>.",
       "<b>Nevyjádřený podmět je pořád podmět.</b> <i>Přišel pozdě.</i> = dvojčlenná, protože tam je <i>(on)</i>."
     ]
@@ -1695,7 +1695,7 @@ function buildPrompt(key){
   ).join("\n");
 
   const common =
-    "Jsi doučovatel češtiny. Píšeš žákovi 8. třídy, kterého čeká prověrka za týden "
+    "Jsi doučovatel češtiny. Píšeš žákovi, kterého čeká prověrka za týden "
     + "a má z ní stres. Piš česky, tykej mu, buď věcný a klidný. Žádné chválení do prázdna, "
     + "žádné omluvy, žádné emoji. Krátké věty. Používej konkrétní česká slova a věty jako příklady.\n"
     + "Formátování: nadpis sekce piš na samostatný řádek uzavřený do hranatých závorek, "

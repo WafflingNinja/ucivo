@@ -17,7 +17,6 @@ const NOINDEX = new Set([
   'devmenu.html', 'novinky.html',
   'prirodopis/genetika-pojmy.html', 'zemepis/evropa-krajina.html', 'cestina/dopis-lakomec.html',
 ]);
-const AUTHOR = 'Rosťa Čermák';
 const SITE = 'Učivo';
 
 const esc = (s) => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -74,7 +73,7 @@ for (const rel of files) {
       : {
         '@context': 'https://schema.org', '@type': 'LearningResource', name: title, description: desc, url,
         inLanguage: 'cs', isAccessibleForFree: true, learningResourceType: 'study material',
-        about: subject, author: { '@type': 'Person', name: AUTHOR }, isPartOf: { '@type': 'WebSite', name: SITE, url: `${base}/` },
+        about: subject, isPartOf: { '@type': 'WebSite', name: SITE, url: `${base}/` },
       };
     tags.push(`<script type="application/ld+json">${JSON.stringify(ld).replace(/</g, '\\u003c')}</script>`);
   }
