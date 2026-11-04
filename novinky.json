@@ -1,6 +1,17 @@
 {
- "last": "62f94215f72286d1e39daca44e9b0e598478e900",
+ "last": "003868710dd8bc5dd3e915f1381b9578c8ef8d8f",
  "days": [
+  {
+   "date": "2026-11-04",
+   "items": [
+    {
+     "path": "chemie/chemie-deleni-smesi.html",
+     "title": "dělení směsí, filtrace, chromatografie",
+     "subject": "Chemie",
+     "kind": "update"
+    }
+   ]
+  },
   {
    "date": "2026-10-31",
    "items": [
