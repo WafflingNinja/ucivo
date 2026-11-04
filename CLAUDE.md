@@ -108,6 +108,10 @@ složce zůstává jen tenhle `CLAUDE.md` a `qr-original-csob-20kc.jpg`.
   chybí - není učebnice. Expozice Ecuador (španělština) vynechána, je přidělená jiným žákům.
   QR: `qr-*.png` v každé složce (MSG `FYZIKAVYKON`, `FYZIKAKMITY`, `CHEMIESMESI`, `PRIRODOPIS`, `CESTINASTYLY`, `ANGLICTINA`, `ZEMEPISPRIRODA`).
   `index.html` už sekci s týdenním plánem NEMÁ (smazána, viz Anonymita) a má nové uzly v SVG mapě.
+- `chemie/chemie-deleni-smesi.html` — **přepsáno podle 4 fotek sešitu** (4. 11.): vlastnosti látek (4 smysly, chuť ne, měření, pokus × experiment),
+  stejnorodé × různorodé směsi, tabulka suspenze/emulze/pěna/dým/mlha, 6 metod (přebírání, usazování, filtrace, chromatografie, destilace,
+  krystalizace) + schémata aparatur. Metody mimo sešit jsou pod čarou „Navíc“. Karta „Ověřeno“: nečitelná místa v rukopisu
+  (pokus = „náhoda“?, druhé příklady suspenze/emulze, „frakční baňka“). 34 kartiček, 53 otázek.
 - `cestina/lakomec.html` — literatura: Molière, Lakomec (čtenářský deník pro ty, co to nečetli: tahák, postavy, děj po dějstvích, hotové odpovědi do deníku, kvíz 29 otázek). Ověřeno v cs/en Wikipedii. QR: `cestina/qr-lakomec.png` (MSG `LAKOMEC`).
 - `cestina/dopis-lakomec.html` — **anonymní** (bez bylinu, autora, sítí; ani slovo o třídě/škole/zadání; v `IGNORE` v novinky.mjs).
   Jak napsat dopis o rozdílech kniha × film u Lakomce. Taby: Jak na to · Porovnání (kniha vyplněná, sloupec Film prázdný,
@@ -135,7 +139,7 @@ složce zůstává jen tenhle `CLAUDE.md` a `qr-original-csob-20kc.jpg`.
   prohlížeči** (localStorage `ucivo_dm_*`), statický web nemá server. Data: 6 měsíců, průměry, graf, hodiny, dny v týdnu,
   export/import, demo data, flagy, konzole. Publikuje se přes `pages.yml` (cp řádek) — při přidání souboru do kořene doplnit i tam.
 
-**Tři pasti při úpravách hotového HTML — všechny už jednou zabily:**
+**Čtyři pasti při úpravách hotového HTML — všechny už jednou zabily:**
 
 1. Kotvu nehledej přes `lastIndexOf('</div>')`. Ten řetězec je i uvnitř JavaScriptu
    a blok skončí rozsekaný uprostřed kódu. Vkládej před `<script>`.
@@ -143,6 +147,11 @@ složce zůstává jen tenhle `CLAUDE.md` a `qr-original-csob-20kc.jpg`.
    LF) — když soubor CRLF je, kotva s `\n` nesedne, převeď `\r\n` na `\n`.
 3. V `30leta-valka.html` platí `section{display:none}` (kvůli tabům). Nová
    `<section>` je proto neviditelná, dokud jí nedáš vlastní `display`.
+
+4. Myšlenková mapa v `index.html` (SVG `#g`) se **nedoplňuje sama**. Nový materiál = ručně uzel `<a><g>…` + čára `<path>` od předmětu.
+   Čáru vlož před první `<a` **uvnitř `<g id="vp">`**, ne před první `<a href="#autor">` v souboru — ten je v řádku s autorem nad mapou
+   a čára se pak vykreslí tam místo v mapě. Po přidání zkontroluj `document.querySelectorAll('p.byline path').length === 0`
+   a že každý odkaz v seznamu pod mapou má i uzel v SVG.
 
 Po každé úpravě: `node --check` na vytažený `<script>` **a** kontrola v prohlížeči
 (Playwright chromium je nainstalovaný, `playwright-core` je v npx cache).
