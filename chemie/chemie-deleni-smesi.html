@@ -175,6 +175,106 @@ section.author{display:block}
 .author .links b{color:var(--text);font-weight:800;word-break:break-all}
 .byline{margin:2px 0 10px;font-size:13px;color:var(--dim)}
 .byline b{color:var(--text)}
+
+  /* ===== obrázky a vizuální prvky ===== */
+  :root{--liq:#4fa8e0;--sol:#e0b04e;--drop:#e8864a;--pane:#1c2529}
+  .card[id]{scroll-margin-top:70px}
+  .dg{background:var(--pane);border:1px solid var(--line);border-radius:12px;padding:8px;margin:4px 0 12px}
+  .dg svg{display:block;width:100%;height:auto;max-width:440px;margin:0 auto}
+  .dg text{font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-size:12.5px;fill:#e8efee}
+  .dg text.dim{fill:#94a6a5;font-size:11.5px}
+  .dg .gl{fill:rgba(190,215,225,.08);stroke:#a9c0c4;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+  .dg .st{fill:none;stroke:#a9c0c4;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .dg .metal{fill:#6b7b80;stroke:#a9c0c4;stroke-width:1.5}
+  .dg .liq{fill:var(--liq);fill-opacity:.55}
+  .dg .oil{fill:var(--drop);fill-opacity:.75}
+  .dg .sol{fill:var(--sol)}
+  .dg .drop{fill:var(--drop)}
+  .dg .gasb{fill:rgba(255,255,255,.1);stroke:#e8efee;stroke-width:1.6}
+  .dg .fil{fill:#e8efee;fill-opacity:.3;stroke:#e8efee;stroke-width:1.5}
+  .dg .paper{fill:#eef2f0}
+  .dg .wet{fill:var(--liq);fill-opacity:.3}
+  .dg .fl{stroke:#c9d3d6;stroke-width:2.4;stroke-linecap:round}
+  .dg .bgl{fill:var(--liq);fill-opacity:.4;stroke:#3b4a50;stroke-width:1.5}
+  .dg .bgg{fill:#34434a;stroke:#3b4a50;stroke-width:1.5}
+  .dg .ar line{stroke:#e8efee;stroke-width:2;stroke-linecap:round}
+  .dg .ar polygon{fill:#e8efee}
+  .dg .bd circle{fill:var(--accent)}
+  .dg .bd text{fill:#05231a;font-weight:700;font-size:12px;text-anchor:middle}
+  .dg .bd.hi circle{fill:var(--warn);stroke:#fff;stroke-width:1.5}
+
+  .jump{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+  .jump a{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border:1px solid var(--line);
+    border-radius:999px;background:var(--panel);color:var(--text);font-size:14px;text-decoration:none}
+  .jump a:hover,.jump a:focus-visible{border-color:var(--accent);color:var(--accent)}
+  td a.key{text-decoration:none;display:inline-block;padding:6px 0}
+
+  ol.steps{list-style:none;counter-reset:st;padding:0;margin:8px 0;display:flex;flex-direction:column;gap:8px}
+  ol.steps li{counter-increment:st;position:relative;margin:0;padding:6px 0 6px 40px;min-height:30px;line-height:1.5}
+  ol.steps li::before{content:counter(st);position:absolute;left:0;top:5px;width:28px;height:28px;border-radius:50%;
+    background:var(--accent);color:#05231a;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center}
+  ol.leg{list-style:none;padding:0;margin:0 0 12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:6px 14px}
+  ol.leg li{margin:0;display:flex;align-items:center;gap:10px;font-size:15px}
+  .nb{flex:none;width:24px;height:24px;border-radius:50%;background:var(--accent);color:#05231a;font-weight:700;
+    font-size:13px;display:inline-flex;align-items:center;justify-content:center}
+
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 14px;border:1px solid var(--line);
+    border-radius:999px;background:var(--panel2);font-size:15px}
+  .chip.no{border-color:var(--bad);color:#f3b1b1;text-decoration:line-through;text-decoration-color:var(--bad)}
+
+  ul.tree,ul.tree ul{list-style:none;margin:0;padding:0}
+  ul.tree ul{margin-left:12px;padding-left:14px;border-left:2px solid var(--line)}
+  ul.tree li{margin:8px 0;line-height:1.9}
+  ul.tree .tag{display:block;line-height:1.4;margin:2px 0 0}
+  .nd{display:inline-block;padding:2px 12px;border-radius:9px;font-weight:700;color:#06201a;margin-right:6px}
+  .nd.root{background:#cfe0dd}
+  .nd.pure{background:#8fd9bf}
+  .nd.mix{background:var(--warn)}
+  .nd.hom{background:#7fc4ef}
+  .nd.het{background:#f0a273}
+  .grp{display:inline-block;padding:1px 9px;border-radius:7px;border:1px solid var(--line);background:var(--panel2);
+    color:var(--dim);font-size:13px;margin-right:6px}
+
+  .legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13.5px;color:var(--dim);margin:0 0 8px}
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  .legend i{display:inline-block;width:14px;height:14px}
+  .lg-sol{background:var(--sol);border-radius:2px;transform:rotate(15deg)}
+  .lg-drop{background:var(--drop);border-radius:50%}
+  .lg-gas{border:2px solid #e8efee;border-radius:50%;width:15px;height:15px}
+  .lg-bgl{background:rgba(79,168,224,.45);border-radius:3px}
+  .lg-bgg{background:#34434a;border:1px solid #3b4a50;border-radius:3px}
+  .pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .pgrid.two{grid-template-columns:repeat(2,1fr);max-width:420px}
+  .pc{display:flex;flex-direction:column;gap:2px;font-size:13.5px;line-height:1.35}
+  .pc .dg{padding:4px;margin:0 0 6px}
+  .pc b{color:var(--accent);font-size:16px}
+  .pc span{color:var(--text)}
+  .pc em{color:var(--dim);font-style:normal;font-size:12.5px}
+
+  .bp{display:flex;flex-direction:column;gap:8px;margin:6px 0 10px}
+  .bpr{display:flex;align-items:center;gap:10px}
+  .bpn{flex:none;width:44px;font-weight:600}
+  .bpb{height:34px;border-radius:8px;background:#e8864a;color:#2a1305;font-weight:700;display:flex;align-items:center;
+    padding:0 12px;white-space:nowrap}
+  .bpb.w{background:var(--liq);color:#06202e}
+
+  .pk{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px}
+  .pk button{min-height:var(--tap);text-align:left;background:var(--panel2);border:1px solid var(--line);color:var(--text);
+    border-radius:11px;padding:10px 14px;font:inherit;font-size:15px;cursor:pointer}
+  .pk button.on{border-color:var(--accent);background:#12302a}
+  .pkout{margin-top:12px}
+  .pkout .box{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+  .pkout .q{font-size:17px;margin-bottom:10px}
+  .pkout .m{font-size:22px;font-weight:700;color:var(--accent);margin:4px 0 8px;line-height:1.3}
+  .pkout .why{font-size:15px;color:var(--dim)}
+
+  .fcin{width:100%}
+  .fc .dg{max-width:340px;margin:0 auto 12px;padding:4px}
+  .fc .fcin>div.t{font-size:20px}
+  .qdg{max-width:460px;margin:0 auto 14px}
+  .qdg svg{max-height:250px}
+  .qdg.p{max-width:150px}
 </style>
 </head>
 <body>
@@ -196,6 +296,22 @@ section.author{display:block}
 
   <!-- ==================== TAHÁK ==================== -->
   <section id="uc">
+
+    <div class="card" id="c-plan">
+      <h2>Jak to projít za den</h2>
+      <ol class="steps">
+        <li>Přečti <b>minimum</b> níž (10 vět). Pak jdi shora dolů po kartách.</li>
+        <li>Každá karta má obrázek. <b>Obrázek si prohlédni dřív než text.</b></li>
+        <li>Na konci taháku je <b>Vyber metodu</b>. Zkus hádat, pak ukaž odpověď.</li>
+        <li>Záložka <b>Kartičky</b>: označuj „umím“ a „ještě ne“.</li>
+        <li>Záložka <b>Kvíz</b>: po každém kole pauza. Na konci dej <b>Jen chyby</b>.</li>
+      </ol>
+      <div class="row">
+        <button type="button" class="btn small ghost" data-go="fc">Rovnou kartičky</button>
+        <button type="button" class="btn small ghost" data-go="qz">Rovnou kvíz</button>
+      </div>
+    </div>
+
     <details class="mini" id="mini">
       <summary>Minimum na test — 10 vět</summary>
       <ol>
@@ -212,29 +328,61 @@ section.author{display:block}
       </ol>
     </details>
 
-    <div class="card">
+    <div class="jump" aria-label="Skok na kartu">
+      <a href="#c-mapa">Mapa</a><a href="#c-smesi">Směsi</a><a href="#c-ruz">Různorodé</a><a href="#c-prehled">Přehled metod</a><a href="#c-filtr">Filtrace</a><a href="#c-chrom">Chromatografie</a><a href="#c-dest">Destilace</a><a href="#c-vyber">Vyber metodu</a><a href="#c-over">Ověřeno</a>
+    </div>
+
+    <div class="card" id="c-mapa">
+      <h2>Mapa: co je co</h2>
+      <ul class="tree">
+        <li><span class="nd root">LÁTKY</span>
+          <ul>
+            <li><span class="nd pure">čistá látka</span> <span class="tag">1 látka: destilovaná voda, železo, cukr</span></li>
+            <li><span class="nd mix">směs</span> <span class="tag">aspoň 2 látky</span>
+              <ul>
+                <li><span class="nd hom">stejnorodá</span> = roztok <span class="tag">nerozlišíš: mosaz, mořská voda, vzduch</span></li>
+                <li><span class="nd het">různorodá</span> <span class="tag">rozlišíš</span>
+                  <ul>
+                    <li><span class="grp">v kapalině</span> <b>suspenze</b> · <b>emulze</b> · <b>pěna</b></li>
+                    <li><span class="grp">v plynu</span> <b>dým</b> · <b>mlha</b> <span class="tag">(dohromady aerosol)</span></li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <div class="card" id="c-vlast">
       <h2>Jak zjistíme vlastnosti látek</h2>
+      <h3>Pozorováním — 4 smysly</h3>
+      <div class="chips">
+        <span class="chip">👁️ zrak</span><span class="chip">👂 sluch</span><span class="chip">👃 čich</span><span class="chip">✋ hmat</span><span class="chip no">👅 chuť — ne</span>
+      </div>
+      <div class="note">Chuť v chemii <b>nepoužíváme</b>. Látky mohou být jedovaté.</div>
+      <h3>Měřením</h3>
+      <div class="chips">
+        <span class="chip">🌡️ teplota</span><span class="chip">hustota</span><span class="chip">⚖️ hmotnost</span><span class="chip">objem</span>
+      </div>
+      <h3>Pokus × experiment</h3>
       <ul>
-        <li><span class="key">Pozorováním</span> — smysly. Jsou <b>4</b>: zrak, sluch, čich, hmat.</li>
-        <li><span class="key">Chuť</span> v chemii <b>nepoužíváme</b>. Látky mohou být jedovaté.</li>
-        <li><span class="key">Měřením</span> — teplota, hustota, hmotnost, objem.</li>
         <li><span class="key">Pokus</span> — náhoda.</li>
         <li><span class="key">Experiment</span> — nevíme, co se stane.</li>
       </ul>
     </div>
 
-    <div class="card">
+    <div class="card" id="c-smesi">
       <h2>Co je směs</h2>
+      <div data-dg="smesi"></div>
       <ul>
         <li><span class="key">Čistá látka</span> — jedna látka (destilovaná voda, železo, cukr).</li>
         <li><span class="key">Směs</span> — víc látek dohromady (vzduch, mléko, slaná voda, polévka).</li>
         <li>Složky směsi se dají <b>oddělit fyzikálním způsobem</b> (bez chemické reakce).</li>
+        <li>Voda a slaná voda <b>vypadají stejně</b>. Sůl je rozpuštěná a nevidíš ji. Proto je to <b>stejnorodá</b> směs.</li>
+        <li>V písku s vodou a v oleji s vodou složky <b>vidíš</b>. Je to <b>různorodá</b> směs.</li>
       </ul>
       <div class="note">Fyzikální způsob = třeba filtrace nebo odpařování. Žádná nová látka při tom nevzniká.</div>
-    </div>
-
-    <div class="card">
-      <h2>Stejnorodé × různorodé směsi</h2>
       <div class="tablewrap">
         <table class="wrapcell">
           <thead><tr><th>Druh</th><th>Složky</th><th>Příklad</th></tr></thead>
@@ -246,115 +394,173 @@ section.author{display:block}
       </div>
     </div>
 
-    <div class="card">
+    <div class="card" id="c-ruz">
       <h2>Různorodé směsi — co je v čem</h2>
-      <div class="tablewrap">
-        <table class="wrapcell">
-          <thead><tr><th>Název</th><th>V čem je rozptýleno</th><th>Co je rozptýleno</th><th>Příklad</th></tr></thead>
-          <tbody>
-            <tr><td><b>suspenze</b></td><td rowspan="3">kapalina</td><td>pevná látka</td><td>písek a voda</td></tr>
-            <tr><td><b>emulze</b></td><td>kapalina</td><td>olej a voda</td></tr>
-            <tr><td><b>pěna</b></td><td>plyn</td><td>pěna ze šamponu, z piva</td></tr>
-            <tr><td><b>dým</b></td><td rowspan="2">plyn</td><td>pevná látka</td><td>saze ve vzduchu</td></tr>
-            <tr><td><b>mlha</b></td><td>kapalina</td><td>mraky na nebi</td></tr>
-          </tbody>
-        </table>
+      <div class="legend">
+        <span><i class="lg-sol"></i>pevná látka</span>
+        <span><i class="lg-drop"></i>kapalina (kapky)</span>
+        <span><i class="lg-gas"></i>plyn (bublinky)</span>
       </div>
-      <div class="note">Dým a mlha dohromady se říká <b>aerosol</b>. Zapamatuj si: suspenze, emulze, pěna = v <b>kapalině</b>. Dým, mlha = v <b>plynu</b>.</div>
+      <div class="legend">
+        <span><i class="lg-bgl"></i>pozadí modré = v kapalině</span>
+        <span><i class="lg-bgg"></i>pozadí šedé = v plynu</span>
+      </div>
+      <h3>Rozptýleno v <span class="key">kapalině</span></h3>
+      <div class="pgrid">
+        <div class="pc"><div data-dg="susp"></div><b>suspenze</b><span>pevná látka</span><em>písek a voda</em></div>
+        <div class="pc"><div data-dg="emul"></div><b>emulze</b><span>kapalina</span><em>olej a voda</em></div>
+        <div class="pc"><div data-dg="pena"></div><b>pěna</b><span>plyn</span><em>pěna ze šamponu, z piva</em></div>
+      </div>
+      <h3>Rozptýleno v <span class="key">plynu</span></h3>
+      <div class="pgrid two">
+        <div class="pc"><div data-dg="dym"></div><b>dým</b><span>pevná látka</span><em>saze ve vzduchu</em></div>
+        <div class="pc"><div data-dg="mlha"></div><b>mlha</b><span>kapalina</span><em>mraky na nebi</em></div>
+      </div>
+      <div class="note">Dým a mlha dohromady se říká <b>aerosol</b>. Suspenze, emulze, pěna = v <b>kapalině</b>. Dým, mlha = v <b>plynu</b>. Obrázky jsou zvětšené a schematické.</div>
     </div>
 
-    <div class="card">
-      <h2>Oddělování složek ze směsi</h2>
-      <ul>
-        <li>Složky se dají oddělit podle <span class="key">rozdílných fyzikálních vlastností</span>: hustota, teplota varu, rozpustnost.</li>
-      </ul>
+    <div class="card" id="c-prehled">
+      <h2>Přehled metod — co využívají</h2>
+      <p class="tag">Klepni na název metody, skočíš na její obrázek.</p>
       <div class="tablewrap">
         <table class="wrapcell">
           <thead><tr><th>Metoda</th><th>Co využívá</th><th>Příklad</th></tr></thead>
           <tbody>
-            <tr><td><b>přebírání</b></td><td>tělesa se liší barvou, hmotností, tvarem nebo magnetismem</td><td>třídění odpadu</td></tr>
-            <tr><td><b>usazování</b></td><td>nerozpustná látka klesne ke dnu</td><td>čištění vody</td></tr>
-            <tr><td><b>filtrace</b></td><td>pevné částice zůstanou na papíře, vzniká filtrát</td><td>písek a voda</td></tr>
-            <tr><td><b>chromatografie</b></td><td>složky se různě vážou na jinou látku, pomocí rozpouštědla</td><td>rostlinná barviva</td></tr>
-            <tr><td><b>destilace</b></td><td>různá teplota varu, pára se ochladí v chladiči</td><td>alkohol, destilovaná voda</td></tr>
-            <tr><td><b>krystalizace</b></td><td>kapalina se odpaří, vzniknou krystaly</td><td>sůl z mořské vody</td></tr>
+            <tr><td><a class="key" href="#c-preb">přebírání</a></td><td>tělesa se liší barvou, hmotností, tvarem nebo magnetismem</td><td>třídění odpadu</td></tr>
+            <tr><td><a class="key" href="#c-usaz">usazování</a></td><td>nerozpustná látka klesne ke dnu</td><td>čištění vody</td></tr>
+            <tr><td><a class="key" href="#c-filtr">filtrace</a></td><td>pevné částice zůstanou na papíře, vzniká filtrát</td><td>písek a voda</td></tr>
+            <tr><td><a class="key" href="#c-chrom">chromatografie</a></td><td>složky se různě vážou na jinou látku, pomocí rozpouštědla</td><td>rostlinná barviva</td></tr>
+            <tr><td><a class="key" href="#c-dest">destilace</a></td><td>různá teplota varu, pára se ochladí v chladiči</td><td>alkohol, destilovaná voda</td></tr>
+            <tr><td><a class="key" href="#c-kryst">krystalizace</a></td><td>kapalina se odpaří, vzniknou krystaly</td><td>sůl z mořské vody</td></tr>
             <tr><td colspan="3"><i>Navíc — doplňující metody</i></td></tr>
+            <tr><td><a class="key" href="#c-nalevka">dělicí nálevka</a></td><td>dvě kapaliny, které se nemíchají</td><td>olej a voda</td></tr>
             <tr><td><b>odstřeďování</b></td><td>různá hustota, točí se to rychle</td><td>krev, mléko</td></tr>
-            <tr><td><b>dělicí nálevka</b></td><td>dvě kapaliny, které se nemíchají</td><td>olej a voda</td></tr>
             <tr><td><b>sublimace</b></td><td>jedna složka se mění přímo na plyn</td><td>jód a písek</td></tr>
             <tr><td><b>extrakce</b></td><td>látka se rozpustí v jiném rozpouštědle</td><td>čaj, káva</td></tr>
           </tbody>
         </table>
       </div>
+      <div class="note">Metodu vybíráš podle <span class="key">rozdílné fyzikální vlastnosti</span> složek: hustota, teplota varu, rozpustnost.</div>
     </div>
 
-    <div class="card">
-      <h2>Přebírání a usazování</h2>
+    <div class="card" id="c-preb">
+      <h2>Přebírání (magnet)</h2>
+      <div data-dg="magnet"></div>
       <ul>
-        <li><span class="key">Přebírání</span> — oddělování složek (těles), když se liší <b>barvou, hmotností, tvarem</b> nebo <b>magnetickými vlastnostmi</b>.</li>
+        <li>Odděluje <b>tělesa</b>, která se liší <b>barvou, hmotností, tvarem</b> nebo <b>magnetickými vlastnostmi</b>.</li>
         <li>Příklad: <b>třídění odpadu</b>.</li>
-        <li><span class="key">Usazování</span> — rozdělení, když je jedna látka <b>nerozpustná</b>. Těžší látka klesne dolů.</li>
-        <li>Příklad: <b>čištění vody</b>.</li>
-        <li>Na schématu je <b>dělicí nálevka</b>: nahoře olej, dole voda. Spodní vrstvu vypustíš kohoutem.</li>
+        <li>Železo je magnetické, písek ne. Magnet vytáhne piliny a písek zůstane.</li>
       </ul>
     </div>
 
-    <div class="card">
+    <div class="card" id="c-usaz">
+      <h2>Usazování</h2>
+      <div data-dg="usaz"></div>
+      <ul>
+        <li>Použiješ, když je jedna látka <b>nerozpustná</b>.</li>
+        <li>Těžší látka klesne dolů, nahoře zůstane čistá kapalina. Tu opatrně sliješ.</li>
+        <li>Příklad: <b>čištění vody</b>.</li>
+      </ul>
+    </div>
+
+    <div class="card" id="c-nalevka">
+      <h2>Dělicí nálevka</h2>
+      <div data-dg="nalevka"></div>
+      <ul>
+        <li>Pro <b>dvě kapaliny, které se nemíchají</b> (olej a voda).</li>
+        <li>Nahoře je <b>olej</b>, dole <b>voda</b>.</li>
+        <li>Spodní vrstvu vypustíš <b>kohoutem</b>.</li>
+      </ul>
+    </div>
+
+    <div class="card" id="c-filtr">
       <h2>Filtrace — laboratorní práce</h2>
+      <div data-dg="filtr"></div>
+      <ol class="leg">
+        <li><span class="nb">1</span>kádinka se směsí</li>
+        <li><span class="nb">2</span>skleněná tyčinka</li>
+        <li><span class="nb">3</span>filtrační nálevka s filtrem</li>
+        <li><span class="nb">4</span>filtrační kruh</li>
+        <li><span class="nb">5</span>kádinka s filtrátem</li>
+        <li><span class="nb">6</span>laboratorní stojan</li>
+      </ol>
       <ul>
         <li>Dělí <b>pevné látky od kapalin</b>. Vzniká <span class="key">filtrát</span>.</li>
-        <li>Schéma (5 částí + stojan): <b>kádinka se směsí</b> · <b>skleněná tyčinka</b> · <b>filtrační nálevka s filtrem</b> · <b>filtrační kruh</b> · <b>kádinka s filtrátem</b> · laboratorní stojan.</li>
-        <li><span class="key">1.</span> Filtrační papír složíš na čtvrtiny a vložíš do nálevky (jako kornout).</li>
-        <li><span class="key">2.</span> Papír trochu <b>navlhčíš</b> vodou, ať přilne ke stěně nálevky.</li>
-        <li><span class="key">3.</span> Nálevku dáš do <b>filtračního kruhu</b> na <b>laboratorním stojanu</b>. Pod ni <b>kádinku</b>.</li>
-        <li><span class="key">4.</span> Špička nálevky se opírá o <b>vnitřní stěnu kádinky</b>, aby to nestříkalo.</li>
-        <li><span class="key">5.</span> Směs lij <b>po skleněné tyčince</b> na papír. Nenalévej nad okraj papíru.</li>
-        <li><span class="key">6.</span> Co zůstane na papíře, je <span class="key">zbytek na filtru</span>. Co projde do kádinky, je <span class="key">filtrát</span>.</li>
       </ul>
+      <h3>Postup</h3>
+      <ol class="steps">
+        <li>Filtrační papír složíš na čtvrtiny a vložíš do nálevky (jako kornout).</li>
+        <li>Papír trochu <b>navlhčíš</b> vodou, ať přilne ke stěně nálevky.</li>
+        <li>Nálevku dáš do <b>filtračního kruhu</b> na <b>laboratorním stojanu</b>. Pod ni <b>kádinku</b>.</li>
+        <li>Špička nálevky se opírá o <b>vnitřní stěnu kádinky</b>, aby to nestříkalo.</li>
+        <li>Směs lij <b>po skleněné tyčince</b> na papír. Nenalévej nad okraj papíru.</li>
+        <li>Co zůstane na papíře, je <span class="key">zbytek na filtru</span>. Co projde do kádinky, je <span class="key">filtrát</span>.</li>
+      </ol>
       <div class="note">Filtrát je čistá kapalina bez pevných částic, ale <b>pořád může mít rozpuštěnou látku</b>. Rozpuštěná sůl projde filtrem také.</div>
     </div>
 
-    <div class="card">
+    <div class="card" id="c-chrom">
       <h2>Chromatografie — laboratorní práce</h2>
+      <div data-dg="chrom"></div>
+      <ol class="leg">
+        <li><span class="nb">1</span>tečka fixy (barvivo)</li>
+        <li><span class="nb">2</span>čára tužkou</li>
+        <li><span class="nb">3</span>rozpouštědlo (hladina)</li>
+        <li><span class="nb">4</span>proužek papíru</li>
+        <li><span class="nb">5</span>čelo rozpouštědla</li>
+        <li><span class="nb">6</span>rozdělená barviva</li>
+      </ol>
       <ul>
         <li>Dělí složky podle <b>schopnosti vázat se na jinou látku</b>, pomocí <b>rozpouštědla</b>.</li>
         <li>Příklad: <b>získání rostlinných barviv</b>.</li>
-        <li><span class="key">1.</span> Z filtračního papíru nebo papíru na chromatografii vystřihni <b>proužek</b>.</li>
-        <li><span class="key">2.</span> <b>Tužkou</b> udělej čáru asi 2 cm od spodního okraje. Propiska by se rozpustila a zkazila by pokus.</li>
-        <li><span class="key">3.</span> Na čáru udělej <b>tečku fixou</b> (barvivo).</li>
-        <li><span class="key">4.</span> Do kádinky nalij trochu rozpouštědla (voda nebo líh) a proužek zavěs dovnitř.</li>
-        <li><span class="key">5.</span> Tečka musí být <b>nad hladinou</b>. Jinak se barvivo smyje do kádinky.</li>
-        <li><span class="key">6.</span> Rozpouštědlo <b>stoupá papírem</b> a táhne barviva různě rychle. Barva fixy se rozdělí na své složky.</li>
-        <li><span class="key">7.</span> Když rozpouštědlo dojde skoro nahoru, proužek vyndej a nech uschnout.</li>
       </ul>
+      <h3>Postup</h3>
+      <ol class="steps">
+        <li>Z filtračního papíru nebo papíru na chromatografii vystřihni <b>proužek</b>.</li>
+        <li><b>Tužkou</b> udělej čáru asi 2 cm od spodního okraje. Propiska by se rozpustila a zkazila by pokus.</li>
+        <li>Na čáru udělej <b>tečku fixou</b> (barvivo).</li>
+        <li>Do kádinky nalij trochu rozpouštědla (voda nebo líh) a proužek zavěs dovnitř.</li>
+        <li>Tečka musí být <b>nad hladinou</b>. Jinak se barvivo smyje do kádinky.</li>
+        <li>Rozpouštědlo <b>stoupá papírem</b> a táhne barviva různě rychle. Barva fixy se rozdělí na své složky.</li>
+        <li>Když rozpouštědlo dojde skoro nahoru, proužek vyndej a nech uschnout.</li>
+      </ol>
       <div class="note">Fixa je <b>směs barviv</b>. Chromatografie ukáže, z jakých. Barviva, která se lépe rozpouštějí a méně se drží papíru, putují výš.</div>
     </div>
 
-    <div class="card">
+    <div class="card" id="c-dest">
       <h2>Destilace</h2>
+      <div data-dg="dest"></div>
+      <ol class="leg">
+        <li><span class="nb">1</span>teploměr</li>
+        <li><span class="nb">2</span>frakční baňka se směsí</li>
+        <li><span class="nb">3</span>žíhací kruh s keramickou síťkou</li>
+        <li><span class="nb">4</span>plynový kahan (zdroj tepla)</li>
+        <li><span class="nb">5</span>chladič + studená voda</li>
+        <li><span class="nb">6</span>kuželová baňka na jímání destilátu</li>
+        <li><span class="nb">7</span>laboratorní stojan</li>
+      </ol>
       <ul>
         <li>Dělí složky <b>stejnorodých směsí</b> s různou <span class="key">teplotou varu</span>.</li>
         <li>Pomocí <b>chladiče</b>. Příklad: <b>výroba alkoholu</b> nebo <b>destilované vody</b>.</li>
-        <li>Kapalinu zahříváš. Látka s <b>nižší teplotou varu</b> se vypaří první.</li>
-        <li>Pára jde do <b>chladiče</b>, tam zkapalní a kape do <b>kuželové baňky</b> (destilát).</li>
-        <li><span class="key">Teploměr</span> ukazuje teplotu par.</li>
-        <li>Příklad: líh vře při asi <b>78 °C</b>, voda při <b>100 °C</b>. Líh jde první.</li>
       </ul>
-      <h3>Části aparatury (ze schématu)</h3>
-      <ol>
-        <li><b>Teploměr</b></li>
-        <li><b>Frakční baňka</b> se směsí</li>
-        <li><b>Žíhací kruh s keramickou síťkou</b></li>
-        <li><b>Plynový kahan</b> (zdroj tepla)</li>
-        <li><b>Chladič</b> + <b>studená voda</b></li>
-        <li><b>Kuželová baňka</b> na jímání destilátu</li>
-        <li><b>Laboratorní stojan</b></li>
+      <h3>Co se děje — 4 kroky</h3>
+      <ol class="steps">
+        <li>Kapalinu zahříváš. Látka s <b>nižší teplotou varu</b> se vypaří první.</li>
+        <li><span class="key">Teploměr</span> ukazuje teplotu par.</li>
+        <li>Pára jde do <b>chladiče</b> a tam zkapalní.</li>
+        <li>Kape do <b>kuželové baňky</b>. Tomu, co nakape, se říká <b>destilát</b>.</li>
       </ol>
+      <h3>Líh × voda: kdo jde první</h3>
+      <div class="bp">
+        <div class="bpr"><span class="bpn">líh</span><span class="bpb" style="width:78%">78 °C · jde první</span></div>
+        <div class="bpr"><span class="bpn">voda</span><span class="bpb w" style="width:100%">100 °C</span></div>
+      </div>
       <div class="note">Destilací z mořské vody získáš vodu. Sůl zůstane v baňce.</div>
     </div>
 
-    <div class="card">
+    <div class="card" id="c-kryst">
       <h2>Krystalizace</h2>
+      <div data-dg="kryst"></div>
       <ul>
         <li>Dělí <b>rozpuštěné látky</b>.</li>
         <li>Kapalinu <b>odpaříš</b> a vznikají <span class="key">krystaly</span>.</li>
@@ -362,38 +568,28 @@ section.author{display:block}
       </ul>
     </div>
 
-    <div class="card">
-      <h2>Jak vybrat metodu — příklady</h2>
-      <div class="tablewrap">
-        <table class="wrapcell">
-          <thead><tr><th>Směs</th><th>Metoda</th></tr></thead>
-          <tbody>
-            <tr><td><b>písek + voda</b></td><td>filtrace nebo usazování a slití</td></tr>
-            <tr><td><b>sůl rozpuštěná ve vodě (chceš sůl)</b></td><td>odpařování / krystalizace</td></tr>
-            <tr><td><b>sůl rozpuštěná ve vodě (chceš vodu)</b></td><td>destilace</td></tr>
-            <tr><td><b>železné piliny + písek</b></td><td>magnet</td></tr>
-            <tr><td><b>olej + voda</b></td><td>dělicí nálevka</td></tr>
-            <tr><td><b>líh + voda</b></td><td>destilace</td></tr>
-            <tr><td><b>barviva ve fixě</b></td><td>chromatografie</td></tr>
-            <tr><td><b>sůl + písek</b></td><td>rozpustit ve vodě → filtrace (písek) → odpařit (sůl)</td></tr>
-          </tbody>
-        </table>
-      </div>
+    <div class="card" id="c-vyber">
+      <h2>Vyber metodu</h2>
+      <p class="tag">Klepni na směs. Nejdřív hádej, pak klepni na „Ukázat“.</p>
+      <div class="pk" id="pk"></div>
+      <div id="pkout" class="pkout" aria-live="polite"></div>
     </div>
 
-    <div class="card">
+    <div class="card" id="c-over">
       <h2>Ověřeno — kde to bývá nepřesné</h2>
       <ul>
         <li><b>Filtrace sůl z vody neoddělí.</b> Rozpuštěná sůl jsou částice menší než póry v papíře. Projde s vodou.</li>
         <li><b>Slaná voda je stejnorodá směs i roztok.</b> To je jedno a totéž, jen dva názvy.</li>
         <li><b>Voda a líh:</b> líh vře asi při 78 °C, voda při 100 °C. Část vody jde s lihem také, proto se destiluje opakovaně. Pro test stačí „líh první“.</li>
+        <li><b>Chladič:</b> studená voda teče <b>dole dovnitř, nahoře ven</b>. Tak je chladič celý zaplněný vodou. Do testu stačí „chladič se studenou vodou“.</li>
         <li><b>Co psát do testu × jak to bylo:</b> níže jsou místa, kde je výklad zkrácený nebo jde číst dvojím způsobem.</li>
         <li><b>Směs.</b> Někdy se píše „látky z více než 2 částic“. Správně: směs jsou <b>aspoň dvě různé látky</b>.</li>
         <li><b>Pokus × experiment.</b> Pokus = náhoda, experiment = nevíme, co se stane. Přesné vymezení se v učebnicích liší, ověř si ho.</li>
         <li><b>Pěna.</b> Často se uvádí jen plyn v kapalině. Existuje i plyn v pevné látce (molitan). Do testu piš „plyn v kapalině“.</li>
-        <li><b>Frakční baňka.</b> Ve schématu je „frakční baňka“. Běžně se používá i název <b>destilační baňka</b>. Do testu piš název, který chce zadání.</li>
+        <li><b>Frakční baňka.</b> V obrázku je „frakční baňka“. Běžně se používá i název <b>destilační baňka</b>. Do testu piš název, který chce zadání.</li>
         <li><b>Další příklady.</b> K suspenzi a emulzi se uvádí i cukr a benzín nebo rtuť a voda. Nejsou tu ověřené, proto je v tabulce nemám. Jisté jsou písek a voda, olej a voda.</li>
         <li><b>Dým × kouř.</b> Dým = saze ve vzduchu, v příkladu různorodých směsí je „kouř“. Oboje je pevná látka v plynu.</li>
+        <li><b>Obrázky</b> jsou schematické. Tvary a velikosti nejsou přesné. Uč se názvy částí a čísla, ne přesný tvar.</li>
       </ul>
     </div>
 
@@ -442,7 +638,7 @@ section.author{display:block}
     </details>
     <details>
       <summary>Proč bych ti posílal peníze?</summary>
-      <div class="fa">Protože to zabralo čas, který jsi nemusel obětovat ty. Je tady <b>minimum na 10 vět</b>, přehled všech metod, <b>postup laboratorní práce</b> (filtrace i chromatografie), <b>34 kartiček</b> a <b>53 otázek</b>. Když ti to ušetří hodinu, dvacka je slušný kurz.</div>
+      <div class="fa">Protože to zabralo čas, který jsi nemusel obětovat ty. Je tady <b>minimum na 10 vět</b>, přehled všech metod, <b>obrázky aparatur</b>, <b>postup laboratorní práce</b> (filtrace i chromatografie), <b>42 kartiček</b> a <b>74 otázek</b>. Když ti to ušetří hodinu, dvacka je slušný kurz.</div>
     </details>
     <details>
       <summary>Zaručuje mi to dobrou známku?</summary>
@@ -486,8 +682,249 @@ section.author{display:block}
   </div>
 
 <script>
+/* ===== obrázky (SVG, schematické) ===== */
+var DG={};
+function clipY(p,y0,below){
+  var o=[],n=p.length;
+  function ins(a){return below?a[1]>=y0:a[1]<=y0;}
+  for(var i=0;i<n;i++){
+    var a=p[i],b=p[(i+1)%n],ia=ins(a),ib=ins(b);
+    if(ia){o.push(a);}
+    if(ia!==ib){var t=(y0-a[1])/(b[1]-a[1]);o.push([a[0]+t*(b[0]-a[0]),y0]);}
+  }
+  return o;
+}
+function pts(p){return p.map(function(q){return q[0].toFixed(1)+','+q[1].toFixed(1);}).join(' ');}
+function rot(p,cx,cy,deg){var r=deg*Math.PI/180,c=Math.cos(r),s=Math.sin(r);return p.map(function(q){var x=q[0]-cx,y=q[1]-cy;return [cx+x*c-y*s,cy+x*s+y*c];});}
+function poly(p,c){return '<polygon class="'+c+'" points="'+pts(p)+'"/>';}
+function svgw(w,h,body,label,x0){return '<svg viewBox="'+(x0||0)+' 0 '+w+' '+h+'" role="img" aria-label="'+label+'" focusable="false">'+body+'</svg>';}
+function badge(n,x,y,o){
+  if(o&&(o.none||(o.only&&o.only!==n))){return '';}
+  return '<g class="bd'+(o&&o.only?' hi':'')+'"><circle cx="'+x+'" cy="'+y+'" r="10"/><text x="'+x+'" y="'+(y+4.5)+'">'+n+'</text></g>';
+}
+function tx(s,x,y,a,c){return '<text'+(c?' class="'+c+'"':'')+' x="'+x+'" y="'+y+'" text-anchor="'+(a||'start')+'">'+s+'</text>';}
+function rect(c,x,y,w,h,e){return '<rect class="'+c+'" x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'"'+(e||'')+'/>';}
+function arrow(x1,y1,x2,y2,c){
+  var a=Math.atan2(y2-y1,x2-x1),h=7,l=function(d){return [x2-h*Math.cos(a+d),y2-h*Math.sin(a+d)];},p=l(0.45),q=l(-0.45);
+  return '<g class="'+(c||'ar')+'"><line x1="'+x1+'" y1="'+y1+'" x2="'+(x2-3*Math.cos(a))+'" y2="'+(y2-3*Math.sin(a))+'"/><polygon points="'+x2+','+y2+' '+p[0].toFixed(1)+','+p[1].toFixed(1)+' '+q[0].toFixed(1)+','+q[1].toFixed(1)+'"/></g>';
+}
+function beaker(x,y,w,h){
+  return '<path class="gl" d="M'+(x-3)+' '+(y-3)+' L'+x+' '+y+' V'+(y+h-5)+' Q'+x+' '+(y+h)+' '+(x+5)+' '+(y+h)+' H'+(x+w-5)+' Q'+(x+w)+' '+(y+h)+' '+(x+w)+' '+(y+h-5)+' V'+y+' L'+(x+w+3)+' '+(y-3)+'"/>';
+}
+function rnd(seed){return function(){seed=(seed*1664525+1013904223)%4294967296;return seed/4294967296;};}
+function scatter(n,seed,minD,x0,y0,x1,y1){
+  var r=rnd(seed),a=[],t=0;
+  while(a.length<n&&t<5000){
+    t++;
+    var x=x0+r()*(x1-x0),y=y0+r()*(y1-y0),ok=true;
+    for(var i=0;i<a.length;i++){var dx=a[i][0]-x,dy=a[i][1]-y;if(dx*dx+dy*dy<minD*minD){ok=false;break;}}
+    if(ok){a.push([x,y,r()]);}
+  }
+  return a;
+}
+function grain(q,s,c){return '<rect class="'+(c||'sol')+'" x="'+(q[0]-s/2).toFixed(1)+'" y="'+(q[1]-s/2).toFixed(1)+'" width="'+s+'" height="'+s+'" transform="rotate('+((q[2]*90)|0)+' '+q[0].toFixed(1)+' '+q[1].toFixed(1)+')"/>';}
+
+/* --- částicový model (100×100) --- */
+function particles(kind){
+  var gas=(kind==='dym'||kind==='mlha'),b='<rect class="'+(gas?'bgg':'bgl')+'" x="1" y="1" width="98" height="98" rx="9"/>',a;
+  if(kind==='susp'){a=scatter(15,7,15,10,10,90,90);a.forEach(function(q){b+=grain(q,9);});}
+  if(kind==='emul'){a=scatter(9,3,21,14,14,86,86);a.forEach(function(q){b+='<circle class="drop" cx="'+q[0].toFixed(1)+'" cy="'+q[1].toFixed(1)+'" r="'+(5+q[2]*5).toFixed(1)+'"/>';});}
+  if(kind==='pena'){a=scatter(9,5,22,14,14,86,86);a.forEach(function(q){b+='<circle class="gasb" cx="'+q[0].toFixed(1)+'" cy="'+q[1].toFixed(1)+'" r="'+(5+q[2]*6).toFixed(1)+'"/>';});}
+  if(kind==='dym'){a=scatter(16,9,16,9,9,91,91);a.forEach(function(q){b+=grain(q,6);});}
+  if(kind==='mlha'){a=scatter(20,11,13,9,9,91,91);a.forEach(function(q){b+='<circle class="drop" cx="'+q[0].toFixed(1)+'" cy="'+q[1].toFixed(1)+'" r="3.4"/>';});}
+  return svgw(100,100,b,{susp:'pevné částice v kapalině',emul:'kapky kapaliny v kapalině',pena:'bublinky plynu v kapalině',dym:'pevné částice v plynu',mlha:'kapičky kapaliny v plynu'}[kind]);
+}
+['susp','emul','pena','dym','mlha'].forEach(function(k){DG[k]=function(){return particles(k);};});
+
+/* --- čistá látka × roztok × suspenze × emulze --- */
+DG.smesi=function(){
+  var b='',xs=[45,135,225,315],lab=[['voda','čistá látka'],['slaná voda','stejnorodá'],['písek + voda','různorodá'],['olej + voda','různorodá']];
+  var y=22,h=88,w=64,i;
+  xs.forEach(function(c,k){
+    var x=c-32;
+    if(k<2){b+=rect('liq',x+1,y+28,w-2,h-29);}
+    if(k===2){
+      b+=rect('liq',x+1,y+28,w-2,h-29);
+      scatter(7,4,13,x+8,y+34,x+w-8,y+h-20).forEach(function(q){b+=grain(q,5);});
+      for(i=0;i<9;i++){b+=grain([x+8+i*6.4,y+h-6-(i%2)*4,(i*37%100)/100],5.5);}
+    }
+    if(k===3){b+=rect('liq',x+1,y+56,w-2,h-57)+rect('oil',x+1,y+28,w-2,28);}
+    b+=beaker(x,y,w,h);
+    b+=tx(lab[k][0],c,y+h+20,'middle')+tx(lab[k][1],c,y+h+36,'middle','dim');
+  });
+  return svgw(360,160,b,'Čtyři kádinky: čistá voda, slaná voda, písek ve vodě, olej na vodě');
+};
+
+/* --- magnet (přebírání) --- */
+DG.magnet=function(){
+  var b='',i,j;
+  b+='<path class="gl" d="M70 118 Q70 160 110 160 H250 Q290 160 290 118 Z"/>';
+  scatter(90,6,6.2,94,134,262,152).forEach(function(q){b+=grain(q,4.6);});
+  [[120,128,20],[150,131,-30],[178,127,50],[205,132,-10],[232,129,35],[258,133,-45],[135,134,70],[196,126,-60]].forEach(function(q){
+    b+='<line class="fl" x1="'+(q[0]-5)+'" y1="'+q[1]+'" x2="'+(q[0]+5)+'" y2="'+q[1]+'" transform="rotate('+q[2]+' '+q[0]+' '+q[1]+')"/>';
+  });
+  b+='<rect x="150" y="14" width="30" height="32" fill="#d9534f"/><rect x="180" y="14" width="30" height="32" fill="#a9c0c4"/><rect class="st" x="150" y="14" width="60" height="32" rx="3"/>';
+  [[156,52,25],[166,58,-20],[177,54,40],[188,60,-35],[199,55,15],[208,52,-40],[172,65,60],[193,67,-70]].forEach(function(q){
+    b+='<line class="fl" x1="'+(q[0]-5)+'" y1="'+q[1]+'" x2="'+(q[0]+5)+'" y2="'+q[1]+'" transform="rotate('+q[2]+' '+q[0]+' '+q[1]+')"/>';
+  });
+  b+=arrow(180,108,180,84);
+  b+=tx('železné piliny se přichytí',222,62,'start','dim');
+  b+=tx('magnet',100,34,'end');
+  b+=tx('písek zůstane v misce',180,184,'middle');
+  return svgw(360,196,b,'Magnet vytáhne železné piliny z písku');
+};
+
+/* --- usazování --- */
+DG.usaz=function(){
+  var b='',i;
+  b+=rect('liq',51,48,78,81)+rect('liq',231,48,78,81);
+  scatter(16,2,15,58,56,122,122).forEach(function(q){b+=grain(q,6);});
+  for(i=0;i<9;i++){b+=grain([238+i*8,121-(i%2)*4,(i*41%100)/100],6.5);}
+  for(i=0;i<8;i++){b+=grain([242+i*8,114-(i%2)*3,(i*23%100)/100],6.5);}
+  b+=beaker(50,20,80,110)+beaker(230,20,80,110);
+  b+=arrow(148,78,212,78);
+  b+=tx('necháš stát',180,68,'middle','dim');
+  b+=tx('hned po zamíchání',90,154,'middle');
+  b+=tx('po usazení',270,154,'middle');
+  b+=tx('čirá voda',270,40,'middle','dim');
+  return svgw(360,166,b,'Usazování: písek klesne ke dnu a nad ním zůstane čistá voda');
+};
+
+/* --- dělicí nálevka --- */
+DG.nalevka=function(){
+  var L=[[175,30],[175,46],[150,66],[132,98],[128,128],[142,156],[160,174],[176,190],[176,214]];
+  var R=L.slice().reverse().map(function(q){return [360-q[0],q[1]];});
+  var P=L.concat(R),b='',oil=clipY(clipY(P,88,true),130,false),wat=clipY(P,130,true);
+  b+=rect('liq',141,252,78,19)+beaker(140,226,80,46);
+  b+=poly(wat,'liq')+poly(oil,'oil');
+  b+='<polygon class="gl" points="'+pts(P)+'"/>';
+  b+='<rect x="171" y="20" width="18" height="12" rx="2" fill="#8a6a4a" stroke="#a9c0c4" stroke-width="1.5"/>';
+  b+='<rect class="metal" x="170" y="198" width="20" height="9" rx="2"/><line x1="190" y1="203" x2="212" y2="194" stroke="#a9c0c4" stroke-width="4" stroke-linecap="round"/>';
+  b+='<circle class="liq" cx="180" cy="220" r="2.6"/>';
+  b+=rect('oil',244,92,12,12)+tx('olej — nahoře',262,102)+tx('(menší hustota)',262,117,'start','dim');
+  b+=rect('liq',244,142,12,12)+tx('voda — dole',262,152);
+  b+=tx('kohout',226,192,'start','dim');
+  return svgw(360,276,b,'Dělicí nálevka: nahoře olej, dole voda, spodní vrstva se vypustí kohoutem');
+};
+
+/* --- filtrace (číslované části) --- */
+DG.filtr=function(o){
+  var b='',cone=[[142,96],[272,96],[213,156],[201,156]];
+  b+=rect('liq',201,248,88,26)+beaker(200,205,90,70)+rect('liq',201,248,88,26);
+  b+='<circle class="liq" cx="207" cy="240" r="2.8"/>';
+  b+=rect('metal',326,20,6,262)+rect('metal',186,274,170,8);
+  b+=rect('metal',320,122,18,12);
+  /* nálevka */
+  b+='<polygon class="fil" points="146,92 207,158 268,92"/>';
+  b+='<polygon class="liq" points="158,112 256,112 213,156 201,156"/>';
+  [[205,148],[211,151],[208,144],[203,152]].forEach(function(q){b+='<circle class="sol" cx="'+q[0]+'" cy="'+q[1]+'" r="2.6"/>';});
+  b+='<path class="gl" d="M142 96 H272 L213 156 V232 H201 V156 Z"/>';
+  b+='<line x1="158" y1="128" x2="326" y2="128" stroke="#a9c0c4" stroke-width="4" stroke-linecap="round"/>';
+  /* tyčinka */
+  b+='<line x1="240" y1="30" x2="224" y2="140" stroke="#dcebee" stroke-width="4" stroke-linecap="round"/>';
+  /* nakloněná kádinka se směsí */
+  var D=[236,52];
+  var pv=rot([[D[0]-54,D[1]],[D[0]-54,D[1]+66],[D[0],D[1]+66],[D[0],D[1]]],D[0],D[1],60);
+  var liqp=clipY(pv,D[1],true);
+  b+=poly(liqp,'liq');
+  b+='<polyline class="gl" points="'+pts([pv[0],pv[1],pv[2],pv[3]])+'" style="fill:none"/>';
+  b+='<line x1="'+D[0]+'" y1="'+D[1]+'" x2="228" y2="112" stroke="#4fa8e0" stroke-width="3" stroke-linecap="round"/>';
+  b+=badge(1,134,68,o)+badge(2,258,34,o)+badge(3,292,102,o)+badge(4,286,128,o)+badge(5,308,238,o)+badge(6,346,200,o);
+  return svgw(260,290,b,'Filtrace: kádinka se směsí, skleněná tyčinka, nálevka s filtrem na kruhu, kádinka s filtrátem a stojan',100);
+};
+
+/* --- chromatografie --- */
+DG.chrom=function(o){
+  var b='',cs=[100,260],k;
+  cs.forEach(function(c,i){
+    var x=c-46;
+    b+=rect('liq',x+1,150,90,38);
+    b+=rect('paper',c-13,58,26,106);
+    if(i===1){
+      b+=rect('wet',c-13,84,26,66);
+      b+='<line x1="'+(c-13)+'" y1="84" x2="'+(c+13)+'" y2="84" stroke="#4fa8e0" stroke-width="2" stroke-dasharray="4 3"/>';
+      b+='<ellipse cx="'+c+'" cy="132" rx="7" ry="4.5" fill="#e0b04e"/><ellipse cx="'+c+'" cy="112" rx="7" ry="4.5" fill="#d9534f"/><ellipse cx="'+c+'" cy="94" rx="7" ry="4.5" fill="#4fa8e0"/>';
+    }else{
+      b+='<line x1="'+(c-13)+'" y1="140" x2="'+(c+13)+'" y2="140" stroke="#555" stroke-width="1.5"/>';
+      b+='<circle cx="'+c+'" cy="140" r="4.5" fill="#2a2f33"/>';
+    }
+    b+='<path class="gl" d="M'+(x-3)+' 38 L'+x+' 41 V183 Q'+x+' 188 '+(x+5)+' 188 H'+(x+86)+' Q'+(x+91)+' 188 '+(x+91)+' 183 V41 L'+(x+94)+' 38"/>';
+    b+='<line x1="'+(c-58)+'" y1="56" x2="'+(c+58)+'" y2="56" stroke="#dcebee" stroke-width="4" stroke-linecap="round"/>';
+  });
+  b+=tx('na začátku',100,212,'middle')+tx('na konci',260,212,'middle');
+  b+=arrow(158,110,202,110);
+  b+=badge(1,132,140,o)+badge(2,72,140,o)+badge(3,66,172,o)+badge(4,132,76,o)+badge(5,292,84,o)+badge(6,292,112,o);
+  return svgw(360,222,b,'Chromatografie: proužek papíru s tečkou nad hladinou, na konci se barvy rozdělí do různé výšky');
+};
+
+/* --- destilace (číslované části) --- */
+DG.dest=function(o){
+  var b='';
+  b+=rect('metal',32,20,6,220)+rect('metal',14,240,176,8);
+  /* kahan */
+  b+=rect('metal',82,232,36,8)+rect('metal',96,206,8,26);
+  b+='<path d="M100 204 C93 196 96 190 100 184 C104 190 107 196 100 204 Z" fill="#e8864a"/>';
+  /* kruh + síťka */
+  b+='<line x1="38" y1="190" x2="152" y2="190" stroke="#a9c0c4" stroke-width="4" stroke-linecap="round"/>';
+  b+='<line x1="56" y1="186" x2="144" y2="186" stroke="#d8c58b" stroke-width="3" stroke-dasharray="5 2"/>';
+  /* baňka */
+  b+='<path d="M58.3 135 A42 42 0 1 0 141.7 135 Z" class="liq"/>';
+  b+='<path class="gl" d="M92 50 L92 98.8 A42 42 0 1 0 108 98.8 L108 50"/>';
+  b+='<rect x="89" y="46" width="22" height="12" rx="2" fill="#8a6a4a" stroke="#a9c0c4" stroke-width="1.5"/>';
+  /* teploměr */
+  b+='<rect x="97" y="26" width="6" height="54" fill="#eef2f0"/><rect x="99" y="52" width="2" height="30" fill="#d9534f"/><circle cx="100" cy="82" r="5" fill="#d9534f"/>';
+  /* boční hrdlo */
+  b+='<line x1="108" y1="76" x2="152" y2="95" stroke="#a9c0c4" stroke-width="10" stroke-linecap="round"/><line x1="108" y1="76" x2="152" y2="95" stroke="#1c2529" stroke-width="6" stroke-linecap="round"/>';
+  /* svorka */
+  b+='<line x1="38" y1="70" x2="90" y2="70" stroke="#a9c0c4" stroke-width="4" stroke-linecap="round"/>';
+  /* chladič */
+  b+='<g transform="translate(150 95) rotate(24)">'
+    +'<rect x="0" y="-5" width="160" height="10" rx="3" fill="#1c2529" stroke="#a9c0c4" stroke-width="2"/>'
+    +'<rect x="22" y="-13" width="110" height="26" rx="4" class="liq" stroke="#a9c0c4" stroke-width="2"/>'
+    +'<rect x="22" y="-4" width="110" height="8" fill="#1c2529"/><line x1="22" y1="-4" x2="132" y2="-4" stroke="#a9c0c4" stroke-width="1.5"/><line x1="22" y1="4" x2="132" y2="4" stroke="#a9c0c4" stroke-width="1.5"/>'
+    +'<rect x="32" y="-22" width="8" height="9" fill="#a9c0c4"/><rect x="114" y="13" width="8" height="9" fill="#a9c0c4"/></g>';
+  b+=arrow(249,186,249,168)+tx('studená voda',276,198,'end','dim')+tx('dovnitř',276,211,'end','dim');
+  b+=arrow(192,82,192,68)+tx('voda ven',192,62,'middle','dim');
+  /* kuželová baňka */
+  b+='<path class="liq" d="M270 236 L262 245 H338 L330 236 Z"/>';
+  b+='<path class="gl" d="M290 176 V204 L262 240 Q258 246 266 246 H334 Q342 246 338 240 L310 204 V176"/>';
+  [[300,166],[300,172]].forEach(function(q){b+='<circle class="liq" cx="'+q[0]+'" cy="'+q[1]+'" r="2.6"/>';});
+  b+=badge(1,126,30,o)+badge(2,54,110,o)+badge(3,168,196,o)+badge(4,134,222,o)+badge(5,236,100,o)+badge(6,346,224,o)+badge(7,14,150,o);
+  return svgw(360,256,b,'Destilace: baňka s teploměrem na kruhu nad kahanem, chladič a kuželová baňka na destilát');
+};
+
+/* --- krystalizace --- */
+DG.kryst=function(){
+  var b='',i;
+  b+='<path d="M60 80 Q60 124 104 124 Q148 124 148 80 Z" class="liq"/>';
+  b+='<path class="gl" d="M54 78 H154 Q154 130 104 130 Q54 130 54 78 Z"/>';
+  b+='<path d="M104 160 C96 152 99 146 104 140 C109 146 112 152 104 160 Z" fill="#e8864a"/>';
+  [[84,64],[104,60],[124,64]].forEach(function(q){b+='<path class="st" d="M'+q[0]+' '+q[1]+' q-5 -8 0 -16 q5 -8 0 -16"/>';});
+  b+=arrow(172,92,208,92);
+  b+='<path class="gl" d="M214 78 H314 Q314 130 264 130 Q214 130 214 78 Z"/>';
+  for(i=0;i<11;i++){var x=234+i*5.6,y=116+((i*7)%3)*2.5;b+='<polygon fill="#eef2f0" points="'+x+','+(y-4.5)+' '+(x+4)+','+y+' '+x+','+(y+4.5)+' '+(x-4)+','+y+'"/>';}
+  for(i=0;i<7;i++){var x2=240+i*7,y2=122;b+='<polygon fill="#eef2f0" points="'+x2+','+(y2-4)+' '+(x2+3.6)+','+y2+' '+x2+','+(y2+4)+' '+(x2-3.6)+','+y2+'"/>';}
+  b+=tx('roztok soli',104,186,'middle')+tx('krystaly soli',264,186,'middle');
+  b+=tx('voda se odpařuje',104,20,'middle','dim');
+  return svgw(360,196,b,'Krystalizace: roztok soli se zahřívá, voda se odpaří a zůstanou krystaly soli');
+};
+
+function dg(id,o){return '<div class="dg">'+DG[id](o)+'</div>';}
+
 /* ===== kartičky ===== */
 var FLASH = [["Co je směs?", "Aspoň <b>dvě látky</b> dohromady. Dají se oddělit fyzikálně."], ["Homogenní × heterogenní směs?", "<b>Homogenní</b>: složky nerozeznáš (slaná voda).<br><b>Heterogenní</b>: složky vidíš (písek + voda)."], ["Co je suspenze?", "<b>Pevné</b> částice v <b>kapalině</b>.<br>Příklad: bahno ve vodě."], ["Co je emulze?", "<b>Kapalina v kapalině</b>.<br>Příklad: olej + voda, mléko."], ["Co je aerosol?", "Kapičky nebo prach <b>ve vzduchu</b>.<br>Příklad: mlha, kouř."], ["K čemu je filtrace?", "Odděluje <b>pevnou látku od kapaliny</b>."], ["Co je filtrát a co zbytek na filtru?", "<b>Filtrát</b> projde papírem (kapalina).<br><b>Zbytek</b> zůstane na papíře (pevná látka)."], ["Kam se opírá špička nálevky při filtraci?", "O <b>vnitřní stěnu kádinky</b>."], ["Po čem se lije směs na filtr?", "Po <b>skleněné tyčince</b>."], ["K čemu je chromatografie?", "Rozdělí směs <b>barviv</b> podle toho, jak rychle putují papírem."], ["Čím děláš čáru na chromatografický papír a proč?", "<b>Tužkou</b>. Propiska se rozpustí."], ["Kde musí být tečka barviva při chromatografii?", "<b>Nad hladinou</b> rozpouštědla."], ["Podle čeho se dělí kapaliny při destilaci?", "Podle různé <b>teploty varu</b>."], ["Jak získáš sůl z roztoku soli?", "<b>Odpařováním</b> (krystalizací) vody."], ["Jak oddělíš železné piliny od písku?", "<b>Magnetem</b>."], ["Jak oddělíš olej od vody?", "<b>Dělicí nálevkou</b> (nemísí se)."], ["Jakými smysly zjišťujeme vlastnosti látek v chemii?", "<b>4 smysly</b>: zrak, sluch, čich, hmat.<br><b>Chuť ne.</b> Látky mohou být jedovaté."], ["Co u látky měříme?", "<b>Teplotu, hustotu, hmotnost, objem.</b>"], ["Pokus × experiment?", "<b>Pokus</b>: náhoda.<br><b>Experiment</b>: nevíme, co se stane."], ["Stejnorodá směs (= roztok)?", "Složky <b>nerozlišíš</b>.<br>Příklad: <b>mosaz, mořská voda, vzduch</b>."], ["Různorodá směs?", "Složky <b>rozlišíš</b>.<br>Příklad: <b>olej a voda, žula, kouř</b>."], ["Co je pěna?", "<b>Plyn</b> rozptýlený v <b>kapalině</b>.<br>Příklad: pěna ze šamponu, z piva."], ["Co je dým?", "<b>Pevná látka</b> rozptýlená v <b>plynu</b>.<br>Příklad: saze ve vzduchu."], ["Co je mlha?", "<b>Kapalina</b> rozptýlená v <b>plynu</b>.<br>Příklad: mraky na nebi."], ["V čem je rozptýlená složka u suspenze, emulze a pěny?", "Vždy v <b>kapalině</b>."], ["V čem je rozptýlená složka u dýmu a mlhy?", "Vždy v <b>plynu</b>."], ["Podle čeho se dají složky směsi oddělit?", "Podle rozdílných <b>fyzikálních vlastností</b>: hustota, teplota varu, rozpustnost."], ["Co je přebírání?", "Oddělování těles podle <b>barvy, hmotnosti, tvaru</b> nebo <b>magnetických vlastností</b>.<br>Příklad: třídění odpadu."], ["Co je usazování?", "Rozdělení, když je látka <b>nerozpustná</b>. Těžší klesne dolů.<br>Příklad: čištění vody."], ["Co je krystalizace?", "Dělení rozpuštěných látek <b>odpařením kapaliny</b>. Vznikají <b>krystaly</b>.<br>Příklad: sůl z mořské vody."], ["Co je destilace a k čemu je?", "Dělí složky <b>stejnorodých směsí</b> podle <b>teploty varu</b>, pomocí <b>chladiče</b>.<br>Příklad: alkohol, destilovaná voda."], ["Části destilační aparatury?", "Teploměr · frakční baňka · žíhací kruh s keramickou síťkou · plynový kahan · chladič (studená voda) · kuželová baňka na destilát · stojan."], ["Části filtrační aparatury?", "Kádinka se směsí · skleněná tyčinka · filtrační nálevka s filtrem · filtrační kruh · kádinka s filtrátem · laboratorní stojan."], ["Co je chromatografie (stručně)?", "Dělení složek podle schopnosti <b>vázat se na jinou látku</b>, pomocí <b>rozpouštědla</b>.<br>Příklad: rostlinná barviva."]];
+
+/* kartičky s obrázky (přidané na konec, aby seděly uložené značky) */
+[["susp","Suspenze","pevná látka v kapalině","písek a voda"],
+ ["emul","Emulze","kapalina v kapalině","olej a voda"],
+ ["pena","Pěna","plyn v kapalině","pěna ze šamponu, z piva"],
+ ["dym","Dým","pevná látka v plynu","saze ve vzduchu"],
+ ["mlha","Mlha","kapalina v plynu","mraky na nebi"]].forEach(function(p){
+  FLASH.push(['<div class="t">Jaká je to směs?</div>'+dg(p[0]),'<b>'+p[1]+'</b><br>'+p[2]+'.<br>Příklad: '+p[3]+'.']);
+});
+FLASH.push(['<div class="t">Pojmenuj části 1–6</div>'+dg('filtr'),'<b>1</b> kádinka se směsí · <b>2</b> skleněná tyčinka · <b>3</b> filtrační nálevka s filtrem · <b>4</b> filtrační kruh · <b>5</b> kádinka s filtrátem · <b>6</b> laboratorní stojan']);
+FLASH.push(['<div class="t">Pojmenuj části 1–7</div>'+dg('dest'),'<b>1</b> teploměr · <b>2</b> frakční baňka se směsí · <b>3</b> žíhací kruh s keramickou síťkou · <b>4</b> plynový kahan · <b>5</b> chladič se studenou vodou · <b>6</b> kuželová baňka na destilát · <b>7</b> laboratorní stojan']);
+FLASH.push(['<div class="t">Pojmenuj části 1–6</div>'+dg('chrom'),'<b>1</b> tečka fixy · <b>2</b> čára tužkou · <b>3</b> rozpouštědlo (hladina) · <b>4</b> proužek papíru · <b>5</b> čelo rozpouštědla · <b>6</b> rozdělená barviva']);
 
 /* ===== otázky ===== */
 var Q = [
@@ -545,6 +982,31 @@ var Q = [
   {"t": "c", "q": "Příklad destilace je…", "o": ["výroba destilované vody", "získávání soli odpařením", "třídění odpadu", "filtrace písku"], "a": 0, "w": "Destilací se vyrábí alkohol a destilovaná voda."},
   {"t": "c", "q": "Podle čeho lze složky směsi oddělit?", "o": ["Podle rozdílných fyzikálních vlastností", "Podle chuti složek", "Podle názvu složek", "Podle množství látky"], "a": 0, "w": "Hustota, teplota varu, rozpustnost."}
 ];
+
+/* otázky s obrázky (na konci, aby seděl uložený postup) */
+[
+  {"t":"c","q":"Filtrace: co je na obrázku označeno číslem <b>3</b>?","o":["Filtrační nálevka s filtrem","Filtrační kruh","Skleněná tyčinka","Kádinka s filtrátem"],"a":0,"w":"Číslo 3 je filtrační nálevka s filtrem.","d":"filtr","n":3},
+  {"t":"c","q":"Filtrace: co je na obrázku označeno číslem <b>4</b>?","o":["Filtrační kruh","Žíhací kruh s keramickou síťkou","Filtrační nálevka s filtrem","Laboratorní stojan"],"a":0,"w":"Číslo 4 je filtrační kruh. Drží nálevku na stojanu.","d":"filtr","n":4},
+  {"t":"c","q":"Filtrace: co je na obrázku označeno číslem <b>2</b>?","o":["Skleněná tyčinka","Teploměr","Chladič","Kapátko"],"a":0,"w":"Číslo 2 je skleněná tyčinka. Po ní se lije směs.","d":"filtr","n":2},
+  {"t":"c","q":"Destilace: co je na obrázku označeno číslem <b>1</b>?","o":["Teploměr","Chladič","Plynový kahan","Skleněná tyčinka"],"a":0,"w":"Číslo 1 je teploměr. Ukazuje teplotu par.","d":"dest","n":1},
+  {"t":"c","q":"Destilace: co je na obrázku označeno číslem <b>2</b>?","o":["Frakční baňka se směsí","Kuželová baňka","Kádinka se směsí","Dělicí nálevka"],"a":0,"w":"Číslo 2 je frakční baňka se směsí (také destilační baňka).","d":"dest","n":2},
+  {"t":"c","q":"Destilace: co je na obrázku označeno číslem <b>3</b>?","o":["Žíhací kruh s keramickou síťkou","Filtrační kruh","Laboratorní stojan","Plynový kahan"],"a":0,"w":"Číslo 3 je žíhací kruh s keramickou síťkou. Drží baňku nad plamenem.","d":"dest","n":3},
+  {"t":"c","q":"Destilace: co je na obrázku označeno číslem <b>4</b>?","o":["Plynový kahan","Chladič","Teploměr","Žíhací kruh"],"a":0,"w":"Číslo 4 je plynový kahan. Je to zdroj tepla.","d":"dest","n":4},
+  {"t":"c","q":"Destilace: co je na obrázku označeno číslem <b>5</b>?","o":["Chladič","Teploměr","Kuželová baňka","Filtrační nálevka"],"a":0,"w":"Číslo 5 je chladič se studenou vodou. Pára v něm zkapalní.","d":"dest","n":5},
+  {"t":"c","q":"Destilace: co je na obrázku označeno číslem <b>6</b>?","o":["Kuželová baňka na destilát","Frakční baňka","Kádinka s filtrátem","Dělicí nálevka"],"a":0,"w":"Číslo 6 je kuželová baňka. Kape do ní destilát.","d":"dest","n":6},
+  {"t":"c","q":"Chromatografie: co je na obrázku označeno číslem <b>2</b>?","o":["Čára tužkou","Tečka fixy","Čelo rozpouštědla","Hladina rozpouštědla"],"a":0,"w":"Číslo 2 je čára tužkou. Tužka se v rozpouštědle nerozpustí.","d":"chrom","n":2},
+  {"t":"c","q":"Chromatografie: co je na obrázku označeno číslem <b>3</b>?","o":["Rozpouštědlo (hladina)","Čára tužkou","Rozdělená barviva","Proužek papíru"],"a":0,"w":"Číslo 3 je rozpouštědlo. Tečka barviva musí být nad jeho hladinou.","d":"chrom","n":3},
+  {"t":"c","q":"Kterou metodu dělení ukazuje obrázek?","o":["Destilace","Filtrace","Chromatografie","Krystalizace"],"a":0,"w":"Baňka, chladič a kuželová baňka na destilát. To je destilace.","d":"dest"},
+  {"t":"c","q":"Kterou metodu dělení ukazuje obrázek?","o":["Chromatografie","Filtrace","Destilace","Usazování"],"a":0,"w":"Proužek papíru, tečka barviva a rozpouštědlo. To je chromatografie.","d":"chrom"},
+  {"t":"c","q":"Co je na obrázku?","o":["Dělicí nálevka","Filtrační nálevka","Chladič","Kuželová baňka"],"a":0,"w":"Nahoře olej, dole voda, dole kohout. To je dělicí nálevka.","d":"nalevka"},
+  {"t":"c","q":"Čím se v obrázku dělí směs?","o":["Magnetem (přebíráním)","Filtrací","Destilací","Chromatografií"],"a":0,"w":"Magnet vytáhne železné piliny. Písek zůstane. To je přebírání podle magnetických vlastností.","d":"magnet"},
+  {"t":"c","q":"Která metoda je na obrázku?","o":["Krystalizace","Destilace","Filtrace","Usazování"],"a":0,"w":"Voda se z roztoku soli odpaří a zůstanou krystaly. To je krystalizace.","d":"kryst"},
+  {"t":"c","q":"Jaká směs je na obrázku?","o":["Suspenze","Emulze","Pěna","Mlha"],"a":0,"w":"Pevná látka v kapalině je suspenze. Příklad: písek a voda.","d":"susp"},
+  {"t":"c","q":"Jaká směs je na obrázku?","o":["Emulze","Suspenze","Dým","Pěna"],"a":0,"w":"Kapalina v kapalině je emulze. Příklad: olej a voda.","d":"emul"},
+  {"t":"c","q":"Jaká směs je na obrázku?","o":["Pěna","Emulze","Mlha","Suspenze"],"a":0,"w":"Plyn v kapalině je pěna. Příklad: pěna ze šamponu.","d":"pena"},
+  {"t":"c","q":"Jaká směs je na obrázku?","o":["Dým","Mlha","Suspenze","Pěna"],"a":0,"w":"Pevná látka v plynu je dým. Příklad: saze ve vzduchu.","d":"dym"},
+  {"t":"c","q":"Jaká směs je na obrázku?","o":["Mlha","Dým","Emulze","Pěna"],"a":0,"w":"Kapalina v plynu je mlha. Příklad: mraky na nebi.","d":"mlha"}
+].forEach(function(q){Q.push(q);});
 
 var ROUND = 6;
 
@@ -629,7 +1091,7 @@ function drawFC(){
   }
   var pair=FLASH[S.fcId];
   el.className='fc'+(flip?' back':'');
-  el.innerHTML=(flip?pair[1]:pair[0])+'<small>'+(flip?'klikni pro otázku':'klikni pro odpověď')+'</small>';
+  el.innerHTML='<div class="fcin">'+(flip?pair[1]:pair[0])+'<small>'+(flip?'klikni pro otázku':'klikni pro odpověď')+'</small></div>';
   document.getElementById('fcpos').textContent='Kartička '+(fcPos()+1)+' z '+deck.length+(S.known[S.fcId]?' · ✓ umím':'');
   badges();
 }
@@ -690,7 +1152,7 @@ function render(){
   var q=Q[z.order[z.i]];
   var kolo=Math.floor(z.i/ROUND)+1, kol=Math.ceil(z.order.length/ROUND);
   var h='<div class="qn">Otázka '+(z.i+1)+'/'+z.order.length+' · kolo '+kolo+'/'+kol+' · správně '+z.score+'</div>';
-  h+='<div class="qt">'+q.q+'</div>';
+  h+='<div class="qt">'+q.q+'</div>'+qImage(q);
   if(q.t==='n'){
     h+='<div class="numrow"><input type="text" id="ans" inputmode="decimal" placeholder="číslo" autocomplete="off">'
       +(q.u?'<span class="unit">'+q.u+'</span>':'')+'</div>';
@@ -802,6 +1264,62 @@ document.getElementById('qreset').onclick=function(){newQuiz();};
 var mini=document.getElementById('mini');
 if(S.mini){mini.open=true;}
 mini.addEventListener('toggle',function(){S.mini=mini.open;save();});
+
+/* ===== obrázky v taháku ===== */
+[].forEach.call(document.querySelectorAll('[data-dg]'),function(e){
+  e.classList.add('dg');
+  e.innerHTML=DG[e.getAttribute('data-dg')]();
+});
+[].forEach.call(document.querySelectorAll('[data-go]'),function(b){
+  b.onclick=function(){showTab(b.getAttribute('data-go'));};
+});
+
+/* ===== Vyber metodu ===== */
+var PICK=[
+  {m:'písek + voda',r:'filtrace',alt:'nebo usazování a slití',why:'Písek je pevná látka, voda kapalina. Písek zůstane na papíře.',d:'filtr'},
+  {m:'sůl rozpuštěná ve vodě — chci sůl',r:'odpařování / krystalizace',why:'Voda se odpaří, sůl zůstane jako krystaly.',d:'kryst'},
+  {m:'sůl rozpuštěná ve vodě — chci vodu',r:'destilace',why:'Voda se vypaří a v chladiči zkapalní. Sůl zůstane v baňce.',d:'dest'},
+  {m:'železné piliny + písek',r:'magnet (přebírání)',why:'Železo je magnetické, písek ne.',d:'magnet'},
+  {m:'olej + voda',r:'dělicí nálevka',why:'Nemíchají se. Olej je nahoře, voda dole. Spodní vrstvu vypustíš kohoutem.',d:'nalevka'},
+  {m:'líh + voda',r:'destilace',why:'Líh vře při asi 78 °C, voda při 100 °C. Líh jde první.',d:'dest'},
+  {m:'barviva ve fixě',r:'chromatografie',why:'Barviva putují papírem různě rychle a rozdělí se.',d:'chrom'},
+  {m:'sůl + písek',r:'rozpustit ve vodě → filtrace (písek) → odpařit (sůl)',why:'Písek se nerozpustí a zůstane na filtru. Sůl je ve filtrátu. Získáš ji odpařením.',d:'filtr'}
+];
+(function(){
+  var wrap=document.getElementById('pk'),out=document.getElementById('pkout');
+  if(!wrap){return;}
+  wrap.innerHTML=PICK.map(function(p,i){return '<button type="button" data-i="'+i+'">'+p.m+'</button>';}).join('');
+  function sel(i){
+    [].forEach.call(wrap.querySelectorAll('button'),function(b){b.classList.toggle('on',+b.getAttribute('data-i')===i);});
+  }
+  wrap.onclick=function(e){
+    var b=e.target.closest('button');
+    if(!b){return;}
+    var i=+b.getAttribute('data-i'),p=PICK[i];
+    sel(i);
+    out.innerHTML='<div class="box"><div class="q">Směs: <b>'+p.m+'</b><br>Jaká metoda?</div>'
+      +'<button type="button" class="btn" id="pkshow">Ukázat odpověď</button></div>';
+    document.getElementById('pkshow').onclick=function(){
+      out.innerHTML='<div class="box"><div class="q">Směs: <b>'+p.m+'</b></div>'
+        +'<div class="m">'+p.r+'</div>'
+        +(p.alt?'<div class="why">'+p.alt+'</div>':'')
+        +'<div class="why">'+p.why+'</div>'
+        +dg(p.d,{none:true})+'</div>';
+    };
+  };
+})();
+
+/* obrázek u kvízové otázky */
+var PART=['susp','emul','pena','dym','mlha'];
+function qImage(q){
+  if(!q.d){return '';}
+  var s=DG[q.d](q.n?{only:q.n}:{none:true}).replace(/ role="img" aria-label="[^"]*"/,' aria-hidden="true"');
+  var h='<div class="dg qdg'+(PART.indexOf(q.d)>-1?' p':'')+'" role="img" aria-label="Obrázek k otázce">'+s+'</div>';
+  if(PART.indexOf(q.d)>-1){
+    h+='<div class="legend"><span><i class="lg-sol"></i>pevná</span><span><i class="lg-drop"></i>kapalina</span><span><i class="lg-gas"></i>plyn</span><span><i class="lg-bgl"></i>v kapalině</span><span><i class="lg-bgg"></i>v plynu</span></div>';
+  }
+  return h;
+}
 
 /* ===== start ===== */
 buildDeck(S.fcId);
