@@ -100,8 +100,8 @@ Co kde je (stručně; jeden materiál = tahák + kartičky + kvíz, pokud není 
   `fyzika-tisk.html` (+ PDF, 2 listy A4), `fyzika-vykon.html`, `kmity-rezonance.html`.
 - `matika/`: `procenta.html` (včetně těžších úloh na základ, kvíz bere i zlomky `3/4`), `zlomky.html` (typ `fr`).
 - `chemie/`: `chemie-uvod.html` (GHS v SVG), `chemie-nadobi.html` (19 kusů s kreslenými obrázky, kvíz na psaní, `norm()`),
-  `chemie-deleni-smesi.html` (vlastnosti látek, stejnorodé × různorodé směsi, 6 metod dělení, schémata aparatur;
-  34 kartiček, 53 otázek).
+  `chemie-deleni-smesi.html` (vlastnosti látek, stejnorodé × různorodé směsi, 6 metod dělení, kreslené SVG obrázky aparatur a směsí (`DG`, číslované části, i v kartičkách a kvízu), výběr metody;
+  42 kartiček, 74 otázek).
 - `zemepis/`: `mapa-evropy.html` (slepá mapa, 78 pojmů, SVG z Natural Earth, drag & drop; Neziderské jezero v datech chybí → jen bod),
   `evropa-priroda.html`, `evropa-krajina.html` (anonymní).
 - `spanelstina/spanelstina-jidlo.html` (comidas y bebidas + gustar, kvíz na psaní, akcenty tolerantně).
