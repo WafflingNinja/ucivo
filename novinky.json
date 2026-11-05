@@ -1,5 +1,5 @@
 {
- "last": "822eaf7096bdb456121029f102aa942ed46670ab",
+ "last": "1fbfeebb6c0b2d3ebf23cab2ff5c3b96b5e4d26a",
  "days": [
   {
    "date": "2026-11-05",
@@ -8,6 +8,12 @@
      "path": "chemie/chemie-deleni-smesi.html",
      "title": "dělení směsí, filtrace, chromatografie",
      "subject": "Chemie",
+     "kind": "update"
+    },
+    {
+     "path": "dejepis/baroko-tisk.html",
+     "title": "baroko (tisk)",
+     "subject": "Dějepis",
      "kind": "update"
     }
    ]
