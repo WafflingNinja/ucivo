@@ -1,6 +1,6 @@
 // Přegeneruje tisková PDF z HTML (a PDF slepé mapy z dat v mapa-evropy.html).
 // Použití: node .github/scripts/build-pdf.mjs   (potřebuje Playwright + chromium, v repu není jako závislost)
-// Kontrola po běhu: počet stran sedí? fyzika-tisk 2, cestina-chyby-tisk 3, cestina-skladba-tisk 3, baroko-tisk 1, mapa-evropy 3.
+// Kontrola po běhu: počet stran sedí? fyzika-tisk 2, cestina-chyby-tisk 3, cestina-skladba-tisk 3, baroko-tisk 1, genetika-tisk 2, mapa-evropy 3.
 import { createRequire } from 'node:module';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
@@ -8,7 +8,7 @@ const require = createRequire(import.meta.url);
 const { chromium } = require('playwright');
 const root = resolve(new URL('../../', import.meta.url).pathname);
 
-const TISK = ['fyzika/fyzika-tisk', 'cestina/cestina-chyby-tisk', 'cestina/cestina-skladba-tisk', 'dejepis/baroko-tisk'];
+const TISK = ['fyzika/fyzika-tisk', 'cestina/cestina-chyby-tisk', 'cestina/cestina-skladba-tisk', 'dejepis/baroko-tisk', 'prirodopis/genetika-tisk'];
 
 const html = readFileSync(`${root}/zemepis/mapa-evropy.html`, 'utf8');
 const MAP = JSON.parse(html.match(/var MAP = (\{.*\});\n/)[1]);
