@@ -172,7 +172,7 @@
 
   <header>
     <h1>Přírodopis — <span>úvod do genetiky</span></h1>
-    <p class="sub">Mendel · DNA · křížení · postup se ukládá</p>
+    <p class="sub">Mendel · DNA · křížení · choroby · postup se ukládá</p>
   </header>
 
   <nav id="tabs">
@@ -235,22 +235,23 @@
           <thead><tr><th>Pojem</th><th>Co to je</th></tr></thead>
           <tbody>
             <tr><td><b>DNA</b></td><td>molekula s dědičnou informací, dvoušroubovice</td></tr>
-            <tr><td><b>gen</b></td><td>úsek DNA, který nese informaci o jedné vlastnosti</td></tr>
+            <tr><td><b>gen</b></td><td>základní jednotka genetické informace; úsek DNA, který nese informaci o jednom znaku</td></tr>
             <tr><td><b>chromozom</b></td><td>struktura z DNA v jádře buňky</td></tr>
-            <tr><td><b>alela</b></td><td>jedna varianta genu (třeba žlutá nebo zelená)</td></tr>
+            <tr><td><b>alela</b></td><td>jedna forma (varianta) genu (třeba žlutá nebo zelená)</td></tr>
+            <tr><td><b>vloha</b></td><td>dědičný předpoklad ke znaku; v úlohách gen / alela</td></tr>
             <tr><td><b>dominantní</b></td><td>alela, která převáží (píšeme velkým písmenem: A)</td></tr>
             <tr><td><b>recesivní</b></td><td>alela, která ustoupí (píšeme malým písmenem: a)</td></tr>
             <tr><td><b>homozygot</b></td><td>dvě stejné alely: AA nebo aa</td></tr>
             <tr><td><b>heterozygot</b></td><td>dvě různé alely: Aa</td></tr>
-            <tr><td><b>genotyp</b></td><td>jaké alely organismus má (AA, Aa, aa)</td></tr>
-            <tr><td><b>fenotyp</b></td><td>jak organismus vypadá navenek</td></tr>
+            <tr><td><b>genotyp</b></td><td>soubor všech genů organismu; jaké alely má (AA, Aa, aa)</td></tr>
+            <tr><td><b>fenotyp</b></td><td>soubor všech znaků organismu (jak vypadá); podílí se i prostředí</td></tr>
           </tbody>
         </table>
       </div>
     </div>
 
     <div class="card">
-      <h2>rozmnožování a stavba chromozomu</h2>
+      <h2>Rozmnožování a stavba chromozomu</h2>
       <ul>
         <li><span class="key">Nepohlavní</span> — jeden rodič, potomci jsou geneticky stejní. Typické pro jednobuněčné organismy a některé rostliny.</li>
         <li><span class="key">Pohlavní</span> — dva rodiče, každý dá pohlavní buňku (gametu) s polovinou genů. Typické pro mnohobuněčné organismy.</li>
@@ -279,6 +280,7 @@
         <li>Příklad: hrách se žlutými semeny (AA) × se zelenými (aa).</li>
         <li>Všichni potomci mají genotyp <b>Aa</b>. Fenotyp: <b>žlutá</b> (dominantní).</li>
         <li>Zelená alela se nepoztrácela. Je jen <b>schovaná</b>.</li>
+        <li>Stejně u jiného znaku: <b>BB × bb → všichni Bb</b>.</li>
       </ul>
     </div>
 
@@ -296,8 +298,25 @@
         <li>Genotyp: <b>1 AA : 2 Aa : 1 aa</b>.</li>
         <li>Fenotyp: <b>3 žluté : 1 zelené</b> (75 % : 25 %).</li>
         <li>Zelená (aa) se vrátí, protože obě alely od rodičů jsou recesivní.</li>
+        <li>Každý rodič Aa tvoří <b>2 druhy gamet</b>: A a a (každou z poloviny).</li>
+        <li>Příklad: fialové květy jsou <b>AA, Aa</b>, bílé jsou <b>aa</b>. Aa × Aa → <b>3 fialové : 1 bílý</b>.</li>
       </ul>
       <div class="note">Tabulce se říká Punnettův čtverec. Do řádků a sloupců píšeš alely rodičů, uvnitř vzniknou možní potomci.</div>
+    </div>
+
+    <div class="card">
+      <h2>Mendelovo 3. pravidlo — nezávislá kombinace</h2>
+      <p style="margin:0 0 10px">Dva znaky najednou se dědí nezávisle na sobě (dihybridní křížení).</p>
+      <div class="formula">
+        <b>AaBb × AaBb → 9 : 3 : 3 : 1</b>
+        <span>poměr fenotypů, když jsou oba znaky dominantní v A a B</span>
+      </div>
+      <ul>
+        <li>Každý rodič tvoří <b>4 druhy gamet</b>: AB, Ab, aB, ab.</li>
+        <li>Čtverec je 4 × 4 = <b>16 políček</b>.</li>
+        <li>Barva a tvar semen se dědí zvlášť. Může vzniknout i nová kombinace.</li>
+      </ul>
+      <div class="note">Neplatí pro geny, které leží blízko sebe na stejném chromozomu (geny ve vazbě).</div>
     </div>
 
     <div class="card">
@@ -312,11 +331,37 @@
     </div>
 
     <div class="card">
+      <h2>Dědičné choroby, mutace, klon</h2>
+      <div class="tablewrap">
+        <table class="wrapcell">
+          <thead><tr><th>Pojem</th><th>Co to je</th></tr></thead>
+          <tbody>
+            <tr><td><b>mutace</b></td><td>poškození genů nebo chromozomů</td></tr>
+            <tr><td><b>hemofilie</b></td><td>chorobná krvácivost; gen je na X, postihuje hlavně muže</td></tr>
+            <tr><td><b>albinismus</b></td><td>chybí pigment melanin; nejčastěji recesivní (aa)</td></tr>
+            <tr><td><b>Downův syndrom</b></td><td>trizomie 21: tři kopie 21. chromozomu, celkem 47</td></tr>
+            <tr><td><b>klon</b></td><td>jedinec vzniklý klonováním, geneticky stejný jako původní</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <ul>
+        <li>Downův syndrom: typicky <span class="key">kulatý obličej</span> a <span class="key">krátký krk</span>.</li>
+        <li>Všechny tělní buňky mají <span class="key">stejné chromozomy</span>.</li>
+      </ul>
+    </div>
+
+    <div class="card">
       <h2>Ověřeno — kde to bývá nepřesné</h2>
       <ul>
         <li><b>Alela.</b> Zjednodušeně: „forma genu, jak se gen projeví“. Jak to je: alela je jedna varianta genu. Jak se znak projeví, určuje fenotyp, na kterém se alela podílí.</li>
         <li><b>Chromatida.</b> Schéma ukazuje šipkou na jedno rameno. Jak to je: chromatida je jedna ze dvou stejných polovin zdvojeného chromozomu.</li>
         <li><b>Názvy zákonů.</b> Zjednodušeně: „zákon křížení homozygotů“. Učebnice: 1. zákon = zákon uniformity (stejnosti). Zdroje se liší v počtu Mendelových zákonů (2 až 4). Piš názvy, které chce zadání.</li>
+        <li><b>Zápis bB.</b> Zjednodušeně: někdo píše bB. Jak to je: velké písmeno se píše první, tedy Bb.</li>
+        <li><b>3. zákon.</b> Zjednodušeně: „nezávislé kombinování“. Jak to je: zákon o nezávislé kombinaci alel (volné kombinovatelnosti). Neplatí pro geny ve vazbě.</li>
+        <li><b>F1 a F2.</b> Zjednodušeně: Aa × Aa se píše pod „F1 generace“. Jak to je: rodiče Aa jsou F1, jejich děti (AA, Aa, Aa, aa) jsou F2.</li>
+        <li><b>Downův syndrom.</b> Zjednodušeně: „trojitý 21. chromozom, nízký krk“. Jak to je: trizomie 21 (tři kopie, 47 chromozomů), krk je krátký. Vzniká většinou náhodně, ne zděděním jako albinismus.</li>
+        <li><b>Hemofilie.</b> Gen je na chromozomu X a je recesivní, proto jsou postižení hlavně muži.</li>
+        <li><b>Vloha.</b> Starší slovo pro dědičný předpoklad ke znaku. V úlohách ho ber jako gen (alelu).</li>
       </ul>
     </div>
 
@@ -359,7 +404,7 @@
     </details>
     <details>
       <summary>Proč bych ti posílal peníze?</summary>
-      <div class="fa">Protože to zabralo čas, který jsi nemusel obětovat ty. Je tady <b>minimum na 8 vět</b>, Mendel s daty, slovníček pojmů, <b>postup na křížení</b>, <b>20 kartiček</b> a <b>32 otázek</b>. Když ti to ušetří hodinu, dvacka je slušný kurz.</div>
+      <div class="fa">Protože to zabralo čas, který jsi nemusel obětovat ty. Je tady <b>minimum na 8 vět</b>, Mendel s daty, slovníček pojmů, <b>postup na křížení</b>, <b>38 kartiček</b> a <b>58 otázek</b>. Když ti to ušetří hodinu, dvacka je slušný kurz.</div>
     </details>
     <details>
       <summary>Zaručuje mi to dobrou známku?</summary>
@@ -404,7 +449,7 @@
 
 <script>
 /* ===== kartičky ===== */
-var FLASH = [["Co je genetika?","Věda o <b>dědičnosti</b> a <b>proměnlivosti</b>."],["Kdo je Gregor Johann Mendel?","Mnich z Brna, otec genetiky.<br>Pokusy s <b>hrachem</b> (1856–1863)."],["Kdy žil Mendel?","<b>1822–1884</b>"],["Kdy bylo Mendelovo dílo uznáno?","Až <b>1900</b>, po jeho smrti."],["Co je DNA?","Molekula s <b>dědičnou informací</b>, tvar <b>dvoušroubovice</b>."],["Co je gen?","Úsek DNA s informací o <b>jedné vlastnosti</b>."],["Co je chromozom?","Struktura z DNA v <b>jádře</b> buňky."],["Kolik chromozomů má člověk?","V tělní buňce <b>46</b> (23 párů).<br>V pohlavní buňce <b>23</b>."],["Pohlavní chromozomy ženy a muže?","Žena <b>XX</b>, muž <b>XY</b>."],["Kdo určuje pohlaví dítěte?","<b>Spermie</b> (nese X nebo Y). Vajíčko nese vždy X."],["Dominantní × recesivní alela?","<b>Dominantní</b> (A) převáží.<br><b>Recesivní</b> (a) se projeví jen u aa."],["Homozygot × heterozygot?","<b>Homozygot</b>: AA nebo aa.<br><b>Heterozygot</b>: Aa."],["Genotyp × fenotyp?","<b>Genotyp</b>: alely (Aa).<br><b>Fenotyp</b>: vzhled (žlutý)."],["AA × aa. Jaké budou děti?","Všechny <b>Aa</b> (uniformita).<br>Fenotyp: dominantní."],["Aa × Aa. Genotypy dětí?","<b>1 AA : 2 Aa : 1 aa</b>"],["Aa × Aa. Fenotyp dětí?","<b>3 : 1</b> (dominantní : recesivní)"],["Co je nepohlavní rozmnožování?","Jeden rodič. Potomci jsou <b>geneticky stejní</b> jako rodič."],["Co je pohlavní rozmnožování?","<b>Dva rodiče</b>. Každý dá pohlavní buňku s polovinou genů."],["Z čeho je zdvojený chromozom?","Ze dvou <b>chromatid</b> spojených <b>centromerou</b>."],["Co dělí chromozom na ramena?","<b>Centromera</b>. Vznikne krátké a dlouhé rameno."]];
+var FLASH = [["Co je genetika?","Věda o <b>dědičnosti</b> a <b>proměnlivosti</b>."],["Kdo je Gregor Johann Mendel?","Mnich z Brna, otec genetiky.<br>Pokusy s <b>hrachem</b> (1856–1863)."],["Kdy žil Mendel?","<b>1822–1884</b>"],["Kdy bylo Mendelovo dílo uznáno?","Až <b>1900</b>, po jeho smrti."],["Co je DNA?","Molekula s <b>dědičnou informací</b>, tvar <b>dvoušroubovice</b>."],["Co je gen?","Úsek DNA s informací o <b>jedné vlastnosti</b>."],["Co je chromozom?","Struktura z DNA v <b>jádře</b> buňky."],["Kolik chromozomů má člověk?","V tělní buňce <b>46</b> (23 párů).<br>V pohlavní buňce <b>23</b>."],["Pohlavní chromozomy ženy a muže?","Žena <b>XX</b>, muž <b>XY</b>."],["Kdo určuje pohlaví dítěte?","<b>Spermie</b> (nese X nebo Y). Vajíčko nese vždy X."],["Dominantní × recesivní alela?","<b>Dominantní</b> (A) převáží.<br><b>Recesivní</b> (a) se projeví jen u aa."],["Homozygot × heterozygot?","<b>Homozygot</b>: AA nebo aa.<br><b>Heterozygot</b>: Aa."],["Genotyp × fenotyp?","<b>Genotyp</b>: alely (Aa).<br><b>Fenotyp</b>: vzhled (žlutý)."],["AA × aa. Jaké budou děti?","Všechny <b>Aa</b> (uniformita).<br>Fenotyp: dominantní."],["Aa × Aa. Genotypy dětí?","<b>1 AA : 2 Aa : 1 aa</b>"],["Aa × Aa. Fenotyp dětí?","<b>3 : 1</b> (dominantní : recesivní)"],["Co je nepohlavní rozmnožování?","Jeden rodič. Potomci jsou <b>geneticky stejní</b> jako rodič."],["Co je pohlavní rozmnožování?","<b>Dva rodiče</b>. Každý dá pohlavní buňku s polovinou genů."],["Z čeho je zdvojený chromozom?","Ze dvou <b>chromatid</b> spojených <b>centromerou</b>."],["Co dělí chromozom na ramena?","<b>Centromera</b>. Vznikne krátké a dlouhé rameno."],["Co je genotyp?","Soubor <b>všech genů</b> organismu."],["Co je fenotyp?","Soubor <b>všech znaků</b> organismu.<br>Podílí se na něm i <b>prostředí</b>."],["Co je alela?","Jedna <b>forma (varianta) genu</b>."],["Co je základní jednotka genetické informace?","<b>Gen</b>."],["1. Mendelův zákon?","Zákon o <b>uniformitě</b> (křížení homozygotů).<br>AA × aa → všichni Aa."],["2. Mendelův zákon?","Zákon o <b>štěpení</b>.<br>Aa × Aa → 1 AA : 2 Aa : 1 aa."],["3. Mendelův zákon?","Zákon o <b>nezávislé kombinaci alel</b>.<br>Geny různých znaků se dědí nezávisle."],["AaBb × AaBb. Poměr fenotypů?","<b>9 : 3 : 3 : 1</b>"],["Fialové květy: AA, Aa. Jaké mají bílé?","<b>aa</b>. Fialová je dominantní, bílá recesivní."],["Jaké gamety tvoří Aa?","Dva druhy: <b>A</b> a <b>a</b>, každý z poloviny."],["Co je Downův syndrom?","<b>Trizomie 21</b>: tři kopie 21. chromozomu.<br>Celkem <b>47</b> chromozomů."],["Znaky Downova syndromu?","Kulatý (plochý) obličej, <b>krátký krk</b>."],["Co je hemofilie?","Chorobná <b>krvácivost</b>.<br>Gen je na <b>X</b>, postihuje hlavně <b>muže</b>."],["Co je albinismus?","Chybí pigment <b>melanin</b>.<br>Nejčastěji recesivní: <b>aa</b>."],["Co je mutace?","<b>Poškození</b> genů nebo chromozomů."],["Co je klon?","Jedinec vzniklý <b>klonováním</b>. Geneticky stejný jako původní."],["Co mají všechny tělní buňky?","<b>Stejné chromozomy</b>."],["Co je vloha?","Dědičný předpoklad ke znaku.<br>V úlohách: <b>gen</b> / alela."]];
 
 /* ===== otázky ===== */
 var Q = [
@@ -439,7 +484,33 @@ var Q = [
   {"t":"n","q":"Aa × Aa. Kolik procent potomků se projeví dominantním znakem?","acc":75,"u":"%","w":"3 ze 4 políček (AA, Aa, Aa) = 75 %."},
   {"t":"n","q":"Aa × aa. Kolik procent potomků má genotyp aa?","acc":50,"u":"%","w":"Čtverec: Aa, Aa, aa, aa. aa jsou 2 ze 4 = 50 %."},
   {"t":"n","q":"Aa × Aa. U kolika ze 100 potomků očekáváš genotyp Aa?","acc":50,"u":"","w":"Aa jsou 2 políčka ze 4 = 50 ze 100."},
-  {"t":"c","q":"Kdy Mendel pokusy s hrachem dělal?","o":["1856–1863","1756–1763","1900–1908","1620–1650"],"a":0,"w":"Osm let, 1856–1863."}
+  {"t":"c","q":"Kdy Mendel pokusy s hrachem dělal?","o":["1856–1863","1756–1763","1900–1908","1620–1650"],"a":0,"w":"Osm let, 1856–1863."},
+  {"t":"c","q":"Co je genotyp?","o":["Soubor všech genů organismu","Soubor všech vnějších znaků","Počet chromozomů","Jedna alela"],"a":0,"w":"Genotyp = geny (alely). Fenotyp = znaky."},
+  {"t":"c","q":"Na čem závisí fenotyp?","o":["Na genech i na prostředí","Jen na prostředí","Jen na počtu chromozomů","Jen na pohlaví"],"a":0,"w":"Fenotyp je soubor všech znaků. Podílí se na něm geny i prostředí."},
+  {"t":"c","q":"Co je alela?","o":["Jedna forma (varianta) genu","Celý chromozom","Pohlavní buňka","Molekula bílkoviny"],"a":0,"w":"Třeba žlutá a zelená alela jednoho genu."},
+  {"t":"c","q":"Co je základní jednotka genetické informace?","o":["Gen","Buňka","Orgán","Pohlavní buňka"],"a":0,"w":"Gen nese informaci o určitém znaku."},
+  {"t":"c","q":"Jak se jmenuje 1. Mendelův zákon?","o":["Zákon o uniformitě (křížení homozygotů)","Zákon o štěpení","Zákon o nezávislé kombinaci alel","Zákon o mutacích"],"a":0,"w":"AA × aa → všichni potomci F1 stejní (Aa)."},
+  {"t":"c","q":"Jak se jmenuje 2. Mendelův zákon?","o":["Zákon o štěpení","Zákon o uniformitě","Zákon o nezávislé kombinaci alel","Zákon o klonování"],"a":0,"w":"Aa × Aa → 1 AA : 2 Aa : 1 aa, fenotyp 3 : 1."},
+  {"t":"c","q":"Jak se jmenuje 3. Mendelův zákon?","o":["Zákon o nezávislé kombinaci alel","Zákon o uniformitě","Zákon o štěpení","Zákon o křížení homozygotů"],"a":0,"w":"Geny různých znaků se dědí nezávisle (neplatí pro geny ve vazbě)."},
+  {"t":"c","q":"AaBb × AaBb. Jaký je poměr fenotypů potomků?","o":["9 : 3 : 3 : 1","3 : 1","1 : 2 : 1","1 : 1 : 1 : 1"],"a":0,"w":"Dva znaky najednou (dihybridní křížení): 9 : 3 : 3 : 1."},
+  {"t":"c","q":"Fialová barva květu je dominantní (A). Jaký genotyp má bílý květ?","o":["aa","AA","Aa","A"],"a":0,"w":"Recesivní znak se projeví jen u aa."},
+  {"t":"c","q":"Fialová barva je dominantní. Jaké genotypy mohou mít fialové květy?","o":["AA nebo Aa","Jen AA","Jen Aa","Jen aa"],"a":0,"w":"Dominantní alela převáží, stačí jedno A."},
+  {"t":"n","q":"Aa × Aa (fialová A, bílá a). Kolik procent potomků má bílé květy?","acc":25,"u":"%","w":"Bílé je jen aa: 1 ze 4 = 25 %."},
+  {"t":"c","q":"Zkřížíš aa × aa. Jací budou všichni potomci?","o":["aa","Aa","AA","Půl AA, půl aa"],"a":0,"w":"Nemají odkud vzít A. Všichni aa."},
+  {"t":"n","q":"AA × Aa. Kolik procent potomků má genotyp AA?","acc":50,"u":"%","w":"Čtverec: AA, Aa, AA, Aa. AA jsou 2 ze 4 = 50 %."},
+  {"t":"c","q":"Jaké pohlavní buňky (gamety) tvoří jedinec Aa?","o":["A a a, každé z poloviny","Jen A","Jen a","Jen Aa"],"a":0,"w":"Do gamety jde jen jedna alela z páru."},
+  {"t":"c","q":"Co způsobuje Downův syndrom?","o":["Tři kopie 21. chromozomu","Chybějící chromozom X","Chybějící 21. chromozom","Zlomený gen"],"a":0,"w":"Trizomie 21."},
+  {"t":"n","q":"Kolik chromozomů má v tělní buňce člověk s Downovým syndromem?","acc":47,"u":"","w":"46 + jeden navíc (21. chromozom) = 47."},
+  {"t":"c","q":"Který znak je typický pro Downův syndrom?","o":["Kulatý obličej a krátký krk","Chybějící pigment","Nesrážlivost krve","Vysoká postava"],"a":0,"w":"Obličej plochý až kulatý, krk krátký."},
+  {"t":"c","q":"Co je hemofilie?","o":["Chorobná krvácivost","Chybějící pigment","Tři kopie 21. chromozomu","Poškození kostí"],"a":0,"w":"Krev špatně sráží. Gen je na chromozomu X."},
+  {"t":"c","q":"Koho postihuje hemofilie častěji?","o":["Muže","Ženy","Stejně oba","Jen děti do 5 let"],"a":0,"w":"Muž má jen jedno X. Jedna vadná alela stačí."},
+  {"t":"c","q":"Co je albinismus?","o":["Porucha tvorby pigmentu melaninu","Chorobná krvácivost","Trizomie 21","Zlomený chromozom"],"a":0,"w":"Chybí melanin. Nejčastěji se dědí recesivně (aa)."},
+  {"t":"n","q":"Oba rodiče jsou Aa (a = albinismus). Kolik procent dětí bude mít albinismus (aa)?","acc":25,"u":"%","w":"Aa × Aa → 25 % aa."},
+  {"t":"c","q":"Co je mutace?","o":["Poškození genů nebo chromozomů","Kopie jedince","Pohlavní buňka","Zdvojený chromozom"],"a":0,"w":"Mutace mění gen nebo chromozom."},
+  {"t":"c","q":"Co je klon?","o":["Jedinec vzniklý klonováním, geneticky stejný","Jedinec s mutací","Heterozygot","Pohlavní buňka"],"a":0,"w":"Klon má stejné geny jako původní jedinec."},
+  {"t":"c","q":"Molekula DNA má tvar dvojité…","o":["šroubovice","spirály","smyčky","kružnice"],"a":0,"w":"Dvoušroubovice."},
+  {"t":"c","q":"Všechny tělní buňky našeho těla mají…","o":["stejné chromozomy","různé chromozomy","jen polovinu chromozomů","jen pohlavní chromozomy"],"a":0,"w":"V jádře každé tělní buňky je stejná sada chromozomů."},
+  {"t":"c","q":"Jedinec s pohlavními chromozomy XY je…","o":["muž","žena","klon","mutant"],"a":0,"w":"Muž XY, žena XX."}
 ];
 
 var ROUND = 6;
