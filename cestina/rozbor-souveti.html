@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Čeština — rozbor souvětí</title>
+<style>
+  :root{
+    --bg:#0f1417; --panel:#161d21; --panel2:#1c2529; --line:#293439;
+    --text:#e8efee; --dim:#94a6a5; --accent:#4bd6a5; --accent2:#2f9d78;
+    --ok:#4bd6a5; --bad:#e05252; --warn:#e0b04e;
+    --radius:14px; --tap:48px; --navh:62px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--bg);color:var(--text);overflow-wrap:break-word;
+    font:16px/1.6 -apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+    padding:0 16px calc(var(--navh) + 26px + env(safe-area-inset-bottom));}
+  @media(min-width:760px){body{padding-bottom:60px}}
+  .wrap{max-width:820px;margin:0 auto}
+
+  header{padding:16px 0 4px}
+  h1{font-size:clamp(20px,5.2vw,28px);margin:0;letter-spacing:-.3px;line-height:1.15}
+  h1 span{color:var(--accent)}
+  .sub{color:var(--dim);margin:6px 0 0;font-size:13px}
+  .byline{margin:2px 0 10px;font-size:13px;color:var(--dim)}
+  .byline b{color:var(--text)}
+
+  nav{position:fixed;left:0;right:0;bottom:0;z-index:60;display:grid;grid-template-columns:repeat(3,1fr);
+    background:var(--panel);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
+  nav button{min-height:var(--navh);border:0;background:transparent;color:var(--dim);font:inherit;
+    font-size:11.5px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:2px;cursor:pointer;padding:6px 2px}
+  nav .ic{font-size:19px;line-height:1}
+  nav button.on{color:var(--accent)}
+  nav .bd{font-size:10px;min-height:11px;color:var(--dim);font-variant-numeric:tabular-nums}
+  nav button.on .bd{color:var(--accent)}
+  @media(min-width:760px){
+    nav{position:sticky;top:0;bottom:auto;display:flex;gap:8px;background:var(--bg);
+      border-top:0;border-bottom:1px solid var(--line);padding:10px 0;margin-bottom:8px}
+    nav button{min-height:46px;flex-direction:row;gap:8px;font-size:15px;padding:0 16px;
+      border-radius:999px;border:1px solid var(--line);background:var(--panel)}
+    nav button.on{background:#12302a;border-color:var(--accent)}
+    nav .bd{font-size:12px}
+  }
+  main{padding-top:14px}
+  section{display:none} section.on{display:block}
+
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    padding:18px 20px;margin-bottom:14px}
+  @media(max-width:520px){.card{padding:16px 14px}}
+  .card h2{margin:0 0 12px;font-size:18px;color:var(--accent)}
+  .card h3{margin:16px 0 6px;font-size:15px;color:#fff}
+  p{margin:8px 0}
+  ul{margin:6px 0;padding-left:20px} li{margin:5px 0}
+  .key{color:var(--accent);font-weight:600}
+  .note{font-size:13px;color:var(--dim);border-top:1px dashed var(--line);margin-top:12px;padding-top:10px}
+  .tag{font-size:12px;color:var(--dim)}
+
+  details.mini{background:#12302a;border:1px solid var(--accent);border-radius:var(--radius);
+    margin-bottom:14px;padding:0;overflow:hidden}
+  details.mini>summary{list-style:none;cursor:pointer;min-height:56px;display:flex;align-items:center;
+    gap:8px;padding:12px 18px;font-size:17px;font-weight:600}
+  details.mini>summary::-webkit-details-marker{display:none}
+  details.mini>summary::after{content:"rozbalit";margin-left:auto;font-size:11px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--accent)}
+  details.mini[open]>summary::after{content:"sbalit"}
+  details.mini ol{margin:0;padding:0 18px 18px 38px;display:flex;flex-direction:column;gap:8px;font-size:15px}
+
+  .tablewrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -4px}
+  table{width:100%;border-collapse:collapse;font-size:14.5px}
+  th,td{padding:8px 10px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;white-space:nowrap}
+  thead th{color:var(--dim);font-size:12px;text-transform:uppercase;letter-spacing:.08em;font-weight:500}
+  tbody tr:last-child td{border-bottom:none}
+  td b{color:var(--accent)}
+  table.wrapcell td,table.wrapcell th{white-space:normal}
+  .num{width:26px;color:var(--dim);font-variant-numeric:tabular-nums}
+
+  ol.steps{margin:6px 0;padding-left:22px}
+  ol.steps li{margin:12px 0}
+
+  /* schéma souvětí */
+  .sch{display:flex;align-items:center;justify-content:center;margin:12px 0 6px;
+    padding:2px 0;overflow-x:auto}
+  .sb{flex:none;min-height:52px;min-width:96px;max-width:190px;padding:8px 10px;border:2px solid var(--accent);
+    border-radius:10px;background:#12302a;display:flex;flex-direction:column;justify-content:center;
+    text-align:center;font-size:13.5px;font-weight:700;line-height:1.25}
+  .sb small{display:block;font-weight:400;color:var(--dim);font-size:11px;margin-top:3px}
+  .sb.vv{border-color:var(--warn);background:#2a2412}
+  .lk{position:relative;flex:1 1 70px;min-width:64px;height:52px}
+  .lk::after{content:"";position:absolute;left:0;right:0;top:50%;height:2px;background:var(--dim);opacity:.55}
+  .lk i{position:absolute;left:50%;top:1px;transform:translateX(-50%);font-style:normal;font-size:10.5px;
+    color:var(--dim);background:var(--panel);padding:0 4px;white-space:nowrap}
+  .sch.v{flex-direction:column}
+  .sch.v .lk{width:100%;flex:none;height:40px;min-width:0}
+  .sch.v .lk::after{left:50%;right:auto;top:0;bottom:0;width:2px;height:auto}
+  .sch.v .lk i{left:calc(50% + 6px);top:50%;transform:translateY(-50%)}
+  .cap{font-size:12.5px;color:var(--dim);margin:0 0 14px;text-align:center}
+
+  .fcbar{display:flex;gap:14px;margin-bottom:10px;color:var(--dim);font-size:13.5px;flex-wrap:wrap}
+  .fc{background:var(--panel2);border:1px solid var(--line);border-radius:var(--radius);
+    min-height:200px;display:flex;align-items:center;justify-content:center;text-align:center;
+    padding:26px;cursor:pointer;font-size:19px;user-select:none}
+  .fc small{display:block;color:var(--dim);font-size:12px;margin-top:14px}
+  .fc.back{background:#12302a;border-color:var(--accent2);font-size:17px}
+
+  .row{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+  button.btn{background:var(--accent);color:#05231a;border:0;min-height:var(--tap);padding:10px 20px;
+    border-radius:11px;font:inherit;font-size:15px;font-weight:600;cursor:pointer}
+  button.btn.big{flex:1 1 44%}
+  button.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+  button.small{min-height:40px;padding:6px 13px;font-size:13.5px}
+
+  .bar{height:7px;background:var(--panel2);border-radius:999px;overflow:hidden;margin-bottom:8px}
+  .bar i{display:block;height:100%;background:var(--accent);width:0}
+  .dots{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px}
+  .dots span{width:9px;height:9px;border-radius:50%;background:var(--panel2);border:1px solid var(--line)}
+  .dots span.d-ok{background:var(--ok);border-color:var(--ok)}
+  .dots span.d-bad{background:var(--bad);border-color:var(--bad)}
+  .dots span.d-now{background:var(--accent);border-color:var(--accent)}
+  .qn{color:var(--dim);font-size:13px;margin-bottom:6px}
+  .qt{font-size:18px;margin-bottom:14px;line-height:1.45}
+  .qt.sent{font-size:17px;background:var(--panel2);border:1px solid var(--line);border-radius:11px;
+    padding:12px 14px}
+  .qt b{color:var(--accent)}
+  .opt{display:block;width:100%;text-align:left;background:var(--panel2);border:1px solid var(--line);
+    color:var(--text);min-height:var(--tap);padding:12px 14px;border-radius:11px;margin-bottom:8px;
+    cursor:pointer;font:inherit;font-size:16px}
+  .opt:hover{border-color:var(--accent)}
+  .opt.sel{border-color:var(--accent);background:#12302a}
+  .opt.ok{border-color:var(--ok);background:#123025}
+  .opt.bad{border-color:var(--bad);background:#31161a}
+  .fb{margin-top:14px;padding:12px 14px;border-radius:11px;font-size:15px}
+  .fb.ok{background:#123025;border:1px solid var(--ok)}
+  .fb.bad{background:#31161a;border:1px solid var(--bad)}
+  .fb>b:first-child{display:block;margin-bottom:4px}
+  .score{font-size:40px;font-weight:700;color:var(--accent);margin:8px 0}
+  .wrongs li{margin:10px 0}
+  .saved{font-size:12px;color:var(--dim);margin-top:14px}
+
+  details.help{background:var(--panel);border:1px solid var(--line);border-radius:12px;margin:0 0 4px;overflow:hidden}
+  details.help>summary{list-style:none;cursor:pointer;min-height:48px;display:flex;align-items:center;
+    padding:10px 15px;font-size:15px;font-weight:600}
+  details.help>summary::-webkit-details-marker{display:none}
+  details.help>summary::after{content:"+";margin-left:auto;color:var(--accent);font-size:19px}
+  details.help[open]>summary::after{content:"–"}
+  details.help ol,details.help ul{margin:0;padding:0 15px 4px 36px;font-size:14.5px}
+  details.help p{margin:4px 15px 14px;font-size:14.5px;color:var(--dim)}
+
+  .tipbar{position:fixed;left:0;right:0;z-index:70;background:var(--panel);
+    border-top:1px solid var(--accent);padding:11px 16px;
+    bottom:0;padding-bottom:calc(11px + env(safe-area-inset-bottom, 0px))}
+  .tipbar-in{max-width:820px;margin:0 auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .tipbar-txt{flex:1;min-width:170px;font-size:13.5px;color:var(--dim);line-height:1.45}
+  .tipbar-txt b{color:var(--text)}
+  .tipbar-btns{display:flex;gap:8px;flex:none}
+  .tipbar{transition:opacity 3s linear}
+  .tipbar.bye{opacity:0;pointer-events:none}
+  .tipbar-bye{flex:1;text-align:center;font-size:16px;padding:6px 0}
+  .tipbar [hidden]{display:none!important}
+  @media (prefers-reduced-motion: reduce){ .tipbar{transition:none} }
+
+  section.faq{display:block;margin-top:26px}
+  .faq h2{font-size:17px;margin:0 0 10px;color:var(--accent)}
+  .faq details{background:var(--panel);border:1px solid var(--line);border-radius:12px;margin-bottom:8px;overflow:hidden}
+  .faq summary{list-style:none;cursor:pointer;min-height:52px;display:flex;align-items:center;gap:10px;
+    padding:11px 15px;font-size:15px;font-weight:600;color:var(--text)}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:"+";margin-left:auto;color:var(--accent);font-size:19px;line-height:1}
+  .faq details[open] summary::after{content:"\2212"}
+  .faq .fa{padding:0 15px 15px;font-size:14.5px;color:var(--dim);line-height:1.6}
+  .faq .fa b{color:var(--text)}
+
+  section.tip{display:flex;align-items:center;gap:15px;margin-top:26px;padding:15px;
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--radius)}
+  .tip img{flex:none;width:108px;height:108px;background:#fff;border-radius:8px;padding:4px}
+  .tip b{display:block;font-size:15px;margin-bottom:4px}
+  .tip p{font-size:13.5px;color:var(--dim);margin:0 0 6px}
+  .tip .acc{font-size:13px;color:var(--text);font-variant-numeric:tabular-nums;
+    -webkit-user-select:all;user-select:all}
+  @media(max-width:439px){section.tip{gap:12px;padding:13px}.tip img{width:94px;height:94px}}
+
+  @media (prefers-reduced-motion: no-preference){.bar i{transition:width .2s linear}}
+
+  .author{margin:26px 0 0;padding:15px;border:1px solid var(--line);border-radius:14px;background:var(--panel)}
+  section.author{display:block}
+  .author h2{margin:0 0 8px;font-size:17px;color:var(--accent)}
+  .author p{margin:0 0 12px;font-size:14.5px;line-height:1.6;color:var(--dim)}
+  .author .links{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0}
+  .author .links a{display:flex;align-items:center;gap:7px;min-height:48px;padding:0 14px;
+    border:1px solid var(--line);border-radius:12px;background:var(--panel2);color:var(--dim);
+    text-decoration:none;font-size:14px}
+  .author .links b{color:var(--text);font-weight:800;word-break:break-all}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>Čeština — <span>rozbor souvětí</span></h1>
+    <p class="byline"><a href="#autor">sítě dole</a></p>
+    <p class="sub">4 kroky · 6 poměrů · schéma · postup se ukládá, můžeš kdykoli zavřít</p>
+  </header>
+
+  <nav id="tabs">
+    <button data-t="uc"><span class="ic">📖</span><span>Tahák</span><span class="bd"></span></button>
+    <button data-t="fc"><span class="ic">🃏</span><span>Kartičky</span><span class="bd" id="bd-fc"></span></button>
+    <button data-t="qz"><span class="ic">✅</span><span>Kvíz</span><span class="bd" id="bd-qz"></span></button>
+  </nav>
+
+  <main>
+
+  <!-- ==================== TAHÁK ==================== -->
+  <section id="uc">
+    <details class="mini" id="mini">
+      <summary>Minimum na test — 4 věty</summary>
+      <ol>
+        <li>Počet vět = počet <span class="key">určitých sloves</span> (tvarů, u kterých řekneš osobu: já, ty, on…). Infinitiv se nepočítá.</li>
+        <li><span class="key">VH</span> = nezávislá, může stát sama. <span class="key">VV</span> = závislá, zastupuje větný člen a ptáš se na ni z jiné věty.</li>
+        <li>Mezi VH určuješ <span class="key">poměr</span>: slučovací, stupňovací, odporovací, vylučovací, příčinný, důsledkový.</li>
+        <li>U VV určuješ <span class="key">druh</span> podle větného členu, který nahrazuje. Čárku mezi VH ve slučovacím poměru nepíšeš.</li>
+      </ol>
+    </details>
+
+    <div class="card">
+      <h2>Postup — 4 kroky</h2>
+      <ol class="steps">
+        <li><b>Najdi určitá slovesa a spočítej je.</b><br>
+          Tolik má souvětí vět. <i>Přijdu, až to skončí.</i> → <span class="key">2 věty</span> (přijdu, skončí).</li>
+        <li><b>Urči věty hlavní.</b><br>
+          VH je ta, na kterou se neptáš z jiné věty a která může stát sama. <span class="key">Nemusí být první.</span>
+          <i>Když pršelo, zůstali jsme doma.</i> → VH je „zůstali jsme doma“.</li>
+        <li><b>U každé VV urči druh.</b><br>
+          Polož otázku z věty řídící: kdo? co? jaký? kde? kdy? proč? za jakým účelem? → podmětná, předmětná, přívlastková, příslovečná…</li>
+        <li><b>U dvojic VH urči poměr</b> a nakresli schéma (krabičky + čára s názvem poměru).</li>
+      </ol>
+      <div class="note">Když je VH jedna → <b>souvětí podřadné</b>. Když jsou VH aspoň dvě a žádná VV → <b>souřadné</b>. Když obojí → <b>složené</b>.</div>
+    </div>
+
+    <div class="card">
+      <h2>Kolik je vět?</h2>
+      <div class="tablewrap">
+        <table class="wrapcell">
+          <thead><tr><th>Souvětí</th><th>Vět</th><th>Proč</th></tr></thead>
+          <tbody>
+            <tr><td><i>Musím jít nakoupit.</i></td><td><b>1</b></td><td>„musím“ je jediné určité sloveso, „jít“ a „nakoupit“ jsou infinitivy.</td></tr>
+            <tr><td><i>Zítra budu psát test.</i></td><td><b>1</b></td><td>„budu“ + infinitiv = jeden přísudek (budoucí čas).</td></tr>
+            <tr><td><i>Přijdu, až to skončí.</i></td><td><b>2</b></td><td>přijdu · skončí</td></tr>
+            <tr><td><i>Chci, abys přišel včas.</i></td><td><b>2</b></td><td>chci · přišel („abys“ = aby + jsi, pořád určité sloveso)</td></tr>
+            <tr><td><i>Petr řekl, že přijde, až dokončí práci.</i></td><td><b>3</b></td><td>řekl · přijde · dokončí</td></tr>
+            <tr><td><i>Nevěděl jsem, co mám dělat, a tak jsem se zeptal.</i></td><td><b>3</b></td><td>nevěděl · mám · zeptal</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note">Počet vět se <b>nepočítá podle čárek</b>. Čárka odděluje i několikanásobný větný člen: <i>Koupil chleba, mléko a sýr.</i> = pořád jedna věta.</div>
+    </div>
+
+    <div class="card">
+      <h2>VH, nebo VV?</h2>
+      <div class="tablewrap">
+        <table class="wrapcell">
+          <thead><tr><th>Otázka</th><th>VH</th><th>VV</th></tr></thead>
+          <tbody>
+            <tr><td>Může stát sama?</td><td><b>ano</b></td><td>ne</td></tr>
+            <tr><td>Ptáš se na ni z jiné věty?</td><td>ne</td><td><b>ano</b></td></tr>
+            <tr><td>Dá se nahradit větným členem?</td><td>ne</td><td><b>ano</b> — <i>V dešti jsme zůstali doma.</i></td></tr>
+            <tr><td>Typický uvozovací výraz</td><td>a, i, ale, nebo, neboť, proto</td><td>že, aby, když, protože, který, kdo, kde</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <ul>
+        <li><b>VV může stát na začátku.</b> <i>Když pršelo, zůstali jsme doma.</i> → první věta je VV, VH je druhá.</li>
+        <li><b>VV může řídit jinou VV.</b> <i>Věděl, že přijde, až dokončí práci.</i> → „až dokončí“ visí na „přijde“.</li>
+        <li><b>Spojka sama nerozhoduje.</b> „a, ale, neboť“ jsou souřadicí (spojují VH). „že, aby, protože, když, který“ jsou podřadicí (uvozují VV).</li>
+        <li><b>„neboť“ není podřadicí spojka.</b> <i>Nepřišel, neboť byl nemocný.</i> = dvě VH v příčinném poměru, ne VV příčinná.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Tři typy souvětí</h2>
+      <div class="tablewrap">
+        <table class="wrapcell">
+          <thead><tr><th>Typ</th><th>Poznáš</th><th>Příklad</th></tr></thead>
+          <tbody>
+            <tr><td><b>souřadné</b></td><td>2 a víc VH, žádná VV</td><td><i>Petr přišel a Jana odešla.</i></td></tr>
+            <tr><td><b>podřadné</b></td><td>1 VH + 1 a víc VV</td><td><i>Vím, že to udělal.</i></td></tr>
+            <tr><td><b>složené</b></td><td>2 a víc VH + aspoň 1 VV</td><td><i>Vím, že to udělal, a proto se ho zeptám.</i></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Šest poměrů mezi větami hlavními</h2>
+      <div class="tablewrap">
+        <table class="wrapcell">
+          <thead><tr><th>#</th><th>Poměr</th><th>Co to je</th><th>Spojky</th><th>Příklad</th></tr></thead>
+          <tbody>
+            <tr><td class="num">1</td><td><b>slučovací</b></td><td>věty jsou rovnocenné, jen se řadí za sebe</td><td>a, i, ani, také, jednak–jednak, beze spojky</td><td><i>Venku pršelo a my jsme zůstali doma.</i></td></tr>
+            <tr><td class="num">2</td><td><b>stupňovací</b></td><td>druhá věta první zesiluje, je závažnější</td><td>ba, ba i, dokonce, nejen… ale i, nýbrž i</td><td><i>Nevěřili mu, ba pokládali ho za lháře.</i></td></tr>
+            <tr><td class="num">3</td><td><b>odporovací</b></td><td>druhá věta první odporuje nebo ji omezuje</td><td>ale, avšak, však, jenže, nicméně, nýbrž, sice–ale</td><td><i>Byl unavený, ale pracoval dál.</i></td></tr>
+            <tr><td class="num">4</td><td><b>vylučovací</b></td><td>platí právě jedna z možností, obě ne</td><td>nebo, anebo, či, buď–(a)nebo, ať–či</td><td><i>Buď se učíš, nebo jdeme ven.</i></td></tr>
+            <tr><td class="num">5</td><td><b>příčinný</b></td><td>druhá věta říká příčinu první</td><td>neboť, vždyť, totiž</td><td><i>Nepřišel, neboť byl nemocný.</i></td></tr>
+            <tr><td class="num">6</td><td><b>důsledkový</b></td><td>druhá věta říká důsledek první</td><td>proto, a proto, tedy, tudíž, a tak</td><td><i>Zaspal, a proto přišel pozdě.</i></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note">Čísla 1–6 jsou jen pomůcka pro schéma. <b>Některé učebnice číslují v jiném pořadí</b> — v testu rozhoduje název poměru, ne číslo.</div>
+    </div>
+
+    <div class="card">
+      <h2>Druhy vedlejších vět</h2>
+      <p style="margin:0 0 8px;font-size:14px;color:var(--dim)">Ptej se z věty řídící. Spojka pomáhá, ale sama nerozhoduje.</p>
+      <div class="tablewrap">
+        <table class="wrapcell">
+          <thead><tr><th>Druh</th><th>Otázka</th><th>Spojky</th><th>Příklad</th></tr></thead>
+          <tbody>
+            <tr><td><b>podmětná</b></td><td>kdo? co?</td><td>kdo, co, že</td><td><i>Kdo lže, ten krade.</i></td></tr>
+            <tr><td><b>přísudková</b></td><td>jaký je? čím je?</td><td>jaký, čím</td><td><i>Není, jaký býval.</i></td></tr>
+            <tr><td><b>předmětná</b></td><td>koho? co? o čem? (pády 2–7)</td><td>že, aby, jestli, co</td><td><i>Řekl, že přijde.</i></td></tr>
+            <tr><td><b>přívlastková</b></td><td>jaký? který? čí?</td><td>který, jenž, kde, kdy</td><td><i>Kniha, kterou čtu, je dobrá.</i></td></tr>
+            <tr><td><b>doplňková</b></td><td>jak? (k předmětu i slovesu)</td><td>jak</td><td><i>Slyšel jsem ho, jak zpívá.</i></td></tr>
+            <tr><td><b>přísl. místní</b></td><td>kde? kam? kudy? odkud?</td><td>kde, kam, kudy</td><td><i>Bydlí tam, kde jsem vyrostl.</i></td></tr>
+            <tr><td><b>přísl. časová</b></td><td>kdy? jak dlouho? dokdy?</td><td>když, až, jakmile, dokud</td><td><i>Když pršelo, byli jsme doma.</i></td></tr>
+            <tr><td><b>přísl. způsobová</b></td><td>jak? jakým způsobem?</td><td>jak, jako by</td><td><i>Udělal to, jak nejlépe uměl.</i></td></tr>
+            <tr><td><b>přísl. měrová</b></td><td>do jaké míry? jak moc?</td><td>až, že</td><td><i>Křičel, až ochraptěl.</i></td></tr>
+            <tr><td><b>přísl. příčinná</b></td><td>proč? z jaké příčiny?</td><td>protože, jelikož, poněvadž</td><td><i>Nepřišel, protože stonal.</i></td></tr>
+            <tr><td><b>přísl. účelová</b></td><td>za jakým účelem? proč?</td><td>aby</td><td><i>Přišel, aby pomohl.</i></td></tr>
+            <tr><td><b>přísl. podmínková</b></td><td>za jaké podmínky?</td><td>jestliže, kdyby, pokud, -li</td><td><i>Jestliže bude pršet, zůstaneme doma.</i></td></tr>
+            <tr><td><b>přísl. přípustková</b></td><td>navzdory čemu? i přes co?</td><td>ačkoli, přestože, i když</td><td><i>Ačkoli byl unavený, dohrál zápas.</i></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note">Celá tabulka i s cvičením je na tiskovém listu <a href="cestina-skladba-tisk.html" style="color:var(--accent)">Skladba (tisk)</a>. Druhy přísudku jsou v materiálu <a href="prisudek.html" style="color:var(--accent)">Druhy přísudku</a>.</div>
+    </div>
+
+    <div class="card">
+      <h2>Jak nakreslit schéma</h2>
+      <p style="margin:0 0 4px">Krabička = jedna věta. <b>VH jdou v řadě za sebou</b>, mezi nimi je čára s názvem poměru. <b>VV visí pod větou</b>, na kterou se váže, a u čáry je její druh.</p>
+
+      <h3>1) Dvě VH, slučovací poměr</h3>
+      <div class="sch">
+        <div class="sb">1 VH<small>Venku pršelo</small></div>
+        <div class="lk"><i>slučovací</i></div>
+        <div class="sb">2 VH<small>my jsme zůstali doma</small></div>
+      </div>
+      <p class="cap"><i>Venku pršelo a my jsme zůstali doma.</i></p>
+
+      <h3>2) Dvě VH, odporovací poměr</h3>
+      <div class="sch">
+        <div class="sb">1 VH<small>Byl unavený</small></div>
+        <div class="lk"><i>odporovací</i></div>
+        <div class="sb">2 VH<small>pracoval dál</small></div>
+      </div>
+      <p class="cap"><i>Byl unavený, ale pracoval dál.</i></p>
+
+      <h3>3) Jedna VH + jedna VV</h3>
+      <div class="sch v">
+        <div class="sb">1 VH<small>vím</small></div>
+        <div class="lk"><i>předmětná</i></div>
+        <div class="sb vv">2 VV<small>že to udělal</small></div>
+      </div>
+      <p class="cap"><i>Vím, že to udělal.</i></p>
+
+      <h3>4) VV před VH</h3>
+      <div class="sch v">
+        <div class="sb vv">1 VV<small>když pršelo</small></div>
+        <div class="lk"><i>časová</i></div>
+        <div class="sb">2 VH<small>zůstali jsme doma</small></div>
+      </div>
+      <p class="cap"><i>Když pršelo, zůstali jsme doma.</i> Číslo = pořadí věty v textu, ne důležitost.</p>
+
+      <h3>5) Tři věty, dvě VV na sobě</h3>
+      <div class="sch v">
+        <div class="sb">1 VH<small>Petr řekl</small></div>
+        <div class="lk"><i>předmětná</i></div>
+        <div class="sb vv">2 VV<small>že přijde</small></div>
+        <div class="lk"><i>časová</i></div>
+        <div class="sb vv">3 VV<small>až dokončí práci</small></div>
+      </div>
+      <p class="cap"><i>Petr řekl, že přijde, až dokončí práci.</i></p>
+      <div class="note">Učebnice používají <b>VH/VV</b> nebo <b>H/V</b>. Obojí je správně, jen to v testu piš stejně jako učebnice.</div>
+    </div>
+
+    <div class="card">
+      <h2>Čárky v souvětí — 5 pravidel</h2>
+      <ul>
+        <li><b>Před a, i, ani, nebo, či ve slučovacím poměru čárka není.</b><br><i>Utábořili se na kopci a večer rozdělali oheň.</i></li>
+        <li><b>V jiném poměru než slučovacím čárka je.</b><br><i>Snažil se, a neuspěl.</i> (odporovací, „a“ = „ale“) · <i>Zaspal, a proto přišel pozdě.</i> (důsledkový)</li>
+        <li><b>VV se od věty řídící odděluje čárkou vždy.</b><br><i>Věděl jsem, že přijde.</i> · <i>Když pršelo, zůstali jsme doma.</i></li>
+        <li><b>Vložená VV má čárku z obou stran.</b><br><i>Kniha, kterou čtu, je dobrá.</i></li>
+        <li><b>Dvojité spojovací výrazy: čárka až před druhým.</b><br><i>Buď se učíš, nebo jdeme ven.</i> · <i>Ani nepřišel, ani nezavolal.</i></li>
+      </ul>
+      <div class="note">Pozor: spojka „a“ může stát i před vloženou VV. Pak je čárka i před „a“: <i>Šli jsme na výlet, a protože začalo pršet, vrátili jsme se domů.</i></div>
+    </div>
+
+    <div class="card">
+      <h2>Pasti</h2>
+      <ul>
+        <li><b>„a“ neznamená slučovací.</b> Když se dá nahradit „ale“, je to odporovací: <i>Sliboval, a nepřišel.</i></li>
+        <li><b>„neboť“ je souřadicí.</b> <i>Nepřišel, neboť byl nemocný.</i> = příčinný poměr mezi VH, ne vedlejší věta.</li>
+        <li><b>„protože“ je podřadicí.</b> <i>Nepřišel, protože byl nemocný.</i> = VV příčinná. Význam stejný, stavba jiná.</li>
+        <li><b>„Nevím, kdy přijde.“</b> Není časová. Ptáš se „co nevím?“ → <span class="key">předmětná</span>.</li>
+        <li><b>„Když“</b> je časová (<i>Když jsem přišel, spal.</i>) i podmínková (<i>Když budeš chtít, pomůžu.</i>). Rozhoduje otázka.</li>
+        <li><b>„Jak“</b> je způsobová (<i>Udělal to, jak uměl.</i>) i předmětná (<i>Nevím, jak to udělat.</i>).</li>
+        <li><b>„že“</b> není vždy předmětná: <i>Je jisté, že přijde.</i> → „co je jisté?“ → <span class="key">podmětná</span>.</li>
+        <li><b>Infinitiv není věta.</b> <i>Musím jít.</i> = 1 věta, i když jsou tam dvě slovesa.</li>
+        <li><b>Pořadí neznamená hlavnost.</b> VV běžně stojí na začátku souvětí.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Ověřeno — kde to bývá nepřesné</h2>
+      <ul>
+        <li><b>Číslování poměrů.</b> Čísla 1–6 (slučovací → důsledkový) jsou pomůcka pro zápis schématu. Učebnice se v pořadí někdy liší. Do testu piš název, číslo si ověř podle své učebnice.</li>
+        <li><b>VH/VV × H/V.</b> Obě značení se používají. Zvol jedno a drž se ho.</li>
+        <li><b>Dvě slovesa v jedné větě.</b> <i>Petr zpíval a tancoval.</i> Učebnice to obvykle učí jako jednu větu s přísudkem několikanásobným, jazykovědci doporučují spíš počítat určitá slovesa. V testu se řiď učebnicí; obecné pravidlo „počet určitých sloves = počet vět“ platí pro běžné věty.</li>
+        <li><b>Příčinný poměr.</b> Jediná souřadicí spojka s tímto významem je „neboť“ (dál „vždyť“, „totiž“). „Protože“ je podřadicí — z něj je VV.</li>
+        <li><b>„Nevěděl, co s tím.“</b> Výpustka, přechod mezi větou a souvětím. IJP u takových výpustek připouští čárku i podobu bez čárky — v testu piš, co chce učebnice.</li>
+      </ul>
+      <div class="note">Zdroje: Internetová jazyková příručka ÚJČ (psaní čárky v souvětí, čárka před a/i/ani, před nebo/či) a učebnicové přehledy větných poměrů.</div>
+    </div>
+  </section>
+
+  <!-- ==================== KARTIČKY ==================== -->
+  <section id="fc">
+    <div class="fcbar"><span id="fcpos"></span><span id="fcknown"></span></div>
+    <div class="fc" id="fccard" tabindex="0" role="button"></div>
+    <div class="row">
+      <button class="btn big" id="fcyes">✓ Umím</button>
+      <button class="btn ghost big" id="fcno">✗ Ještě ne</button>
+    </div>
+    <div class="row">
+      <button class="btn ghost small" id="fcprev">◂ Zpět</button>
+      <button class="btn ghost small" id="fcnext">Přeskočit ▸</button>
+      <button class="btn ghost small" id="fconly">Jen co neumím</button>
+      <button class="btn ghost small" id="fcreset">Vynulovat značky</button>
+    </div>
+    <p class="saved">Značky se ukládají. Zavři to kdykoli, vrátíš se na stejnou kartičku.</p>
+  </section>
+
+  <!-- ==================== KVÍZ ==================== -->
+  <section id="qz">
+    <div class="bar"><i id="pbar"></i></div>
+    <div class="dots" id="dots"></div>
+    <div class="card" id="qbox"></div>
+    <details class="help">
+      <summary>Nápověda — 4 kroky</summary>
+      <ol>
+        <li>spočítej <b>určitá slovesa</b> → počet vět</li>
+        <li>najdi <b>VH</b> (může stát sama, neptáš se na ni)</li>
+        <li>u VV urči <b>druh</b> otázkou z věty řídící</li>
+        <li>u VH urči <b>poměr</b>: slučovací · stupňovací · odporovací · vylučovací · příčinný · důsledkový</li>
+      </ol>
+      <p>Čárka před <b>a, i, ani, nebo, či</b> se nepíše jen ve slučovacím poměru.</p>
+    </details>
+    <div class="row"><button class="btn ghost small" id="qreset">↺ Začít kvíz od začátku</button></div>
+    <p class="saved">Kvíz jede po kolech po 6 otázkách. Po každém kole je pauza a postup je uložený.</p>
+  </section>
+
+  </main>
+
+  <section class="author" id="autor">
+    <h2>Kdo to udělal</h2>
+    <p>Tenhle materiál jsem napsal a naprogramoval já, sám. Není to práce nikoho jiného. Když ho posíláš dál, nech ho celý i s tímhle blokem.</p>
+    <ul class="links"><li><a href="https://www.tiktok.com/@waffleninja7" target="_blank" rel="noopener noreferrer"><span>TikTok</span> <b>@waffleninja7</b></a></li><li><a href="https://t.me/TheWaffleNinja" target="_blank" rel="noopener noreferrer"><span>Telegram</span> <b>@TheWaffleNinja</b></a></li><li><a href="https://www.instagram.com/angel_dust.mp4/" target="_blank" rel="noopener noreferrer"><span>Instagram</span> <b>angel_dust.mp4</b></a></li></ul>
+  </section>
+
+  <section class="faq">
+    <h2>Časté otázky</h2>
+    <details>
+      <summary>Musím zaplatit, abych to mohl použít?</summary>
+      <div class="fa">Ne. Všechno je odemčené, nic se neschovává za platbu. QR kód dole je dobrovolný.</div>
+    </details>
+    <details>
+      <summary>Proč bych ti posílal peníze?</summary>
+      <div class="fa">Protože to zabralo čas, který jsi nemusel obětovat ty. Je tady postup na 4 kroky, <b id="faqfc">27 kartiček</b> a <b id="faqqz">58 otázek</b> s vysvětlením u každé. Když ti to ušetří hodinu, dvacka je slušný kurz.</div>
+    </details>
+    <details>
+      <summary>Zaručuje mi to dobrou známku?</summary>
+      <div class="fa"><b>Ne.</b> Tohle nikdy tvrdit nebudu. Materiál je sestavený podle běžného učiva. Když se zeptáš na něco jiného, tady to nenajdeš. Není to oficiální materiál. Ber to jako pomůcku navíc, ne jako náhradu učení.</div>
+    </details>
+    <details>
+      <summary>Jak víš, že tam nejsou chyby?</summary>
+      <div class="fa">Pravidla pro čárky a spojky jsou porovnaná s Internetovou jazykovou příručkou ÚJČ. Kde se učebnice rozcházejí (číslování poměrů, několikanásobný přísudek), je to v kartě <b>„Ověřeno“</b>. Když přesto chybu najdeš, napiš mi a opravím ji.</div>
+    </details>
+    <details>
+      <summary>Můžu to poslat dál?</summary>
+      <div class="fa">Jo. Komukoliv. Je to jeden soubor, funguje i bez internetu.</div>
+    </details>
+    <details>
+      <summary>Kam ty peníze jdou?</summary>
+      <div class="fa">Na nástroje, kterými to dělám, a na čas, který v tom strávím. Za každý předmět je v QR kódu jiná zpráva, takže vím, co lidem reálně pomáhá, a podle toho dělám další.</div>
+    </details>
+  </section>
+
+  <section class="tip">
+    <img src="data:image/png;base64,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" alt="QR kód pro platbu 20 Kč na účet 300369512/0300" width="108" height="108">
+    <div>
+      <b>Kdyby chtěl někdo přihodit na kafe</b>
+      <p>Dělal jsem to hlavně pro sebe, tak si to klidně vezmi. Naskenuj QR bankovní aplikací — částka <b>20 Kč</b> se vyplní sama. Nemusí nikdo, funguje to všem stejně.</p>
+      <span class="acc">300369512 / 0300 · 20 Kč</span>
+    </div>
+  </section>
+
+</div>
+
+  <div class="tipbar" id="tipbar" hidden role="region" aria-label="Dobrovolný příspěvek">
+    <div class="tipbar-in">
+      <span class="tipbar-txt"><b>Pomohlo ti to?</b> Dobrovolný příspěvek 20 Kč. Nemusíš, funguje to všem stejně.</span>
+      <span class="tipbar-btns">
+        <button type="button" class="btn small" id="tipbar-yes">Ukázat QR</button>
+        <button type="button" class="btn ghost small" id="tipbar-no">Teď ne</button>
+      </span>
+        <span class="tipbar-bye" hidden>oka.... 😓</span>
+    </div>
+  </div>
+
+<script>
+/* ===== kartičky ===== */
+var FLASH = [
+  ["Jak zjistíš počet vět v souvětí?","Spočítej <b>určitá slovesa</b> — tvary, u kterých řekneš osobu.<br>Infinitiv se nepočítá."],
+  ["Co je věta hlavní?","Je <b>nezávislá</b>. Může stát sama, neptáš se na ni z jiné věty."],
+  ["Co je věta vedlejší?","Je <b>závislá</b> na větě řídící. Zastupuje větný člen a ptáš se na ni z jiné věty."],
+  ["Jak poznáš VV?","Dá se nahradit větným členem.<br><i>Když pršelo…</i> → <i>V dešti…</i>"],
+  ["Šest poměrů mezi VH?","slučovací · stupňovací · odporovací<br>vylučovací · příčinný · důsledkový"],
+  ["Spojky slučovacího poměru?","<b>a, i, ani, také</b><br>jednak–jednak, hned–hned, beze spojky"],
+  ["Spojky stupňovacího poměru?","<b>ba, ba i, dokonce</b><br>nejen… ale i, nýbrž i"],
+  ["Spojky odporovacího poměru?","<b>ale, avšak, však, jenže</b><br>nicméně, nýbrž, sice–ale"],
+  ["Spojky vylučovacího poměru?","<b>nebo, anebo, či</b><br>buď–(a)nebo, ať–či"],
+  ["Spojky příčinného poměru?","<b>neboť, vždyť, totiž</b><br>Jsou souřadicí — spojují dvě VH."],
+  ["Spojky důsledkového poměru?","<b>proto, a proto, tedy, tudíž, a tak</b>"],
+  ["Tři typy souvětí?","<b>souřadné</b> = 2+ VH, žádná VV<br><b>podřadné</b> = 1 VH + VV<br><b>složené</b> = 2+ VH + VV"],
+  ["Jak se značí věty ve schématu?","Krabička = věta. <b>VH</b> v řadě za sebou, mezi nimi čára s poměrem. <b>VV</b> visí pod větou, na kterou se váže."],
+  ["Kdy se píše čárka před „a“?","Jen když poměr <b>není slučovací</b> (odporovací, důsledkový, stupňovací), nebo když za „a“ začíná vložená VV."],
+  ["<i>Nepřišel, neboť byl nemocný.</i>","Poměr <b>příčinný</b> mezi dvěma VH.<br>„Neboť“ je souřadicí spojka — žádná VV!"],
+  ["<i>Sliboval, a nepřišel.</i>","Poměr <b>odporovací</b>.<br>„A“ tu znamená „ale“ → čárka."],
+  ["<i>Zaspal, a proto přišel pozdě.</i>","Poměr <b>důsledkový</b>.<br>Druhá věta je důsledek první."],
+  ["<i>Buď se učíš, nebo jdeme ven.</i>","Poměr <b>vylučovací</b>.<br>Platí právě jedna možnost."],
+  ["<i>Nevím, kdy se vrátí.</i>","VV <b>předmětná</b>.<br>Nevím <b>co?</b> „Kdy“ tu není časová."],
+  ["<i>Kdo lže, ten krade.</i>","VV <b>podmětná</b>.<br>Věta hlavní nemá vlastní podmět — ten zastupuje VV."],
+  ["<i>Kniha, kterou čtu, je dobrá.</i>","VV <b>přívlastková</b>, vložená.<br>Čárky z obou stran."],
+  ["<i>Přišel, aby pomohl.</i>","VV <b>účelová</b>.<br>Za jakým účelem? Aby pomohl."],
+  ["<i>Jestliže bude pršet, zůstaneme doma.</i>","VV <b>podmínková</b>.<br>Za jaké podmínky?"],
+  ["<i>Ačkoli byl unavený, dohrál zápas.</i>","VV <b>přípustková</b>.<br>Navzdory čemu? I přes únavu."],
+  ["<i>Když pršelo, zůstali jsme doma.</i>","1 VV <b>časová</b> + 2 VH.<br>VH je „zůstali jsme doma“, i když je druhá."],
+  ["<i>Petr řekl, že přijde, až dokončí práci.</i>","<b>3 věty</b>: VH + VV předmětná + VV časová."],
+  ["<i>Musím jít nakoupit.</i>","<b>1 věta.</b> „Jít“ a „nakoupit“ jsou infinitivy."]
+];
+
+/* ===== kvíz =====
+   q = otázka, o = možnosti, a = index správné, w = vysvětlení
+   sent = věta (zvýrazní se) */
+var Q = [
+  /* --- kolik vět --- */
+  {q:"<b>Musím jít nakoupit.</b><br>Kolik vět je v ukázce?",sent:1,o:["1","2","3","4"],a:0,w:"„Musím“ je jediné určité sloveso. „Jít“ a „nakoupit“ jsou infinitivy — nepočítají se."},
+  {q:"<b>Zítra budu psát test.</b><br>Kolik vět je v ukázce?",sent:1,o:["1","2","3","4"],a:0,w:"„Budu“ + infinitiv = jeden přísudek, budoucí čas. Pořád jedna věta."},
+  {q:"<b>Přijdu, až to skončí.</b><br>Kolik vět je v ukázce?",sent:1,o:["1","2","3","4"],a:1,w:"Dvě určitá slovesa: přijdu, skončí."},
+  {q:"<b>Petr řekl, že přijde, až dokončí práci.</b><br>Kolik vět je v ukázce?",sent:1,o:["2","3","4","5"],a:1,w:"řekl · přijde · dokončí = tři určitá slovesa."},
+  {q:"<b>Chci, abys přišel včas.</b><br>Kolik vět je v ukázce?",sent:1,o:["1","2","3","4"],a:1,w:"chci · přišel. „Abys“ = aby + jsi, pořád určité sloveso."},
+  {q:"<b>Nevěděl jsem, co mám dělat, a tak jsem se zeptal.</b><br>Kolik vět je v ukázce?",sent:1,o:["2","3","4","5"],a:1,w:"nevěděl · mám · zeptal = tři věty. „Dělat“ je infinitiv."},
+  {q:"<b>Když pršelo, zůstali jsme doma.</b><br>Kolik vět je v ukázce?",sent:1,o:["1","2","3","4"],a:1,w:"pršelo · zůstali jsme. „Když“ uvozuje VV, „jsme“ tvoří minulý čas."},
+  {q:"<b>Přestalo pršet, a tak jsme šli ven.</b><br>Kolik vět je v ukázce?",sent:1,o:["1","2","3","4"],a:1,w:"přestalo · šli jsme. „Pršet“ je infinitiv."},
+  {q:"V souvětí najdeš <b>čtyři</b> určitá slovesa. Kolik má vět?",sent:0,o:["3","4","5","6"],a:1,w:"Platí: počet vět = počet určitých sloves."},
+  {q:"Podle čeho poznáš počet vět v souvětí?",sent:0,o:["podle čárek","podle počtu určitých sloves","podle počtu spojek","podle délky věty"],a:1,w:"Čárka odděluje i několikanásobný větný člen: <i>Koupil chleba, mléko a sýr.</i> = jedna věta."},
+
+  /* --- VH / VV a typ souvětí --- */
+  {q:"Které tvrzení o <b>větě hlavní</b> platí?",sent:0,o:["Je vždy první v souvětí.","Může stát sama a neptáme se na ni z jiné věty.","Začíná vždy spojkou.","Je vždy ta s nejvíc slovy."],a:1,w:"VH je mluvnicky nezávislá. Pořadí nerozhoduje."},
+  {q:"<b>Když pršelo, zůstali jsme doma.</b><br>Která věta je hlavní?",sent:1,o:["„když pršelo“","„zůstali jsme doma“","obě","ani jedna"],a:1,w:"„Zůstali jsme doma“ může stát sama. „Když pršelo“ se dá nahradit: „V dešti“."},
+  {q:"<b>Petr přišel a Jana odešla.</b><br>Jaký typ souvětí to je?",sent:1,o:["podřadné","souřadné","složené","věta jednoduchá"],a:1,w:"Dvě VH, žádná VV → souřadné."},
+  {q:"<b>Vím, že to udělal, a proto se ho zeptám.</b><br>Jaký typ souvětí to je?",sent:1,o:["podřadné","souřadné","složené","věta jednoduchá"],a:2,w:"Dvě VH (vím / zeptám se) + jedna VV předmětná → složené."},
+  {q:"<b>Myslím, že máš pravdu.</b><br>Jaký typ souvětí to je?",sent:1,o:["podřadné","souřadné","složené","věta jednoduchá"],a:0,w:"Jedna VH + jedna VV → podřadné."},
+  {q:"Kolik VH má souvětí <b>podřadné</b>?",sent:0,o:["právě jednu","aspoň dvě","žádnou","tolik, kolik má VV"],a:0,w:"Podřadné = 1 VH + libovolný počet VV."},
+  {q:"Která spojka je <b>souřadicí</b>?",sent:0,o:["protože","aby","neboť","když"],a:2,w:"„Neboť“ spojuje dvě VH (příčinný poměr). Ostatní jsou podřadicí."},
+  {q:"Která věta může být <b>řídící</b> jiné vedlejší větě?",sent:0,o:["jen VH","jen první věta v souvětí","i VV","žádná"],a:2,w:"VV může řídit další VV: <i>Věděl, že přijde, až skončí.</i>"},
+
+  /* --- poměry --- */
+  {q:"<b>Venku pršelo, a proto jsme zůstali doma.</b><br>Jaký je poměr mezi VH?",sent:1,o:["slučovací","odporovací","příčinný","důsledkový"],a:3,w:"Druhá věta je důsledek první. „A proto“ = důsledkový poměr."},
+  {q:"<b>Nepřišel, neboť byl nemocný.</b><br>Jaký je poměr mezi VH?",sent:1,o:["příčinný","důsledkový","odporovací","slučovací"],a:0,w:"Druhá věta říká příčinu. „Neboť“ je souřadicí příčinná spojka."},
+  {q:"<b>Sliboval, a nepřišel.</b><br>Jaký je poměr mezi VH?",sent:1,o:["slučovací","odporovací","stupňovací","vylučovací"],a:1,w:"„A“ tu znamená „ale“. Nahrazení funguje → odporovací."},
+  {q:"<b>Buď se učíš, nebo jdeme ven.</b><br>Jaký je poměr mezi VH?",sent:1,o:["slučovací","odporovací","vylučovací","důsledkový"],a:2,w:"Platí právě jedna možnost, ne obě → vylučovací."},
+  {q:"<b>Nevěřili mu, ba pokládali ho za lháře.</b><br>Jaký je poměr mezi VH?",sent:1,o:["slučovací","stupňovací","odporovací","příčinný"],a:1,w:"Druhá věta první zesiluje → stupňovací („ba“)."},
+  {q:"<b>Maminka uvařila oběd a tatínek umyl nádobí.</b><br>Jaký je poměr mezi VH?",sent:1,o:["slučovací","odporovací","stupňovací","důsledkový"],a:0,w:"Obě VH jsou rovnocenné, jen se řadí za sebe."},
+  {q:"<b>Byl unavený, ale pracoval dál.</b><br>Jaký je poměr mezi VH?",sent:1,o:["slučovací","odporovací","vylučovací","příčinný"],a:1,w:"Druhá věta odporuje první → odporovací."},
+  {q:"<b>Zvládl to sám, dokonce pomohl i ostatním.</b><br>Jaký je poměr mezi VH?",sent:1,o:["slučovací","stupňovací","odporovací","důsledkový"],a:1,w:"„Dokonce“ zesiluje → stupňovací."},
+  {q:"<b>Neměl náladu, a tak ztlumil rádio.</b><br>Jaký je poměr mezi VH?",sent:1,o:["příčinný","důsledkový","odporovací","slučovací"],a:1,w:"„A tak“ = důsledek → důsledkový."},
+  {q:"<b>Odešel, vždyť už bylo pozdě.</b><br>Jaký je poměr mezi VH?",sent:1,o:["příčinný","důsledkový","stupňovací","vylučovací"],a:0,w:"Druhá věta vysvětluje důvod → příčinný („vždyť“)."},
+  {q:"<b>Půjdeš s námi, anebo zůstaneš doma.</b><br>Jaký je poměr mezi VH?",sent:1,o:["slučovací","odporovací","vylučovací","důsledkový"],a:2,w:"Může platit jen jedna možnost → vylučovací („anebo“)."},
+  {q:"<b>Setmělo se, zvedl se vítr a v dálce zaburácel hrom.</b><br>Jaký je poměr mezi VH?",sent:1,o:["slučovací","stupňovací","odporovací","důsledkový"],a:0,w:"Tři rovnocenné VH, spojené beze spojky a spojkou „a“ → slučovací."},
+  {q:"<b>Nejen že přišel pozdě, ale ani se neomluvil.</b><br>Jaký je poměr mezi VH?",sent:1,o:["slučovací","stupňovací","odporovací","příčinný"],a:1,w:"„Nejen… ale i“ je dvojitý stupňovací výraz — druhá věta první stupňuje."},
+  {q:"<b>Zaspal, tudíž přišel pozdě.</b><br>Jaký je poměr mezi VH?",sent:1,o:["příčinný","důsledkový","odporovací","slučovací"],a:1,w:"„Tudíž“ = důsledek → důsledkový."},
+  {q:"Která spojka patří k <b>stupňovacímu</b> poměru?",sent:0,o:["avšak","dokonce","totiž","anebo"],a:1,w:"Stupňovací: ba, ba i, dokonce, nejen… ale i, nýbrž i."},
+  {q:"Která spojka patří k <b>příčinnému</b> poměru?",sent:0,o:["proto","totiž","tedy","a tak"],a:1,w:"Příčinný: neboť, vždyť, totiž. „Proto, tedy, a tak“ jsou důsledkové."},
+  {q:"<b>Nepřišel, protože byl nemocný.</b><br>Co je druhá věta?",sent:1,o:["VH v příčinném poměru","VV příčinná","VV důsledková","VV podmínková"],a:1,w:"„Protože“ je podřadicí → VV příčinná. S „neboť“ by šlo o dvě VH."},
+
+  /* --- druhy VV --- */
+  {q:"<b>Kdo lže, ten krade.</b><br>Jaký druh VV je „kdo lže“?",sent:1,o:["podmětná","předmětná","přívlastková","přísl. časová"],a:0,w:"Věta hlavní nemá vlastní podmět — ten zastupuje VV „kdo lže“."},
+  {q:"<b>Řekl, že přijde.</b><br>Jaký druh VV je „že přijde“?",sent:1,o:["podmětná","předmětná","přívlastková","přísl. příčinná"],a:1,w:"Řekl <b>co?</b> → předmětná."},
+  {q:"<b>Kniha, kterou čtu, je dobrá.</b><br>Jaký druh VV je „kterou čtu“?",sent:1,o:["předmětná","přívlastková","přísl. způsobová","podmětná"],a:1,w:"Která kniha? → přívlastková. Je vložená, proto čárky z obou stran."},
+  {q:"<b>Zůstal doma, protože pršelo.</b><br>Jaký druh VV je „protože pršelo“?",sent:1,o:["přísl. účelová","přísl. příčinná","přísl. podmínková","přívlastková"],a:1,w:"Proč zůstal? → příčinná."},
+  {q:"<b>Přišel, aby pomohl.</b><br>Jaký druh VV je „aby pomohl“?",sent:1,o:["přísl. příčinná","přísl. účelová","předmětná","přísl. měrová"],a:1,w:"Za jakým účelem? → účelová. (Příčinná by byla „protože“ — děj se stal dřív.)"},
+  {q:"<b>Když pršelo, byli jsme doma.</b><br>Jaký druh VV je „když pršelo“?",sent:1,o:["přísl. časová","přísl. podmínková","přísl. přípustková","přísl. místní"],a:0,w:"Kdy? → časová."},
+  {q:"<b>Ačkoli byl unavený, dohrál zápas.</b><br>Jaký druh VV je „ačkoli byl unavený“?",sent:1,o:["přísl. příčinná","přísl. podmínková","přísl. přípustková","přísl. účelová"],a:2,w:"Navzdory čemu? → přípustková."},
+  {q:"<b>Jestliže bude pršet, zůstaneme doma.</b><br>Jaký druh VV je „jestliže bude pršet“?",sent:1,o:["přísl. časová","přísl. podmínková","přísl. příčinná","přísl. měrová"],a:1,w:"Za jaké podmínky? → podmínková."},
+  {q:"<b>Bydlí tam, kde jsem vyrostl.</b><br>Jaký druh VV je „kde jsem vyrostl“?",sent:1,o:["přísl. místní","přísl. časová","přívlastková","předmětná"],a:0,w:"Kde? → místní."},
+  {q:"<b>Udělal to, jak nejlépe uměl.</b><br>Jaký druh VV je „jak nejlépe uměl“?",sent:1,o:["přísl. měrová","přísl. způsobová","předmětná","podmětná"],a:1,w:"Jak? Jakým způsobem? → způsobová."},
+  {q:"<b>Nevím, kdy se vrátí.</b><br>Jaký druh VV je „kdy se vrátí“?",sent:1,o:["přísl. časová","předmětná","přívlastková","podmětná"],a:1,w:"Nevím <b>co?</b> → předmětná. „Kdy“ samo o časové větě nerozhoduje."},
+  {q:"<b>Chci, abys přišel.</b><br>Jaký druh VV je „abys přišel“?",sent:1,o:["přísl. účelová","předmětná","podmětná","přísl. podmínková"],a:1,w:"Chci <b>co?</b> → předmětná. (Účelová by byla „Přišel, aby pomohl“.)"},
+  {q:"<b>Křičel, až ochraptěl.</b><br>Jaký druh VV je „až ochraptěl“?",sent:1,o:["přísl. časová","přísl. měrová","přísl. způsobová","přísl. důsledková"],a:1,w:"Do jaké míry? → měrová."},
+  {q:"<b>Není, jaký býval.</b><br>Jaký druh VV je „jaký býval“?",sent:1,o:["přívlastková","přísudková","předmětná","přísl. způsobová"],a:1,w:"Doplňuje přísudek: není <b>jaký?</b> → přísudková (vzácný druh)."},
+  {q:"<b>Slyšel jsem ho, jak zpívá.</b><br>Jaký druh VV je „jak zpívá“?",sent:1,o:["předmětná","doplňková","přísl. způsobová","přívlastková"],a:1,w:"Vztahuje se k předmětu i k slovesu → doplňková."},
+
+  /* --- čárka --- */
+  {q:"<b>Sliboval, a nepřišel.</b><br>Píše se před „a“ čárka?",sent:1,o:["Ano — poměr není slučovací.","Ne — před „a“ se nikdy nepíše.","Jen když je věta krátká.","Jen v mluvené češtině."],a:0,w:"„A“ = „ale“ → odporovací poměr → čárka."},
+  {q:"<b>Utábořili se na kopci a večer rozdělali oheň.</b><br>Píše se před „a“ čárka?",sent:1,o:["Ano","Ne"],a:1,w:"Slučovací poměr → čárka se nepíše."},
+  {q:"<b>Šli jsme na výlet, a protože začalo pršet, vrátili jsme se domů.</b><br>Kolik čárek a kde?",sent:1,o:["žádná","jen za „pršet“","před „a“ a za „pršet“","jen před „a“"],a:2,w:"VV je vložená mezi dvě VH → čárky z obou stran, i před „a“."},
+  {q:"<b>Věděl jsem že přijde.</b><br>Co chybí?",sent:1,o:["nic","čárka před „že“","čárka za „že“","čárka na konci"],a:1,w:"VV se od věty řídící odděluje čárkou vždy."},
+  {q:"<b>Knížka kterou jsem četl byla dobrá.</b><br>Kolik čárek tam patří?",sent:1,o:["jedna","dvě","žádná","tři"],a:1,w:"Vložená VV přívlastková → čárka před „kterou“ i za „četl“."},
+  {q:"<b>Buď zůstanu, nebo odejdu.</b><br>Píše se čárka?",sent:1,o:["Ano, před „nebo“","Ne","Ano, před „buď“","Jen když jde o otázku"],a:0,w:"Vylučovací poměr (dvojitý výraz buď–nebo) → čárka před druhým výrazem."},
+  {q:"<b>Ani nepřišel ani nezavolal.</b><br>Kolik čárek tam patří?",sent:1,o:["jedna, před druhé „ani“","dvě, před obě „ani“","žádná","tři"],a:0,w:"Dvojitý spojovací výraz → čárka až před druhým."},
+  {q:"<b>Nepřišel, neboť byl nemocný.</b><br>Proč je tam čárka?",sent:1,o:["protože jde o VV","protože jde o jiný než slučovací poměr mezi VH","protože je věta dlouhá","protože je tam infinitiv"],a:1,w:"„Neboť“ je souřadicí → dvě VH v příčinném poměru, čárka před spojkou."}
+];
+
+var ROUND = 6;
+
+/* ===== ukládání ===== */
+var KEY="souv1";
+function load(){try{return JSON.parse(localStorage.getItem(KEY))||{};}catch(e){return {};}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+var S=load();
+if(!S.known){S.known={};}
+if(typeof S.fcId!=='number'){S.fcId=0;}
+if(!S.tab){S.tab='uc';}
+if(!S.quiz){S.quiz=null;}
+if(S.only===undefined){S.only=false;}
+
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.random()*(i+1)|0;var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function qText(q){return q.q||q.s;}
+
+/* ===== taby ===== */
+var TABS=["uc","fc","qz"];
+function showTab(t){
+  if(TABS.indexOf(t)<0){t="uc";}
+  TABS.forEach(function(x){document.getElementById(x).classList.toggle('on',x===t);});
+  [].forEach.call(document.querySelectorAll('#tabs button'),function(b){
+    b.classList.toggle('on',b.dataset.t===t);
+  });
+  S.tab=t; save(); window.scrollTo(0,0);
+}
+[].forEach.call(document.querySelectorAll('#tabs button'),function(b){
+  b.onclick=function(){showTab(b.dataset.t);};
+});
+
+function countKnown(){var n=0;for(var k in S.known){if(S.known[k]){n++;}}return n;}
+function badges(){
+  document.getElementById('bd-fc').textContent=countKnown()?countKnown()+'/'+FLASH.length:'';
+  var z=S.quiz;
+  document.getElementById('bd-qz').textContent=z?Math.min(z.i,z.order.length)+'/'+z.order.length:'';
+}
+
+/* ===== kartičky ===== */
+var deck=[], flip=false;
+function buildDeck(keep){
+  deck=[];
+  for(var i=0;i<FLASH.length;i++){ if(!S.only || !S.known[i]){deck.push(i);} }
+  if(keep===undefined || deck.indexOf(keep)<0){ S.fcId=deck.length?deck[0]:0; }
+  save();
+}
+function fcPos(){var p=deck.indexOf(S.fcId);return p<0?0:p;}
+function drawFC(){
+  var el=document.getElementById('fccard');
+  document.getElementById('fcknown').textContent='Umím '+countKnown()+' z '+FLASH.length;
+  if(!deck.length){
+    el.className='fc back';
+    el.innerHTML='Všechno označené jako „umím“. 🎉<small>Dej „Zobrazit všechny“, nebo jdi na kvíz.</small>';
+    document.getElementById('fcpos').textContent='';
+    badges(); return;
+  }
+  var pair=FLASH[S.fcId];
+  el.className='fc'+(flip?' back':'');
+  el.innerHTML='<div>'+(flip?pair[1]:pair[0])+'<small>'+(flip?'klikni pro otázku':'klikni pro odpověď')+'</small></div>';
+  document.getElementById('fcpos').textContent='Kartička '+(fcPos()+1)+' z '+deck.length+(S.known[S.fcId]?' · ✓ umím':'');
+  badges();
+}
+function fcMove(step){
+  if(!deck.length){return drawFC();}
+  var p=fcPos()+step;
+  if(p<0){p=deck.length-1;}
+  if(p>=deck.length){p=0;}
+  S.fcId=deck[p]; flip=false; save(); drawFC();
+}
+document.getElementById('fccard').onclick=function(){flip=!flip;drawFC();};
+document.getElementById('fccard').onkeydown=function(e){
+  if(e.key===' '||e.key==='Enter'){e.preventDefault();flip=!flip;drawFC();}
+};
+document.getElementById('fcnext').onclick=function(){fcMove(1);};
+document.getElementById('fcprev').onclick=function(){fcMove(-1);};
+document.getElementById('fcyes').onclick=function(){
+  if(!deck.length){return;}
+  S.known[S.fcId]=true; save();
+  if(S.only){buildDeck(undefined);flip=false;drawFC();} else {fcMove(1);}
+};
+document.getElementById('fcno').onclick=function(){
+  if(!deck.length){return;}
+  S.known[S.fcId]=false; save(); fcMove(1);
+};
+document.getElementById('fconly').onclick=function(){
+  S.only=!S.only;
+  this.textContent=S.only?'Zobrazit všechny':'Jen co neumím';
+  buildDeck(S.fcId); flip=false; drawFC();
+};
+document.getElementById('fcreset').onclick=function(){
+  S.known={}; save(); buildDeck(S.fcId); drawFC();
+};
+
+/* ===== kvíz ===== */
+var box=document.getElementById('qbox'), pbar=document.getElementById('pbar'), dots=document.getElementById('dots');
+var answered=false;
+
+function newQuiz(ids){
+  S.quiz={order:shuffle(ids?ids.slice():Q.map(function(_,i){return i;})),i:0,score:0,wrong:[],res:[]};
+  save(); render();
+}
+function drawDots(){
+  var z=S.quiz, h='';
+  if(!z){dots.innerHTML='';return;}
+  for(var k=0;k<z.order.length;k++){
+    var c=z.res[k]===1?'d-ok':z.res[k]===0?'d-bad':(k===z.i?'d-now':'');
+    h+='<span class="'+c+'"></span>';
+  }
+  dots.innerHTML=h;
+  pbar.style.width=(z.i/z.order.length*100)+'%';
+}
+function render(){
+  var z=S.quiz;
+  if(!z){return newQuiz();}
+  drawDots(); badges();
+  if(z.i>=z.order.length){return finish();}
+  var q=Q[z.order[z.i]];
+  var kolo=Math.floor(z.i/ROUND)+1, kol=Math.ceil(z.order.length/ROUND);
+  var h='<div class="qn">Otázka '+(z.i+1)+'/'+z.order.length+' · kolo '+kolo+'/'+kol+' · správně '+z.score+'</div>';
+  h+='<div class="qt'+(q.sent?' sent':'')+'">'+q.q+'</div>';
+  q.o.forEach(function(t,i){h+='<button class="opt" data-i="'+i+'">'+t+'</button>';});
+  h+='<div id="fb"></div><div class="row"><button class="btn" id="go" hidden>Další ▸</button></div>';
+  box.innerHTML=h;
+  answered=false;
+  [].forEach.call(box.querySelectorAll('.opt'),function(b){
+    b.onclick=function(){ if(!answered){check(+b.dataset.i);} };
+  });
+  document.getElementById('go').onclick=next;
+}
+function check(sel){
+  var z=S.quiz, q=Q[z.order[z.i]], opts=q.o, ok=sel===q.a;
+  [].forEach.call(box.querySelectorAll('.opt'),function(b){
+    var i=+b.dataset.i;
+    if(i===q.a){b.classList.add('ok');}
+    else if(i===sel){b.classList.add('bad');}
+  });
+  answered=true;
+  z.res[z.i]=ok?1:0;
+  if(ok){z.score++;}else{z.wrong.push(z.order[z.i]);}
+  save(); drawDots(); badges();
+  var fb=document.getElementById('fb');
+  fb.className='fb '+(ok?'ok':'bad');
+  fb.innerHTML='<b>'+(ok?'✅ Správně — '+opts[q.a]:'❌ Špatně — správně je '+opts[q.a])+'</b>'+q.w;
+  var go=document.getElementById('go');
+  go.hidden=false; go.focus();
+}
+function next(){
+  var z=S.quiz;
+  z.i++; save();
+  if(z.i<z.order.length && z.i%ROUND===0){return breakScreen();}
+  render();
+}
+function breakScreen(){
+  var z=S.quiz;
+  drawDots();
+  var kolo=z.i/ROUND, kol=Math.ceil(z.order.length/ROUND), okv=0;
+  for(var i=z.i-ROUND;i<z.i;i++){if(z.res[i]===1){okv++;}}
+  box.innerHTML='<div class="qn">Pauza</div><h2 style="margin:0 0 4px">Kolo '+kolo+' z '+kol+' hotové</h2>'
+    +'<div class="score">'+okv+' / '+ROUND+'</div>'
+    +'<p>Zbývá '+(z.order.length-z.i)+' otázek. Můžeš pokračovat, nebo skončit — je to uložené.</p>'
+    +'<div class="row"><button class="btn" id="cont">Další kolo ▸</button>'
+    +'<button class="btn ghost" id="stop">Dost pro teď</button></div>';
+  document.getElementById('cont').onclick=render;
+  document.getElementById('stop').onclick=function(){
+    box.innerHTML='<div class="qn">Uloženo</div><h2 style="margin:0 0 4px">Máš to uložené</h2>'
+      +'<p>Až se vrátíš, naskočíš na otázku '+(z.i+1)+'.</p>'
+      +'<div class="row"><button class="btn" id="back">Pokračovat teď</button></div>';
+    document.getElementById('back').onclick=render;
+  };
+}
+function finish(){
+  var z=S.quiz;
+  pbar.style.width='100%';
+  var pct=Math.round(z.score/z.order.length*100);
+  var msg=pct===100?'Všechno správně. Jsi připravený.':
+          pct>=80?'Dobré. Projeď si chyby dole.':
+          pct>=50?'Půlka sedí. Vrať se na tahák ke 4 krokům a dej „Jen chyby“.':
+          'Projeď v taháku 4 kroky a šest poměrů, pak kvíz znovu.';
+  var h='<div class="qn">Hotovo</div><div class="score">'+z.score+' / '+z.order.length+' ('+pct+' %)</div><p>'+msg+'</p>';
+  if(z.wrong.length){
+    h+='<h3>Co ti nešlo:</h3><ul class="wrongs">';
+    z.wrong.forEach(function(id){
+      var q=Q[id];
+      h+='<li><span class="qt" style="display:block;margin:0 0 4px">'+qText(q)+'</span>→ <b>'+q.o[q.a]+'</b><br><span class="tag">'+q.w+'</span></li>';
+    });
+    h+='</ul>';
+  }
+  h+='<div class="row"><button class="btn" id="again">🔁 Celý kvíz znovu</button>';
+  if(z.wrong.length){h+='<button class="btn ghost" id="onlybad">Jen chyby ('+z.wrong.length+')</button>';}
+  h+='</div>';
+  box.innerHTML=h;
+  var bad=z.wrong.slice();
+  document.getElementById('again').onclick=function(){newQuiz();};
+  var ob=document.getElementById('onlybad');
+  if(ob){ob.onclick=function(){newQuiz(bad);};}
+  if(window.__tipbar){window.__tipbar.afterQuiz();}
+}
+document.getElementById('qreset').onclick=function(){newQuiz();};
+
+var mini=document.getElementById('mini');
+if(S.mini){mini.open=true;}
+mini.addEventListener('toggle',function(){S.mini=mini.open;save();});
+
+/* ===== start ===== */
+buildDeck(S.fcId);
+if(S.only){document.getElementById('fconly').textContent='Zobrazit všechny';}
+drawFC();
+render();
+badges();
+showTab(S.tab);
+
+/* ===== lišta s dobrovolným příspěvkem =====
+   Ukáže se JEDNOU po 45 s a pak už nikdy — volba se ukládá.
+   Jediná výjimka: po dokončení kvízu.
+   Během kvízu nevyskočí vůbec, aby nerušila. */
+(function(){
+  var bar=document.getElementById('tipbar');
+  if(!bar){return;}
+  var FIRST=45000, t=null, opened=false;
+
+  function quizOpen(){
+    var s=document.getElementById("qz");
+    return !!(s && s.classList.contains("on"));
+  }
+
+  function seen(){ try{ return !!S.tipSeen; }catch(e){ return false; } }
+  function markSeen(){ try{ S.tipSeen=true; save(); }catch(e){} }
+
+  function place(){
+    var nav=document.querySelector("nav"), o=0;
+    if(nav && getComputedStyle(nav).position==="fixed"){ o=Math.round(nav.getBoundingClientRect().height); }
+    bar.style.bottom = o ? o+"px" : "";
+  }
+  function show(){ if(opened){return;} resetLook(); place(); bar.hidden=false; }
+  function hide(){ bar.hidden=true; if(t){clearTimeout(t); t=null;} }
+
+  document.getElementById('tipbar-yes').onclick=function(){
+    opened=true; markSeen(); hide();
+    var tip=document.querySelector('.tip');
+    if(tip){ tip.scrollIntoView({block:'center'}); }
+  };
+  var txtEl=bar.querySelector('.tipbar-txt');
+  var btnEl=bar.querySelector('.tipbar-btns');
+  var byeEl=bar.querySelector('.tipbar-bye');
+  var byeT=null;
+
+  function resetLook(){
+    if(byeT){ clearTimeout(byeT); byeT=null; }
+    bar.classList.remove('bye');
+    if(byeEl){ byeEl.hidden=true; }
+    if(txtEl){ txtEl.hidden=false; }
+    if(btnEl){ btnEl.hidden=false; }
+  }
+
+  document.getElementById('tipbar-no').onclick=function(){
+    markSeen();
+    if(!byeEl){ hide(); return; }
+    txtEl.hidden=true; btnEl.hidden=true; byeEl.hidden=false;
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduce){ hide(); resetLook(); return; }
+    bar.classList.add('bye');
+    byeT=setTimeout(function(){ hide(); resetLook(); }, 3100);
+  };
+
+  function firstTry(){
+    if(seen() || opened){ return; }
+    if(quizOpen()){ t=setTimeout(firstTry, 20000); return; }
+    show();
+  }
+  if(!seen()){ t=setTimeout(firstTry, FIRST); }
+
+  window.addEventListener("resize", function(){ if(!bar.hidden){ place(); } });
+
+  window.__tipbar={
+    show:show, hide:hide, first:FIRST, seen:seen, isOff:function(){return opened;},
+    afterQuiz:function(){ if(opened){return;} setTimeout(show, 600); }
+  };
+})();
+</script>
+</body>
+</html>
